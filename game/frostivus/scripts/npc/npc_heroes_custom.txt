@@ -1,9 +1,9 @@
 "DOTAHeroes"
 {
-  "npc_dota_hero_ancient_apparition_barebones"
+  "npc_dota_hero_main"
   {
     "AbilityLayout"     "6"
-    "override_hero"     "npc_dota_hero_ancient_apparition"
+    "override_hero"     "npc_dota_hero_wisp"
     "SoundSet"          "0" 
     "Ability1"        "example_ability" 
     "Ability2"        "barebones_empty2" 
@@ -46,7 +46,7 @@
 
     "MovementCapabilities"    "DOTA_UNIT_CAP_MOVE_GROUND"
     "MovementSpeed"       "360"                 // Speed.
-    "MovementTurnRate"      "1.0"                 // Turning rate.
+    "MovementTurnRate"      "100.0"                 // Turning rate.
 
     "StatusHealth"        "1000"                 // Base health.
     "StatusHealthRegen"     "0.0"                 // Health regeneration rate.
