@@ -1,0 +1,9 @@
+<root>
+	<styles>
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/keybinds.js" />
+	</scripts>
+	<Panel class="root" hittest="false">
+	</Panel>
+</root>
