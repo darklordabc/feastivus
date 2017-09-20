@@ -2,10 +2,11 @@
 {
   "npc_dota_hero_main"
   {
-    "AbilityLayout"     "6"
+    "Model" "models/courier/greevil/gold_greevil.vmdl"
+    "AbilityLayout"     "4"
     "override_hero"     "npc_dota_hero_wisp"
     "SoundSet"          "0" 
-    "Ability1"        "example_ability" 
+    "Ability1"        "barebones_empty1" 
     "Ability2"        "barebones_empty2" 
     "Ability3"        "barebones_empty3" 
     "Ability4"        "barebones_empty4"
