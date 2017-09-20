@@ -44,8 +44,65 @@ function Precache( context )
   PrecacheUnitByNameSync("npc_dota_hero_enigma", context)
 end
 
+local UP = '0'
+local LEFT = '1'
+local DOWN = '2'
+local RIGHT = '3'
+
+local dir = {
+	[UP] = false,
+	[LEFT] = false,
+	[DOWN] = false,
+	[RIGHT] = false
+}
+
+local SPEED = 360 / 30
+
 -- Create the game mode when we activate
 function Activate()
-  GameRules.GameMode = GameMode()
-  GameRules.GameMode:_InitGameMode()
+	GameRules.GameMode = GameMode()
+	GameRules.GameMode:_InitGameMode()
+
+	Timers:CreateTimer(1/30, function()
+		local hero = PlayerResource:GetSelectedHeroEntity(0)
+		if not hero then return 1/30 end
+		
+		local currPos = hero:GetAbsOrigin()
+		local nextPos = Vector(0,0,0)
+		if dir[UP] then
+			nextPos.y = nextPos.y + 1
+		end
+		if dir[LEFT] then
+			nextPos.x = nextPos.x - 1
+		end
+		if dir[DOWN] then
+			nextPos.y = nextPos.y - 1
+		end
+		if dir[RIGHT] then
+			nextPos.x = nextPos.x + 1
+		end
+		
+		if (nextPos:Length() == 0) then return 1/30 end
+		
+		nextPos = (nextPos / nextPos:Length()) * SPEED
+		
+		hero:SetAbsOrigin(currPos + nextPos)
+		print(nextPos:Length())
+		
+		return 1/30
+	end)
 end
+
+-- Testing shit
+function KeyDown( eventSourceIndex, args )
+	local direction = args.dir
+	dir[direction] = true
+end
+
+function KeyUp( eventSourceIndex, args )
+	local direction = args.dir
+	dir[direction] = false
+end
+ 
+CustomGameEventManager:RegisterListener( "keyDown", KeyDown )
+CustomGameEventManager:RegisterListener( "keyUp", KeyUp )
