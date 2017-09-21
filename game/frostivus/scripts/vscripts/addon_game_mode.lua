@@ -81,6 +81,8 @@ function Activate()
 		local hero = PlayerResource:GetSelectedHeroEntity(0)
 		if not hero then return 1/30 end
 		
+		hero:SetModelScale(2)
+		
 		local currPos = hero:GetAbsOrigin()
 		local nextPos = Vector(
 			dir[RIGHT] + delayDir[RIGHT] - dir[LEFT] - delayDir[LEFT],
@@ -99,8 +101,7 @@ function Activate()
 		
 		nextPos = (nextPos / nextPos:Length()) * SPEED
 		
-		hero:SetAbsOrigin(currPos + nextPos)
-		print(nextPos:Length())
+		hero:MoveToPosition(currPos + nextPos)
 		
 		return 1/30
 	end)
