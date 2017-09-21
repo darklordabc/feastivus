@@ -106,7 +106,9 @@ function GameMode:OnHeroInGame(hero)
 	-- These lines will create an item and add it to the player, effectively ensuring they start with the item
 	local item = CreateItem("item_example_item", hero, hero)
 	hero:AddItem(item)
-
+	
+	table.insert(heroes, hero)
+	
 	--[[ --These lines if uncommented will replace the W ability of any hero that loads into the game
 		--with the "example_ability" ability
 
@@ -158,6 +160,10 @@ delayDir = {
 
 SPEED = 360 / 30
 
+heroes = {}
+
+pickups = {}
+
 -- This function initializes the game mode and is called before anyone loads into the game
 -- It can be used to pre-initialize any values/tables that will be needed later
 function GameMode:InitGameMode()
@@ -175,6 +181,7 @@ function GameMode:InitGameMode()
 		if not hero then return 1/30 end
 		
 		hero:SetModelScale(2)
+		hero:SetHullRadius(0)
 		
 		local nextPos = Vector(
 			dir[RIGHT] + delayDir[RIGHT] - dir[LEFT] - delayDir[LEFT],
@@ -182,31 +189,46 @@ function GameMode:InitGameMode()
 			0
 		)
 		
-		if (nextPos:Length() == 0) then
-			--hero:Stop()
-			return 1/30
+		if (nextPos:Length() ~= 0) then
+			nextPos = (nextPos / nextPos:Length()) * SPEED
+			
+			hero:FaceTowards(hero:GetAbsOrigin() + nextPos)
+			
+			if delayDir[RIGHT] - delayDir[LEFT] ~= 0
+				or delayDir[UP] - delayDir[DOWN] ~= 0 then
+				hero:SetAbsOrigin(hero:GetAbsOrigin() + nextPos)
+			end
+			
+			delayDir = {
+				[UP] = 0,
+				[LEFT] = 0,
+				[DOWN] = 0,
+				[RIGHT] = 0
+			}
+			
+			hero:MoveToPosition(hero:GetAbsOrigin() + nextPos)
 		end
 		
-		nextPos = (nextPos / nextPos:Length()) * SPEED
-		
-		hero:FaceTowards(hero:GetAbsOrigin() + nextPos)
-		
-		if delayDir[RIGHT] - delayDir[LEFT] ~= 0
-			or delayDir[UP] - delayDir[DOWN] ~= 0 then
-			hero:SetAbsOrigin(hero:GetAbsOrigin() + nextPos)
+		if pickups[hero] then
+			local fwd = hero:GetForwardVector()
+			local newLoc = hero:GetAbsOrigin() + fwd * 150
+			newLoc.z = newLoc.z + 100
+			pickups[hero]:SetAbsOrigin(newLoc)
 		end
-		
-		delayDir = {
-			[UP] = 0,
-			[LEFT] = 0,
-			[DOWN] = 0,
-			[RIGHT] = 0
-		}
-		
-		hero:MoveToPosition(hero:GetAbsOrigin() + nextPos)
 		
 		return 1/30
 	end)
+end
+
+function Pickup(hero, pickup)
+	pickups[hero] = pickup
+end
+
+function Drop(hero)
+	local pickedUp = pickups[hero]
+	pickups[hero] = nil
+	pickedUp:MoveToPosition(pickedUp:GetAbsOrigin())
+	return
 end
 
 function LeftClick(pID)
@@ -214,7 +236,28 @@ function LeftClick(pID)
 end
 
 function RightClick(pID)
-
+	local me = PlayerResource:GetSelectedHeroEntity(0)
+	if not me then return end	
+	
+	if pickups[me] then
+		Drop(me)
+		return
+	end
+	
+	local closest = nil
+	local closestDist = nil
+	for _, hero in ipairs(heroes) do
+		if me ~= hero then
+			local dist = (hero:GetAbsOrigin()
+				- me:GetAbsOrigin()):Length()
+			if not closest or dist < closestDist then
+				closest = hero
+				closestDist = dist
+			end
+		end
+	end
+	
+	Pickup(me, closest)	
 end
 
 -- Testing shit
