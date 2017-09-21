@@ -1,0 +1,21 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="file://{resources}/styles/frostivus/recipe.css" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/frostivus/recipe.js" />
+	</scripts>
+	<snippets>
+		<snippet name="Item">
+		    <Panel class="item">
+		    	<DOTAItemImage id="itemIcon"/>
+		    </Panel>
+		</snippet>
+	</snippets>
+	<Panel class="root" hittest="false">
+		<Panel id="recipe" hittest="false">
+			<Label text="Recipe:"/>
+		</Panel>
+	</Panel>
+</root>

@@ -4,7 +4,7 @@
   {
     "Model" "models/courier/greevil/gold_greevil.vmdl"
     "AbilityLayout"     "4"
-    "override_hero"     "npc_dota_hero_wisp"
+    "override_hero"     "npc_dota_hero_axe"
     "SoundSet"          "0" 
     "Ability1"        "barebones_empty1" 
     "Ability2"        "barebones_empty2" 
@@ -22,6 +22,8 @@
     "Ability14"       ""
     "Ability15"       ""
     "Ability16"       ""
+
+    "DisableWearables" "1" 
 
     "ArmorPhysical"       "0"                 // Physical protection.
     "MagicalResistance"       "0"                 // Magical protection (percentage).

@@ -42,12 +42,6 @@ require('settings')
 -- events.lua is where you can specify the actions to be taken when any event occurs and is one of the core barebones files.
 require('events')
 
-
--- This is a detailed example of many of the containers.lua possibilities, but only activates if you use the provided "playground" map
-if GetMapName() == "playground" then
-	require("examples/playground")
-end
-
 --require("examples/worldpanelsExample")
 
 --[[
@@ -99,22 +93,8 @@ end
 ]]
 function GameMode:OnHeroInGame(hero)
 	DebugPrint("[BAREBONES] Hero spawned in game for first time -- " .. hero:GetUnitName())
-
-	-- This line for example will set the starting gold of every hero to 500 unreliable gold
-	--hero:SetGold(500, false)
-
-	-- These lines will create an item and add it to the player, effectively ensuring they start with the item
-	local item = CreateItem("item_example_item", hero, hero)
-	hero:AddItem(item)
 	
 	table.insert(heroes, hero)
-	
-	--[[ --These lines if uncommented will replace the W ability of any hero that loads into the game
-		--with the "example_ability" ability
-
-	local abil = hero:GetAbilityByIndex(1)
-	hero:RemoveAbility(abil:GetAbilityName())
-	hero:AddAbility("example_ability")]]
 end
 
 --[[
@@ -125,11 +105,13 @@ end
 function GameMode:OnGameInProgress()
 	DebugPrint("[BAREBONES] The game has officially begun")
 
-	Timers:CreateTimer(30, -- Start this timer 30 game-time seconds later
-		function()
-			DebugPrint("This function is called 30 seconds after the game begins, and every 30 seconds thereafter")
-			return 30.0 -- Rerun this timer every 30 game-time seconds 
-		end)
+	Frostivus:StartNewRound(2)
+
+	-- Timers:CreateTimer(30,
+	-- 	function()
+	-- 		DebugPrint("This function is called 30 seconds after the game begins, and every 30 seconds thereafter")
+	-- 		return 30.0
+	-- 	end)
 end
 
 UP = '0'
@@ -170,11 +152,9 @@ function GameMode:InitGameMode()
 	GameMode = self
 	DebugPrint('[BAREBONES] Starting to load Barebones gamemode...')
 
-	-- Commands can be registered for debugging purposes or as functions that can be called by the custom Scaleform UI
 	Convars:RegisterCommand( "command_example", Dynamic_Wrap(GameMode, 'ExampleConsoleCommand'), "A console command example", FCVAR_CHEAT )
 
-	DebugPrint('[BAREBONES] Done loading Barebones gamemode!\n\n')
-	
+	require('frostivus/frostivus')
 	
 	Timers:CreateTimer(1/30, function()
 		local hero = PlayerResource:GetSelectedHeroEntity(0)

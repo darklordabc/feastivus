@@ -1,0 +1,11 @@
+.root
+{
+    width: 100%;
+    height: 100%;
+}
+
+#recipe {
+	vertical-align: center;
+	flow-children: down;
+	width: 300px;
+}
