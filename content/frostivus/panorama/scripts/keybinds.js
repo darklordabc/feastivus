@@ -103,6 +103,12 @@ GameUI.SetMouseCallback( function( eventName, arg ) {
 	const CONSUME_EVENT = true;
 	const CONTINUE_PROCESSING_EVENT = false;
 	
+	if ((eventName === "pressed" || eventName === "doublepressed")
+		&& (arg == 0 || arg == 1)) {
+		GameEvents.SendCustomGameEventToServer('mouseClick', {pressed: arg, player: 0});
+		return CONSUME_EVENT;
+	}
+	
 	if (eventName === "pressed" && (arg == 5 || arg == 6) ) {
 		return CONSUME_EVENT;
 	}

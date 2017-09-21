@@ -209,6 +209,14 @@ function GameMode:InitGameMode()
 	end)
 end
 
+function LeftClick(pID)
+
+end
+
+function RightClick(pID)
+
+end
+
 -- Testing shit
 function KeyDown( eventSourceIndex, args )
 	local direction = args.dir
@@ -222,9 +230,18 @@ function KeyUp( eventSourceIndex, args )
 	local direction = args.dir
 	dir[direction] = 0
 end
+
+function MouseClick( eventSourceIndex, args )
+	if args.pressed == 0 then
+		LeftClick(args.player)
+	else
+		RightClick(args.player)
+	end
+end
  
 CustomGameEventManager:RegisterListener( "keyDown", KeyDown )
 CustomGameEventManager:RegisterListener( "keyUp", KeyUp )
+CustomGameEventManager:RegisterListener( "mouseClick", MouseClick )
 
 -- This is an example console command
 function GameMode:ExampleConsoleCommand()
