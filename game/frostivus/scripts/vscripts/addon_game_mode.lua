@@ -49,11 +49,25 @@ local LEFT = '1'
 local DOWN = '2'
 local RIGHT = '3'
 
+local reverseDir = {
+	[UP] = '2',
+	[LEFT] = '3',
+	[DOWN] = '0',
+	[RIGHT] = '1'
+}
+
 local dir = {
-	[UP] = false,
-	[LEFT] = false,
-	[DOWN] = false,
-	[RIGHT] = false
+	[UP] = 0,
+	[LEFT] = 0,
+	[DOWN] = 0,
+	[RIGHT] = 0
+}
+
+local delayDir = {
+	[UP] = 0,
+	[LEFT] = 0,
+	[DOWN] = 0,
+	[RIGHT] = 0
 }
 
 local SPEED = 360 / 30
@@ -68,19 +82,18 @@ function Activate()
 		if not hero then return 1/30 end
 		
 		local currPos = hero:GetAbsOrigin()
-		local nextPos = Vector(0,0,0)
-		if dir[UP] then
-			nextPos.y = nextPos.y + 1
-		end
-		if dir[LEFT] then
-			nextPos.x = nextPos.x - 1
-		end
-		if dir[DOWN] then
-			nextPos.y = nextPos.y - 1
-		end
-		if dir[RIGHT] then
-			nextPos.x = nextPos.x + 1
-		end
+		local nextPos = Vector(
+			dir[RIGHT] + delayDir[RIGHT] - dir[LEFT] - delayDir[LEFT],
+			dir[UP] + delayDir[UP] - dir[DOWN] - delayDir[DOWN],
+			0
+		)
+		
+		delayDir = {
+			[UP] = 0,
+			[LEFT] = 0,
+			[DOWN] = 0,
+			[RIGHT] = 0
+		}
 		
 		if (nextPos:Length() == 0) then return 1/30 end
 		
@@ -96,12 +109,15 @@ end
 -- Testing shit
 function KeyDown( eventSourceIndex, args )
 	local direction = args.dir
-	dir[direction] = true
+	dir[direction] = 1
+	if dir[reverseDir[direction]] == 0 then
+		delayDir[direction] = 2
+	end
 end
 
 function KeyUp( eventSourceIndex, args )
 	local direction = args.dir
-	dir[direction] = false
+	dir[direction] = 0
 end
  
 CustomGameEventManager:RegisterListener( "keyDown", KeyDown )
