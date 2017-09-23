@@ -153,7 +153,7 @@ function GameMode:_CaptureGameMode()
     -- Set GameMode parameters
     mode = GameRules:GetGameModeEntity()        
     mode:SetRecommendedItemsDisabled( RECOMMENDED_BUILDS_DISABLED )
-    mode:SetCameraDistanceOverride( CAMERA_DISTANCE_OVERRIDE )
+    mode:SetCameraDistanceOverride( 900 )
     mode:SetCustomBuybackCostEnabled( CUSTOM_BUYBACK_COST_ENABLED )
     mode:SetCustomBuybackCooldownEnabled( CUSTOM_BUYBACK_COOLDOWN_ENABLED )
     mode:SetBuybackEnabled( BUYBACK_ENABLED )
