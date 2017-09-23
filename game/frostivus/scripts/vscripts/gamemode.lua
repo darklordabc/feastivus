@@ -93,7 +93,7 @@ end
 ]]
 function GameMode:OnHeroInGame(hero)
 	DebugPrint("[BAREBONES] Hero spawned in game for first time -- " .. hero:GetUnitName())
-	
+	PlayerResource:SetCameraTarget(hero:GetPlayerOwnerID(),hero)
 	table.insert(heroes, hero)
 end
 
