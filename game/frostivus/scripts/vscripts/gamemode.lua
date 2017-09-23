@@ -94,6 +94,8 @@ end
 function GameMode:OnHeroInGame(hero)
 	DebugPrint("[BAREBONES] Hero spawned in game for first time -- " .. hero:GetUnitName())
 	PlayerResource:SetCameraTarget(hero:GetPlayerOwnerID(),hero)
+	local abil = hero:AddAbility("dummy_unit")
+	abil:SetLevel(1)
 	table.insert(heroes, hero)
 end
 
