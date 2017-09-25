@@ -1,3 +1,12 @@
+function CDOTA_BaseNPC:TriggerOnUse( user )
+  self._on_use = self._on_use or (function( ) Frostivus:L("Triggered!") end)
+  self._on_use(user)
+end
+
+function CDOTA_BaseNPC:SetOnUse( user, callback )
+  self._on_use = callback
+end
+
 function DebugPrint(...)
   local spew = Convars:GetInt('barebones_spew') or -1
   if spew == -1 and BAREBONES_DEBUG_SPEW then

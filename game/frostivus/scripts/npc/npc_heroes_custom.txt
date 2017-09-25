@@ -2,7 +2,7 @@
 {
   "npc_dota_hero_main"
   {
-    "Model" "models/courier/greevil/gold_greevil.vmdl"
+    "Model" "models/courier/greevil/greevil.vmdl"
     "AbilityLayout"     "4"
     "override_hero"     "npc_dota_hero_axe"
     "SoundSet"          "0" 

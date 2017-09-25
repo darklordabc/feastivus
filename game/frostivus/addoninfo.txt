@@ -1,12 +1,12 @@
 "AddonInfo"
 {
-	"TeamCount" "2"
+	"TeamCount" "1"
 	"maps"      "template_map playground test_map"
 	"IsPlayable"  "1"
 	
 	"test_map"
 	{
-		"MaxPlayers"                    "10"
+		"MaxPlayers"                    "5"
 	}
 
   	"Default_Keys"
