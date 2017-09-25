@@ -42,6 +42,8 @@ require('settings')
 -- events.lua is where you can specify the actions to be taken when any event occurs and is one of the core barebones files.
 require('events')
 
+--Objects handler
+require('frostivus/objects/Objects')
 --require("examples/worldpanelsExample")
 
 --[[
