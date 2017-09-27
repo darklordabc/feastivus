@@ -8,14 +8,14 @@ if not Frostivus then
     Frostivus.state[DOTA_TEAM_GOODGUYS] = {}
     Frostivus.state[DOTA_TEAM_GOODGUYS].raw_targets = Entities:FindAllByName("point_raw_*")
     Frostivus.state[DOTA_TEAM_GOODGUYS].tool_targets = Entities:FindAllByName("point_tool_*")
-    Frostivus.state[DOTA_TEAM_GOODGUYS].transfer_target = Entities:FindByName(nil, "point_transfer")
+    Frostivus.state[DOTA_TEAM_GOODGUYS].transfer_target = Entities:FindByTarget(nil,"npc_transfer_table")
 
     Frostivus.state[DOTA_TEAM_GOODGUYS].transfer_table = Entities:FindByName(nil, "unit_transfer_table")
 
     Frostivus.state[DOTA_TEAM_BADGUYS] = {}
     Frostivus.state[DOTA_TEAM_BADGUYS].raw_targets = Entities:FindAllByName("point_raw_*")
     Frostivus.state[DOTA_TEAM_BADGUYS].tool_targets = Entities:FindAllByName("point_tool_*")
-    Frostivus.state[DOTA_TEAM_BADGUYS].transfer_target = Entities:FindByName(nil, "point_transfer")
+    Frostivus.state[DOTA_TEAM_BADGUYS].transfer_target = Entities:FindByTarget(nil,"npc_transfer_table")
 
     Frostivus.state[DOTA_TEAM_BADGUYS].transfer_table = Entities:FindByName(nil, "unit_transfer_table")
 
@@ -26,8 +26,9 @@ if not Frostivus then
 	LinkLuaModifier("modifier_wearable_visuals_status_fx", "frostivus/modifiers/wearables.lua", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_wearable_visuals_activity", "frostivus/modifiers/wearables.lua", LUA_MODIFIER_MOTION_NONE)
 
-	LinkLuaModifier("modifier_hide_health_bar", "frostivus/modifiers/heroes.lua", LUA_MODIFIER_MOTION_NONE)
-	LinkLuaModifier("modifier_carrying_item", "frostivus/modifiers/heroes.lua", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_hide_health_bar", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_unselectable", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_carrying_item", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 
 	Frostivus.state[DOTA_TEAM_GOODGUYS].transfer_table:AddNewModifier(nil,nil,"modifier_hide_health_bar",{})
 
@@ -79,49 +80,83 @@ function Frostivus:GetPlayerRole(pID)
 	return -1
 end
 
+function Frostivus:GetCarryingItem( unit )
+	if Frostivus:IsCarryingItem( unit ) then
+		return unit:FindModifierByName("modifier_carrying_item").item
+	end
+end
+
+function Frostivus:IsCarryingItem( unit, item )
+	return unit:HasModifier("modifier_carrying_item") and (not item or unit:FindModifierByName("modifier_carrying_item").item == item)
+end
+
+function Frostivus:BindItem( item, unit, position_callback, condition_callback, drop_callback, add_modifier, dont_hide )
+	Timers:CreateTimer(function ()
+		if not condition_callback() or not IsValidEntity(item) then
+			if drop_callback then
+				drop_callback()
+			end
+			return
+		else
+			item:SetAbsOrigin(position_callback())
+			return 0.03
+		end
+	end)
+
+	-- Frostivus:WipeInventory( unit )
+
+	if not dont_hide then
+		item:FollowEntity(unit,false)
+	end
+
+	if unit and add_modifier then
+		unit:AddNewModifier(unit,nil,"modifier_carrying_item",{}).item = item
+	end
+end
+
+function Frostivus:DropItem( unit, item )
+	if IsValidEntity(unit) then
+		unit:RemoveModifierByName("modifier_carrying_item")
+	end
+
+	if IsValidEntity(item) then
+		item:FollowEntity(nil,false)
+		item:SetAbsOrigin(GetGroundPosition(unit:GetAbsOrigin(), unit))
+	end
+end
+
 function Frostivus:OnPickupItem( item, ply )
 	local caster = ply:GetAssignedHero()
 
 	local model = Frostivus.ItemsKVs[item:GetName()].Model
 	local charges = item:GetCurrentCharges()
 
-	Frostivus:L(model..":"..tostring(charges))
+	Frostivus:L(item:GetName()..":"..tostring(charges))
+
+	caster:DropItemAtPositionImmediate(item, caster:GetAbsOrigin())
 
 	if not Frostivus.ItemsKVs[item:GetName()].CantPickup then
-		local item = CreateItemOnPositionSync(caster:GetAbsOrigin(),item)
-		item:FollowEntity(caster,false)
+		if Frostivus:IsCarryingItem( caster ) then
+			Frostivus:L("Swapping Items...")
+			Frostivus:DropItem( caster, Frostivus:GetCarryingItem( caster ) )
+		end
+		
+		local item = item:GetContainer()
 
-		caster:AddNewModifier(caster,nil,"modifier_carrying_item",{}).item = item
+		Frostivus:BindItem(item, caster, (function ()
+			return caster:GetAbsOrigin() + Vector(0,0,128) + caster:GetForwardVector() * 32
+		end),(function ()
+			return Frostivus:IsCarryingItem( caster, item )
+		end), nil, true, false)
+	end
+end
 
-		Timers:CreateTimer(function ()
-			if not caster:HasModifier("modifier_carrying_item") or caster:FindModifierByName("modifier_carrying_item").item ~= item then
-				item:RemoveSelf()
-				return
-			else
-				item:SetAbsOrigin(caster:GetAbsOrigin() + Vector(0,0,128) + caster:GetForwardVector() * 32)
-				return 0.03
-			end
-		end)
-
-		-- item:RemoveSelf()
-
-	    -- local item = CreateUnitByName("wearable_model", Vector(0, 0, 0), false, nil, nil, DOTA_TEAM_NOTEAM)
-	    -- item:SetParent(caster,"follow_overhead")
-	    -- item:SetModel(model)
-	    -- item:SetOriginalModel(model)
-	    -- item:AddNewModifier(item, nil, "modifier_wearable_visuals", {})
-
-	    -- item:SetOrigin(Vector(0,0,200))
-
-	    -- caster._wearables = caster._wearables or {}
-
-	    -- if t then
-	    --     caster._wearables[t] = caster._wearables[t] or {}
-	    --     table.insert(caster._wearables[t], item)
-	    -- else
-	    --     caster._wearables["temporary_wearables"] = caster._wearables["temporary_wearables"] or {}
-	    --     table.insert(caster._wearables["temporary_wearables"], item)
-	    -- end
+function Frostivus:WipeInventory( unit )
+	for i=0,14 do
+		local item = unit:GetItemInSlot(i)
+		if item then
+			item:RemoveSelf()
+		end
 	end
 end
 

@@ -43,9 +43,11 @@ function Frostivus:FilterExecuteOrder( filterTable )
                 
                 if distance > 128 then
                     unit:MoveToNPC(unit.moving_target)
-                    return 0.5
+                    return 0.25
                 else
                 	unit.moving_target:TriggerOnUse(unit)
+
+                    Frostivus:L("Using Entity: "..unit.moving_target:GetUnitName()..":"..tostring(unit.moving_target:entindex()))
 
 			        unit.moving_timer = nil
 			        unit.moving_target = nil

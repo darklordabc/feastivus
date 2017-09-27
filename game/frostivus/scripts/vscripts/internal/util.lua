@@ -1,9 +1,9 @@
 function CDOTA_BaseNPC:TriggerOnUse( user )
   self._on_use = self._on_use or (function( ) Frostivus:L("Triggered!") end)
-  self._on_use(user)
+  self._on_use(self, user)
 end
 
-function CDOTA_BaseNPC:SetOnUse( user, callback )
+function CDOTA_BaseNPC:SetOnUse( callback )
   self._on_use = callback
 end
 
