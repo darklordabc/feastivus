@@ -237,6 +237,61 @@
     }
   }
   
+  "frostivus_boost"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_lua"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"ScriptFile"					"frostivus/abilities/frostivus_boost"
+		"AbilityTextureName"			"rubick_spell_steal"
+		"MaxLevel"						"1"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"1"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"100"
+		
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"distance"					"400"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"speed"						"1200"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bonus_movespeed"			"50"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"2.5"
+			}
+		}
+		"precache"
+		{
+			"particle"						"particles/status_fx/status_effect_forcestaff.vpcf"
+			"particle"						"particles/abilities/frostivus_boost.vpcf"
+			"soundfile"						"soundevents/game_sounds_items.vsndevts"
+		}
+	}
+  
 //-------------------
 // Dummy stuff
 //-------------------
