@@ -13,7 +13,7 @@ if IsServer() then
 	function modifier_frostivus_boost:OnCreated()
 		self.vDir = self:GetParent():GetForwardVector() * Vector(1,1,0)
 		self.speed = self:GetAbility():GetSpecialValueFor("speed")
-		self.distance = self:GetAbility():GetSpecialValueFor("speed")
+		self.distance = self:GetAbility():GetSpecialValueFor("distance")
 		self.dist_travelled = 0
 		self:StartIntervalThink(0)
 	end
