@@ -55,6 +55,10 @@
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/modmaker/modmaker.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/selection.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus/recipe.xml" />
+    
+    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus/key_binding.xml" />
+    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus/keyboard_control.xml" />
+    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus/settings.xml" />
 	<!-- <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/keybinds.xml" /> -->
 
     <!-- From Overthrow.

@@ -1,0 +1,19 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/frostivus/settings.css" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/frostivus/settings.js" />
+	</scripts>
+	<Panel class="SettingRoot" hittest="false">
+		<Image id="setting_button" src="file://{resources}/images/custom_game/ui/icon_settings.psd" onactivate="ToggleSettingPanel()" />
+		<Panel class="SettingPanel" id="setting_panel">
+			<Label text="#settings" />
+			<Panel class="SettingOptions">
+				<Image class="SettingOption Keyboard" src="file://{resources}/images/custom_game/ui/setting_keyboard.psd" onactivate="SetController('keyboard')" />
+				<Panel class="Seperator" />
+				<Image class="SettingOption Mouse" src="file://{resources}/images/custom_game/ui/setting_mouse.psd" onactivate="SetController('mouse')" />
+			</Panel>
+		</Panel>
+	</Panel>
+</root>

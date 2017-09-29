@@ -35,5 +35,17 @@
 			"Command"   "+DKey"
 			"Name"      "D"
 		}
+		"05"
+		{
+			"Key"       "CTRL"
+			"Command"   "+CTRLKey"
+			"Name"      "CTRL"	
+		}
+		"06"
+		{
+			"Key"		"SPACE"
+			"Command"	"+SpaceKey"
+			"Name"		"Space"
+		}
 	}
 }
