@@ -46,6 +46,9 @@ require('events')
 require('frostivus/objects/Objects')
 --require("examples/worldpanelsExample")
 
+-- WASD move controller
+require('frostivus/modules/move_controller')
+
 --[[
 	This function should be used to set up Async precache calls at the beginning of the gameplay.
 
