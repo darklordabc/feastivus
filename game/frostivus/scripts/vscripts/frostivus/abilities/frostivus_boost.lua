@@ -49,6 +49,12 @@ if IsServer() then
 			self:Destroy()
 		end
 	end
+	
+	function modifier_frostivus_boost:OnDestroy()
+		local caster = self:GetCaster()
+		caster:AddNewModifier(caster, self, "modifier_frostivus_boost_ms", {duration = self:GetAbility():GetSpecialValueFor("duration")})
+	end
+	
 end
 
 function modifier_frostivus_boost:CheckState()
@@ -74,7 +80,24 @@ function modifier_frostivus_boost:StatusEffectPriority()
 	return 15
 end
 
+modifier_frostivus_boost_ms = class({})
+LinkLuaModifier("modifier_frostivus_boost_ms", "frostivus/abilities/frostivus_boost.lua", 0)
 
+function modifier_frostivus_boost_ms:OnCreated()
+	self.ms = self:GetAbility():GetSpecialValueFor("bonus_movespeed")
+end
+
+function modifier_frostivus_boost_ms:DeclareFunctions()
+	return {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE}
+end
+
+function modifier_frostivus_boost_ms:GetModifierMoveSpeedBonus_Percentage()
+	return self.ms
+end
+
+function modifier_frostivus_boost_ms:GetEffectName()
+	return "particles/abilities/frostivus_boost_buff.vpcf"
+end
 
 function RotateVector2D(vector, theta)
     local xp = vector.x*math.cos(theta)-vector.y*math.sin(theta)
