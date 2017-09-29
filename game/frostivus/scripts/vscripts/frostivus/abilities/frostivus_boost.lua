@@ -52,7 +52,7 @@ if IsServer() then
 	
 	function modifier_frostivus_boost:OnDestroy()
 		local caster = self:GetCaster()
-		caster:AddNewModifier(caster, self, "modifier_frostivus_boost_ms", {duration = self:GetAbility():GetSpecialValueFor("duration")})
+		caster:AddNewModifier(caster, self:GetAbility(), "modifier_frostivus_boost_ms", {duration = self:GetAbility():GetSpecialValueFor("duration")})
 	end
 	
 end
@@ -83,7 +83,7 @@ end
 modifier_frostivus_boost_ms = class({})
 LinkLuaModifier("modifier_frostivus_boost_ms", "frostivus/abilities/frostivus_boost.lua", 0)
 
-function modifier_frostivus_boost_ms:OnCreated()
+function modifier_frostivus_boost_ms:OnCreated(args)
 	self.ms = self:GetAbility():GetSpecialValueFor("bonus_movespeed")
 end
 

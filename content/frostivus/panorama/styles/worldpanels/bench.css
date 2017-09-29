@@ -1,0 +1,38 @@
+.BenchPanel
+{
+  animation-name: oscillate;
+  pre-transform-scale2d: .5;
+
+  width: 200px;
+  height: 200px;
+
+  flow-children: down;
+}
+
+.Row
+{
+  flow-children: right;
+}
+
+.Slot
+{
+  width: 100px;
+  height: 100px;
+
+  background-position: 50% 50%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url("s2r://panorama/images/icon_plus_white_png.vtex");
+}
+
+.Hide 
+{
+  visibility: collapse;
+}
+
+@keyframes 'oscillate'
+{
+  0%   {transform: translateX( 0px ) translateY( 0px );}
+  50%  {transform: translateX( 0px ) translateY( 25px );}
+  100% {transform: translateX( 0px ) translateY( 0px );}
+}

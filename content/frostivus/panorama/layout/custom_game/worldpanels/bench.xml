@@ -1,0 +1,27 @@
+<root> 
+  <styles>
+    <include src="s2r://panorama/styles/dotastyles.vcss_c" />
+    <include src="file://{resources}/styles/worldpanels/bench.css" />
+  </styles>
+  <scripts>
+    <include src="file://{resources}/scripts/worldpanels/bench.js" /> 
+  </scripts>
+  <Panel hittest="false" class="BenchPanel">
+    <Panel hittest="false" class="Row">
+      <Panel hittest="true" class="Slot">
+        <DOTAItemImage id="Slot1" class="Hide" abilityname=""/>
+      </Panel>
+      <Panel hittest="true" class="Slot">
+        <DOTAItemImage id="Slot2" class="Hide" abilityname=""/>
+      </Panel>
+    </Panel>
+    <Panel hittest="false" class="Row">
+      <Panel hittest="true" class="Slot">
+        <DOTAItemImage id="Slot3" class="Hide" abilityname=""/>
+      </Panel>
+      <Panel hittest="true" class="Slot">
+        <DOTAItemImage id="Slot4" class="Hide" abilityname=""/>
+      </Panel>
+    </Panel>
+  </Panel>
+</root>

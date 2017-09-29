@@ -7,6 +7,31 @@ function CDOTA_BaseNPC:SetOnUse( callback )
   self._on_use = callback
 end
 
+function ExecOnGameInProgress( callback )
+  Timers:CreateTimer(function ()
+    local newState = GameRules:State_Get()
+
+    if newState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+      callback()
+    else
+      return 0.03
+    end
+  end)
+end
+
+function GetTableLength( t )
+  if not t then return 0 end
+  local length = 0
+
+  for k,v in pairs(t) do
+    if v then
+      length = length + 1
+    end
+  end
+
+  return length
+end
+
 function DebugPrint(...)
   local spew = Convars:GetInt('barebones_spew') or -1
   if spew == -1 and BAREBONES_DEBUG_SPEW then

@@ -30,8 +30,6 @@ if not Frostivus then
 	LinkLuaModifier("modifier_unselectable", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_carrying_item", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 
-	Frostivus.state[DOTA_TEAM_GOODGUYS].transfer_table:AddNewModifier(nil,nil,"modifier_hide_health_bar",{})
-
 	GameRules:GetGameModeEntity():SetExecuteOrderFilter( Dynamic_Wrap( Frostivus, "FilterExecuteOrder" ), self )
 
     Frostivus.DEBUG = true

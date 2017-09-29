@@ -19,7 +19,7 @@ var entities = [];
 
 function WorldPanelChange(id, changes, dels)
 {
-  //$.Msg("change ", id, ' -- ', changes, ' -- ', dels);
+  $.Msg("change ", id, ' -- ', changes, ' -- ', dels);
   for (var k in changes){
     var wp = panels[k];
     if (!wp){
