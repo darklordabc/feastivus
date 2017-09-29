@@ -1,7 +1,0 @@
-<root>
-	<scripts>
-		<include src="file://{resources}/scripts/frostivus/move_control.js" />
-	</scripts>
-	<Panel class="root" hittest="false">
-	</Panel>
-</root>

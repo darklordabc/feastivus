@@ -1,8 +1,6 @@
 <root>
-	<styles>
-	</styles>
 	<scripts>
-		<include src="file://{resources}/scripts/keybinds.js" />
+		<include src="file://{resources}/scripts/frostivus/keyboard_control.js" />
 	</scripts>
 	<Panel class="root" hittest="false">
 	</Panel>

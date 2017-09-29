@@ -28,6 +28,24 @@ function MoveController:constructor()
     CustomGameEventManager:RegisterListener("pku", function(_, args)
         self:OnPlayerKeyUp(args)
     end)
+
+    CustomGameEventManager:RegisterListener("player_set_controller", function(_, args)
+        self:OnPlayerSetController(args)
+    end)
+end
+
+function MoveController:OnPlayerSetController(args)
+	local player = PlayerResource:GetPlayer(args.PlayerID)
+	if not player then return end
+	local hero = player:GetAssignedHero()
+	if not hero then return end
+
+	if args.option == "keyboard" then
+		hero.bUseKeyboardMoveController = true
+	else
+		-- mouse by default
+		hero.bUseKeyboardMoveController = false
+	end
 end
 
 function MoveController:OnPlayerKeyDown(args)
@@ -54,6 +72,16 @@ function MoveController:OnPlayerKeyDown(args)
 		hero.bMoveController_MovingDown = true
 	elseif keyCode == "D" then
 		hero.bMoveController_MovingRight = true
+	end
+
+	-- @todo
+	-- implement ctrl and space actions
+	if keyCode == "ctrl" then
+		print("NOT IMPLEMENT YET")
+	end
+
+	if keyCode == "space" then
+		print("NOT IMPLEMENT YET")
 	end
 end
 
@@ -86,6 +114,12 @@ end
 
 function MoveController:CreateHeroMoveTimer(hero)
 	hero:SetContextThink(DoUniqueString("hero_move_timer"),function()
+
+		-- if player is not using keyboard controller
+		if not hero.bUseKeyboardMoveController then
+			return 0.03 -- keep running in case of player change his mind
+		end
+
 		if not (IsValidEntity(hero) and hero:IsAlive()) then 
 			-- clear move state
 			hero.bMoveController_MovingUp = false
