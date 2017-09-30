@@ -136,7 +136,7 @@ function UpdateTimer() {
 	if (transitionTime >= 0) {
 		// 00:30
 		var mins = Math.floor(transitionTime / 60);
-		var secs = transitionTime - mins * 60;
+		var secs = Math.floor(transitionTime - mins * 60);
 		var mins1 = Math.floor(mins / 10);
 		var mins2 = mins - mins1 * 10;
 		var secs1 = Math.floor(secs / 10);
@@ -147,6 +147,10 @@ function UpdateTimer() {
 		$("#count_down_secs_2").style.backgroundPosition = -64 * secs2 + "px";
 	}else {
 		// set all digits to 00:00
+		$("#count_down_mins_1").style.backgroundPosition = "0px";
+		$("#count_down_mins_2").style.backgroundPosition = "0px";
+		$("#count_down_secs_1").style.backgroundPosition = "0px";
+		$("#count_down_secs_2").style.backgroundPosition = "0px";
 	}
 	$.Schedule(0.1, UpdateTimer);
 }
