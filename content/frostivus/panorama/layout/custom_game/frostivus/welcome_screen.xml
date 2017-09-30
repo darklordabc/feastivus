@@ -1,0 +1,59 @@
+<root>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/frostivus/welcome_screen.js" />
+	</scripts>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/frostivus/welcome_screen.css" />
+	</styles>
+	<snippets>
+		<snippet name="PlayerCard">
+			<Panel class="PlayerCardRoot">
+				<Panel class="PlayerCardBackground" />
+
+				<!-- player card content -->
+				<Image class="PlayerHeroArt" id="hero_art" src="file://{resources}/images/custom_game/welcome_screen/temp_hero_art.psd"/>
+				<DOTAUserName class="PlayerName" id="player_name" steamid="local" />
+				<DOTAAvatarImage class="PlayerPortrait" id="player_portrait" steamid="local" />
+				<Image id="ready_state" />
+
+				<!-- @todo other message to display in bottom section -->
+
+				<Panel class="PlayerCardOverlay" />
+			</Panel>
+		</snippet>
+	</snippets>
+
+	<Panel class="WelcomeScreenRoot">
+		<Image class="WelcomeScreenBackground" src="file://{resources}/images/custom_game/welcome_screen/background.psd" />
+		<Image class="GameLogo" src="file://{resources}/images/custom_game/welcome_screen/game_logo.psd" />
+		<Panel class="CountDownTimer">
+			<Image class="TimerDigit" id="count_down_mins_1" />
+			<Image class="TimerDigit" id="count_down_mins_2" />
+			<Image class="TimerColon" />
+			<Image class="TimerDigit" id="count_down_secs_1" />
+			<Image class="TimerDigit" id="count_down_secs_2" />
+		</Panel>
+
+		<Panel class="HeroesPanel Goodguys" id="player_card_panel_goodguys" />
+
+		<!-- @todo dire heroes panel for versus mode -->
+		<!-- <Panel class="HeroesPanel Badguys">
+		</Panbel> -->
+
+		<Panel class="ButtonsPanel">
+			<Panel class="Button" id="button_ready" onactivate="OnClickReadyButton()">
+				<Image id="ready_button_bg" src="file://{resources}/images/custom_game/welcome_screen/ready_button.psd" />
+				<Label text=""/><!--  make an empty label, we have well designed text in button art -->
+			</Panel>
+			<Panel class="Button" id="button_rock_and_roll" onactivate="OnRockAndRoll()">
+				<Image id="rock_and_roll_button_bg" src="file://{resources}/images/custom_game/welcome_screen/start_button.psd" />
+				<Label text=""/><!--  make an empty label, we have well designed text in button art -->
+			</Panel>
+			<Panel class="Button" id="button_start_tutorial" onactivate="OnStartTutorial()">
+				<Image id="start_tutorial_button_bg" src="file://{resources}/images/custom_game/welcome_screen/start_tutorial_button.psd" />
+				<Label text=""/><!--  make an empty label, we have well designed text in button art -->
+			</Panel>
+		</Panel>
+
+	</Panel>
+</root>

@@ -1,0 +1,69 @@
+
+.WelcomeScreenRoot {
+	width: 100%;
+	height: 100%;
+}
+
+.WelcomeScreenBackground {
+	width: 100%;
+	height: 100%;
+}
+
+.GameLogo {
+	horizontal-align: center;
+	width: 410px;
+	height: 230px;
+}
+
+.CountDownTimer {
+	flow-children: right;
+	vertical-align: top;
+	horizontal-align: center;
+	margin-top: 240px;
+}
+
+.TimerColon {
+	background-image:url("file://{resources}/images/custom_game/generic/digits.psd");
+	width: 40px;
+	height: 108px;
+	background-repeat: no-repeat;
+	background-position: -640px 0px;
+}
+
+.TimerDigit {
+	background-image:url("file://{resources}/images/custom_game/generic/digits.psd");
+	width: 64px;
+	height: 108px;
+	background-repeat: no-repeat;
+	background-position: -0px 0px;
+}
+
+
+.ButtonsPanel {
+	vertical-align: bottom;
+	horizontal-align: center;
+	flow-children: right;
+}
+
+.Button {
+	width: 326px;
+	height: 115px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+#button_ready {
+	width: 260px;
+	height: 90px;
+	vertical-align: bottom;
+}
+
+#button_start_tutorial {
+	width: 260px;
+	height: 90px;
+	vertical-align: bottom;
+}
+
+.Button:hover {
+	brightness: 2;
+}
