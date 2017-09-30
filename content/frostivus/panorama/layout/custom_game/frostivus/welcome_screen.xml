@@ -12,9 +12,11 @@
 
 				<!-- player card content -->
 				<Image class="PlayerHeroArt" id="hero_art" src="file://{resources}/images/custom_game/welcome_screen/temp_hero_art.psd"/>
-				<DOTAUserName class="PlayerName" id="player_name" steamid="local" />
-				<DOTAAvatarImage class="PlayerPortrait" id="player_portrait" steamid="local" />
-				<Image id="ready_state" />
+				<Panel class="PlayerInfoArea">
+					<DOTAUserName class="PlayerName" id="player_name" steamid="local" />
+					<DOTAAvatarImage class="PlayerPortrait" id="player_portrait" steamid="local" />
+					<Image id="ready_state" />
+				</Panel>
 
 				<!-- @todo other message to display in bottom section -->
 
@@ -24,6 +26,9 @@
 	</snippets>
 
 	<Panel class="WelcomeScreenRoot">
+		<Panel class="ImageCache">
+			<Image src="file://{resources}/images/custom_game/welcome_screen/cancel_button.psd" />
+		</Panel>
 		<Image class="WelcomeScreenBackground" src="file://{resources}/images/custom_game/welcome_screen/background.psd" />
 		<Image class="GameLogo" src="file://{resources}/images/custom_game/welcome_screen/game_logo.psd" />
 		<Panel class="CountDownTimer">
@@ -34,7 +39,7 @@
 			<Image class="TimerDigit" id="count_down_secs_2" />
 		</Panel>
 
-		<Panel class="HeroesPanel Goodguys" id="player_card_panel_goodguys" />
+		<Panel class="PlayerCardPanel Goodguys" id="player_card_panel_goodguys" />
 
 		<!-- @todo dire heroes panel for versus mode -->
 		<!-- <Panel class="HeroesPanel Badguys">

@@ -7,7 +7,10 @@ var g_PlayerIDPanelMapper = {};
 var g_UnreadyPlayers = [];
 var b_CountingDown = false;
 function OnClickReadyButton() {
-
+	// player id will be attached by default in game events
+	// @todo, implement in lua for player ready.
+	$.Msg("player ready!")
+	GameEvents.SendCustomGameEventToServer("player_ready", {})
 }
 
 function OnRockAndRoll() {
@@ -67,13 +70,13 @@ function CountDownAndStart() {
 	// Disable the auto start count down
 	Game.SetAutoLaunchEnabled( false );
 	// Set the remaining time before the game starts
-	Game.SetRemainingSetupTime( 4 ); 
+	Game.SetRemainingSetupTime(4);
 }
 
 // we leave the parent parameter in case of versus mode
 function FindOrCreatePanelForPlayer(playerID, parent) {
 	// search the player panel list for the player id
-	for (var i==0; i < g_PlayersPanel.length; ++i) {
+	for (var i = 0; i < g_PlayersPanel.length; ++i) {
 		var playerPanel = g_PlayersPanel[i];
 		if (g_PlayerIDPanelMapper[playerID] == playerPanel) {
 			playerPanel.SetParent(parent);
@@ -87,15 +90,16 @@ function FindOrCreatePanelForPlayer(playerID, parent) {
 	newPlayerPanel.BLoadLayoutSnippet("PlayerCard");
 
 	// setup username and avatar
-	var playerInfo = Game.GetPlayerInfo( playerId );
+	var playerInfo = Game.GetPlayerInfo( playerID );
 	newPlayerPanel.FindChildTraverse("player_name").steamid = playerInfo.player_steamid;
 	newPlayerPanel.FindChildTraverse("player_portrait").steamid = playerInfo.player_steamid;
 
 	// highlight local player card
 	var localPlayerInfo = Game.GetLocalPlayerInfo();
 	if (localPlayerInfo) {
-		$.Msg("Local player info -> ",localPlayerInfo);
-		// if (localPlayerInfo.player_id)
+		if (localPlayerInfo.player_id == playerID) {
+			newPlayerPanel.SetHasClass("LocalPlayer", true);
+		}
 	}
 
 	// check host and show!
@@ -119,7 +123,8 @@ function UpdatePlayerCards(teamid) {
 	teamPanel.RemoveAndDeleteChildren();
 
 	// create them
-	for (var i == 0; i < teamPlayers.length; ++i) {
+	for (var i = 0; i < teamPlayers.length; ++i) {
+		$.Msg("creating panel for player", teamPlayers[i])
 		FindOrCreatePanelForPlayer(teamPlayers[i], teamPanel)
 	}
 }
@@ -127,30 +132,49 @@ function UpdatePlayerCards(teamid) {
 function UpdateTimer() {
 	var gameTime = Game.GetGameTime();
 	var transitionTime = Game.GetStateTransitionTime();
-
+	
 	if (transitionTime >= 0) {
-		
+		// 00:30
+		var mins = Math.floor(transitionTime / 60);
+		var secs = transitionTime - mins * 60;
+		var mins1 = Math.floor(mins / 10);
+		var mins2 = mins - mins1 * 10;
+		var secs1 = Math.floor(secs / 10);
+		var secs2 = secs - secs1 * 10;
+		$("#count_down_mins_1").style.backgroundPosition = -64 * mins1 + "px";
+		$("#count_down_mins_2").style.backgroundPosition = -64 * mins2 + "px";
+		$("#count_down_secs_1").style.backgroundPosition = -64 * secs1 + "px";
+		$("#count_down_secs_2").style.backgroundPosition = -64 * secs2 + "px";
+	}else {
+		// set all digits to 00:00
 	}
+	$.Schedule(0.1, UpdateTimer);
 }
 
-// <snippet name="PlayerCard">
-// 			<Panel class="PlayerCardRoot">
-// 				<Panel class="PlayerCardBackground" />
+function OnTeamPlayerListChanged() {
+	UpdatePlayerCards(2);
+}
 
-// 				<!-- player card content -->
-// 				<Image class="PlayerHeroArt" id="hero_art" src="file://{resources}/images/custom_game/welcome_screen/temp_hero_art.psd"/>
-// 				<DOTAUserName class="PlayerName" id="player_name" steamid="local" />
-// 				<DOTAAvatarImage class="PlayerPortrait" id="player_portrait" steamid="local" />
-// 				<Image id="ready_state" />
-
-// 				<!-- @todo other message to display in bottom section -->
-
-// 				<Panel class="PlayerCardOverlay" />
-// 			</Panel>
-// 		</snippet>
+function OnPlayerSelectedTeam() {
+	UpdatePlayerCards(2);
+}
 
 (function() {
+	// i dont know why there is a blank section at left
+	// maybe we should remove this later
 	RemoveLeftBlank();
+
 	// auto assign player to teams
 	Game.AutoAssignPlayersToTeams();
+
+	UpdateTimer();
+
+	// debug freeze the count down timer
+	Game.SetRemainingSetupTime(-1); 
+
+	// Register a listener for the event which is brodcast when the team assignment of a player is actually assigned
+	$.RegisterForUnhandledEvent( "DOTAGame_TeamPlayerListChanged", OnTeamPlayerListChanged );
+
+	// Register a listener for the event which is broadcast whenever a player attempts to pick a team
+	$.RegisterForUnhandledEvent( "DOTAGame_PlayerSelectedCustomTeam", OnPlayerSelectedTeam );
 })();

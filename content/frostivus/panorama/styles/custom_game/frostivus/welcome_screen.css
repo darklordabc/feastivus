@@ -32,6 +32,7 @@
 
 .TimerDigit {
 	background-image:url("file://{resources}/images/custom_game/generic/digits.psd");
+	background-image:url("file://{resources}/images/custom_game/generic/digits.psd");
 	width: 64px;
 	height: 108px;
 	background-repeat: no-repeat;
@@ -66,4 +67,53 @@
 
 .Button:hover {
 	brightness: 2;
+}
+
+/*player card*/
+
+.PlayerCardPanel {
+	vertical-align: center;
+	horizontal-align: center;
+	height: 340px;
+
+	flow-children: right;
+}
+
+.PlayerCardRoot {
+	width:256px;
+	height: 440px;
+}
+
+.PlayerHeroArt {
+	width: 100%;
+	height: 340px;
+}
+
+.PlayerInfoArea {
+	vertical-align: bottom;
+	width: 100%;
+	background-color: #232323aa;
+	padding-top: 15px;
+}
+
+.PlayerName {
+	vertical-align: bottom;
+	color: white;
+	font-size: 30px;
+	width: 100%;
+	margin-left: 90px;
+	margin-bottom: 10px;
+}
+
+.PlayerPortrait {
+	width : 80px;
+	height: 80px;
+	vertical-align: bottom;
+	margin-left:10px;
+	margin-bottom: 10px;
+
+}
+
+.ImageCache {
+	visibility: collapse;
 }
