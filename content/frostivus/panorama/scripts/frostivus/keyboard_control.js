@@ -1,26 +1,32 @@
-Game.OnWKeyDown = function() {
+Game.KeyboardCommand_Up = function() {
 	GameEvents.SendCustomGameEventToServer("pkd", {c:"W"}) // pkd short for player key down
 };
-Game.OnAKeyDown = function() {
-	GameEvents.SendCustomGameEventToServer("pkd", {c:"A"})
-};
-Game.OnSKeyDown = function() {
-	GameEvents.SendCustomGameEventToServer("pkd", {c:"S"})
-};
-Game.OnDKeyDown = function() {
-	GameEvents.SendCustomGameEventToServer("pkd", {c:"D"})
-};
 
-Game.OnWKeyUp = function() {
+Game.KeyboardCommand_Up_End = function() {
 	GameEvents.SendCustomGameEventToServer("pku", {c:"W"})
 };
-Game.OnAKeyUp = function() {
+
+Game.KeyboardCommand_Left = function() {
+	GameEvents.SendCustomGameEventToServer("pkd", {c:"A"})
+};
+
+Game.KeyboardCommand_Left_End = function() {
 	GameEvents.SendCustomGameEventToServer("pku", {c:"A"})
 };
-Game.OnSKeyUp = function() {
+
+Game.KeyboardCommand_Down = function() {
+
+	GameEvents.SendCustomGameEventToServer("pkd", {c:"S"})
+};
+
+Game.KeyboardCommand_Down_End = function() {
 	GameEvents.SendCustomGameEventToServer("pku", {c:"S"})
 };
-Game.OnDKeyUp = function() {
+
+Game.KeyboardCommand_Right = function() {
+	GameEvents.SendCustomGameEventToServer("pkd", {c:"D"})
+};
+Game.KeyboardCommand_Right_End = function() {
 	GameEvents.SendCustomGameEventToServer("pku", {c:"D"})
 };
 
