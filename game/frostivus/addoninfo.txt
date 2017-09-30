@@ -13,27 +13,27 @@
 	{
 		"01"
 		{
-			"Key"       "W"
-			"Command"   "+WKey"
-			"Name"      "W"
+			"Key"       "UPARROW"
+			"Command"   "+KeyboardCommand_Up"
+			"Name"      "KeyboardCommand_Up"
 		}
 		"02"
 		{
-			"Key"       "A"
-			"Command"   "+AKey"
-			"Name"      "A"
+			"Key"       "LEFTARROW"
+			"Command"   "+KeyboardCommand_Left"
+			"Name"      "KeyboardCommand_Left"
 		}
 		"03"
 		{
-			"Key"       "S"
-			"Command"   "+SKey"
-			"Name"      "S"
+			"Key"       "DOWNARROW"
+			"Command"   "+KeyboardCommand_Down"
+			"Name"      "KeyboardCommand_Down"
 		}
 		"04"
 		{
-			"Key"       "D"
-			"Command"   "+DKey"
-			"Name"      "D"
+			"Key"       "RIGHTARROW"
+			"Command"   "+KeyboardCommand_Right"
+			"Name"      "KeyboardCommand_Right"
 		}
 		"05"
 		{

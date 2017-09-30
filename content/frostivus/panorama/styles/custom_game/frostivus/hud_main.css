@@ -1,0 +1,217 @@
+.FrostivusMainHUDRoot {
+	width: 100%;
+	height: 100%;
+}
+
+#FrostivusHUD {
+	width: 100%;
+	height: 100%;
+}
+
+
+// Custom game SetHUDVisible support
+.HIDE_ACTION_PANEL #center_with_stats,
+.HIDE_ACTION_PANEL #buffs,
+.HIDE_ACTION_PANEL #debuffs,
+.HIDE_ACTION_PANEL #StatBranchDrawer,
+.HIDE_ACTION_PANEL #StatDrawerTopRight
+{
+	visibility: visible;
+}
+
+
+/*=============================*/
+/*buffs*/
+/*=============================*/
+#buffs
+{
+	margin-bottom: 84px;
+	margin: 0px;
+	margin-left: 0px;
+}
+
+#debuffs
+{
+	margin: 0px;
+	margin-right: 0px;
+}
+
+#BuffsLine
+{
+	horizontal-align: left;
+	vertical-align: bottom;
+	margin-bottom: 10px;
+	margin-left: 190px; /* put next to the portrait temporary */
+	min-width: 360px;
+	max-width: 704px;
+	height: 74px;
+	transition-property: transform, opacity;
+	transition-duration: 0.24s;
+	transition-timing-function: ease-in-out;
+	transform: translateY(0px);
+	z-index: -4;
+
+	flow-children: down;
+}
+
+.HasAbilityToSpend #BuffsLine
+{
+	transform: translateY(-10px);
+}
+
+.SpectatorDVRControlsVisible #BuffsLine
+{
+	height: 122px;
+}
+
+#lower_hud {
+	width: 100%;
+	horizontal-align: left;
+	vertical-align: bottom;
+}
+
+#PortraitContainer
+{
+	margin-left: 0px;	
+	opacity-mask: none;
+	width: 180px;
+	height: 180px;
+}
+
+#portraitHUDOverlay,
+#portraitHUD
+{
+	width: 180px;
+	height: 180px;
+	transform: translateY( 0px ) translateX( 0px );	
+	opacity-mask: url("s2r://panorama/images/masks/killcammask_left_psd.vtex") 1;		
+}
+
+#PortraitContainerFrostivus
+{
+	horizontal-align: left;
+	vertical-align: bottom;
+}
+
+.AbilityInsetShadowLeft,
+.AbilityInsetShadowRight,
+#left_flare,
+#right_flare,
+#PortraitBacker
+{
+	visibility: collapse;
+}
+
+#center_bg
+{
+	height: 120px;
+	border-top-left-radius: 13px;
+	border-top-right-radius: 13px;
+	margin: 0px 0px;
+}
+
+
+#unitname
+{
+	margin: 0px;
+	height: 20px;
+	width: 180px;
+	//margin-bottom: 44px;
+}
+
+#unitname Label
+{
+	wash-color: red;
+}
+
+.Reborn #HealthContainer
+{
+	height: 16px;
+}
+
+
+#health_mana
+{
+	
+	//background-color: black;
+	width: 180px;
+	margin-bottom: 16px;
+	horizontal-align: left;
+	vertical-align: bottom;
+	margin-right: 6px;
+	margin-left: 8px;
+		margin-left: 48px;
+}
+
+.Reborn DOTAHotkey#StatBranchHotkey
+{
+	margin: 0px;
+	transform: none;
+	vertical-align: top;
+	z-index: 10000;
+}
+
+
+/*#StatBranchDrawer
+{
+	margin-left: 32px;
+	margin-bottom: 68px;
+}
+
+.FiveAbilities #StatBranchDrawer
+{
+    margin-right: 240px;
+}
+.SixAbilities #StatBranchDrawer
+{
+    margin-right: 200px;
+}
+
+.HUDFlipped #StatBranchDrawer
+{
+	transform: scaleX(-1);
+	margin-right: 0px;
+	margin-left: 240px;
+}
+
+.HUDFlipped .FiveAbilities #StatBranchDrawer
+{
+    margin-left: 240px;
+}
+
+.HUDFlipped .SixAbilities #StatBranchDrawer
+{
+    margin-left: 245px;
+}
+
+#stats_tooltip_region,
+#stragiint
+{
+	horizontal-align: left;
+}
+
+#stats
+{
+	width: fit-cldren;
+}
+
+#stats_container_bg
+{
+	visibility: collapse;
+}
+*/
+
+
+#center_with_stats {
+	vertical-align: bottom;
+	horizontal-align: center;
+	margin-right: -10px;
+}
+
+#AbilitiesAndStatBranch {
+	margin-bottom: 0px;
+	margin-left: 30px;
+	margin-right: 30px;
+	vertical-align: bottom;
+	horizontal-align: center;
+}

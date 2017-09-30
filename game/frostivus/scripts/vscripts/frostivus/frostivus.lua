@@ -38,7 +38,6 @@ end
 require("frostivus/filters")
 
 function Frostivus:InitHero(hero)
-	hero:SetMaterialGroup(tostring(math.random(0,8)))
 	AddAnimationTranslate(hero, "level_3")
 	hero:AddNewModifier(hero,nil,"modifier_hide_health_bar",{})
 end
