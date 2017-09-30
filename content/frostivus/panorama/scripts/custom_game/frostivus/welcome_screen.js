@@ -134,9 +134,9 @@ function UpdateTimer() {
 	var transitionTime = Game.GetStateTransitionTime();
 	
 	if (transitionTime >= 0) {
-		// 00:30
-		var mins = Math.floor(transitionTime / 60);
-		var secs = Math.floor(transitionTime - mins * 60);
+		var timeToTransition = transitionTime - gameTime;
+		var mins = Math.floor(timeToTransition / 60);
+		var secs = Math.floor(timeToTransition - mins * 60);
 		var mins1 = Math.floor(mins / 10);
 		var mins2 = mins - mins1 * 10;
 		var secs1 = Math.floor(secs / 10);
@@ -163,6 +163,11 @@ function OnPlayerSelectedTeam() {
 	UpdatePlayerCards(2);
 }
 
+function OnGameRulesStateChanged() {
+	var newState = Game.GetState()
+	$.Msg("game state has changed to",newState);
+}
+
 (function() {
 	// i dont know why there is a blank section at left
 	// maybe we should remove this later
@@ -174,11 +179,14 @@ function OnPlayerSelectedTeam() {
 	UpdateTimer();
 
 	// debug freeze the count down timer
-	Game.SetRemainingSetupTime(-1); 
+	Game.SetRemainingSetupTime(30); 
 
 	// Register a listener for the event which is brodcast when the team assignment of a player is actually assigned
 	$.RegisterForUnhandledEvent( "DOTAGame_TeamPlayerListChanged", OnTeamPlayerListChanged );
 
 	// Register a listener for the event which is broadcast whenever a player attempts to pick a team
 	$.RegisterForUnhandledEvent( "DOTAGame_PlayerSelectedCustomTeam", OnPlayerSelectedTeam );
+
+	GameEvents.Subscribe("dota_game_rules_state_change", OnGameRulesStateChanged);
+
 })();
