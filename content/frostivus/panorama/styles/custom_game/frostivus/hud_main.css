@@ -204,7 +204,7 @@
 
 #center_with_stats {
 	vertical-align: bottom;
-	horizontal-align: right;
+	horizontal-align: center;
 	margin-right: -10px;
 }
 
@@ -213,5 +213,5 @@
 	margin-left: 30px;
 	margin-right: 30px;
 	vertical-align: bottom;
-	horizontal-align: right;
+	horizontal-align: center;
 }
