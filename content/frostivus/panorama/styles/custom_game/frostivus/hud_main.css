@@ -27,11 +27,13 @@
 {
 	margin-bottom: 84px;
 	margin: 0px;
+	margin-left: 0px;
 }
 
 #debuffs
 {
 	margin: 0px;
+	margin-right: 0px;
 }
 
 #BuffsLine
@@ -48,6 +50,8 @@
 	transition-timing-function: ease-in-out;
 	transform: translateY(0px);
 	z-index: -4;
+
+	flow-children: down;
 }
 
 .HasAbilityToSpend #BuffsLine

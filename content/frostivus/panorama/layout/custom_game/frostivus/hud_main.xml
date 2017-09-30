@@ -41,7 +41,7 @@
 					<!-- dont show unit name -->
 					<!-- <DOTAUnitName id="unitname" hittest="false" />				 -->
 				</Panel>
-				<Panel id="BuffsLine" class="LeftRightFlow" hittest="false">
+				<Panel id="BuffsLine" hittest="false">
 					<DOTABuffList id="debuffs" showbuffs="false" />
 					<DOTABuffList id="buffs" showdebuffs="false" />
 				</Panel>
