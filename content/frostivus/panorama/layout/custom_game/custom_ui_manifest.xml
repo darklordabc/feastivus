@@ -8,7 +8,7 @@
     GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_TIMEOFDAY, false );      //Time of day (clock).
     GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_HEROES, false );     //Heroes and team score at the top of the HUD.
     GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_FLYOUT_SCOREBOARD, false );      //Lefthand flyout scoreboard.
-    // GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ACTION_PANEL, false );     //Hero actions UI.
+    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ACTION_PANEL, false );     //Hero actions UI.
     GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ACTION_MINIMAP, false );     //Minimap.
     GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_PANEL, false );      //Entire Inventory UI
     GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_SHOP, false );     //Shop portion of the Inventory. 
@@ -56,6 +56,8 @@
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/selection.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus/recipe.xml" />
     
+    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus/hud_main.xml" />
+
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus/key_binding.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus/keyboard_control.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus/settings.xml" />
