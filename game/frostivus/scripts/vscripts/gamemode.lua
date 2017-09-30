@@ -49,6 +49,8 @@ require("libraries/worldpanels")
 
 -- WASD move controller
 require('frostivus/modules/move_controller')
+-- hats manager
+require('frostivus/modules/hats_manager')
 
 --[[
 	This function should be used to set up Async precache calls at the beginning of the gameplay.
