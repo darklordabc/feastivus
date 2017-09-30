@@ -16,18 +16,36 @@
 
 .Slot
 {
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
 
   background-position: 50% 50%;
-  background-size: 100% 100%;
+  background-size: 90% 90%;
   background-repeat: no-repeat;
   background-image: url("s2r://panorama/images/icon_plus_white_png.vtex");
 }
 
+.Icon
+{
+  height: 100%;
+  transform: scale3d(1.3, 1.3, 1.3);
+
+  transition-property: opacity;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in;
+}
+
+.Ring {
+  margin: 5px;
+  border-radius: 50%;
+  vertical-align: middle;
+
+  border: 5px solid rgba(255, 255, 255, .5);
+}
+
 .Hide 
 {
-  visibility: collapse;
+  opacity: 0.0;
 }
 
 @keyframes 'oscillate'

@@ -100,7 +100,7 @@ local UpdateTable = function(wp)
     if not PlayerTables:TableExists(ptName) then
       PlayerTables:CreateTable(ptName, {[idString]=pt}, {pid})
     else
-      PlayerTables:SetTableValue(ptName, idString, pt)
+      PlayerTables:SetTableValue(ptName, idString, pt, true)
     end
   end
 end

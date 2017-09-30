@@ -8,19 +8,19 @@
   </scripts>
   <Panel hittest="false" class="BenchPanel">
     <Panel hittest="false" class="Row">
-      <Panel hittest="true" class="Slot">
-        <DOTAItemImage id="Slot1" class="Hide" abilityname=""/>
+      <Panel hittest="true" class="Slot Ring">
+        <DOTAItemImage hittest="false" id="Slot1" class="Icon Hide" abilityname=""/>
       </Panel>
-      <Panel hittest="true" class="Slot">
-        <DOTAItemImage id="Slot2" class="Hide" abilityname=""/>
+      <Panel hittest="true" class="Slot Ring">
+        <DOTAItemImage hittest="false" id="Slot2" class="Icon Hide" abilityname=""/>
       </Panel>
     </Panel>
     <Panel hittest="false" class="Row">
-      <Panel hittest="true" class="Slot">
-        <DOTAItemImage id="Slot3" class="Hide" abilityname=""/>
+      <Panel hittest="true" class="Slot Ring">
+        <DOTAItemImage hittest="false" id="Slot3" class="Icon Hide" abilityname=""/>
       </Panel>
-      <Panel hittest="true" class="Slot">
-        <DOTAItemImage id="Slot4" class="Hide" abilityname=""/>
+      <Panel hittest="true" class="Slot Ring">
+        <DOTAItemImage hittest="false" id="Slot4" class="Icon Hide" abilityname=""/>
       </Panel>
     </Panel>
   </Panel>

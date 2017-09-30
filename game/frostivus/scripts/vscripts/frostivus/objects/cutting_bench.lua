@@ -6,10 +6,9 @@ function Spawn ( entityKeyValues )
 
 		thisEntity.wp = WorldPanels:CreateWorldPanelForAll({
 			layout = "file://{resources}/layout/custom_game/worldpanels/bench.xml",
-			position = GetGroundPosition(thisEntity:GetAbsOrigin(), nil) + Vector(0,0,128),
+			entity = thisEntity,
+			entityHeight = 64,
 		})
-
-		print("Asdasd")
 	end)
 end
 
@@ -20,14 +19,21 @@ function OnUse( thisEntity, user )
 				local item = user:FindModifierByName("modifier_carrying_item").item
 
 				if item then
-					local old_data = thisEntity.wp.pt.data or {}
+					local old_data = {}
+					if thisEntity.wp.pt.data then
+						for k,v in pairs(thisEntity.wp.pt.data) do
+							old_data[k] = v
+						end
+					end
 					
 					if GetTableLength(old_data) == 4 then
 
 					else
 						table.insert(old_data, item:GetContainedItem():GetName())
-
 						thisEntity.wp:SetData(old_data)
+
+						item:AddEffects(EF_NODRAW)
+						item:SetAbsOrigin(thisEntity:GetAbsOrigin())
 
 						Frostivus:DropItem( user, item )
 					end
