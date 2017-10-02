@@ -363,7 +363,7 @@ function PlayerTables:DeleteTableKeys(tableName, keys)
   end
 end
 
-function PlayerTables:SetTableValue(tableName, key, value)
+function PlayerTables:SetTableValue(tableName, key, value, ignoreEquals)
   if value == nil then
     self:DeleteTableKey(tableName, key)
     return 
@@ -376,7 +376,7 @@ function PlayerTables:SetTableValue(tableName, key, value)
   local table = self.tables[tableName]
   local pids = self.subscriptions[tableName]
 
-  if not self:equals(table[key], value) then
+  if not self:equals(table[key], value) or ignoreEquals then
     table[key] = value
     for pid,v in pairs(pids) do
       local player = PlayerResource:GetPlayer(pid)
