@@ -4,11 +4,13 @@
 		<include src="s2r://panorama/styles/hud.vcss_c"/>
 		<include src="s2r://panorama/styles/hudstyles.vcss_c"/>
 		<include src="s2r://panorama/styles/hud/hud_reborn.vcss_c" />
+		<include src="s2r://panorama/styles/custom_game/frostivus/ready_set_go.css" />
 
 		<include src="file://{resources}/styles/custom_game/frostivus/hud_main.css" />
 	</styles>
 	<scripts>
 		<include src="file://{resources}/scripts/custom_game/frostivus/hud_main.js" />
+		<include src="file://{resources}/scripts/custom_game/frostivus/ready_set_go.js"/>
 	</scripts>
 	<Panel class="FrostivusMainHUDRoot" hittest="false">
 		<Panel id="FrostivusHUD" hittest="false">
