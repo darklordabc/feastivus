@@ -94,85 +94,65 @@
         "AttackDesire"        "1.5"   // How much bots want to attack them vs other non-hero things
     }
 
-    "npc_transfer_table"
+    "npc_transfer_bench"
     { 
-        "BaseClass"         "npc_dota_base_additive"  // Class of entity of link to.
-        "Model"           "models/table.vmdl"  // Model.
-        "ModelScale" "0.7"
-        "Level"           "1"
+        "BaseClass"         "npc_dota_creature"
+        "Model"           "models/table.vmdl"
+        "ModelScale" "1.0"
+        "Level"           "10"
 
-        // Abilities
-        //----------------------------------------------------------------
+        "Ability1"          "frostivus_bench"
+        "Ability2"          "frostivus_transfer_bench"
+        "Ability3"          ""
+        "Ability4"          ""
 
-        "Ability1"          ""     // Ability 1.
-        "Ability2"          ""      // Ability 2.
-        "Ability3"          ""      // Ability 3.
-        "Ability4"          ""      // Ability 4.
-        "Ability5"          ""      // Ability 5.
-        "Ability6"          ""      // Ability 6 - Extra.
-        "Ability7"          ""      // Ability 7 - Extra.
-        "Ability8"          ""      // Ability 8 - Extra.
+        "ArmorPhysical"       "0"
+        "MagicalResistance"       "0"
 
-        // Armor
-        //----------------------------------------------------------------
-        "ArmorPhysical"       "0"     // Physical protection.
-        "MagicalResistance"       "0"     // Magical protection.
-
-        // Attack
-        //----------------------------------------------------------------
-        "AttackCapabilities"    "DOTA_UNIT_CAP_NO_ATTACK"     // Type of attack - melee, ranged, etc.
-
-        // Movement
-        //----------------------------------------------------------------
+        "AttackCapabilities"    "DOTA_UNIT_CAP_NO_ATTACK"
         "MovementCapabilities"    "DOTA_UNIT_CAP_MOVE_NONE"
-        "MovementSpeed"       "0"   // Speed
-        "MovementTurnRate"      "0.0"   // Turning rate.
-        "FollowRange"       "1"   // Distance to keep when following
-
-        "StatusHealth"        "1"     // Base health.
-        "StatusHealthRegen"     "0"     // Health regeneration rate.
-        "StatusMana"        "0"     // Base mana.
-        "StatusManaRegen"     "0"     // Mana regeneration rate.
 
         "TeamName"          "DOTA_TEAM_GOODGUYS"
     }
 
     "npc_cutting_bench"
     { 
-        "BaseClass"         "npc_dota_base_additive"  // Class of entity of link to.
-        "Model"           "models/table.vmdl"  // Model.
+        "BaseClass"         "npc_dota_creature"
+        "Model"           "models/table.vmdl"
         "ModelScale" "0.7"
-        "Level"           "1"
+        "Level"           "10"
 
-        "Ability1"          ""
-        "Ability2"          ""
+        "Ability1"          "frostivus_bench"
+        "Ability2"          "frostivus_cutting_bench"
         "Ability3"          ""
         "Ability4"          ""
-        "Ability5"          ""
-        "Ability6"          ""
-        "Ability7"          ""
-        "Ability8"          ""
 
-        // Armor
-        //----------------------------------------------------------------
-        "ArmorPhysical"       "0"     // Physical protection.
-        "MagicalResistance"       "0"     // Magical protection.
+        "ArmorPhysical"       "0"
+        "MagicalResistance"       "0"
 
-        // Attack
-        //----------------------------------------------------------------
-        "AttackCapabilities"    "DOTA_UNIT_CAP_NO_ATTACK"     // Type of attack - melee, ranged, etc.
-
-        // Movement
-        //----------------------------------------------------------------
+        "AttackCapabilities"    "DOTA_UNIT_CAP_NO_ATTACK"
         "MovementCapabilities"    "DOTA_UNIT_CAP_MOVE_NONE"
-        "MovementSpeed"       "0"   // Speed
-        "MovementTurnRate"      "0.0"   // Turning rate.
-        "FollowRange"       "1"   // Distance to keep when following
 
-        "StatusHealth"        "1"     // Base health.
-        "StatusHealthRegen"     "0"     // Health regeneration rate.
-        "StatusMana"        "0"     // Base mana.
-        "StatusManaRegen"     "0"     // Mana regeneration rate.
+        "TeamName"          "DOTA_TEAM_GOODGUYS"
+    }
+
+    "npc_crate_bench"
+    { 
+        "BaseClass"         "npc_dota_creature"
+        "Model"           "models/crate/ingredient_crate_01.vmdl"
+        "ModelScale" "0.7"
+        "Level"           "10"
+
+        "Ability1"          "frostivus_bench"
+        "Ability2"          "frostivus_crate"
+        "Ability3"          ""
+        "Ability4"          ""
+
+        "ArmorPhysical"       "0"
+        "MagicalResistance"       "0"
+
+        "AttackCapabilities"    "DOTA_UNIT_CAP_NO_ATTACK"
+        "MovementCapabilities"    "DOTA_UNIT_CAP_MOVE_NONE"
 
         "TeamName"          "DOTA_TEAM_GOODGUYS"
     }

@@ -1,44 +1,28 @@
-function Spawn ( entityKeyValues )
-	ExecOnGameInProgress( function (  )
-		thisEntity:SetOnUse( OnUse )
+function InitBench( keys )
+	local caster = keys.caster
+	local ability = keys.ability
 
-		thisEntity:AddNewModifier(nil,nil,"modifier_hide_health_bar",{})
-
-		thisEntity.wp = WorldPanels:CreateWorldPanelForAll({
-			layout = "file://{resources}/layout/custom_game/worldpanels/bench.xml",
-			entity = thisEntity,
-			entityHeight = 64,
-		})
+	ExecOnGameInProgress(function (  )
+		caster:InitBench(1, CheckItem, StartCutting)
 	end)
 end
 
-function OnUse( thisEntity, user )
-	if user then
-		if not Frostivus:IsCarryingItem( thisEntity, item ) then
-			if user:FindModifierByName("modifier_carrying_item") then
-				local item = user:FindModifierByName("modifier_carrying_item").item
+function CheckItem( item )
+	return Frostivus.ItemsKVs[item:GetContainedItem():GetName()].CanBeCutted
+end
 
-				if item then
-					local old_data = {}
-					if thisEntity.wp.pt.data then
-						for k,v in pairs(thisEntity.wp.pt.data) do
-							old_data[k] = v
-						end
-					end
-					
-					if GetTableLength(old_data) == 4 then
+function StartCutting( bench, items )
+	local original_item = items[1]
+	local target_item = Frostivus.ItemsKVs[original_item].RefineTarget
 
-					else
-						table.insert(old_data, item:GetContainedItem():GetName())
-						thisEntity.wp:SetData(old_data)
+	local old_data = bench.wp:GetData()
+	old_data.duration = 3.5
+	bench.wp:SetData(old_data)
 
-						item:AddEffects(EF_NODRAW)
-						item:SetAbsOrigin(thisEntity:GetAbsOrigin())
-
-						Frostivus:DropItem( user, item )
-					end
-				end
-			end
-		end
-	end
+	Timers:CreateTimer(3.5, function (  )
+		local old_data = bench.wp:GetData()
+		old_data.items[1] = target_item
+		old_data.duration = nil
+		bench.wp:SetData(old_data)
+	end)
 end

@@ -1,0 +1,22 @@
+.Channeling
+{
+
+}
+
+.Frame
+{
+  width: 150px;
+  height: 20px;
+  background-color: #bbbbbb;
+}
+
+#Progress 
+{
+  background-color: red;
+
+  height: 100%;
+  margin: 3px;
+  transition-duration: 0s;
+  transition-property: width;
+  transition-timing-function: linear;
+}

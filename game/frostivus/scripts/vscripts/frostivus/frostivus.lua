@@ -6,18 +6,9 @@ if not Frostivus then
 
     Frostivus.state = {}
     Frostivus.state[DOTA_TEAM_GOODGUYS] = {}
-    Frostivus.state[DOTA_TEAM_GOODGUYS].raw_targets = Entities:FindAllByName("point_raw_*")
-    Frostivus.state[DOTA_TEAM_GOODGUYS].tool_targets = Entities:FindAllByName("point_tool_*")
-    Frostivus.state[DOTA_TEAM_GOODGUYS].transfer_target = Entities:FindByTarget(nil,"npc_transfer_table")
-
-    Frostivus.state[DOTA_TEAM_GOODGUYS].transfer_table = Entities:FindByName(nil, "unit_transfer_table")
+    Frostivus.state[DOTA_TEAM_GOODGUYS].crates = Entities:FindAllByName("npc_crate_bench")
 
     Frostivus.state[DOTA_TEAM_BADGUYS] = {}
-    Frostivus.state[DOTA_TEAM_BADGUYS].raw_targets = Entities:FindAllByName("point_raw_*")
-    Frostivus.state[DOTA_TEAM_BADGUYS].tool_targets = Entities:FindAllByName("point_tool_*")
-    Frostivus.state[DOTA_TEAM_BADGUYS].transfer_target = Entities:FindByTarget(nil,"npc_transfer_table")
-
-    Frostivus.state[DOTA_TEAM_BADGUYS].transfer_table = Entities:FindByName(nil, "unit_transfer_table")
 
     Frostivus.ROLE_DELIVERY = 0
     Frostivus.ROLE_REFINERY = 1
@@ -38,6 +29,7 @@ end
 require("frostivus/filters")
 
 function Frostivus:InitHero(hero)
+	InitAbilities( hero )
 	AddAnimationTranslate(hero, "level_3")
 	hero:AddNewModifier(hero,nil,"modifier_hide_health_bar",{})
 end
@@ -47,11 +39,12 @@ function Frostivus:StartNewRound(team, item, tier)
 	Frostivus.state[team].current_item_table = item or Frostivus:GetRandomItemByTier(tier)
 
 	local i = 1
-	for k,v in pairs(Frostivus.state[team].raw_targets) do
+	for k,v in pairs(Frostivus.state[team].crates) do
 		local item = Frostivus.state[team].current_item_table.initial[tostring(i)]
 		Frostivus:L(item)
 		if item then
-			CreateItemOnPositionSync(v:GetAbsOrigin(),CreateItem(item,nil,nil))
+			v:InitBench(1)
+			v:SetCrateItem(item)
 		else
 
 		end
@@ -158,7 +151,7 @@ function Frostivus:WipeInventory( unit )
 end
 
 function Frostivus:L(s)
-	if Frostivus.DEBUG then
+	if Frostivus.DEBUG and s then
 		print("[Frostivus] "..s)
 	end
 end

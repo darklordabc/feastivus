@@ -253,6 +253,10 @@ function WorldPanels:CreateWorldPanel(pids, conf)
     UpdateTable(self)
   end
 
+  function wp:GetData()
+    return self.pt.data
+  end
+
   function wp:Delete()
     for j=1,#self.pids do
       local pid = self.pids[j]

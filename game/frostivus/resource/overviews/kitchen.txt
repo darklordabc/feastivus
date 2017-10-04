@@ -1,0 +1,8 @@
+kitchen
+{
+	material materials/overviews/kitchen.vmat
+	pos_x -3149
+	pos_y 2252
+	scale 4.946
+}
+

@@ -7,20 +7,23 @@
     <include src="file://{resources}/scripts/worldpanels/bench.js" /> 
   </scripts>
   <Panel hittest="false" class="BenchPanel">
-    <Panel hittest="false" class="Row">
-      <Panel hittest="true" class="Slot Ring">
-        <DOTAItemImage hittest="false" id="Slot1" class="Icon Hide" abilityname=""/>
+    <Panel id="Frame" class="Hide">
+      <Panel id="Progress"/>
+    </Panel>
+    <Panel hittest="false" id="Row1" class="Row">
+      <Panel hittest="true" id="Slot1" class="Slot Ring">
+        <DOTAItemImage hittest="false" class="Icon Hide" abilityname=""/>
       </Panel>
-      <Panel hittest="true" class="Slot Ring">
-        <DOTAItemImage hittest="false" id="Slot2" class="Icon Hide" abilityname=""/>
+      <Panel hittest="true" id="Slot2" class="Slot Ring">
+        <DOTAItemImage hittest="false" class="Icon Hide" abilityname=""/>
       </Panel>
     </Panel>
-    <Panel hittest="false" class="Row">
-      <Panel hittest="true" class="Slot Ring">
-        <DOTAItemImage hittest="false" id="Slot3" class="Icon Hide" abilityname=""/>
+    <Panel hittest="false" id="Row2" class="Row">
+      <Panel hittest="true" id="Slot3" class="Slot Ring">
+        <DOTAItemImage hittest="false" class="Icon Hide" abilityname=""/>
       </Panel>
-      <Panel hittest="true" class="Slot Ring">
-        <DOTAItemImage hittest="false" id="Slot4" class="Icon Hide" abilityname=""/>
+      <Panel hittest="true" id="Slot4" class="Slot Ring">
+        <DOTAItemImage hittest="false" class="Icon Hide" abilityname=""/>
       </Panel>
     </Panel>
   </Panel>

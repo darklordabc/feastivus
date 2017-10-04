@@ -4,9 +4,36 @@
   pre-transform-scale2d: .5;
 
   width: 200px;
-  height: 200px;
+  height: 240px;
+}
 
-  flow-children: down;
+#Frame
+{
+  margin-bottom: 20px;
+  width: 100%;
+  height: 20px;
+  background-color: #bbbbbb;
+}
+
+#Row1
+{
+  margin-top: 40px;
+}
+
+#Row2
+{
+  margin-top: 140px;
+}
+
+#Progress 
+{
+  background-color: red;
+
+  height: 100%;
+  margin: 3px;
+  transition-duration: 0s;
+  transition-property: width;
+  transition-timing-function: linear;
 }
 
 .Row
@@ -27,7 +54,10 @@
 
 .Icon
 {
-  height: 100%;
+  horizontal-align: center;
+  vertical-align: center;
+
+  /*height: 100%;*/
   transform: scale3d(1.3, 1.3, 1.3);
 
   transition-property: opacity;
@@ -43,9 +73,28 @@
   border: 5px solid rgba(255, 255, 255, .5);
 }
 
+.Single {
+  width: 125px;
+  height: 125px;
+}
+
+.Centered {
+  horizontal-align: center;
+  vertical-align: center;
+}
+
+.Single .Icon {
+  transform: scale3d(1.8, 1.8, 1.8);
+}
+
 .Hide 
 {
-  opacity: 0.0;
+  opacity: 0;
+}
+
+.Collapse
+{
+  visibility: collapse;
 }
 
 @keyframes 'oscillate'

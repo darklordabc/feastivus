@@ -1,0 +1,14 @@
+<root> 
+  <styles>
+    <include src="s2r://panorama/styles/dotastyles.vcss_c" />
+    <include src="file://{resources}/styles/worldpanels/channeling.css" />
+  </styles>
+  <scripts>
+    <include src="file://{resources}/scripts/worldpanels/channeling.js" /> 
+  </scripts>
+  <Panel hittest="false" class="Channeling">
+    <Panel class="Frame">
+      <Panel id="Progress"/>
+    </Panel>
+  </Panel>
+</root>

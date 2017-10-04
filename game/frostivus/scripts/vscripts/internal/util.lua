@@ -1,12 +1,3 @@
-function CDOTA_BaseNPC:TriggerOnUse( user )
-  self._on_use = self._on_use or (function( ) Frostivus:L("Triggered!") end)
-  self._on_use(self, user)
-end
-
-function CDOTA_BaseNPC:SetOnUse( callback )
-  self._on_use = callback
-end
-
 function ExecOnGameInProgress( callback )
   Timers:CreateTimer(function ()
     local newState = GameRules:State_Get()
@@ -17,6 +8,19 @@ function ExecOnGameInProgress( callback )
       return 0.03
     end
   end)
+end
+
+function InitAbilities( hero )
+  for i=0, hero:GetAbilityCount()-1 do
+    local abil = hero:GetAbilityByIndex(i)
+    if abil ~= nil then
+      if hero:IsHero() and hero:GetAbilityPoints() > 0 then
+        hero:UpgradeAbility(abil)
+      elseif abil:GetLevel() < 1 then
+        abil:SetLevel(1)
+      end
+    end
+  end
 end
 
 function GetTableLength( t )
