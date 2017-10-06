@@ -156,3 +156,9 @@ function orderedPairs(t)
   -- in order
   return orderedNext, t, nil
 end
+
+function table.contains(t, v)
+  for _, _v in pairs(t) do
+    if _v == v then return true end
+  end
+end
