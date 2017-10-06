@@ -3,6 +3,6 @@ function InitBench( keys )
 	local ability = keys.ability
 
 	ExecOnGameInProgress(function (  )
-		caster:InitBench(3)
+		caster:InitBench(1, nil, nil, 0)
 	end)
 end

@@ -16,6 +16,12 @@ function InitBench( keys )
 		end
 	end)
 
+	caster.IsBenchFull = (function( self )
+		local old_data = self.wp:GetData()
+
+		return GetTableLength(old_data.items) == old_data.layout
+	end)
+
 	caster.SetBenchInfiniteItems = (function( self, b )
 		self._bench_infinite_items = b
 	end)
@@ -70,7 +76,7 @@ function OnUse( bench, user )
 			-- Picking item from the bench
 			local item_name = bench.wp:GetData().items[1]
 
-			if (Frostivus.ItemsKVs[item_name].CanBePickedFromBench or bench:HasModifier("modifier_crate")) and GetTableLength(bench.wp:GetData().items) == 1 then
+			if (Frostivus.ItemsKVs[item_name].CanBePickedFromBench or bench:HasModifier("modifier_crate") or bench:HasModifier("modifier_transfer_bench")) and GetTableLength(bench.wp:GetData().items) == 1 then
 				local item = bench:PickItemFromBench(user, item_name)
 
 				Frostivus:BindItem(item, user, (function ()
@@ -79,7 +85,7 @@ function OnUse( bench, user )
 					return Frostivus:IsCarryingItem( user, item )
 				end), nil, true, false)
 			end
-		else
+		elseif not bench:IsBenchFull() then
 			-- Adding item to the bench
 			if user:FindModifierByName("modifier_carrying_item") then
 				local item = user:FindModifierByName("modifier_carrying_item").item
