@@ -5,8 +5,8 @@
 		m_meshList = 
 		[
 			{
-				m_meshName = "ingredient_crate_01"
-				m_meshFile = "models/crate/ingredient_crate_01.fbx"
+				m_meshName = "ingredient_crate_02"
+				m_meshFile = "models/crate/ingredient_crate_02.fbx"
 				m_materialSearchPath = ""
 				m_bSkinParentedObjects = true
 				m_bLegacySkinParentedTransforms = false
@@ -62,8 +62,8 @@
 								m_sSurfaceProperty = ""
 								m_nGroupId = 0
 								m_sBoneName = "cube"
-								m_vMinBounds = [ -52.2271, 0.0, -55.7677 ]
-								m_vMaxBounds = [ 52.227139, 103.188576, 55.767719 ]
+								m_vMinBounds = [ -50.0, -50.0, -50.0 ]
+								m_vMaxBounds = [ 50.0, 50.0, 50.0 ]
 								m_bTranslationOnly = false
 								m_cRenderColor = [ 0, 0, 0, 0 ]
 							},

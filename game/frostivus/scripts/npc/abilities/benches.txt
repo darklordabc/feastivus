@@ -36,28 +36,11 @@
 
   "frostivus_crate"
   {
+    "BaseClass"           "ability_lua"
     "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
-    "BaseClass"           "ability_datadriven"
-    "AbilityTextureName"  "rubick_empty1"
+    "ScriptFile"          "frostivus/abilities/frostivus_crate"
+    "AbilityTextureName"      "rubick_empty1"
     "MaxLevel"            "1"
-
-    "OnUpgrade"
-    {
-      "RunScript"
-      {
-        "ScriptFile"  "frostivus/objects/crate.lua"
-        "Function"    "InitBench"
-      }
-    }
-
-    "Modifiers"
-    {
-      "modifier_crate"
-      {
-        "Passive"                        "1"
-        "IsHidden"                        "1"
-      }
-    }
   }
 
   "frostivus_cutting_bench"
@@ -92,5 +75,14 @@
         "Function"    "InitBench"
       }
     }
+  }
+
+  "frostivus_bin"
+  {
+    "BaseClass"           "ability_lua"
+    "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+    "ScriptFile"          "frostivus/abilities/frostivus_bin"
+    "AbilityTextureName"  "rubick_empty1"
+    "MaxLevel"            "1"
   }
 }
