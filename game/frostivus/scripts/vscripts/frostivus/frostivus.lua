@@ -25,7 +25,16 @@ if not Frostivus then
 
     Frostivus.DEBUG = true
 
-    self:SetupRecipesForClient()
+	local recipes = {}
+	for _, _data in pairs(Frostivus.RecipesKVs) do
+		for product, data in pairs(_data) do
+			local assemblies = {}
+			for _, assembly in pairs(data.Assembly) do
+				table.insert(assemblies, assembly)
+			end
+			CustomNetTables:SetTableValue("recipes", product, assemblies)
+		end
+	end
 end
 
 require("frostivus/filters")
@@ -156,19 +165,5 @@ end
 function Frostivus:L(s)
 	if Frostivus.DEBUG and s then
 		print("[Frostivus] "..s)
-	end
-end
-
-function Frostivus:SetupRecipesForClient()
-	local kv = self.RecipesKVs
-	local recipes = {}
-	for _, data in pairs(kv) do
-		for product, data in pirs(kv) do
-			local assemblies = {}
-			for _, assembly in pairs(data.Assembly) do
-				table.insert(assemblies, assembly)
-			end
-			CustomNetTables:SetTableValue("recipes", product, assemblies)
-		end
 	end
 end

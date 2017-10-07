@@ -1,13 +1,20 @@
 if Round == nil then Round = class({}) end
 
-GameRules.vRoundDefinations = LoadKeyValues('kv/rounds.kv')
-
 LinkLuaModifier("modifier_preround_freeze","frostivus/modifiers/states.lua",LUA_MODIFIER_MOTION_NONE)
 
 function Round:constructor(roundData)
 	self.vRoundData = roundData
-	self.vPendingOrders = roundData.Orders
-	self.nTimeLimit = roundData.TimeLImit
+	
+	self.vPendingOrders = {}
+	for time, orderData in pairs(roundData.Orders) do
+		self.vPendingOrders[tonumber(time)] = orderData
+	end
+
+	self.nTimeLimit = roundData.TimeLimit
+	print("[Round] New round started, data shown below")
+	print("===========================================")
+	PrintTable(roundData)
+	print("===========================================")
 
 	self.vRoundScript =  {}
 	if roundData.ScriptFile then
@@ -16,7 +23,9 @@ function Round:constructor(roundData)
 
 	self.vFinishedOrders = {}
 	self.vCurrentOrders = {}
+
 	self.nPreRoundTime = 5
+	self.nEndRoundDelay = 5
 	
 	if self.vRoundScript.OnInitialize then
 		self.vRoundScript.OnInitialize(self)
@@ -78,9 +87,6 @@ function Round:OnTimer()
 
 	-- time's up
 	if self.nCountDownTimer <= 0 then
-		
-		GameRules._vRoundManager:OnRoundEnd()
-
 		if self.vRoundScript.OnRoundEnd then
 			self.vRoundScript.OnRoundEnd(self)
 		end
@@ -89,11 +95,18 @@ function Round:OnTimer()
 		-- I have to know what may happen in rounds 
 		-- to finish this
 
+		-- @todo show round end summary
+
+		-- tell the round manager to start a new round after delay
+		Timers:CreateTimer(self.nEndRoundDelay, function()
+			GameRules._vRoundManager:OnRoundEnd()
+		end)
+
 	end
 
 	-- time for more orders
 	for t, orders in pairs(self.vPendingOrders) do
-		if t <= self.nExpiredTime then
+		if tonumber(t) <= self.nExpiredTime then
 			for recipeName, orderCount in pairs(orders) do
 				for i = 1, orderCount do
 					table.insert(self.vCurrentOrders, {
@@ -112,11 +125,13 @@ function Round:OnTimer()
 		if order.nTimeRemaining <= 0 then -- remove the un-finished orders
 			-- @todo, punishment??
 			self.vCurrentOrders[k] = nil
-			self:UpdateOrdersToClient()
+
+
 			if self.vRoundScript.OnRecipeExpired then
 				self.vRoundScript.OnRecipeExpired(self, order)
 			end
 		end
+		self:UpdateOrdersToClient()
 	end
 
 	if self.vRoundScript.OnTimer then

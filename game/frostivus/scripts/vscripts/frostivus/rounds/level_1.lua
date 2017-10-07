@@ -10,7 +10,8 @@ return {
 		-- timer function, called every second
 		-- if you want a higher frequency timer
 		-- feel free to add anywhere
-		print("RoundScript -> OnTimer")
+
+		-- print("RoundScript -> OnTimer")
 	end,
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")

@@ -1,6 +1,11 @@
 _G.g_DEFAULT_ORDER_TIME_LIMIT = 60
 
 require 'frostivus/rounds/_loader'
+
+GameRules.vRoundDefinations = LoadKeyValues('scripts/kv/rounds.kv')
+for level, data in pairs(GameRules.vRoundDefinations) do
+	GameRules.vRoundDefinations[tonumber(level)] = data
+end
 ---------------------------------------------------------------------------------------
 -- GLOBAL API
 --=====================================================================================
@@ -36,6 +41,7 @@ if RoundManager == nil then RoundManager = class({}) end
 
 
 function RoundManager:constructor()
+	print("RoundManager -> constructor")
 	ListenToGameEvent("game_rules_state_change",Dynamic_Wrap(RoundManager, "OnGameRulesStateChanged"),self)
 	GameRules:GetGameModeEntity():SetContextThink(DoUniqueString("round_timer"),function()
 		self:OnTimer()
@@ -47,7 +53,9 @@ function RoundManager:OnGameRulesStateChanged()
 	-- init round manager when pre game
 	local newState = GameRules:State_Get()
 	if newState == DOTA_GAMERULES_STATE_PRE_GAME then
-		self:Init()
+		Timers:CreateTimer(1, function()
+			self:Init()
+		end)
 	end
 end
 
@@ -56,6 +64,13 @@ function RoundManager:Init()
 	if self.bPlayTutorial then
 		self.nCurrentLevel = 0
 	end
+
+	self:StartNewRound()
+end
+
+function RoundManager:OnRoundEnd()
+	self.nCurrentLevel = self.nCurrentLevel + 1
+	self:StartNewRound()
 end
 
 function RoundManager:SetPlayTutorial()
@@ -68,6 +83,8 @@ function RoundManager:StartNewRound(level) -- level is passed for test purpose
 
 	-- instantiation round
 	self.vCurrentRound = Round(roundData)
+
+	print("RoundManager -> New round started, level-", level)
 
 	-- display round start message on clients
 	CustomGameEventManager:Send_ServerToAllClients("round_start",{
