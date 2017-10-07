@@ -7,7 +7,7 @@
 	</scripts>
 	<Panel class="SettingRoot" hittest="false">
 		<Image id="setting_button" src="file://{resources}/images/custom_game/ui/icon_settings.psd" onactivate="ToggleSettingPanel()" />
-		<Panel class="SettingPanel" id="setting_panel">
+		<Panel class="SettingPanel Hidden" id="setting_panel">
 			<Label text="#settings" />
 			<Panel class="SettingOptions">
 				<Image class="SettingOption Keyboard" src="file://{resources}/images/custom_game/ui/setting_keyboard.psd" onactivate="SetController('keyboard')" />

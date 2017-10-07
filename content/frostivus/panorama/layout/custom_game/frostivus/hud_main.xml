@@ -4,20 +4,77 @@
 		<include src="s2r://panorama/styles/hud.vcss_c"/>
 		<include src="s2r://panorama/styles/hudstyles.vcss_c"/>
 		<include src="s2r://panorama/styles/hud/hud_reborn.vcss_c" />
-		<include src="s2r://panorama/styles/custom_game/frostivus/ready_set_go.css" />
 
 		<include src="file://{resources}/styles/custom_game/frostivus/hud_main.css" />
+		<include src="file://{resources}/styles/custom_game/frostivus/orders.css" />
+
 	</styles>
 	<scripts>
 		<include src="file://{resources}/scripts/custom_game/frostivus/hud_main.js" />
-		<include src="file://{resources}/scripts/custom_game/frostivus/ready_set_go.js"/>
+		<include src="file://{resources}/scripts/custom_game/frostivus/orders.js" />
 	</scripts>
+
+	<snippets>
+		<snippet name="Order">
+			<Panel class="OrderRoot">
+				<Panel class="OrderMain">
+					<ProgressBar id="time_remaining" min="0" max="60" value="60" />
+					<Panel class="ProductImagePanel">
+						<DOTAItemImage id="ProductImage" itemname="item_blink" />
+					</Panel>
+				</Panel>
+				<Panel class="OrderBottom">
+					<Panel class="AssembliesImage">
+						<Panel class="AssemblyImagePanel">
+							<DOTAItemImage id="Assembly_Image_0" itemname="item_blink" />
+						</Panel>
+						<Panel class="AssemblyImagePanel">
+							<DOTAItemImage id="Assembly_Image_1" itemname="item_blink" />
+						</Panel>
+						<Panel class="AssemblyImagePanel">
+							<DOTAItemImage id="Assembly_Image_2" itemname="item_blink" />
+						</Panel>
+						<Panel class="AssemblyImagePanel">
+							<DOTAItemImage id="Assembly_Image_3" itemname="item_blink" />
+						</Panel>
+					</Panel>
+					<!-- <Panel class="OrderMainShadow" /> -->
+				</Panel>
+			</Panel>
+		</snippet>
+	</snippets>
+
 	<Panel class="FrostivusMainHUDRoot" hittest="false">
 		<Panel id="FrostivusHUD" hittest="false">
 
-			<!-- @todo// top left order panels -->
+			<Panel id="image_precache" class="Hidden" hittestchildren="false">
+				<Image src="file://{resources}/images/custom_game/ui/image_ready.png" />
+				<Image src="file://{resources}/images/custom_game/ui/image_set.png" />
+				<Image src="file://{resources}/images/custom_game/ui/image_go.png" />
+			</Panel>
 
-			<!-- @todo// current score display aka. current tips in overcook -->
+			<!-- top left order panels -->
+			<Panel id="orders" />
+
+			<!-- center popup block -->
+			<Panel id="center" hittestchildren="false">
+				<Image id="game_logo" src="file://{resources}/images/custom_game/game_logo.psd" />
+				<Image id="ready_set_go" />
+				<!-- maybe better art, use label for now -->
+				<Label id="round_name" /> 
+			</Panel>
+
+			<!-- countdown timer -->
+			<Panel id="count_down_timer" class="Hidden" hittestchildren="false" >
+				<Image src="file://{resources}/images/custom_game/ui/timer.psd" class="TimerBackground" />
+				<Panel class="TimerDigits">
+					<Image class="TimerDigit" id="count_down_mins_1" />
+					<Image class="TimerDigit" id="count_down_mins_2" />
+					<Image class="TimerColon" />
+					<Image class="TimerDigit" id="count_down_secs_1" />
+					<Image class="TimerDigit" id="count_down_secs_2" />
+				</Panel>
+			</Panel>
 
 			<!-- portrait and abiliteis lower hud -->
 			<Panel id="lower_hud" hittest="false">

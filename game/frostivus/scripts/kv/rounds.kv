@@ -1,0 +1,74 @@
+"RoundDefination"
+{
+	// level 0 is the tutorial level
+	"0"
+	{
+		"Name"		"#Feastivus_Round_Tutorial"
+		"ScriptFile"	"frostivus/rounds/level_tutorial"
+		"TimeLimit"	"-1"
+		"Orders"
+		{
+			"0"
+			{
+				"item_tango_salad"	"1"
+			}
+		}
+	}
+	"1"
+	{
+		"Name"		"#Feastivus_Round_BitterSweet"
+		"TimeLimit"		"300"
+		"ScriptFile"	"frostivus/rounds/level_1"
+		"StarCriteria" // how to achieve 1/2/3 star
+		{
+			"01"
+			{
+				"Type"	"STAR_CRITERIA_FINISHED_RECIPES"
+				"values"	"5 9 13 17" // 1/2/3/perfect
+			}
+		}
+		"Orders"
+		{
+
+			"0" // order time
+			{
+				// order recipe 	order amount
+				"item_tango_salad"	"1"
+			}
+			"30"
+			{
+				"item_tango_salad"	"1"
+			}
+			"60"
+			{
+				"item_mango_soup"	"1"
+			}
+			"90"
+			{
+				"item_tango_salad"	"1"	
+			}
+			"120"
+			{
+				"item_mango_soup"	"1"
+			}
+			"150"
+			{
+				"item_tango_salad"	"2"
+			}
+			"180"
+			{
+				"item_mango_soup"	"1"
+				"item_tango_salad"	"1"
+			}
+			"210"
+			{
+				"item_mango_soup"	"2"
+			}
+			"240"
+			{
+				"item_tango_salad"	"3"
+				"item_mango_soup"	"3"
+			}
+		}
+	}
+}

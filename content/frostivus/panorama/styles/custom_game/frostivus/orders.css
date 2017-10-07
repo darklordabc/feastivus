@@ -1,0 +1,103 @@
+#orders {
+	flow-children: right;
+	margin-left: 50px;
+	opacity: 0.7;
+	height: 220px;
+}
+
+.OrderRoot {
+	flow-children: down;
+	margin-left:10px;
+	margin-right:10px;
+	margin-top:-10px;
+}
+
+.TimeRunningOut.OrderRoot {
+	animation-name: ShakeUpDown;
+	animation-duration: 0.6s;
+	animation-delay: 0s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+.TimeRunningOut .ProgressBarLeft {
+	background-color:gradient( linear, 0% 0%, 100% 0%, from( #410101FF ), to( #f91c27FF ) );
+}
+
+@keyframes 'ShakeUpDown'
+{
+	0%
+	{
+		transform: translateY( 4px);
+	}
+	50%
+	{
+		transform: translateY( -4px);
+	}
+}
+
+
+.OrderMain {
+	flow-children: down;
+	width: 300px;
+	height: 125px;
+
+	z-index:0;
+
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #383844 ), color-stop(0.2, #4b4b5b), to( #3c3e48 ) );
+}
+
+#time_remaining {
+	margin-top: 13px;
+}
+
+.ProductImagePanel {
+	width: 88px;
+	height: 64px;
+	horizontal-align: center;
+	vertical-align: bottom;
+	margin-bottom: 15px;
+	border: 3px solid #7e8197;
+}
+
+#ProductImage {
+	width: 88px;
+	height: 64px;
+	border: 2px solid #73758d;
+}
+
+.OrderBottom {
+	z-index:-10;
+}
+
+.AssembliesImage {
+	flow-children: right;
+	horizontal-align: center;
+	margin-left: 10px;
+	margin-right:10px;
+	margin-top:-10px;
+}
+
+.AssemblyImagePanel {
+	width:70px;
+	height: 60px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius:5px;
+	border: 3px solid #8d8f9f;
+	background-color: #42444e;
+}
+
+.AssemblyImagePanel DOTAItemImage {
+	width: 44px;
+	height: 32px;
+	horizontal-align: center;
+	vertical-align: bottom;
+	margin-bottom: 10px;
+	border:2px solid #4d5169;
+}
+
+.OrderMainShadow {
+	height: 30%;
+	width: 100%;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #383844ff ), to( #3c3e4800 ) );
+}

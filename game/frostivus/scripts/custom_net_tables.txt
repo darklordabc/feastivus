@@ -4,5 +4,7 @@
   [
     "containers_lua",
     "selection",
+    "recipes",
+    "orders"
   ]
 }

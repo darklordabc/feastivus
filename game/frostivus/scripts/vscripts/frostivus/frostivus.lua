@@ -24,9 +24,21 @@ if not Frostivus then
 	GameRules:GetGameModeEntity():SetExecuteOrderFilter( Dynamic_Wrap( Frostivus, "FilterExecuteOrder" ), self )
 
     Frostivus.DEBUG = true
+
+	local recipes = {}
+	for _, _data in pairs(Frostivus.RecipesKVs) do
+		for product, data in pairs(_data) do
+			local assemblies = {}
+			for _, assembly in pairs(data.Assembly) do
+				table.insert(assemblies, assembly)
+			end
+			CustomNetTables:SetTableValue("recipes", product, assemblies)
+		end
+	end
 end
 
 require("frostivus/filters")
+require("frostivus/round_manager")
 
 function Frostivus:InitHero(hero)
 	InitAbilities( hero )

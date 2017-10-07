@@ -1,3 +1,7 @@
+.Hidden {
+	visibility: collapse;
+}
+
 .FrostivusMainHUDRoot {
 	width: 100%;
 	height: 100%;
@@ -214,4 +218,115 @@
 	margin-right: 30px;
 	vertical-align: bottom;
 	horizontal-align: center;
+}
+
+
+
+/*center block*/
+#round_name {
+	font-size:50px;
+	color: white;
+	horizontal-align: center;
+}
+
+#center {
+	vertical-align: center;
+	horizontal-align: center;
+	flow-children: down;
+	animation-duration:2s;
+	opacity: 0;
+}
+
+#center.SlideIn {
+	animation-name: slideDown;
+}
+
+@keyframes 'slideDown' {
+  0% {
+    transform: translateY(-100%);
+    opacity: 1;
+  }
+  5% {
+    transform: translateY(-80%);
+  }
+  10% {
+    transform: translateY(-60%);
+  }
+  15% {
+    transform: translateY(-40%);
+  }
+  20% {
+    transform: translateY(-20%);
+  }
+  25%{
+    transform: translateY(8%);
+  }
+  30%{
+    transform: translateY(-4%);
+  }
+  35%{
+    transform: translateY(4%);
+  }
+  40%{
+    transform: translateY(-2%);
+  }     
+  45% {
+    transform: translateY(0%);
+  }   
+  80% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  90% {
+    pre-transform-scale2d:0.5;
+    
+  }
+  100% {
+    
+    pre-transform-scale2d:0.01;
+  }   
+}
+
+
+#count_down_timer {
+	vertical-align: bottom;
+	horizontal-align: right;
+
+	margin-bottom: 10px;
+	margin-right:10px;
+}
+
+.TimerBackground {
+	width: 250px;
+	height:250px;
+}
+
+.TimerDigits {
+	flow-children:right;
+	vertical-align: center;
+	horizontal-align: center;
+	background-color: gradient( linear, 0% 100%, 0% 0%, from( #00000022 ), color-stop(0.2, #000000ee), color-stop(0.5, #000000ff), color-stop(0.8, #000000ee), to( #00000022 ) );
+}
+
+.TimerColon {
+	background-image:url("file://{resources}/images/custom_game/generic/digits.psd");
+	width: 40px;
+	height: 108px;
+	background-repeat: no-repeat;
+	background-position: -640px 0px;
+}
+
+.TimerDigit {
+	background-image:url("file://{resources}/images/custom_game/generic/digits.psd");
+	width: 64px;
+	height: 108px;
+	background-repeat: no-repeat;
+	background-position: -0px 0px;
+}
+
+.SecondsOnly #count_down_mins_1
+.SecondsOnly #count_down_mins_2
+.SecondsOnly .TimerColon
+{
+	visibility: collapse;
 }
