@@ -16,7 +16,7 @@ function g_TryServe(itemEntity)
 		return round:TryServe(itemEntity)
 	end
 end
-
+GameRules.TryServe = g_TryServe
 --=====================================================================================
 -- g_Serve(itemEntity) trying to serve some item and make a progress
 -- this function will remove the itemEntity and its container(if exists)
@@ -29,13 +29,7 @@ function g_Serve(itemEntity)
 		local success = round:OnServe(itemEntity)
 	end
 end
-
---=====================================================================================
--- return the int level(round value), default by 0
---=====================================================================================
-function g_GetLevelNumber()
-	return GameRules._vRoundManager.nCurrentLevel or 0
-end
+GameRules.Serve = g_Serve
 ---------------------------------------------------------------------------------------
 
 if RoundManager == nil then RoundManager = class({}) end

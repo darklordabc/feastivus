@@ -24,9 +24,12 @@ if not Frostivus then
 	GameRules:GetGameModeEntity():SetExecuteOrderFilter( Dynamic_Wrap( Frostivus, "FilterExecuteOrder" ), self )
 
     Frostivus.DEBUG = true
+
+    self:SetupRecipesForClient()
 end
 
 require("frostivus/filters")
+require("frostivus/round_manager")
 
 function Frostivus:InitHero(hero)
 	InitAbilities( hero )
@@ -153,5 +156,19 @@ end
 function Frostivus:L(s)
 	if Frostivus.DEBUG and s then
 		print("[Frostivus] "..s)
+	end
+end
+
+function Frostivus:SetupRecipesForClient()
+	local kv = self.RecipesKVs
+	local recipes = {}
+	for _, data in pairs(kv) do
+		for product, data in pirs(kv) do
+			local assemblies = {}
+			for _, assembly in pairs(data.Assembly) do
+				table.insert(assemblies, assembly)
+			end
+			CustomNetTables:SetTableValue("recipes", product, assemblies)
+		end
 	end
 end
