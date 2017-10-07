@@ -31,3 +31,21 @@ end
 function modifier_unselectable:IsHidden()
     return true
 end
+
+modifier_preround_freeze = class({})
+
+function modifier_preround_freeze:CheckState()
+    return {
+        [MODIFIER_STATE_FROZEN] = true,
+        [MODIFIER_STATE_ROOTED] = true,
+        [MODIFIER_STATE_SILENCED] = true
+    }
+end
+
+function modifier_preround_freeze:IsHidden()
+    return true
+end
+
+function modifier_preround_freeze:IsPurgable()
+    return false
+end

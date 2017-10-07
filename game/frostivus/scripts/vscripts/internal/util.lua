@@ -161,3 +161,15 @@ function ShowWearables( unit )
     v:RemoveEffects(EF_NODRAW)
   end
 end
+
+function LoopOverHeroes(callback)
+  for i = 0, DOTA_MAX_PLAYERS do
+      local player = PlayerResource:GetPlayer(i)
+      if player then
+        local hero = player:GetAssignedHero()
+        if hero then
+          callback(hero)
+        end
+      end
+    end   
+end

@@ -2,6 +2,8 @@ if Round == nil then Round = class({}) end
 
 GameRules.vRoundDefinations = LoadKeyValues('kv/rounds.kv')
 
+LinkLuaModifier("modifier_preround_freeze","frostivus/modifiers/states.lua",LUA_MODIFIER_MOTION_NONE)
+
 function Round:constructor(roundData)
 	self.vRoundData = roundData
 	self.vPendingOrders = roundData.Orders
@@ -26,7 +28,11 @@ function Round:OnTimer()
 	if self.nPreRoundCountDownTimer == nil then
 		self.nPreRoundCountDownTimer = self.nPreRoundTime
 
-		
+		LoopOverHeroes(function(hero)
+			hero:RespawnHero(false,false,false)
+			hero:AddNewModifier(hero,nil,"modifier_preround_freeze",{})
+		end)
+
 		-- on pre round start, show initial recipes
 		if self.vPendingOrders[0] then
 			local orders = self.vPendingOrders[0]
@@ -51,12 +57,17 @@ function Round:OnTimer()
 	end
 
 	-- ROUND START!
+
 	if self.nCountDownTimer == nil then
 		self.nCountDownTimer = self.nTimeLimit
 		self.nExpiredTime = 0
 		if self.vRoundScript.OnRoundStart then
 			self.vRoundScript.OnRoundStart(self)
 		end
+
+		LoopOverHeroes(function(hero)
+			hero:RemoveModifierByName("modifier_preround_freeze")
+		end)
 	end
 
 	self.nCountDownTimer = self.nCountDownTimer - 1
