@@ -70,6 +70,8 @@ end
 
 function RoundManager:OnRoundEnd()
 	self.nCurrentLevel = self.nCurrentLevel + 1
+	self.vCurrentRound = nil
+	
 	self:StartNewRound()
 end
 
@@ -79,7 +81,15 @@ end
 
 function RoundManager:StartNewRound(level) -- level is passed for test purpose
 	level = level or self.nCurrentLevel
+
 	local roundData = GameRules.vRoundDefinations[level]
+
+	-- if there is no new round, end this game
+	if roundData == nil then
+		-- @todo, end game!!!!
+		print("there is no new round, ending game!")
+		return
+	end
 
 	-- instantiation round
 	self.vCurrentRound = Round(roundData)
