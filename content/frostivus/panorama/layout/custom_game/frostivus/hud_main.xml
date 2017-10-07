@@ -12,10 +12,34 @@
 		<include src="file://{resources}/scripts/custom_game/frostivus/hud_main.js" />
 		<include src="file://{resources}/scripts/custom_game/frostivus/ready_set_go.js"/>
 	</scripts>
+
+	<snippets>
+		<snippet name="Order">
+			<Panel class="OrderRoot">
+				<Panel class="OrderMain">
+					<ProgressBar id="time_remaining" min="0" max="60" value="60" />
+					<DOTAItemImage id="ProductImage" itemname="item_blink" />
+				</Panel>
+				<Panel class="OrderAssembliesPanel">
+					<Panel class="OrderAssemblies">
+						<Panel class="AssemblyPanel">
+							<DOTAItemImage id="Assembly_Image_1" itemname="item_blink" />
+							<DOTAItemImage id="Assembly_Image_2" itemname="item_blink" />
+							<DOTAItemImage id="Assembly_Image_3" itemname="item_blink" />
+							<DOTAItemImage id="Assembly_Image_4" itemname="item_blink" />
+						</Panel>
+					</Panel>
+					<Panel clas="OrderMainShadow" />
+				</Panel>
+			</Panel>
+		</snippet>
+	</snippets>
+
 	<Panel class="FrostivusMainHUDRoot" hittest="false">
 		<Panel id="FrostivusHUD" hittest="false">
 
-			<!-- @todo// top left order panels -->
+			<!-- top left order panels -->
+			<Panel id="ordres" />
 
 			<!-- @todo// current score display aka. current tips in overcook -->
 

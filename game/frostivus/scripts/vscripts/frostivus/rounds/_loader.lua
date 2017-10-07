@@ -16,7 +16,7 @@ function Round:constructor(roundData)
 
 	self.vFinishedOrders = {}
 	self.vCurrentOrders = {}
-	self.nPreRoundTime = 10 -- time till next round starts
+	self.nPreRoundTime = 5
 	
 	if self.vRoundScript.OnInitialize then
 		self.vRoundScript.OnInitialize(self)
@@ -52,7 +52,10 @@ function Round:OnTimer()
 	end
 	self.nPreRoundCountDownTimer = self.nPreRoundCountDownTimer - 1
 	if self.nPreRoundCountDownTimer > 0 then
-		-- @todo, display pre round count down on client
+		
+		CustomGameEventManager:Send_ServerToAllClients("pre_round_countdowm",{
+			value = self.nPreRoundCountDownTimer
+		})
 		return
 	end
 
@@ -89,9 +92,8 @@ function Round:OnTimer()
 	end
 
 	-- time for more orders
-	local time = self.nExpiredTime - self.nPreRoundTime
 	for t, orders in pairs(self.vPendingOrders) do
-		if t <= time then
+		if t <= self.nExpiredTime then
 			for recipeName, orderCount in pairs(orders) do
 				for i = 1, orderCount do
 					table.insert(self.vCurrentOrders, {
@@ -120,6 +122,11 @@ function Round:OnTimer()
 	if self.vRoundScript.OnTimer then
 		self.vRoundScript.OnTimer(self.nExpiredTime, self.nCountDownTimer)
 	end
+
+	-- update ui timer
+	CustomGameEventManager:Send_ServerToAllClients("round_timer",{
+		value = self.nCountDownTimer
+	})
 end
 
 function Round:OnServe(itemEntity)
