@@ -49,7 +49,8 @@ function Round:OnTimer()
 				for i = 1, orderCount do
 					table.insert(self.vCurrentOrders, {
 						nTimeRemaining = g_DEFAULT_ORDER_TIME_LIMIT,
-						pszItemName = recipeName
+						pszItemName = recipeName,
+						pszID = DoUniqueString("order")
 					})
 				end
 			end
@@ -62,7 +63,11 @@ function Round:OnTimer()
 	self.nPreRoundCountDownTimer = self.nPreRoundCountDownTimer - 1
 	if self.nPreRoundCountDownTimer > 0 then
 		
-		CustomGameEventManager:Send_ServerToAllClients("pre_round_countdowm",{
+		CustomGameEventManager:Send_ServerToAllClients("set_round_name",{
+			name = self.vRoundData.Name
+		})
+
+		CustomGameEventManager:Send_ServerToAllClients("pre_round_countdown",{
 			value = self.nPreRoundCountDownTimer
 		})
 		return
@@ -87,6 +92,7 @@ function Round:OnTimer()
 
 	-- time's up
 	if self.nCountDownTimer <= 0 then
+
 		if self.vRoundScript.OnRoundEnd then
 			self.vRoundScript.OnRoundEnd(self)
 		end
@@ -112,6 +118,7 @@ function Round:OnTimer()
 					table.insert(self.vCurrentOrders, {
 						nTimeRemaining = g_DEFAULT_ORDER_TIME_LIMIT,
 						pszItemName = recipeName,
+						pszID = DoUniqueString("order")
 					})
 				end
 			end
