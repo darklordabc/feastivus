@@ -1,3 +1,6 @@
+_G.g_DEFAULT_ORDER_TIME_LIMIT = 60
+
+require 'frostivus/rounds/_loader'
 ---------------------------------------------------------------------------------------
 -- GLOBAL API
 --=====================================================================================
@@ -36,94 +39,7 @@ end
 ---------------------------------------------------------------------------------------
 
 if RoundManager == nil then RoundManager = class({}) end
-if Round == nil then Round = class({}) end
-if Order == nil then Order = class({}) end
 
-GameRules.vRoundDefinations = LoadKeyValues('kv/rounds.kv')
-
-function Round:constructor(roundData)
-	self.vRoundData = roundData
-	self.vPendingOrders = roundData.Orders
-	self.nTimeLimit = roundData.TimeLImit
-	self.vFinishedOrders = {}
-	self.vCurrentOrders = {}
-	self.nPreRoundTime = 10 -- time till next round starts
-end
-
-function Round:OnTimer()
-	if self.nCountDownTimer == nil then -- initialize count down timer here so we can dynamic set pre round time
-		self.nCountDownTimer = self.nTimeLimit + self.nPreRoundTime
-	else
-		self.nCountDownTimer = self.nCountDownTimer - 1
-	end
-
-	-- time's up
-	if self.nCountDownTimer <= 0 then
-		self:OnRoundEnd()
-		GameRules._vRoundManager:OnRoundEnd()
-	end
-
-	-- time for more orders
-	for time, orders in pairs(self.vPendingOrders) do
-		-- @todo, temporary save, g2g
-	end
-end
-
-function Round:OnServe(itemEntity)
-	-- the item entity should be CDOTA_Item, not a CDOTA_Item_Physical
-	if not itemEntity.GetContainer then
-		error(debug.traceback("The param 'itemEntity' should be an CDOTA_Item"))
-	end
-
-	if self:TryServe(itemEntity) then
-
-		-- find the order with least time left
-		table.sort(self.vCurrentOrders, function(a, b) return a.nTimeRemaining < b.nTimeRemaining end)
-		for k, order in pairs(self.vCurrentOrders) do
-			if order.pszItemName == itemName then
-				table.remove(self.vCurrentOrders, k)
-				order.nFinishTime = self.nCountDownTimer
-				table.insert(self.vFinishedOrders, order)
-				self:UpdateOrdersToClient()
-				break
-			end
-		end
-
-		local itemPhysical = itemEntity:GetContainer()
-		if itemPhysical then
-			UTIL_Remove(itemPhysical)
-		end
-	else
-		-- not a valid serve
-		-- show error?
-	end
-end
-
-function Round:TryServe(itemEntity)
-	-- the item entity should be CDOTA_Item, not a CDOTA_Item_Physical
-	if not itemEntity.GetContainer then
-		error(debug.traceback("The param 'itemEntity' should be an CDOTA_Item"))
-	end
-
-	local itemName = itemEntity:GetAbilityName()
-	if table.contains(self.vCurrentOrders, itemName) then
-		return true
-	end
-
-	return false
-end
-
-function Round:UpdateOrdersToClient()
-	CustomNetTables:SetTableValue("orders","orders",self.vCurrentOrders)
-end
-
-function Round:_Debug_SetRoundTime(time)
-	self.nCountDownTimer = time
-end
-
-function Round:SetPreRoundTime(time)
-	self.nPreRoundTime = time
-end
 
 function RoundManager:constructor()
 	ListenToGameEvent("game_rules_state_change",Dynamic_Wrap(RoundManager, "OnGameRulesStateChanged"),self)
