@@ -5,7 +5,6 @@ function frostivus_serve_table:OnUpgrade()
 
     ExecOnGameInProgress(function (  )
         caster:InitBench(1, (function( bench, item )
-        	print(item:GetContainedItem():GetName())
         	return Frostivus.ItemsKVs[item:GetContainedItem():GetName()].CanBeServed == 1
         end), (function ( bench, items )
         	-- g_TryServe(CreateItem(item,nil,nil))
@@ -14,7 +13,10 @@ function frostivus_serve_table:OnUpgrade()
         -- caster:AddItemToBench("item_bin_icon")
 
         caster.AddItemToBench = (function( self, item )
-        	g_TryServe(CreateItem(item,nil,nil))
+        	item = CreateItem(item,nil,nil)
+        	if g_TryServe(item) then
+        		g_Serve(item)
+        	end
         end)
     end)
 end
