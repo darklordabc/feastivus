@@ -66,7 +66,7 @@ function InitBench( keys )
 
 	caster.CheckItem = (function( self, item )
 		if not caster._check_item then return true end
-		return caster._check_item(item)
+		return caster._check_item(self, item)
 	end)
 end
 
@@ -85,7 +85,7 @@ function OnUse( bench, user )
 					return Frostivus:IsCarryingItem( user, item )
 				end), nil, true, false)
 			end
-		elseif not bench:IsBenchFull() then
+		elseif not bench:IsBenchFull() or bench:HasModifier("modifier_bin") then
 			-- Adding item to the bench
 			if user:FindModifierByName("modifier_carrying_item") then
 				local item = user:FindModifierByName("modifier_carrying_item").item

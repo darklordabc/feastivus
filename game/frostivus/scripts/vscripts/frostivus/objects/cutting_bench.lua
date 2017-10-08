@@ -7,7 +7,7 @@ function InitBench( keys )
 	end)
 end
 
-function CheckItem( item )
+function CheckItem( bench, item )
 	return Frostivus.ItemsKVs[item:GetContainedItem():GetName()].CanBeCutted
 end
 

@@ -37,6 +37,12 @@ function BenchCheck()
 
       $.Schedule(data.duration, (function () {
         $("#Frame").SetHasClass("Hide", true);
+
+        $("#Progress").style.transitionDuration = 0 + "s;";
+        $("#Progress").style.width = "0%";
+
+        data.duration = undefined;
+
         $.GetContextPanel().InitiatedChanneling = false;
       }));
 

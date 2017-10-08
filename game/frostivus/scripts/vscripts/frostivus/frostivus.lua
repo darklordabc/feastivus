@@ -46,28 +46,6 @@ function Frostivus:InitHero(hero)
 	hero:AddNewModifier(hero,nil,"modifier_hide_health_bar",{})
 end
 
-function Frostivus:StartNewRound(team, item, tier)
-	tier = tier or 1
-	Frostivus.state[team].current_item_table = item or Frostivus:GetRandomItemByTier(tier)
-
-	local i = 1
-	for k,v in pairs(Frostivus.state[team].crates) do
-		local item = Frostivus.state[team].current_item_table.initial[tostring(i)]
-		Frostivus:L(item)
-		if item then
-			v:InitBench(1)
-			v:SetCrateItem(item)
-		else
-
-		end
-		i = i + 1
-	end
-
-	CustomGameEventManager:Send_ServerToTeam(team,"frostivus_new_round",{recipe = Frostivus.state[team].current_item_table.assembly})
-
-	Frostivus:L( Frostivus.state[team].current_item_table.item )
-end
-
 function Frostivus:GetRandomItemByTier(tier)
 	local item = GetRandomElement(Frostivus.RecipesKVs[tostring(tier)], nil, true)
 

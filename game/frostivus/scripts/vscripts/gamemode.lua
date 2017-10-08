@@ -117,8 +117,6 @@ end
 function GameMode:OnGameInProgress()
 	DebugPrint("[BAREBONES] The game has officially begun")
 
-	Frostivus:StartNewRound(2)
-
 	-- Timers:CreateTimer(30,
 	-- 	function()
 	-- 		DebugPrint("This function is called 30 seconds after the game begins, and every 30 seconds thereafter")

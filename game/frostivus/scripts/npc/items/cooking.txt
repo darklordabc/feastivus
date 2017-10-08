@@ -50,7 +50,7 @@
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
-    "ItemInitialCharges"            "3"
+    "ItemInitialCharges"            "0"
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
@@ -82,6 +82,8 @@
     "Model"                   "models/props_gameplay/models/props_gameplay/bottle_blue.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
+    "CanBePickedFromBench"  "1"
+
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
     "ItemInitialCharges"            "0"
@@ -98,6 +100,26 @@
     "AbilityTextureName"      "item_bin_icon"
     "Model"                   "models/props_gameplay/models/props_gameplay/bottle_blue.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+  }
+
+  "item_tango_salad"
+  {
+    "ID"    "1106"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_tango"
+    "Model"                   "models/props_gameplay/tango.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "CanBePickedFromBench"  "1"
+    "CanBeServed"  "1"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"

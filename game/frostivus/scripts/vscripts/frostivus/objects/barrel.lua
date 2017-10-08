@@ -7,13 +7,13 @@ function InitBench( keys )
 	end)
 end
 
-function CheckItem( item )
+function CheckItem( bench, item )
 	return item:GetContainedItem():GetName() == "item_empty_bottle"
 end
 
 function StartFilling( bench, items )
 	local original_item = items[1]
-	local target_item = Frostivus.ItemsKVs[original_item].RefineTarget
+	local target_item = "item_full_bottle"
 
 	local old_data = bench.wp:GetData()
 	old_data.duration = 3.5

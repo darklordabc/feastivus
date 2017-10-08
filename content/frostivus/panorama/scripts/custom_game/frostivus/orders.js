@@ -28,11 +28,11 @@ function OnOrderChanged() {
 			var assemblies = m_Recipes[itemName];
 
 			if (assemblies != undefined) {
-				for (var i = 0; i < assemblies.length; ++i){
-					orderPanel.FindChildTraverse("Assembly_Image_" + i).itemname = assemblies[i];
+				for (var i = 0; i < Object.keys(assemblies).length; ++i){
+					orderPanel.FindChildTraverse("Assembly_Image_" + i).itemname = assemblies[i+1];
 				}
 
-				for (var i = assemblies.length; i < 4; ++i) {
+				for (var i = Object.keys(assemblies).length; i < 4; ++i) {
 					orderPanel.FindChildTraverse("Assembly_Image_" + i).AddClass("Hidden");
 				}
 			}
