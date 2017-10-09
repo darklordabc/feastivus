@@ -20,6 +20,10 @@
 	animation-iteration-count: infinite;
 }
 
+.ProgressBarLeft {
+	background-color:gradient( linear, 0% 0%, 100% 0%, from( #014101FF ), to( #1cf927FF ) );
+}
+
 .TimeRunningOut .ProgressBarLeft {
 	background-color:gradient( linear, 0% 0%, 100% 0%, from( #410101FF ), to( #f91c27FF ) );
 }
