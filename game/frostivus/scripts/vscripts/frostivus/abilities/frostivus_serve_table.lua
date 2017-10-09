@@ -10,6 +10,8 @@ function frostivus_serve_table:OnUpgrade()
         	-- g_TryServe(CreateItem(item,nil,nil))
         end), 0)
 
+        caster:SetBenchHidden(true)
+
         -- caster:AddItemToBench("item_bin_icon")
 
         caster.AddItemToBench = (function( self, item )

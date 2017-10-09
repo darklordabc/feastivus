@@ -16,17 +16,21 @@ function CheckItem( bench, item )
 	return Frostivus.ItemsKVs[item:GetContainedItem():GetName()].CanBeCutted
 end
 
-function StartCutting( bench, items )
+function StartCutting( bench, items, user )
 	local original_item = items[1]
 	local target_item = Frostivus.ItemsKVs[original_item].RefineTarget
+
+	local duration = 3.5
+
+	user:AddNewModifier(user,user:FindAbilityByName("frostivus_pointer"),"modifier_bench_interaction",{duration = duration})
 
 	bench:SetBenchHidden(false)
 
 	local old_data = bench.wp:GetData()
-	old_data.duration = 3.5
+	old_data.duration = duration
 	bench.wp:SetData(old_data)
 
-	Timers:CreateTimer(3.5, function (  )
+	Timers:CreateTimer(duration, function (  )
 		local old_data = bench.wp:GetData()
 		old_data.items[1] = target_item
 		old_data.duration = nil

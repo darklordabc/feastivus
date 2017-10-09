@@ -60,7 +60,7 @@ function InitBench( keys )
 		return item
 	end)
 
-	caster.AddItemToBench = (function( self, item )
+	caster.AddItemToBench = (function( self, item, user )
 		local old_data = self.wp:GetData()
 		
 		if GetTableLength(old_data.items) < old_data.layout then
@@ -68,7 +68,7 @@ function InitBench( keys )
 			self.wp:SetData(old_data)
 
 			if GetTableLength(old_data.items) == old_data.layout then
-				self:OnBenchIsFull(old_data.items)
+				self:OnBenchIsFull(old_data.items, user)
 			end
 		end
 	end)
@@ -86,9 +86,9 @@ function InitBench( keys )
 		caster._on_bench_is_full = callback
 	end)
 
-	caster.OnBenchIsFull = (function( self, items )
+	caster.OnBenchIsFull = (function( self, items, user )
 		caster._on_bench_is_full = caster._on_bench_is_full or (function( ) Frostivus:L("Triggered!") end)
-		caster._on_bench_is_full(self, items)
+		caster._on_bench_is_full(self, items, user)
 	end)
 
 	caster.SetCheckItem = (function( self, callback )
@@ -129,7 +129,7 @@ function OnUse( bench, user )
 				local item = user:FindModifierByName("modifier_carrying_item").item
 
 				if item and bench:CheckItem(item) then
-					bench:AddItemToBench(item:GetContainedItem():GetName())
+					bench:AddItemToBench(item:GetContainedItem():GetName(), user)
 
 					Frostivus:DropItem( user, item )
 

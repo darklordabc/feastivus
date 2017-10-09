@@ -18,7 +18,7 @@ return {
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
-		Frostivus.state[DOTA_TEAM_GOODGUYS].current_item_table = item or Frostivus:GetRandomItemByTier(1)
+		Frostivus.state[DOTA_TEAM_GOODGUYS].current_item_table = {item = "item_tango_salad", assembly = Frostivus.RecipesKVs["1"]["item_tango_salad"]["Assembly"], initial = Frostivus.RecipesKVs["1"]["item_tango_salad"]["Initial"]}
 
 		local i = 1
 		for k,v in pairs(Frostivus.state[DOTA_TEAM_GOODGUYS].crates) do
