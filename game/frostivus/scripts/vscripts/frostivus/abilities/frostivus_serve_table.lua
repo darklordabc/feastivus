@@ -14,9 +14,7 @@ function frostivus_serve_table:OnUpgrade()
 
         caster.AddItemToBench = (function( self, item )
         	item = CreateItem(item,nil,nil)
-        	if g_TryServe(item) then
-        		g_Serve(item)
-        	end
+    		g_Serve(item)
         end)
     end)
 end

@@ -169,4 +169,4 @@ function MoveController:CreateHeroMoveTimer(hero)
 	end,0)
 end
 
-if GameRules._CMoveController == nil then GameRules._CMoveController = MoveController() end
+if GameRules.MoveController == nil then GameRules.MoveController = MoveController() end

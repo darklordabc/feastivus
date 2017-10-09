@@ -18,23 +18,23 @@
 		<snippet name="Order">
 			<Panel class="OrderRoot">
 				<Panel class="OrderMain">
-					<ProgressBar id="time_remaining" min="0" max="60" value="60" />
+					<Panel id="time_remaining" />
 					<Panel class="ProductImagePanel">
 						<DOTAItemImage id="ProductImage" itemname="item_blink" />
 					</Panel>
 				</Panel>
 				<Panel class="OrderBottom">
 					<Panel class="AssembliesImage">
-						<Panel class="AssemblyImagePanel">
+						<Panel class="AssemblyImagePanel" id="Assembly_Panel_0" >
 							<DOTAItemImage id="Assembly_Image_0" itemname="item_blink" />
 						</Panel>
-						<Panel class="AssemblyImagePanel">
+						<Panel class="AssemblyImagePanel" id="Assembly_Panel_1" >
 							<DOTAItemImage id="Assembly_Image_1" itemname="item_blink" />
 						</Panel>
-						<Panel class="AssemblyImagePanel">
+						<Panel class="AssemblyImagePanel" id="Assembly_Panel_2" >
 							<DOTAItemImage id="Assembly_Image_2" itemname="item_blink" />
 						</Panel>
-						<Panel class="AssemblyImagePanel">
+						<Panel class="AssemblyImagePanel" id="Assembly_Panel_3" >
 							<DOTAItemImage id="Assembly_Image_3" itemname="item_blink" />
 						</Panel>
 					</Panel>

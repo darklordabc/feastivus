@@ -33,7 +33,7 @@ function OnOrderChanged() {
 				}
 
 				for (var i = Object.keys(assemblies).length; i < 4; ++i) {
-					orderPanel.FindChildTraverse("Assembly_Image_" + i).AddClass("Hidden");
+					orderPanel.FindChildTraverse("Assembly_Panel_" + i).AddClass("Hidden");
 				}
 			}
 
@@ -41,7 +41,8 @@ function OnOrderChanged() {
 		}
 
 		// update time left
-		orderPanel.FindChildTraverse('time_remaining').value = timeRemaining;
+		orderPanel.FindChildTraverse('time_remaining').style.transitionDuration = "1s";
+		orderPanel.FindChildTraverse('time_remaining').style.width = 100 * timeRemaining / 60 + "%";
 
 		if (timeRemaining < 10){
 			orderPanel.SetHasClass("TimeRunningOut", true);
