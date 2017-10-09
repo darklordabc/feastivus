@@ -4,6 +4,11 @@ function InitBench( keys )
 
 	ExecOnGameInProgress(function (  )
 		caster:InitBench(1, CheckItem, StartCutting)
+		-- caster:Set3DBench(true)
+		caster:SetBenchHidden(true)
+		caster:SetOnPickedFromBench(function ( item )
+			caster:SetBenchHidden(true)
+		end)
 	end)
 end
 
@@ -14,6 +19,8 @@ end
 function StartCutting( bench, items )
 	local original_item = items[1]
 	local target_item = Frostivus.ItemsKVs[original_item].RefineTarget
+
+	bench:SetBenchHidden(false)
 
 	local old_data = bench.wp:GetData()
 	old_data.duration = 3.5

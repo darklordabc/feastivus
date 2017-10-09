@@ -53,6 +53,8 @@ function InitBench( keys )
 			local old_data = self.wp:GetData()
 			old_data.items = {}
 			self.wp:SetData(old_data)
+
+			self:OnPickedFromBench(item_name)
 		end
 
 		return item
@@ -69,6 +71,15 @@ function InitBench( keys )
 				self:OnBenchIsFull(old_data.items)
 			end
 		end
+	end)
+
+	caster.SetOnPickedFromBench = (function( self, callback )
+		caster._on_picked_from_bench = callback
+	end)
+
+	caster.OnPickedFromBench = (function( self, item )
+		caster._on_picked_from_bench = caster._on_picked_from_bench or (function( ) Frostivus:L("Triggered!") end)
+		caster._on_picked_from_bench(self, item)
 	end)
 
 	caster.SetOnBenchIsFull = (function( self, callback )
