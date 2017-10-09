@@ -19,6 +19,10 @@ if IsServer() then
 	function modifier_pointer:OnIntervalThink()
 		local caster = self:GetParent()
 
+		-- self._nFXIndex = ParticleManager:CreateParticle( "particles/ui_mouseactions/unit_highlight.vpcf", PATTACH_ABSORIGIN_FOLLOW, hAttacker )
+		-- ParticleManager:SetParticleControl( self._nFXIndex, 1, Vector( 255, 125, 0 ) )
+		-- ParticleManager:SetParticleControl( self._nFXIndex, 2, Vector( 820, 32, 820 ) )
+
 		local units = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), nil, 128, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false)
 
 		if #units > 0 then

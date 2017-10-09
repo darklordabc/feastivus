@@ -4,7 +4,7 @@ function InitBench( keys )
 
 	ExecOnGameInProgress(function (  )
 		caster:InitBench(1, CheckItem, StartCutting)
-		-- caster:Set3DBench(true)
+		caster:Set3DBench(true)
 		caster:SetBenchHidden(true)
 		caster:SetOnPickedFromBench(function ( item )
 			caster:SetBenchHidden(true)
