@@ -26,8 +26,7 @@ GameRules.TryServe = g_TryServe
 -- @param itemEntity CDOTA_Item
 --=====================================================================================
 function g_Serve(itemEntity)
-	local roundManager = GameRules.RoundManager
-	local round = roundManager:GetCurrentRound()
+	local round = g_GetCurrentRound()
 	if round then
 		local success = round:OnServe(itemEntity)
 	end
@@ -234,18 +233,22 @@ function Round:OnServe(itemEntity)
 	end
 
 	if self:TryServe(itemEntity) then
-
 		-- find the order with least time left
-		table.sort(self.vCurrentOrders, function(a, b) return a.nTimeRemaining < b.nTimeRemaining end)
+		local itemName = itemEntity:GetAbilityName()
+		local orderIndex, theOrder = nil, nil
+		local lowestTime = 999
+
 		for k, order in pairs(self.vCurrentOrders) do
-			if order.pszItemName == itemName then
-				table.remove(self.vCurrentOrders, k)
-				order.nFinishTime = self.nCountDownTimer
-				table.insert(self.vFinishedOrders, order)
-				self:UpdateOrdersToClient()
-				break
+			if order.pszItemName == itemName and order.nTimeRemaining < lowestTime then
+				orderIndex = k
+				theOrder = order
+				lowestTime = order.nTimeRemaining
 			end
 		end
+
+		table.insert(self.vFinishedOrders, {pszItemName = itemName, nFinishTime = self.nCountDownTimer})
+		self.vCurrentOrders[orderIndex] = nil
+		self:UpdateOrdersToClient()
 
 		local itemPhysical = itemEntity:GetContainer()
 		if itemPhysical then
@@ -262,8 +265,10 @@ function Round:TryServe(itemEntity)
 	end
 
 	local itemName = itemEntity:GetAbilityName()
-	if table.contains(self.vCurrentOrders, itemName) then
-		return true
+	for _, order in pairs(self.vCurrentOrders) do
+		if order.pszItemName == itemName then
+			return true
+		end
 	end
 
 	return false
