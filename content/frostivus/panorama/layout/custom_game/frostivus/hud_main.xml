@@ -25,16 +25,16 @@
 				</Panel>
 				<Panel class="OrderBottom">
 					<Panel class="AssembliesImage">
-						<Panel class="AssemblyImagePanel">
+						<Panel class="AssemblyImagePanel" id="Assembly_Panel_0" >
 							<DOTAItemImage id="Assembly_Image_0" itemname="item_blink" />
 						</Panel>
-						<Panel class="AssemblyImagePanel">
+						<Panel class="AssemblyImagePanel" id="Assembly_Panel_1" >
 							<DOTAItemImage id="Assembly_Image_1" itemname="item_blink" />
 						</Panel>
-						<Panel class="AssemblyImagePanel">
+						<Panel class="AssemblyImagePanel" id="Assembly_Panel_2" >
 							<DOTAItemImage id="Assembly_Image_2" itemname="item_blink" />
 						</Panel>
-						<Panel class="AssemblyImagePanel">
+						<Panel class="AssemblyImagePanel" id="Assembly_Panel_3" >
 							<DOTAItemImage id="Assembly_Image_3" itemname="item_blink" />
 						</Panel>
 					</Panel>
