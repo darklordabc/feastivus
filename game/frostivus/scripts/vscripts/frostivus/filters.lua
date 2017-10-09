@@ -25,7 +25,11 @@ function Frostivus:FilterExecuteOrder( filterTable )
 
     if order_type == DOTA_UNIT_ORDER_RADAR or order_type == DOTA_UNIT_ORDER_GLYPH then return end
 
-    unit.__filters_vOrderTable = filterTable
+    if unit.moving_timer then
+        Timers:RemoveTimer(unit.moving_timer)
+        unit.moving_timer = nil
+        unit.moving_target = nil
+    end
 
     if order_type == DOTA_UNIT_ORDER_MOVE_TO_TARGET then
         unit.moving_target = EntIndexToHScript(targetIndex)
@@ -34,22 +38,32 @@ function Frostivus:FilterExecuteOrder( filterTable )
             unit.moving_target:TriggerOnUse(unit)
             return true
         end
-    	
-        Timers:CreateTimer(function()
-            if not (unit and IsValidEntity(unit) and unit:IsAlive()) then
-                return nil
-            end
-            if not unit.__filters_vOrderTable == filterTable then -- if another order issued
-                return nil
-            end
-            local distance = (unit.moving_target:GetOrigin() - unit:GetOrigin()):Length2D()
-            if distance <= 128 then
-                unit.moving_target:TriggerOnUse(unit)
-                return nil
-            else
-                return 0.03
-            end
-        end)
+        
+        -- unit.moving_timer = Timers:CreateTimer(function() 
+        --     if not (unit and IsValidEntity(unit) and unit:IsAlive()) then
+        --         return
+        --     end
+
+        --     if unit.moving_target and unit.moving_timer then
+        --         local distance = (unit.moving_target:GetAbsOrigin() - unit:GetAbsOrigin()):Length()
+                
+        --         if distance > 128 then
+        --             unit:MoveToNPC(unit.moving_target)
+        --             return 0.25
+        --         else
+        --          unit.moving_target:TriggerOnUse(unit)
+
+        --             Frostivus:L("Using Entity: "..unit.moving_target:GetUnitName()..":"..tostring(unit.moving_target:entindex()))
+
+                 --    unit.moving_timer = nil
+                 --    unit.moving_target = nil
+
+        --             return
+        --         end
+        --     else
+        --         return
+        --     end
+        -- end)
 
         return true
     end

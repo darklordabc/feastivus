@@ -4,6 +4,7 @@ function InitBench( keys )
 
 	ExecOnGameInProgress(function (  )
 		caster:InitBench(1, CheckItem, StartFilling)
+		caster:SetBenchHidden(true)
 	end)
 end
 

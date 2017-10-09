@@ -80,4 +80,13 @@
       "soundfile"           "soundevents/game_sounds_items.vsndevts"
     }
   }
+
+  "frostivus_pointer"
+  {
+    "BaseClass"           "ability_lua"
+    "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+    "ScriptFile"          "frostivus/abilities/frostivus_pointer"
+    "AbilityTextureName"      "rubick_empty1"
+    "MaxLevel"            "1"
+  }
 }

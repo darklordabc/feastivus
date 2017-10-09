@@ -4,5 +4,7 @@ function InitBench( keys )
 
 	ExecOnGameInProgress(function (  )
 		caster:InitBench(1, nil, nil, 0)
+		caster:Set3DBench(true)
+		caster:SetBenchHidden(true)
 	end)
 end

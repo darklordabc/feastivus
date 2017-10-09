@@ -16,6 +16,26 @@ function InitBench( keys )
 		end
 	end)
 
+	caster.SetBenchHidden = (function( self, b )
+		self._bench_hidden = b
+
+		local old_data = self.wp:GetData()
+		old_data.hidden = self._bench_hidden
+		self.wp:SetData(old_data)
+	end)
+
+	caster.IsBenchBench = (function( self )
+		return self._bench_hidden
+	end)
+
+	caster.Set3DBench = (function( self, b )
+		self._3d_bench = b
+	end)
+
+	caster.Is3DBench = (function( self )
+		return self._3d_bench and GetTableLength(self.wp:GetData().items) == 1
+	end)
+
 	caster.IsBenchFull = (function( self )
 		local old_data = self.wp:GetData()
 
@@ -77,6 +97,13 @@ function OnUse( bench, user )
 			local item_name = bench.wp:GetData().items[1]
 
 			if (Frostivus.ItemsKVs[item_name].CanBePickedFromBench or bench:HasModifier("modifier_crate") or bench:HasModifier("modifier_transfer_bench")) and GetTableLength(bench.wp:GetData().items) == 1 then
+				if bench:Is3DBench() and Frostivus:IsCarryingItem( bench ) then
+					local item = Frostivus:DropItem( bench, Frostivus:GetCarryingItem( bench ) )
+					if item then
+						item:RemoveSelf()
+					end
+				end
+
 				local item = bench:PickItemFromBench(user, item_name)
 
 				Frostivus:BindItem(item, user, (function ()
@@ -95,7 +122,17 @@ function OnUse( bench, user )
 
 					Frostivus:DropItem( user, item )
 
-					item:RemoveSelf()
+					if bench:Is3DBench() then
+						Frostivus:BindItem(item, bench, (function ()
+							return bench:GetAbsOrigin() + Vector(0,0,128)
+						end),(function ()
+							return Frostivus:IsCarryingItem( bench, item )
+						end), (function ()
+							Frostivus:DropItem( bench, item )
+						end), true, false)
+					else
+						item:RemoveSelf()
+					end
 				end
 			end
 		end

@@ -103,6 +103,8 @@ function Frostivus:DropItem( unit, item )
 		item:FollowEntity(nil,false)
 		item:SetAbsOrigin(GetGroundPosition(unit:GetAbsOrigin(), unit))
 	end
+
+	return item
 end
 
 function Frostivus:OnPickupItem( item, ply )
