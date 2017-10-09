@@ -15,7 +15,7 @@ end
 -- @param itemEntity CDOTA_Item
 --=====================================================================================
 function g_TryServe(itemEntity)
-	local roundManager = GameRules._vRoundManager
+	local roundManager = GameRules.RoundManager
 	local round = roundManager:GetCurrentRound()
 	if round then
 		return round:TryServe(itemEntity)
@@ -28,7 +28,7 @@ GameRules.TryServe = g_TryServe
 -- @param itemEntity CDOTA_Item
 --=====================================================================================
 function g_Serve(itemEntity)
-	local roundManager = GameRules._vRoundManager
+	local roundManager = GameRules.RoundManager
 	local round = roundManager:GetCurrentRound()
 	if round then
 		local success = round:OnServe(itemEntity)
@@ -113,4 +113,6 @@ function RoundManager:GetCurrentRound()
 	return self.vCurrentRound
 end
 
-if GameRules._vRoundManager == nil then GameRules._vRoundManager = RoundManager() end
+if GameRules.RoundManager == nil then GameRules.RoundManager = RoundManager() end
+
+g_RoundManager = GameRules.RoundManager

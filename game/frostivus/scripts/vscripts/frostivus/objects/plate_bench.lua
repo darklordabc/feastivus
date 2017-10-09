@@ -12,7 +12,7 @@ function CheckItem( bench, item )
 	local allow = false
 
 	if not bench.current_item then
-		for k,v in pairs(GameRules._vRoundManager:GetCurrentRound().vCurrentOrders) do
+		for k,v in pairs(GameRules.RoundManager:GetCurrentRound().vCurrentOrders) do
 			if allow then
 				break
 			end

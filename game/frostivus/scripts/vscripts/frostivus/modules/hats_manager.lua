@@ -132,4 +132,6 @@ function HatsManager:AttachParticle(unit, pszParticleName, particleAttachType)
 	print("HatsManager:AttachParticle - NOT IMPLEMENT YET")
 end
 
-if GameRules._CHatsManager == nil then GameRules._CHatsManager = HatsManager() end
+if GameRules.HatsManager == nil then GameRules.HatsManager = HatsManager() end
+
+g_HatsManager = GameRules.HatsManager

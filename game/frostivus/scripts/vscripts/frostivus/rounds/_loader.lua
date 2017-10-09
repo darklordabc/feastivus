@@ -105,7 +105,7 @@ function Round:OnTimer()
 
 		-- tell the round manager to start a new round after delay
 		Timers:CreateTimer(self.nEndRoundDelay, function()
-			GameRules._vRoundManager:OnRoundEnd()
+			GameRules.RoundManager:OnRoundEnd()
 		end)
 
 	end
