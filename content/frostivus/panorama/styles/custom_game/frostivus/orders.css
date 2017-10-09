@@ -20,14 +20,6 @@
 	animation-iteration-count: infinite;
 }
 
-.ProgressBarLeft {
-	background-color:gradient( linear, 0% 0%, 100% 0%, from( #014101FF ), to( #1cf927FF ) );
-}
-
-.TimeRunningOut .ProgressBarLeft {
-	background-color:gradient( linear, 0% 0%, 100% 0%, from( #410101FF ), to( #f91c27FF ) );
-}
-
 @keyframes 'ShakeUpDown'
 {
 	0%
@@ -52,7 +44,18 @@
 }
 
 #time_remaining {
+	height: 15px;
+	width: 100%;
 	margin-top: 13px;
+	background-color:gradient( linear, 0% 0%, 100% 0%, from( #014101FF ), to( #1cf927FF ) );
+
+ 	transition-property: width;
+	transition-duration: 1s;
+	transition-timing-function: linear;
+}
+
+.TimeRunningOut #time_remaining {
+	background-color:gradient( linear, 0% 0%, 100% 0%, from( #410101FF ), to( #f91c27FF ) );
 }
 
 .ProductImagePanel {

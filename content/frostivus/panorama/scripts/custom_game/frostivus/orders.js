@@ -41,7 +41,8 @@ function OnOrderChanged() {
 		}
 
 		// update time left
-		orderPanel.FindChildTraverse('time_remaining').value = timeRemaining;
+		orderPanel.FindChildTraverse('time_remaining').style.transitionDuration = "1s";
+		orderPanel.FindChildTraverse('time_remaining').style.width = 100 * timeRemaining / 60 + "%";
 
 		if (timeRemaining < 10){
 			orderPanel.SetHasClass("TimeRunningOut", true);
