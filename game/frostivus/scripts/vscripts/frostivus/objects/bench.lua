@@ -57,7 +57,8 @@ function InitBench( keys )
 
 	caster.PickItemFromBench = (function( self, user, item_name )
 		local item = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem(item_name,nil,nil))
-
+		item:StopAnimation()
+		
 		if not self._bench_infinite_items then
 			local old_data = self.wp:GetData()
 			old_data.items = {}
