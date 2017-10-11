@@ -13,6 +13,15 @@ function InitBench( keys )
 			caster:SetCheckItem( check_item_callback )
 			caster:SetOnBenchIsFull( on_full_callback )
 			caster:SetOnUse( OnUse )
+
+			-- local pos = caster:GetAbsOrigin()
+
+			-- caster._blocker = SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = pos, block_fow = false})
+			
+			-- Timers:CreateTimer(function (  )
+			-- 	caster:SetAbsOrigin(pos)
+			-- 	return 0.03
+			-- end)
 		end
 	end)
 

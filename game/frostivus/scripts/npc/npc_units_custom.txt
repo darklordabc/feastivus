@@ -98,7 +98,7 @@
     { 
         "BaseClass"         "npc_dota_creature"
         "Model"           "models/table/table.vmdl"
-        "ModelScale" "0.7"
+        "ModelScale" "0.9"
         "Level"           "10"
 
         "Ability1"          "frostivus_bench"
@@ -119,7 +119,7 @@
     { 
         "BaseClass"         "npc_dota_creature"
         "Model"           "models/chopping/chopping.vmdl"
-        "ModelScale" "0.7"
+        "ModelScale" "0.9"
         "Level"           "10"
 
         "Ability1"          "frostivus_bench"
@@ -161,7 +161,7 @@
     { 
         "BaseClass"         "npc_dota_creature"
         "Model"             "models/plate_bench.vmdl"
-        "ModelScale"        "0.7"
+        "ModelScale"        "0.9"
         "Level"             "10"
 
         "Ability1"          "frostivus_bench"
@@ -182,7 +182,7 @@
     { 
         "BaseClass"         "npc_dota_creature"
         "Model"           "models/crate/ingredient_crate_02.vmdl"
-        "ModelScale" "0.7"
+        "ModelScale" "0.9"
         "Level"           "10"
 
         "Ability1"          "frostivus_bench"

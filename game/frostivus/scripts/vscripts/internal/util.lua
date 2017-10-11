@@ -23,6 +23,44 @@ function InitAbilities( hero )
   end
 end
 
+function Distance(a, b)
+  if not a.x then
+    a = a:GetAbsOrigin()
+  end
+  if not b.x then
+    b = b:GetAbsOrigin()
+  end
+  return (a - b):Length()
+end
+
+function UnitLookAtPoint( unit, point )
+  local dir = (point - unit:GetAbsOrigin()):Normalized()
+  dir.z = 0
+  if dir == Vector(0,0,0) then return unit:GetForwardVector() end
+  return dir
+end
+
+function IsInFront(a,b,direction,angle)
+  local product = (a.x - b.x) * direction.x + (a.y - b.y) * direction.y + (a.z - b.z) * direction.z
+  return product < -angle and product > (-180 + angle)
+end
+
+function FindUnitsInCone(position, coneDirection, coneLength, coneWidth, teamNumber, teamFilter, typeFilter, flagFilter, order)
+  local units = FindUnitsInRadius(teamNumber, position, nil, coneLength, teamFilter, typeFilter, flagFilter, order, false)
+
+  coneDirection = coneDirection:Normalized()
+
+  local output = {}
+  for _, unit in pairs(units) do
+    local direction = (unit:GetAbsOrigin() - position):Normalized()
+    if direction:Dot(coneDirection) >= math.cos(coneWidth/2) then
+      table.insert(output, unit)
+    end
+  end
+
+  return output
+end
+
 function GetTableLength( t )
   if not t then return 0 end
   local length = 0

@@ -30,28 +30,56 @@ function Frostivus:FilterExecuteOrder( filterTable )
     if order_type == DOTA_UNIT_ORDER_MOVE_TO_TARGET then
         unit.moving_target = EntIndexToHScript(targetIndex)
 
-        if (unit.moving_target:GetAbsOrigin() - unit:GetAbsOrigin()):Length() <= 128 then
-            unit.moving_target:TriggerOnUse(unit)
-            return true
-        end
-        
-        Timers:CreateTimer(function()
-            if not (unit and IsValidEntity(unit) and unit:IsAlive()) then
-                return nil
-            end
-            if unit.__filters_vOrderTable ~= filterTable then -- if another order issued
-                return nil
-            end
-            local distance = (unit.moving_target:GetOrigin() - unit:GetOrigin()):Length2D()
-            if distance <= 128 then
-                unit.moving_target:TriggerOnUse(unit)
-                return nil
-            else
-                return 0.03
-            end
-        end)
+        local old_pos = unit:GetAbsOrigin()
+        local position_target = unit.moving_target:GetAbsOrigin()
+        local positions = {position_target + Vector(128,0,0), position_target + Vector(-128,0,0), position_target + Vector(0,128,0), position_target + Vector(0,-128,0)}
+        local closest = nil
 
-        return true
+        if Distance(unit:GetAbsOrigin(), unit.moving_target) <= 128 then
+            unit:MoveToPosition(unit:GetAbsOrigin() - (unit:GetAbsOrigin() - unit.moving_target:GetAbsOrigin()):Normalized())
+            unit.moving_target:TriggerOnUse(unit)
+        else
+            for k,v in pairs(positions) do
+                -- DebugDrawSphere(v, Vector(200,0,0), 1.0, 64, true, 1.5)
+                if not GridNav:IsBlocked(v) then
+                    -- DebugDrawSphere(v, Vector(0,200,200), 1.0, 48, true, 3)
+                    if not closest or (Distance(unit:GetAbsOrigin(), v) < Distance(unit:GetAbsOrigin(), closest)) then
+                        closest = v
+                    end
+                end
+            end
+
+            if closest then
+                -- DebugDrawSphere(closest, Vector(20,200,0), 1.0, 32, true, 3)
+                unit:MoveToPosition(closest)
+            end
+
+            if (unit.moving_target:GetAbsOrigin() - unit:GetAbsOrigin()):Length() <= 128 then
+                unit.moving_target:TriggerOnUse(unit)
+                return true
+            end
+            
+            Timers:CreateTimer(function()
+                if not (unit and IsValidEntity(unit) and unit:IsAlive()) then
+                    return nil
+                end
+                if unit.__filters_vOrderTable ~= filterTable then -- if another order issued
+                    return nil
+                end
+                local distance = (unit.moving_target:GetOrigin() - unit:GetOrigin()):Length2D()
+                if distance <= 128 then
+                    -- unit:Stop()
+                    -- unit:SetForwardVector(UnitLookAtPoint( unit, unit.moving_target:GetOrigin() ))
+                    unit:MoveToPosition(unit:GetAbsOrigin() - (unit:GetAbsOrigin() - unit.moving_target:GetAbsOrigin()):Normalized())
+                    unit.moving_target:TriggerOnUse(unit)
+                    return nil
+                else
+                    return 0.03
+                end
+            end)
+        end
+
+        return false
     end
 
     return true

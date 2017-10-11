@@ -64,7 +64,13 @@ if IsServer() then
 
 		local units = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), nil, 128, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false)
 
-		if #units > 0 then
+		for k,v in pairs(units) do
+			if not IsInFront(caster:GetAbsOrigin(),v:GetAbsOrigin(),caster:GetForwardVector(), 40) then
+				units[k] = nil
+			end
+		end
+
+		if #units > 0 and caster:IsIdle() then
 			for k,v in pairs(units) do
 				if v:HasModifier("modifier_bench") then
 					if self.particle and v ~= self.target then
