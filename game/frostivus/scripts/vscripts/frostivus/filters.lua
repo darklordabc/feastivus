@@ -1,3 +1,5 @@
+FROSTIVUS_CELL_SIZE = 128
+
 function Frostivus:FilterExecuteOrder( filterTable )
     local units = filterTable["units"]
     local order_type = filterTable["order_type"]
@@ -32,10 +34,10 @@ function Frostivus:FilterExecuteOrder( filterTable )
 
         local old_pos = unit:GetAbsOrigin()
         local position_target = unit.moving_target:GetAbsOrigin()
-        local positions = {position_target + Vector(128,0,0), position_target + Vector(-128,0,0), position_target + Vector(0,128,0), position_target + Vector(0,-128,0)}
+        local positions = {position_target + Vector(FROSTIVUS_CELL_SIZE,0,0), position_target + Vector(-FROSTIVUS_CELL_SIZE,0,0), position_target + Vector(0,FROSTIVUS_CELL_SIZE,0), position_target + Vector(0,-FROSTIVUS_CELL_SIZE,0)}
         local closest = nil
 
-        if Distance(unit:GetAbsOrigin(), unit.moving_target) <= 129 then
+        if Distance(unit:GetAbsOrigin(), unit.moving_target) <= FROSTIVUS_CELL_SIZE + 1 then
             unit:AddNewModifier(unit,nil,"modifier_rooted",{})
             unit:MoveToPosition(unit:GetAbsOrigin() - (unit:GetAbsOrigin() - unit.moving_target:GetAbsOrigin()):Normalized())
             unit.moving_target:TriggerOnUse(unit)
@@ -71,7 +73,7 @@ function Frostivus:FilterExecuteOrder( filterTable )
                     return nil
                 end
                 local distance = (unit.moving_target:GetOrigin() - unit:GetOrigin()):Length2D()
-                if distance <= 128 then
+                if distance <= FROSTIVUS_CELL_SIZE + 1 then
                     -- unit:Stop()
                     -- unit:SetForwardVector(UnitLookAtPoint( unit, unit.moving_target:GetOrigin() ))
                     unit:MoveToPosition(unit:GetAbsOrigin() - (unit:GetAbsOrigin() - unit.moving_target:GetAbsOrigin()):Normalized())
