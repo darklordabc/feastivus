@@ -22,12 +22,12 @@ LinkLuaModifier("modifier_bench_interaction", "frostivus/abilities/frostivus_poi
 
 if IsServer() then
 	function modifier_bench_interaction:OnCreated()
-		StartAnimation(self:GetParent(), {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1, translate="greevil_natures_attendants"})
+		StartAnimation(self:GetParent(), {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1, translate="greevil_magic_missile"})
 		self:StartIntervalThink(1.0)
 	end
 
 	function modifier_bench_interaction:OnIntervalThink()
-		StartAnimation(self:GetParent(), {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1, translate="greevil_natures_attendants"})
+		StartAnimation(self:GetParent(), {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1, translate="greevil_magic_missile"})
 	end
 
 	function modifier_bench_interaction:OnDestroy()
