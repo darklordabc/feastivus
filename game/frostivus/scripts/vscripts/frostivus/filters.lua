@@ -35,9 +35,13 @@ function Frostivus:FilterExecuteOrder( filterTable )
         local positions = {position_target + Vector(128,0,0), position_target + Vector(-128,0,0), position_target + Vector(0,128,0), position_target + Vector(0,-128,0)}
         local closest = nil
 
-        if Distance(unit:GetAbsOrigin(), unit.moving_target) <= 128 then
+        if Distance(unit:GetAbsOrigin(), unit.moving_target) <= 129 then
+            unit:AddNewModifier(unit,nil,"modifier_rooted",{})
             unit:MoveToPosition(unit:GetAbsOrigin() - (unit:GetAbsOrigin() - unit.moving_target:GetAbsOrigin()):Normalized())
             unit.moving_target:TriggerOnUse(unit)
+            Timers:CreateTimer(function (  )
+                unit:RemoveModifierByName("modifier_rooted")
+            end)
         else
             for k,v in pairs(positions) do
                 -- DebugDrawSphere(v, Vector(200,0,0), 1.0, 64, true, 1.5)
