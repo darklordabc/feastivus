@@ -137,8 +137,10 @@ function GameMode:InitGameMode()
 	Convars:RegisterCommand( "command_example", Dynamic_Wrap(GameMode, 'ExampleConsoleCommand'), "A console command example", FCVAR_CHEAT )
 
 	require('frostivus/frostivus')
-	
-	
+	require("frostivus/filters")
+	require("frostivus/round_manager")
+
+	GameRules:GetGameModeEntity():SetExecuteOrderFilter( Dynamic_Wrap( Frostivus, "FilterExecuteOrder" ), self )
 end
 
 -- This is an example console command

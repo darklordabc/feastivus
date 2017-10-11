@@ -22,8 +22,6 @@ if not Frostivus then
 	LinkLuaModifier("modifier_carrying_item", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_rooted", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 
-	GameRules:GetGameModeEntity():SetExecuteOrderFilter( Dynamic_Wrap( Frostivus, "FilterExecuteOrder" ), self )
-
     Frostivus.DEBUG = true
 
 	local recipes = {}
@@ -38,8 +36,7 @@ if not Frostivus then
 	end
 end
 
-require("frostivus/filters")
-require("frostivus/round_manager")
+
 
 function Frostivus:InitHero(hero)
 	InitAbilities( hero )
