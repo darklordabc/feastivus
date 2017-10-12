@@ -22,7 +22,7 @@ function StartCutting( bench, items, user )
 
 	local duration = 3.5
 
-	user:AddNewModifier(user,user:FindAbilityByName("frostivus_pointer"),"modifier_bench_interaction",{duration = duration})
+	user:CastAbilityNoTarget(user:FindAbilityByName("frostivus_channeling"), user:GetPlayerOwnerID())
 
 	bench:SetBenchHidden(false)
 

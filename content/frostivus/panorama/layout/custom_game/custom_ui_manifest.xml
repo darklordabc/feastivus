@@ -28,7 +28,7 @@
     $.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse("quickstats").style.visibility = "collapse";
 
     $.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse("KillCam").style.visibility = "collapse";
-    $.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse("ChannelBar").style.visibility = "collapse";
+    <!-- $.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse("ChannelBar").style.visibility = "collapse"; -->
 
     // These lines set up the panorama colors used by each team (for game select/setup, etc)
     GameUI.CustomUIConfig().team_colors = {}

@@ -37,13 +37,17 @@ function Frostivus:FilterExecuteOrder( filterTable )
         local positions = {position_target + Vector(FROSTIVUS_CELL_SIZE,0,0), position_target + Vector(-FROSTIVUS_CELL_SIZE,0,0), position_target + Vector(0,FROSTIVUS_CELL_SIZE,0), position_target + Vector(0,-FROSTIVUS_CELL_SIZE,0)}
         local closest = nil
 
-        if Distance(unit:GetAbsOrigin(), unit.moving_target) <= FROSTIVUS_CELL_SIZE + 1 then
+        local function TriggerBench()
             unit:AddNewModifier(unit,nil,"modifier_rooted",{})
             unit:MoveToPosition(unit:GetAbsOrigin() - (unit:GetAbsOrigin() - unit.moving_target:GetAbsOrigin()):Normalized())
-            unit.moving_target:TriggerOnUse(unit)
             Timers:CreateTimer(function (  )
                 unit:RemoveModifierByName("modifier_rooted")
+                unit.moving_target:TriggerOnUse(unit)
             end)
+        end
+
+        if Distance(unit:GetAbsOrigin(), unit.moving_target) <= FROSTIVUS_CELL_SIZE + 1 then
+            TriggerBench()
         else
             for k,v in pairs(positions) do
                 -- DebugDrawSphere(v, Vector(200,0,0), 1.0, 64, true, 1.5)
@@ -60,10 +64,10 @@ function Frostivus:FilterExecuteOrder( filterTable )
                 unit:MoveToPosition(closest)
             end
 
-            if (unit.moving_target:GetAbsOrigin() - unit:GetAbsOrigin()):Length() <= 128 then
-                unit.moving_target:TriggerOnUse(unit)
-                return true
-            end
+            -- if (unit.moving_target:GetAbsOrigin() - unit:GetAbsOrigin()):Length() <= 128 then
+            --     unit.moving_target:TriggerOnUse(unit)
+            --     return true
+            -- end
             
             Timers:CreateTimer(function()
                 if not (unit and IsValidEntity(unit) and unit:IsAlive()) then
@@ -74,10 +78,7 @@ function Frostivus:FilterExecuteOrder( filterTable )
                 end
                 local distance = (unit.moving_target:GetOrigin() - unit:GetOrigin()):Length2D()
                 if distance <= FROSTIVUS_CELL_SIZE + 1 then
-                    -- unit:Stop()
-                    -- unit:SetForwardVector(UnitLookAtPoint( unit, unit.moving_target:GetOrigin() ))
-                    unit:MoveToPosition(unit:GetAbsOrigin() - (unit:GetAbsOrigin() - unit.moving_target:GetAbsOrigin()):Normalized())
-                    unit.moving_target:TriggerOnUse(unit)
+                    TriggerBench()
                     return nil
                 else
                     return 0.03

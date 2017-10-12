@@ -17,40 +17,6 @@ function frostivus_pointer:GetIntrinsicModifierName()
     return "modifier_pointer"
 end
 
-modifier_bench_interaction = class({})
-LinkLuaModifier("modifier_bench_interaction", "frostivus/abilities/frostivus_pointer.lua", 0)
-
-if IsServer() then
-	function modifier_bench_interaction:OnCreated()
-		StartAnimation(self:GetParent(), {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1, translate="greevil_magic_missile"})
-		self:StartIntervalThink(1.0)
-	end
-
-	function modifier_bench_interaction:OnIntervalThink()
-		StartAnimation(self:GetParent(), {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1, translate="greevil_magic_missile"})
-	end
-
-	function modifier_bench_interaction:OnDestroy()
-		EndAnimation(self:GetParent())
-	end
-
-	function modifier_bench_interaction:OnOrder()
-		-- self:RemoveSelf()
-		-- EndAnimation(self:GetParent())
-	end
-end
-
-function modifier_bench_interaction:IsHidden()
-	return true
-end
-
-function modifier_bench_interaction:CheckState()
-	local state = {
-		[MODIFIER_STATE_COMMAND_RESTRICTED] = true
-	}
-	return state
-end
-
 modifier_pointer = class({})
 LinkLuaModifier("modifier_pointer", "frostivus/abilities/frostivus_pointer.lua", 0)
 
