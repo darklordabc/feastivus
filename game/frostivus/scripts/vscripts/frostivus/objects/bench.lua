@@ -97,8 +97,15 @@ function InitBench( keys )
 	end)
 
 	caster.OnBenchIsFull = (function( self, items, user )
-		caster._on_bench_is_full = caster._on_bench_is_full or (function( ) Frostivus:L("Triggered!") end)
-		caster._on_bench_is_full(self, items, user)
+		if caster._on_bench_is_full then
+			caster._on_bench_is_full(self, items, user)
+		else
+			Frostivus:L("Triggered!")
+		end
+	end)
+
+	caster.IsRefineBench = (function( self)
+		return caster._on_bench_is_full ~= nil
 	end)
 
 	caster.SetCheckItem = (function( self, callback )
@@ -109,15 +116,61 @@ function InitBench( keys )
 		if not caster._check_item then return true end
 		return caster._check_item(self, item)
 	end)
+
+	caster.GetBenchItemCount = (function( self )
+		return GetTableLength(caster.wp:GetData().items)
+	end)
+
+	caster.SetRefineDuration = (function( self, d )
+		self._refine_duration = d
+	end)
+
+	caster.GetRefineDuration = (function( self )
+		return self._refine_duration or 3.5
+	end)
+
+	caster.SetRefineTarget = (function( self, t )
+		if type(t) == 'function' then
+			caster._get_refine_target = t
+		else
+			caster._get_refine_target = (function ()
+				return t
+			end)
+		end
+	end)
+
+	caster.GetRefineTarget = (function( self )
+		if caster._get_refine_target then
+			return caster._get_refine_target(caster, caster.wp:GetData().items)
+		else
+
+		end
+	end)
+
+	caster.SetDefaultRefineRoutine = (function ( self )
+		caster:SetOnBenchIsFull( RefineBase )
+	end)
+
+	caster.SetOnCompleteRefine = (function( self, callback )
+		caster._on_complete_refine = callback
+	end)
+
+	caster.OnCompleteRefine = (function( self )
+		if caster._on_complete_refine then
+			caster._on_complete_refine(self)
+		else
+			Frostivus:L("Refine Complete!")
+		end
+	end)
 end
 
 function OnUse( bench, user )
 	if user then
 		if not user:FindModifierByName("modifier_carrying_item") and bench.wp:GetData().items[1] then
-			-- Picking item from the bench
 			local item_name = bench.wp:GetData().items[1]
 
-			if (Frostivus.ItemsKVs[item_name].CanBePickedFromBench or bench:HasModifier("modifier_crate") or bench:HasModifier("modifier_transfer_bench")) and GetTableLength(bench.wp:GetData().items) == 1 then
+			if (Frostivus.ItemsKVs[item_name].CanBePickedFromBench or bench:HasModifier("modifier_crate") or bench:HasModifier("modifier_transfer_bench")) and bench:GetBenchItemCount() == 1 then
+				-- Picking item from the bench
 				if bench:Is3DBench() and Frostivus:IsCarryingItem( bench ) then
 					local item = Frostivus:DropItem( bench, Frostivus:GetCarryingItem( bench ) )
 					if item then
@@ -132,6 +185,9 @@ function OnUse( bench, user )
 				end),(function ()
 					return Frostivus:IsCarryingItem( user, item )
 				end), nil, true, false)
+			elseif bench:IsBenchFull() and bench:IsRefineBench() then
+				-- Use full bench (e.g. after interrupting channel)
+				bench:OnBenchIsFull(bench.wp:GetData().items, user)
 			end
 		elseif not bench:IsBenchFull() or bench:HasModifier("modifier_bin") then
 			-- Adding item to the bench
@@ -158,4 +214,47 @@ function OnUse( bench, user )
 			end
 		end
 	end
+end
+
+function RefineBase( bench, items, user )
+	local original_item = items[1]
+	local target_item = bench:GetRefineTarget()
+
+	local duration = bench:GetRefineDuration()
+
+	local ab = user:FindAbilityByName("frostivus_pointer")
+	
+	user:AddNewModifier(user,ab,"modifier_bench_interaction",{duration = duration}):SetStackCount(duration * 100)
+
+	local old_data = bench.wp:GetData()
+	old_data.duration = duration
+	bench.wp:SetData(old_data)
+
+	local function ResetProgress()
+		local old_data = bench.wp:GetData()
+		old_data.duration = nil
+		bench.wp:SetData(old_data)
+
+		ab._interrupted = nil
+		ab._finished = nil
+		user:RemoveModifierByName("modifier_bench_interaction")
+	end
+
+	ab._interrupted = (function ()
+		ResetProgress()
+	end)
+
+	ab._finished = (function ()
+		ResetProgress()
+
+		bench:OnCompleteRefine()
+
+		local old_data = bench.wp:GetData()
+		old_data.items[1] = target_item
+		bench.wp:SetData(old_data)
+	end)
+
+	user:CastAbilityNoTarget(ab, user:GetPlayerOwnerID())
+
+	bench:SetBenchHidden(false)
 end

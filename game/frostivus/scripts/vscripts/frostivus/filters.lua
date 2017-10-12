@@ -38,12 +38,9 @@ function Frostivus:FilterExecuteOrder( filterTable )
         local closest = nil
 
         local function TriggerBench()
-            unit:AddNewModifier(unit,nil,"modifier_rooted",{})
+            unit:AddNewModifier(unit,nil,"modifier_rooted",{duration = 0.03})
             unit:MoveToPosition(unit:GetAbsOrigin() - (unit:GetAbsOrigin() - unit.moving_target:GetAbsOrigin()):Normalized())
-            Timers:CreateTimer(function (  )
-                unit:RemoveModifierByName("modifier_rooted")
-                unit.moving_target:TriggerOnUse(unit)
-            end)
+            unit.moving_target:TriggerOnUse(unit)
         end
 
         if Distance(unit:GetAbsOrigin(), unit.moving_target) <= FROSTIVUS_CELL_SIZE + 1 then
@@ -63,11 +60,6 @@ function Frostivus:FilterExecuteOrder( filterTable )
                 -- DebugDrawSphere(closest, Vector(20,200,0), 1.0, 32, true, 3)
                 unit:MoveToPosition(closest)
             end
-
-            -- if (unit.moving_target:GetAbsOrigin() - unit:GetAbsOrigin()):Length() <= 128 then
-            --     unit.moving_target:TriggerOnUse(unit)
-            --     return true
-            -- end
             
             Timers:CreateTimer(function()
                 if not (unit and IsValidEntity(unit) and unit:IsAlive()) then

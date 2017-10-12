@@ -1,5 +1,9 @@
 frostivus_pointer = class({})
 
+function frostivus_pointer:GetChannelTime()
+	return self._channel or (self:GetCaster():GetModifierStackCount("modifier_bench_interaction", self:GetCaster()) / 100) or 0.0
+end
+
 function frostivus_pointer:OnSpellStart()
 	local caster = self:GetCaster()
 
@@ -9,12 +13,60 @@ function frostivus_pointer:OnSpellStart()
 	end
 end
 
+function frostivus_pointer:OnChannelThink(flInterval)
+	if IsServer() then
+
+	end
+end
+
+function frostivus_pointer:OnChannelFinish(bInterrupted)
+	if IsServer() then
+		if bInterrupted then
+			if self._interrupted then
+				self._interrupted()
+			end
+		else
+			if self._finished then
+				self._finished()
+			end
+		end
+		EndAnimation(self:GetCaster())
+	end
+end
+
 function frostivus_pointer:OnUpgrade()
 	local caster = self:GetCaster()
 end
 
 function frostivus_pointer:GetIntrinsicModifierName()
     return "modifier_pointer"
+end
+
+modifier_bench_interaction = class({})
+LinkLuaModifier("modifier_bench_interaction", "frostivus/abilities/frostivus_pointer.lua", 0)
+
+if IsServer() then
+	function modifier_bench_interaction:OnCreated()
+		StartAnimation(self:GetParent(), {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1, translate="greevil_magic_missile"})
+		self:StartIntervalThink(1.0)
+	end
+
+	function modifier_bench_interaction:OnIntervalThink()
+		StartAnimation(self:GetParent(), {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1, translate="greevil_magic_missile"})
+	end
+
+	function modifier_bench_interaction:OnDestroy()
+		EndAnimation(self:GetParent())
+	end
+
+	function modifier_bench_interaction:OnOrder()
+		self:RemoveSelf()
+		EndAnimation(self:GetParent())
+	end
+end
+
+function modifier_bench_interaction:IsHidden()
+	return true
 end
 
 modifier_pointer = class({})

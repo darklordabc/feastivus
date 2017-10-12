@@ -10,7 +10,7 @@
     "Ability1"        "frostivus_boost" 
     "Ability2"        "frostivus_drop" 
     "Ability3"        "frostivus_pointer" 
-    "Ability4"        "frostivus_channeling"
+    "Ability4"        "barebones_empty4"
     "Ability5"        "barebones_empty5"
     "Ability6"        ""
     "Ability7"        ""

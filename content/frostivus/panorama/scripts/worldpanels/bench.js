@@ -35,24 +35,36 @@ function BenchCheck()
         }
       }
 
+      function clearProgress() {
+        $("#Frame").SetHasClass("Hide", true);
+
+        $("#Progress").style.transitionDuration = 0 + "s;";
+        $("#Progress").style.width = "0%";
+
+        data.duration = undefined;
+
+        try {
+          $.CancelScheduled($.GetContextPanel().Schedule);
+        } catch (e) {
+
+        }
+
+        $.GetContextPanel().InitiatedChanneling = false;
+      }
+
       if (!$.GetContextPanel().InitiatedChanneling && data.duration) {
         $("#Frame").SetHasClass("Hide", false);
 
         $("#Progress").style.transitionDuration = data.duration + "s;";
         $("#Progress").style.width = "100%";
 
-        $.Schedule(data.duration, (function () {
-          $("#Frame").SetHasClass("Hide", true);
-
-          $("#Progress").style.transitionDuration = 0 + "s;";
-          $("#Progress").style.width = "0%";
-
-          data.duration = undefined;
-
-          $.GetContextPanel().InitiatedChanneling = false;
+        $.GetContextPanel().Schedule = $.Schedule(data.duration, (function () {
+          clearProgress()
         }));
 
         $.GetContextPanel().InitiatedChanneling = true;
+      } else if ($.GetContextPanel().InitiatedChanneling && !data.duration) {
+        clearProgress()
       }
     }
   }

@@ -63,22 +63,22 @@
   "frostivus_pointer"
   {
     "BaseClass"           "ability_lua"
-    "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+    "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
     "ScriptFile"          "frostivus/abilities/frostivus_pointer"
     "AbilityTextureName"      "custom/frostivus_pointer"
     "MaxLevel"            "1"
   }
 
-  "frostivus_channeling"
-  {
-    "BaseClass"           "ability_lua"
-    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
-    "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HERO"
-    "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-    "AbilityUnitTargetFlags"    "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
-    "ScriptFile"          "frostivus/abilities/frostivus_channeling"
-    "AbilityTextureName"      "custom/frostivus_channeling"
-    "MaxLevel"            "1"
-    "AbilityChannelTime"              "3.5"
-  }
+  // "frostivus_channeling"
+  // {
+  //   "BaseClass"           "ability_lua"
+  //   "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+  //   "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HERO"
+  //   "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+  //   "AbilityUnitTargetFlags"    "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+  //   "ScriptFile"          "frostivus/abilities/frostivus_channeling"
+  //   "AbilityTextureName"      "custom/frostivus_channeling"
+  //   "MaxLevel"            "1"
+  //   "AbilityChannelTime"              "3.5"
+  // }
 }
