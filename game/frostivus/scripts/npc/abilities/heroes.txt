@@ -50,7 +50,7 @@
         "duration"          "2.5"
       }
     }
-    
+
     "precache"
     {
       "particle"            "particles/status_fx/status_effect_forcestaff.vpcf"
@@ -72,7 +72,7 @@
   "frostivus_channeling"
   {
     "BaseClass"           "ability_lua"
-    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
     "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HERO"
     "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
     "AbilityUnitTargetFlags"    "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
