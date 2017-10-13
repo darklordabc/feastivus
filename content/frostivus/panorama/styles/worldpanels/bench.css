@@ -11,22 +11,14 @@
   transition-timing-function: ease-in;
 }
 
-#Frame
-{
-  margin-bottom: 20px;
-  width: 100%;
-  height: 20px;
-  background-color: #bbbbbb;
-}
-
 #Row1
 {
-  margin-top: 40px;
+
 }
 
 #Row2
 {
-  margin-top: 140px;
+  margin-top: 100px;
 }
 
 #Progress 
@@ -34,7 +26,7 @@
   background-color: red;
 
   height: 100%;
-  margin: 3px;
+  margin: 2px;
   transition-duration: 0s;
   transition-property: width;
   transition-timing-function: linear;
@@ -50,10 +42,14 @@
   width: 90px;
   height: 90px;
 
-  background-position: 50% 50%;
+  border-radius: 50%;
+
+  background-position: 60% 60%;
   background-size: 90% 90%;
   background-repeat: no-repeat;
   background-image: url("s2r://panorama/images/icon_plus_white_png.vtex");
+
+  opacity-mask: url("file://{images}/custom_game/ui/button_mask.png");
 }
 
 .Icon
@@ -71,10 +67,28 @@
 
 .Ring {
   margin: 5px;
-  border-radius: 50%;
   vertical-align: middle;
+}
 
-  border: 5px solid rgba(255, 255, 255, .5);
+.Outline {
+  width: 100%;
+  height: 100%;
+
+  border-radius: 50%;
+  background-image: url("s2r://panorama/images/hud/reborn/buff_outline_psd.vtex");
+  background-size: 100% 100%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+
+  wash-color: #8bdd4f;
+
+  transition-property: clip;
+  transition-duration: 0s;
+  transition-timing-function: ease-in;
+}
+
+#OutlineBG {
+  wash-color: #bbbbbb;
 }
 
 .Single {

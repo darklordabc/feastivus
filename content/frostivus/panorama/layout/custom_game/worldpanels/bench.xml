@@ -1,29 +1,33 @@
 <root> 
   <styles>
     <include src="s2r://panorama/styles/dotastyles.vcss_c" />
+    <include src="s2r://panorama/styles/hudstyles.vcss_c"/>   
+    <include src="s2r://panorama/styles/hud/dota_hud_health_mana.vcss_c" />
     <include src="file://{resources}/styles/worldpanels/bench.css" />
   </styles>
   <scripts>
     <include src="file://{resources}/scripts/worldpanels/bench.js" /> 
   </scripts>
   <Panel hittest="false" class="BenchPanel">
-    <Panel id="Frame" class="Hide">
-      <Panel id="Progress"/>
-    </Panel>
     <Panel hittest="false" id="Row1" class="Row">
       <Panel hittest="true" id="Slot1" class="Slot Ring">
         <DOTAItemImage hittest="false" class="Icon Hide" abilityname=""/>
+        <Panel hittest="true" id="OutlineBG" class="Outline"/>
+        <Panel hittest="true" id="Outline1" class="Outline"/>
       </Panel>
       <Panel hittest="true" id="Slot2" class="Slot Ring">
         <DOTAItemImage hittest="false" class="Icon Hide" abilityname=""/>
+        <Panel hittest="true" id="Outline2" class="Outline"/>
       </Panel>
     </Panel>
     <Panel hittest="false" id="Row2" class="Row">
       <Panel hittest="true" id="Slot3" class="Slot Ring">
         <DOTAItemImage hittest="false" class="Icon Hide" abilityname=""/>
+        <Panel hittest="true" id="Outline3" class="Outline"/>
       </Panel>
       <Panel hittest="true" id="Slot4" class="Slot Ring">
         <DOTAItemImage hittest="false" class="Icon Hide" abilityname=""/>
+        <Panel hittest="true" id="Outline4" class="Outline"/>
       </Panel>
     </Panel>
   </Panel>

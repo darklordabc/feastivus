@@ -15,6 +15,10 @@ function BenchCheck()
       if (!$.GetContextPanel().InitiatedLayout || layout != $.GetContextPanel().Layout) {
         $.GetContextPanel().Layout = layout;
 
+        for (var i = 1; i < 4; i++) {
+          $("#Slot"+i).SetHasClass("Collapse", false);
+        }
+
         for (var i = layout+1; i <= 4; i++) {
           $("#Slot"+i).SetHasClass("Collapse", true)
         }
@@ -36,10 +40,9 @@ function BenchCheck()
       }
 
       function clearProgress() {
-        $("#Frame").SetHasClass("Hide", true);
-
-        $("#Progress").style.transitionDuration = 0 + "s;";
-        $("#Progress").style.width = "0%";
+        $("#Outline1").style.clip = "radial(50% 50%, 0deg, 0deg);";
+        $("#Outline1").style.transitionDuration = 0 + "s;";
+        $("#Outline1").style.clip = "radial(50% 50%, 0deg, 0deg);";
 
         data.duration = undefined;
 
@@ -53,13 +56,16 @@ function BenchCheck()
       }
 
       if (!$.GetContextPanel().InitiatedChanneling && data.duration) {
-        $("#Frame").SetHasClass("Hide", false);
+        $("#Outline1").SetHasClass("Hide", false);
 
-        $("#Progress").style.transitionDuration = data.duration + "s;";
-        $("#Progress").style.width = "100%";
+        $("#Outline1").style.clip = "radial(50% 50%, 0deg, 0deg);";
+        $("#Outline1").style.transitionDuration = data.duration + "s;";
+        $("#Outline1").style.clip = "radial(50% 50%, 0deg, 360deg);";
 
         $.GetContextPanel().Schedule = $.Schedule(data.duration, (function () {
           clearProgress()
+
+          $("#Outline1").style.clip = "radial(50% 50%, 0deg, 360deg);";
         }));
 
         $.GetContextPanel().InitiatedChanneling = true;

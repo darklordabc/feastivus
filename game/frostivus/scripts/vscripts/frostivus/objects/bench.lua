@@ -51,6 +51,12 @@ function InitBench( keys )
 		return GetTableLength(old_data.items) == old_data.layout
 	end)
 
+	caster.SetBenchLayout = (function( self, l )
+		local old_data = self.wp:GetData()
+		old_data.layout = l
+		self.wp:SetData(old_data)
+	end)
+
 	caster.SetBenchInfiniteItems = (function( self, b )
 		self._bench_infinite_items = b
 	end)
@@ -227,7 +233,11 @@ function RefineBase( bench, items, user )
 	user:AddNewModifier(user,ab,"modifier_bench_interaction",{duration = duration}):SetStackCount(duration * 100)
 
 	local old_data = bench.wp:GetData()
+
+	local temp_layout = old_data.layout
+
 	old_data.duration = duration
+	old_data.layout = 1
 	bench.wp:SetData(old_data)
 
 	local function ResetProgress()
@@ -251,6 +261,7 @@ function RefineBase( bench, items, user )
 
 		local old_data = bench.wp:GetData()
 		old_data.items[1] = target_item
+		old_data.layout = temp_layout
 		bench.wp:SetData(old_data)
 	end)
 
