@@ -6,10 +6,12 @@ if not Frostivus then
     Frostivus.StagesKVs = LoadKeyValues("scripts/kv/stages.kv")
 
     Frostivus.state = {}
-    Frostivus.state[DOTA_TEAM_GOODGUYS] = {}
-    Frostivus.state[DOTA_TEAM_GOODGUYS].crates = Entities:FindAllByName("npc_crate_bench")
+    Frostivus.state.stages = {}
 
-    Frostivus.state[DOTA_TEAM_BADGUYS] = {}
+    for k,v in pairs(Frostivus.StagesKVs) do
+    	Frostivus.state.stages[k] = {}
+    	Frostivus.state.stages[k].crates = Entities:FindAllByName("npc_crate_bench_"..k)
+    end
 
     Frostivus.ROLE_DELIVERY = 0
     Frostivus.ROLE_REFINERY = 1

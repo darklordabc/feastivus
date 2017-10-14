@@ -38,7 +38,7 @@ function Frostivus:FilterExecuteOrder( filterTable )
         local closest = nil
 
         local function TriggerBench()
-            unit:AddNewModifier(unit,nil,"modifier_rooted",{duration = 0.03})
+            unit:AddNewModifier(unit,nil,"modifier_rooted",{duration = 0.06})
             unit:MoveToPosition(unit:GetAbsOrigin() - (unit:GetAbsOrigin() - unit.moving_target:GetAbsOrigin()):Normalized())
             unit.moving_target:TriggerOnUse(unit)
         end
