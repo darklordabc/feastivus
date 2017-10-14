@@ -40,6 +40,8 @@ function BenchCheck()
       }
 
       function clearProgress() {
+        $("#Outline1").SetHasClass("OutlineYellow", false);
+
         $("#Outline1").style.clip = "radial(50% 50%, 0deg, 0deg);";
         $("#Outline1").style.transitionDuration = 0 + "s;";
         $("#Outline1").style.clip = "radial(50% 50%, 0deg, 0deg);";
@@ -57,6 +59,7 @@ function BenchCheck()
 
       if (!$.GetContextPanel().InitiatedChanneling && data.duration) {
         $("#Outline1").SetHasClass("Hide", false);
+        $("#Outline1").SetHasClass("OutlineYellow", true);
 
         $("#Outline1").style.clip = "radial(50% 50%, 0deg, 0deg);";
         $("#Outline1").style.transitionDuration = data.duration + "s;";

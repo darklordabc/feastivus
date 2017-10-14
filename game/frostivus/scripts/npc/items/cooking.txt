@@ -128,4 +128,43 @@
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
   }
+
+  "item_raw_mango"
+  {
+    "ID"    "1107"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_enchanted_mango"
+    "Model"                   "models/props_gameplay/mango.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "CanBeCutted" "1"
+    "RefineTarget" "item_refined_mango"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+  }
+
+  "item_refined_mango"
+  {
+    "ID"    "1108"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_enchanted_mango"
+    "Model"                   "models/props_gameplay/mango.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "CanBePickedFromBench"  "1"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+  }
 }

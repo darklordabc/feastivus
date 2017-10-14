@@ -3,6 +3,7 @@ if not Frostivus then
 
     Frostivus.RecipesKVs = LoadKeyValues("scripts/kv/recipes.kv")
     Frostivus.ItemsKVs = LoadKeyValues("scripts/npc/npc_items_custom.txt")
+    Frostivus.StagesKVs = LoadKeyValues("scripts/kv/stages.kv")
 
     Frostivus.state = {}
     Frostivus.state[DOTA_TEAM_GOODGUYS] = {}

@@ -49,7 +49,7 @@
   background-repeat: no-repeat;
   background-image: url("s2r://panorama/images/icon_plus_white_png.vtex");
 
-  /*opacity-mask: url("file://{images}/custom_game/ui/button_mask.png");*/
+  opacity-mask: url("file://{images}/custom_game/ui/button_mask.png");
 }
 
 .Icon
@@ -85,6 +85,10 @@
   transition-property: clip;
   transition-duration: 0s;
   transition-timing-function: ease-in;
+}
+
+.OutlineYellow {
+  wash-color: #ffda27;
 }
 
 #OutlineBG {
