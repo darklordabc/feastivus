@@ -1,3 +1,7 @@
+function RoundToTwo(num) {    
+  return +(Math.round(num + "e+2")  + "e-2");
+}
+
 function BenchCheck()
 {
   var wp = $.GetContextPanel().WorldPanel
@@ -61,19 +65,26 @@ function BenchCheck()
         $("#Outline1").SetHasClass("Hide", false);
         $("#Outline1").SetHasClass("OutlineYellow", true);
 
-        $("#Outline1").style.clip = "radial(50% 50%, 0deg, 0deg);";
-        $("#Outline1").style.transitionDuration = data.duration + "s;";
+        if (!data.paused) {
+          $("#Outline1").style.clip = "radial(50% 50%, 0deg, 0deg);";
+        }
+
+        $("#Outline1").style.transitionDuration = RoundToTwo(data.duration) + "s;";
         $("#Outline1").style.clip = "radial(50% 50%, 0deg, 360deg);";
 
-        $.GetContextPanel().Schedule = $.Schedule(data.duration, (function () {
+        $.GetContextPanel().Schedule = $.Schedule(RoundToTwo(data.duration), (function () {
           clearProgress()
 
           $("#Outline1").style.clip = "radial(50% 50%, 0deg, 360deg);";
         }));
 
         $.GetContextPanel().InitiatedChanneling = true;
-      } else if ($.GetContextPanel().InitiatedChanneling && !data.duration) {
+      } else if ($.GetContextPanel().InitiatedChanneling && data.paused && !data.duration) { // Interrupt and pause
         clearProgress()
+
+        $("#Outline1").SetHasClass("OutlineYellow", true);
+        $("#Outline1").style.transitionDuration = 0 + "s;";
+        $("#Outline1").style.clip = "radial(50% 50%, 0deg, " + Math.round(data.paused * 360) + "deg);";
       }
     }
   }

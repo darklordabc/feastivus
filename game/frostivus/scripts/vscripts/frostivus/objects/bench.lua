@@ -229,20 +229,25 @@ function RefineBase( bench, items, user )
 	local duration = bench:GetRefineDuration()
 
 	local ab = user:FindAbilityByName("frostivus_pointer")
-	
-	user:AddNewModifier(user,ab,"modifier_bench_interaction",{duration = duration}):SetStackCount(duration * 100)
 
 	local old_data = bench.wp:GetData()
 
 	local temp_layout = old_data.layout
 
+	if old_data.paused then
+		duration = duration * (1 - old_data.paused)
+	end
+
 	old_data.duration = duration
 	old_data.layout = 1
 	bench.wp:SetData(old_data)
 
+	user:AddNewModifier(user,ab,"modifier_bench_interaction",{duration = duration}):SetStackCount(duration * 100)
+
 	local function ResetProgress()
 		local old_data = bench.wp:GetData()
 		old_data.duration = nil
+		old_data.paused = nil
 		bench.wp:SetData(old_data)
 
 		ab._interrupted = nil
@@ -250,8 +255,13 @@ function RefineBase( bench, items, user )
 		user:RemoveModifierByName("modifier_bench_interaction")
 	end
 
-	ab._interrupted = (function ()
+	ab._interrupted = (function ( time )
 		ResetProgress()
+
+		local old_data = bench.wp:GetData()
+		old_data.passed = (old_data.passed or 0.0) + time
+		old_data.paused = old_data.passed / bench:GetRefineDuration()
+		bench.wp:SetData(old_data)
 	end)
 
 	ab._finished = (function ()
@@ -262,6 +272,7 @@ function RefineBase( bench, items, user )
 		local old_data = bench.wp:GetData()
 		old_data.items[1] = target_item
 		old_data.layout = temp_layout
+		old_data.passed = nil
 		bench.wp:SetData(old_data)
 	end)
 

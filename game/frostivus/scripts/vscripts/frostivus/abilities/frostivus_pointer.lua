@@ -11,11 +11,13 @@ function frostivus_pointer:OnSpellStart()
 	if modifier.target and modifier.target.TriggerOnUse then
 		modifier.target:TriggerOnUse(caster)
 	end
+
+	self._time = 0.0
 end
 
 function frostivus_pointer:OnChannelThink(flInterval)
 	if IsServer() then
-
+		self._time = self._time + flInterval
 	end
 end
 
@@ -23,7 +25,7 @@ function frostivus_pointer:OnChannelFinish(bInterrupted)
 	if IsServer() then
 		if bInterrupted then
 			if self._interrupted then
-				self._interrupted()
+				self._interrupted(self._time)
 			end
 		else
 			if self._finished then
