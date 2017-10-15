@@ -43,7 +43,7 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "item_tango_single"
-    "Model"                   "models/props_gameplay/tango.vmdl"
+    "Model"                   "models/props_gameplay/salve.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
@@ -157,7 +157,7 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "item_enchanted_mango"
-    "Model"                   "models/props_gameplay/mango.vmdl"
+    "Model"                   "models/props_gameplay/salve_blue.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
