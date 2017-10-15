@@ -276,6 +276,7 @@ function RefineBase( bench, items, user )
 		bench.wp:SetData(old_data)
 	end)
 
+	ab.bench = bench
 	user:CastAbilityNoTarget(ab, user:GetPlayerOwnerID())
 
 	bench:SetBenchHidden(false)

@@ -63,7 +63,7 @@
   "frostivus_pointer"
   {
     "BaseClass"           "ability_lua"
-    "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+    "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
     "ScriptFile"          "frostivus/abilities/frostivus_pointer"
     "AbilityTextureName"      "custom/frostivus_pointer"
     "MaxLevel"            "1"

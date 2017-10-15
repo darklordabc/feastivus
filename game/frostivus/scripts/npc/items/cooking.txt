@@ -168,7 +168,7 @@
     "ItemBaseLevel"         "1"
   }
 
-  "item_mango_soup"
+  "item_mango_salad"
   {
     "ID"    "1109"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"

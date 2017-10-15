@@ -8,7 +8,7 @@ function frostivus_pointer:OnSpellStart()
 	local caster = self:GetCaster()
 
 	local modifier = caster:FindModifierByName("modifier_pointer")
-	if modifier.target and modifier.target.TriggerOnUse then
+	if modifier.target and modifier.target.TriggerOnUse and not caster:HasModifier("modifier_bench_interaction") then
 		modifier.target:TriggerOnUse(caster)
 	end
 
@@ -32,6 +32,7 @@ function frostivus_pointer:OnChannelFinish(bInterrupted)
 				self._finished()
 			end
 		end
+		self.bench = nil
 		EndAnimation(self:GetCaster())
 	end
 end

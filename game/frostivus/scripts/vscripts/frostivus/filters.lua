@@ -25,9 +25,11 @@ function Frostivus:FilterExecuteOrder( filterTable )
         end
     end
 
-    if order_type == DOTA_UNIT_ORDER_RADAR or order_type == DOTA_UNIT_ORDER_GLYPH then return end
+    if unit._order_timer then
+        Timers:RemoveTimer(unit._order_timer)
+    end
 
-    unit.__filters_vOrderTable = filterTable
+    if order_type == DOTA_UNIT_ORDER_RADAR or order_type == DOTA_UNIT_ORDER_GLYPH then return end
 
     if order_type == DOTA_UNIT_ORDER_MOVE_TO_TARGET then
         unit.moving_target = EntIndexToHScript(targetIndex)
@@ -39,8 +41,12 @@ function Frostivus:FilterExecuteOrder( filterTable )
 
         local function TriggerBench()
             unit:AddNewModifier(unit,nil,"modifier_rooted",{duration = 0.06})
+            unit:SetForwardVector(UnitLookAtPoint( unit, unit.moving_target:GetAbsOrigin() ))
             unit:MoveToPosition(unit:GetAbsOrigin() - (unit:GetAbsOrigin() - unit.moving_target:GetAbsOrigin()):Normalized())
-            unit.moving_target:TriggerOnUse(unit)
+            -- 
+            Timers:CreateTimer(0.06, function (  )
+                unit.moving_target:TriggerOnUse(unit)
+            end)
         end
 
         if Distance(unit:GetAbsOrigin(), unit.moving_target) <= FROSTIVUS_CELL_SIZE + 1 then
@@ -61,11 +67,8 @@ function Frostivus:FilterExecuteOrder( filterTable )
                 unit:MoveToPosition(closest)
             end
             
-            Timers:CreateTimer(function()
+            unit._order_timer = Timers:CreateTimer(function()
                 if not (unit and IsValidEntity(unit) and unit:IsAlive()) then
-                    return nil
-                end
-                if unit.__filters_vOrderTable ~= filterTable then -- if another order issued
                     return nil
                 end
                 local distance = (unit.moving_target:GetOrigin() - unit:GetOrigin()):Length2D()
