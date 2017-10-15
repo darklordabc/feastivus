@@ -64,6 +64,6 @@ function SetRoundName(args) {
     // var parent = $.GetContextPanel().GetParent();
     // while(parent.GetParent() != null)
     //     parent = parent.GetParent();
-
+	$.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse("HUDElements").FindChildTraverse("NetGraph").style.marginRight = "75px"
     // parent.FindChildTraverse("Hud").FindChildTraverse("CustomUIRoot").FindChildTraverse("FrostivusHUD").FindChildTraverse("AbilitiesAndStatBranch").style.minWidth = "190px;";
 })();
