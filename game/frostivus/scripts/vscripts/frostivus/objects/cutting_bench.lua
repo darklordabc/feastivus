@@ -12,9 +12,11 @@ function InitBench( keys )
 		
 		caster:SetRefineTarget(function ( bench, items )
 			local original_item = items[1]
-			local target_item = Frostivus.ItemsKVs[original_item].RefineTarget
 
-			return target_item
+			if Frostivus.ItemsKVs[original_item].CanBeCutted then
+				local target_item = Frostivus.ItemsKVs[original_item].RefineTarget
+				return target_item
+			end
 		end)
 		caster:SetRefineDuration(4)
 		caster:SetDefaultRefineRoutine()
@@ -22,5 +24,5 @@ function InitBench( keys )
 end
 
 function CheckItem( bench, item )
-	return Frostivus.ItemsKVs[item:GetContainedItem():GetName()].CanBeCutted
+	return true -- Frostivus.ItemsKVs[item:GetContainedItem():GetName()].CanBeCutted
 end

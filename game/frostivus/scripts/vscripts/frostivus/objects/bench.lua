@@ -226,6 +226,10 @@ function RefineBase( bench, items, user )
 	local original_item = items[1]
 	local target_item = bench:GetRefineTarget()
 
+	if not target_item then
+		return
+	end
+
 	local duration = bench:GetRefineDuration()
 
 	local ab = user:FindAbilityByName("frostivus_pointer")
