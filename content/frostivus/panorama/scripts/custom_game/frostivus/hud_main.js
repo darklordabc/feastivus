@@ -61,9 +61,9 @@ function SetRoundName(args) {
 	GameEvents.Subscribe("round_timer", OnTimer);
 	GameEvents.Subscribe("set_round_name", SetRoundName);
 
-    var parent = $.GetContextPanel().GetParent();
-    while(parent.GetParent() != null)
-        parent = parent.GetParent();
+    // var parent = $.GetContextPanel().GetParent();
+    // while(parent.GetParent() != null)
+    //     parent = parent.GetParent();
 
-    parent.FindChildTraverse("Hud").FindChildTraverse("CustomUIRoot").FindChildTraverse("FrostivusHUD").FindChildTraverse("AbilitiesAndStatBranch").style.minWidth = "190px;";
+    // parent.FindChildTraverse("Hud").FindChildTraverse("CustomUIRoot").FindChildTraverse("FrostivusHUD").FindChildTraverse("AbilitiesAndStatBranch").style.minWidth = "190px;";
 })();
