@@ -39,13 +39,26 @@ if IsServer() then
 					position = position + self.vDir * intersectLength
 					caster:SetAbsOrigin(GetGroundPosition(position, caster))
 					self.dist_travelled = 0
-					self.distance = 200
+					self.distance = math.min(200, self.distance - 25)
 				end
 			end
-			caster:SetAbsOrigin(GetGroundPosition(position, caster) + self.vDir * self.speed * FrameTime() )
-			self.dist_travelled = self.dist_travelled + self.speed * FrameTime()
+			local newPos = GetGroundPosition(position, caster) + self.vDir * self.speed * FrameTime()
+			if GridNav:CanFindPath(caster:GetAbsOrigin(), newPos) then
+				caster:SetAbsOrigin( newPos )
+				self.dist_travelled = self.dist_travelled + self.speed * FrameTime()
+			else
+				local velocityC = caster:GetForwardVector() * self.speed
+				local newVel = Vector(-velocityC.x, -velocityC.y)
+				
+				self.vDir = newVel:Normalized() * Vector(1,1,0)
+				self.speed = newVel:Length2D()
+				position = position + self.vDir * CalculateDistance(caster:GetAbsOrigin(), newPos)
+				caster:SetAbsOrigin(GetGroundPosition(position, caster))
+				self.dist_travelled = 0
+				self.distance = math.min(125, self.distance - 25)
+			end
 		else
-			ResolveNPCPositions(position, hullRadius)
+			if not GridNav:CanFindPath(caster:GetAbsOrigin(), caster:GetAbsOrigin()) then FindClearSpaceForUnit(caster, caster:GetAbsOrigin(), true) end
 			self:Destroy()
 		end
 	end
