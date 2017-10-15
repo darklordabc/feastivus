@@ -13,6 +13,7 @@ function InitBench( keys )
 			caster:SetCheckItem( check_item_callback )
 			caster:SetOnBenchIsFull( on_full_callback )
 			caster:SetOnUse( OnUse )
+			caster:SetBenchLayout(layout)
 
 			-- local pos = caster:GetAbsOrigin()
 
@@ -52,6 +53,8 @@ function InitBench( keys )
 	end)
 
 	caster.SetBenchLayout = (function( self, l )
+		self._initial_layout = l
+
 		local old_data = self.wp:GetData()
 		old_data.layout = l
 		self.wp:SetData(old_data)
@@ -145,6 +148,12 @@ function InitBench( keys )
 		end
 	end)
 
+	caster.IsRefining = (function( self )
+		local old_data = self.wp:GetData()
+
+		return old_data.passed or old_data.paused or self:HasModifier("modifier_unselectable")
+	end)
+
 	caster.GetRefineTarget = (function( self )
 		if caster._get_refine_target then
 			return caster._get_refine_target(caster, caster.wp:GetData().items)
@@ -168,6 +177,18 @@ function InitBench( keys )
 			Frostivus:L("Refine Complete!")
 		end
 	end)
+
+	caster.SetOnStartRefine = (function( self, callback )
+		caster._on_start_refine = callback
+	end)
+
+	caster.OnStartRefine = (function( self, target_item )
+		if caster._on_start_refine then
+			caster._on_start_refine(self, target_item)
+		else
+			Frostivus:L("Refine Started!")
+		end
+	end)
 end
 
 function OnUse( bench, user )
@@ -175,7 +196,7 @@ function OnUse( bench, user )
 		if not user:FindModifierByName("modifier_carrying_item") and bench.wp:GetData().items[1] then
 			local item_name = bench.wp:GetData().items[1]
 
-			if (Frostivus.ItemsKVs[item_name].CanBePickedFromBench or bench:HasModifier("modifier_crate") or bench:HasModifier("modifier_transfer_bench")) and bench:GetBenchItemCount() == 1 then
+			if (Frostivus.ItemsKVs[item_name].CanBePickedFromBench or bench:HasModifier("modifier_crate") or bench:HasModifier("modifier_transfer_bench")) and bench:GetBenchItemCount() == 1 and not bench:IsRefining() then
 				-- Picking item from the bench
 				if bench:Is3DBench() and Frostivus:IsCarryingItem( bench ) then
 					local item = Frostivus:DropItem( bench, Frostivus:GetCarryingItem( bench ) )
@@ -230,13 +251,13 @@ function RefineBase( bench, items, user )
 		return
 	end
 
+	bench:OnStartRefine(target_item)
+
 	local duration = bench:GetRefineDuration()
 
 	local ab = user:FindAbilityByName("frostivus_pointer")
 
 	local old_data = bench.wp:GetData()
-
-	local temp_layout = old_data.layout
 
 	if old_data.paused then
 		duration = duration * (1 - old_data.paused)
@@ -247,6 +268,7 @@ function RefineBase( bench, items, user )
 	bench.wp:SetData(old_data)
 
 	user:AddNewModifier(user,ab,"modifier_bench_interaction",{duration = duration}):SetStackCount(duration * 100)
+	bench:AddNewModifier(user,ab,"modifier_unselectable",{})
 
 	local function ResetProgress()
 		local old_data = bench.wp:GetData()
@@ -256,7 +278,9 @@ function RefineBase( bench, items, user )
 
 		ab._interrupted = nil
 		ab._finished = nil
+
 		user:RemoveModifierByName("modifier_bench_interaction")
+		bench:RemoveModifierByName("modifier_unselectable")
 	end
 
 	ab._interrupted = (function ( time )
@@ -275,7 +299,7 @@ function RefineBase( bench, items, user )
 
 		local old_data = bench.wp:GetData()
 		old_data.items[1] = target_item
-		old_data.layout = temp_layout
+		old_data.layout = bench._initial_layout
 		old_data.passed = nil
 		bench.wp:SetData(old_data)
 	end)

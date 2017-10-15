@@ -8,6 +8,12 @@ function InitBench( keys )
 		caster:SetRefineTarget(function ( bench, items )
 			return bench.current_item
 		end)
+		caster:SetOnStartRefine(function ( bench, target_item )
+			local old_data = bench.wp:GetData()
+			old_data.items = {}
+			old_data.items[1] = target_item
+			bench.wp:SetData(old_data)
+		end)
 		caster:SetOnCompleteRefine(function ( bench )
 			local old_data = bench.wp:GetData()
 			old_data.items = {}
