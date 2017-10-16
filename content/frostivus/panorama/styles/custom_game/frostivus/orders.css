@@ -1,7 +1,7 @@
 #orders {
 	flow-children: right;
 	margin-left: 50px;
-	opacity: 0.7;
+	opacity: 0.9;
 	height: 220px;
 }
 
@@ -30,6 +30,10 @@
 	{
 		transform: translateY( -4px);
 	}
+	100%
+	{
+		transform: translateY( 4px);
+	}
 }
 
 
@@ -40,18 +44,34 @@
 
 	z-index:0;
 
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #383844 ), color-stop(0.2, #4b4b5b), to( #3c3e48 ) );
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #373742 ), color-stop(0.2, #4C4C5C), color-stop(0.85, #2B2C33), to( #484A57 ) );
+/*
+	background-image:url("file://{resources}/images/custom_game/ui/order_bg.png");
+	background-size: 100%;*/
+
+	border-bottom-left-radius: 9px;
+	border-bottom-right-radius: 9px;
+}
+
+#time_remaining_bg {
+	margin-top: 10px;
+	height: 15px;
+	width: 100%;
+
+	background-color: black;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #2B2C33 ), to( #484A57 ) );
+
+	box-shadow: fill #2B2C33B8 0px 2px 8px 0px;
 }
 
 #time_remaining {
 	height: 15px;
 	width: 100%;
-	margin-top: 13px;
 	background-color:gradient( linear, 0% 0%, 100% 0%, from( #014101FF ), to( #1cf927FF ) );
 
- 	transition-property: width;
-	transition-duration: 1s;
-	transition-timing-function: linear;
+ 	transition-timing-function: linear;
+ 	transition-duration: 1s;
+ 	transition-property: width, background-color;
 }
 
 .TimeRunningOut #time_remaining {
@@ -65,6 +85,8 @@
 	vertical-align: bottom;
 	margin-bottom: 15px;
 	border: 3px solid #7e8197;
+
+	box-shadow: #2B2C33B8 0px 0px 8px 0px;
 }
 
 #ProductImage {
@@ -90,10 +112,17 @@
 .AssemblyImagePanel {
 	width:70px;
 	height: 60px;
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius:5px;
-	border: 3px solid #8d8f9f;
-	background-color: #42444e;
+
+	border: 2px solid #555871;
+
+	border-bottom-left-radius: 9px;
+	border-bottom-right-radius:9px;
+	border-top-style: none;
+
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #2B2C33B8 ), color-stop(0.2, #2B2C33B8), color-stop(0.7, #373742), to( #484A57 ) );
+
+	background-image:url("file://{resources}/images/custom_game/ui/order_bg.png");
+	background-size: 100%;
 }
 
 .AssemblyImagePanel DOTAItemImage {
@@ -103,6 +132,8 @@
 	vertical-align: bottom;
 	margin-bottom: 10px;
 	border:2px solid #4d5169;
+
+	box-shadow: #2B2C33B8 0px 0px 8px 0px;
 }
 
 .OrderMainShadow {

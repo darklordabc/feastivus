@@ -18,7 +18,9 @@
 		<snippet name="Order">
 			<Panel class="OrderRoot">
 				<Panel class="OrderMain">
-					<Panel id="time_remaining" />
+					<Panel id="time_remaining_bg">
+						<Panel id="time_remaining" />
+					</Panel>	
 					<Panel class="ProductImagePanel">
 						<DOTAItemImage id="ProductImage" itemname="item_blink" />
 					</Panel>
