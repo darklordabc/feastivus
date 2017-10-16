@@ -380,7 +380,7 @@ g_RoundManager = GameRules.RoundManager
 
 
 if IsInToolsMode() then
-	ConVars:RegisterCommand("debug_start_round",function(_, level)
+	Convars:RegisterCommand("debug_start_round",function(_, level)
 		if level == nil then
 			level = GameRules.RoundManager:GetCurrentLevel() + 1
 		end

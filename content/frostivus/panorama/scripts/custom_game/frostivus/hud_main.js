@@ -56,6 +56,35 @@ function SetRoundName(args) {
 	$("#round_name").text = $.Localize(name);
 }
 
+function RemoveAbilityPips(){
+	for(var i = 0; i < 5; i++){
+		var abilityPanel = abilities.FindChildTraverse("Ability"+i);
+		$.Msg(abilityPanel);
+		if (abilityPanel !== null){
+			abilityPanel.FindChildTraverse("AbilityLevelContainer").style.visibility = "collapse";
+		}
+	}
+}
+
+function AutoRemoveAbilityPips() {
+	var abilities = $("#abilities");
+	if (abilities==null){
+		$.Schedule(1, TryRemoveAbilityPips);
+	}else{
+
+		for(var i = 0; i < 5; ++i){
+			var ability = abilities.FindChildTraverse("Ability" + i);
+			if (ability !== null){
+				var levelPips = ability.FindChildTraverse("AbilityLevelContainer");
+				if (levelPips !== null) {
+					levelPips.style.visibility = "collapse";
+				}
+			}
+		}
+		$.Schedule(1, AutoRemoveAbilityPips);
+	}
+}
+
 (function(){
 	GameEvents.Subscribe("pre_round_countdown", OnPreRoundCountDown);
 	GameEvents.Subscribe("round_timer", OnTimer);
@@ -66,4 +95,6 @@ function SetRoundName(args) {
     //     parent = parent.GetParent();
 	$.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse("HUDElements").FindChildTraverse("NetGraph").style.marginRight = "75px"
     // parent.FindChildTraverse("Hud").FindChildTraverse("CustomUIRoot").FindChildTraverse("FrostivusHUD").FindChildTraverse("AbilitiesAndStatBranch").style.minWidth = "190px;";
+
+    AutoRemoveAbilityPips();
 })();
