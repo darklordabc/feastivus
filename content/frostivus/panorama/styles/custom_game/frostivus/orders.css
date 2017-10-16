@@ -58,8 +58,8 @@
 	height: 15px;
 	width: 100%;
 
-	background-color: black;
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #2B2C33 ), to( #484A57 ) );
+	background-color: #00000080;
+	/*background-color: gradient( linear, 0% 0%, 0% 100%, from( #2B2C33 ), to( #484A57 ) );*/
 
 	box-shadow: fill #2B2C33B8 0px 2px 8px 0px;
 }

@@ -1,6 +1,5 @@
-function InitBench( keys )
-	local caster = keys.caster
-	local ability = keys.ability
+function BenchAPI( keys )
+	local caster = keys.caster or keys
 
 	caster.InitBench = (function( self, layout, check_item_callback, on_full_callback, height )
 		if not caster.wp then
@@ -73,7 +72,7 @@ function InitBench( keys )
 			old_data.items = {}
 			self.wp:SetData(old_data)
 
-			self:OnPickedFromBench(item_name)
+			self:OnPickedFromBench(item)
 		end
 
 		return item
@@ -189,6 +188,20 @@ function InitBench( keys )
 			Frostivus:L("Refine Started!")
 		end
 	end)
+
+	caster.BindItem = (function( self, item )
+		if type(item) == 'string' then
+			item = CreateItemOnPositionSync(self:GetAbsOrigin(),CreateItem(item,self,self))
+		end
+
+		Frostivus:BindItem(item, self, (function ()
+			return self:GetAbsOrigin() + Vector(0,0,128)
+		end),(function ()
+			return Frostivus:IsCarryingItem( self, item )
+		end), (function ()
+			Frostivus:DropItem( self, item )
+		end), true, false)
+	end)
 end
 
 function OnUse( bench, user )
@@ -198,7 +211,7 @@ function OnUse( bench, user )
 
 			if (Frostivus.ItemsKVs[item_name].CanBePickedFromBench or bench:HasModifier("modifier_crate") or bench:HasModifier("modifier_transfer_bench")) and bench:GetBenchItemCount() == 1 and not bench:IsRefining() then
 				-- Picking item from the bench
-				if bench:Is3DBench() and Frostivus:IsCarryingItem( bench ) then
+				if bench:Is3DBench() and Frostivus:IsCarryingItem( bench ) and not bench._bench_infinite_items then
 					local item = Frostivus:DropItem( bench, Frostivus:GetCarryingItem( bench ) )
 					if item then
 						item:RemoveSelf()
@@ -227,13 +240,7 @@ function OnUse( bench, user )
 					Frostivus:DropItem( user, item )
 
 					if bench:Is3DBench() then
-						Frostivus:BindItem(item, bench, (function ()
-							return bench:GetAbsOrigin() + Vector(0,0,128)
-						end),(function ()
-							return Frostivus:IsCarryingItem( bench, item )
-						end), (function ()
-							Frostivus:DropItem( bench, item )
-						end), true, false)
+						bench:BindItem(item)
 					else
 						item:RemoveSelf()
 					end
@@ -302,6 +309,18 @@ function RefineBase( bench, items, user )
 		old_data.layout = bench._initial_layout
 		old_data.passed = nil
 		bench.wp:SetData(old_data)
+
+		if bench:Is3DBench() and bench:FindModifierByName("modifier_carrying_item") then
+			local item = bench:FindModifierByName("modifier_carrying_item").item
+
+			Frostivus:DropItem( bench, item )
+
+			item:RemoveSelf()
+
+			Timers:CreateTimer(0.03, function(  )
+				bench:BindItem(target_item)
+			end)
+		end
 	end)
 
 	ab.bench = bench

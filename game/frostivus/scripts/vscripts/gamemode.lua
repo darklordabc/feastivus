@@ -45,6 +45,8 @@ require('events')
 --Objects handler
 require('frostivus/objects/Objects')
 
+require('frostivus/objects/bench')
+
 require("libraries/worldpanels")
 
 -- WASD move controller

@@ -189,4 +189,24 @@
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
   }
+
+  "item_plate"
+  {
+    "ID"    "1110"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_plate"
+    "Model"                   "models/plates/plate_1.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "CanBePickedFromBench"  "1"
+    "CanBeServed"  "1"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+  }
 }
