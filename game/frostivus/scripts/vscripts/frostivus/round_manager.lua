@@ -377,3 +377,13 @@ end
 if GameRules.RoundManager == nil then GameRules.RoundManager = RoundManager() end
 
 g_RoundManager = GameRules.RoundManager
+
+
+if IsInToolsMode() then
+	ConVars:RegisterCommand("debug_start_round",function(_, level)
+		if level == nil then
+			level = GameRules.RoundManager:GetCurrentLevel() + 1
+		end
+		GameRules.RoundManager:StartNewRound(tonumber(level))
+	end,"jump to a certain round and start",FCVAR_CHEAT)
+end
