@@ -1,3 +1,7 @@
+function RoundToTwo(num) {    
+  return +(Math.round(num + "e+2")  + "e-2");
+}
+
 function BenchCheck()
 {
   var wp = $.GetContextPanel().WorldPanel
@@ -14,6 +18,10 @@ function BenchCheck()
       
       if (!$.GetContextPanel().InitiatedLayout || layout != $.GetContextPanel().Layout) {
         $.GetContextPanel().Layout = layout;
+
+        for (var i = 1; i < 4; i++) {
+          $("#Slot"+i).SetHasClass("Collapse", false);
+        }
 
         for (var i = layout+1; i <= 4; i++) {
           $("#Slot"+i).SetHasClass("Collapse", true)
@@ -35,24 +43,48 @@ function BenchCheck()
         }
       }
 
+      function clearProgress() {
+        $("#Outline1").SetHasClass("OutlineYellow", false);
+
+        $("#Outline1").style.clip = "radial(50% 50%, 0deg, 0deg);";
+        $("#Outline1").style.transitionDuration = 0 + "s;";
+        $("#Outline1").style.clip = "radial(50% 50%, 0deg, 0deg);";
+
+        data.duration = undefined;
+
+        try {
+          $.CancelScheduled($.GetContextPanel().Schedule);
+        } catch (e) {
+
+        }
+
+        $.GetContextPanel().InitiatedChanneling = false;
+      }
+
       if (!$.GetContextPanel().InitiatedChanneling && data.duration) {
-        $("#Frame").SetHasClass("Hide", false);
+        $("#Outline1").SetHasClass("Hide", false);
+        $("#Outline1").SetHasClass("OutlineYellow", true);
 
-        $("#Progress").style.transitionDuration = data.duration + "s;";
-        $("#Progress").style.width = "100%";
+        if (!data.paused) {
+          $("#Outline1").style.clip = "radial(50% 50%, 0deg, 0deg);";
+        }
 
-        $.Schedule(data.duration, (function () {
-          $("#Frame").SetHasClass("Hide", true);
+        $("#Outline1").style.transitionDuration = RoundToTwo(data.duration) + "s;";
+        $("#Outline1").style.clip = "radial(50% 50%, 0deg, 360deg);";
 
-          $("#Progress").style.transitionDuration = 0 + "s;";
-          $("#Progress").style.width = "0%";
+        $.GetContextPanel().Schedule = $.Schedule(RoundToTwo(data.duration), (function () {
+          clearProgress()
 
-          data.duration = undefined;
-
-          $.GetContextPanel().InitiatedChanneling = false;
+          $("#Outline1").style.clip = "radial(50% 50%, 0deg, 360deg);";
         }));
 
         $.GetContextPanel().InitiatedChanneling = true;
+      } else if ($.GetContextPanel().InitiatedChanneling && data.paused && !data.duration) { // Interrupt and pause
+        clearProgress()
+
+        $("#Outline1").SetHasClass("OutlineYellow", true);
+        $("#Outline1").style.transitionDuration = 0 + "s;";
+        $("#Outline1").style.clip = "radial(50% 50%, 0deg, " + Math.round(data.paused * 360) + "deg);";
       }
     }
   }

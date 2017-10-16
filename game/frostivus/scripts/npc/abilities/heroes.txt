@@ -4,51 +4,29 @@
 
   "frostivus_drop"
   {
-    // General
-    //-------------------------------------------------------------------------------------------------------------
     "BaseClass"           "ability_lua"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
     "ScriptFile"          "frostivus/abilities/frostivus_drop"
-    "AbilityTextureName"      "rubick_empty1"
+    "AbilityTextureName"      "custom/frostivus_drop"
     "MaxLevel"            "1"
 
-    // Casting
-    //-------------------------------------------------------------------------------------------------------------
     "AbilityCastPoint"        "0.0 0.0 0.0 0.0"
-
-    // Time   
-    //-------------------------------------------------------------------------------------------------------------
     "AbilityCooldown"       "1"
-
-    // Cost
-    //-------------------------------------------------------------------------------------------------------------
     "AbilityManaCost"       "0"
   }
 
   "frostivus_boost"
   {
-    // General
-    //-------------------------------------------------------------------------------------------------------------
     "BaseClass"           "ability_lua"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
     "ScriptFile"          "frostivus/abilities/frostivus_boost"
-    "AbilityTextureName"      "rubick_spell_steal"
+    "AbilityTextureName"      "custom/frostivus_boost"
     "MaxLevel"            "1"
 
-    // Casting
-    //-------------------------------------------------------------------------------------------------------------
     "AbilityCastPoint"        "0.0 0.0 0.0 0.0"
-
-    // Time   
-    //-------------------------------------------------------------------------------------------------------------
     "AbilityCooldown"       "1"
+    "AbilityManaCost"       "0"
 
-    // Cost
-    //-------------------------------------------------------------------------------------------------------------
-    "AbilityManaCost"       "100"
-    
-    // Special
-    //-------------------------------------------------------------------------------------------------------------
     "AbilitySpecial"
     {
       "01"
@@ -72,6 +50,7 @@
         "duration"          "2.5"
       }
     }
+
     "precache"
     {
       "particle"            "particles/status_fx/status_effect_forcestaff.vpcf"
@@ -84,9 +63,22 @@
   "frostivus_pointer"
   {
     "BaseClass"           "ability_lua"
-    "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+    "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
     "ScriptFile"          "frostivus/abilities/frostivus_pointer"
-    "AbilityTextureName"      "rubick_empty1"
+    "AbilityTextureName"      "custom/frostivus_pointer"
     "MaxLevel"            "1"
   }
+
+  // "frostivus_channeling"
+  // {
+  //   "BaseClass"           "ability_lua"
+  //   "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+  //   "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HERO"
+  //   "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+  //   "AbilityUnitTargetFlags"    "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+  //   "ScriptFile"          "frostivus/abilities/frostivus_channeling"
+  //   "AbilityTextureName"      "custom/frostivus_channeling"
+  //   "MaxLevel"            "1"
+  //   "AbilityChannelTime"              "3.5"
+  // }
 }

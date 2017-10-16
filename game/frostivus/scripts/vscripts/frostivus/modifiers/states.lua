@@ -49,3 +49,19 @@ end
 function modifier_preround_freeze:IsPurgable()
     return false
 end
+
+modifier_rooted = class({})
+
+function modifier_rooted:CheckState()
+    return {
+        [MODIFIER_STATE_ROOTED] = true,
+    }
+end
+
+function modifier_rooted:IsHidden()
+    return true
+end
+
+function modifier_rooted:IsPurgable()
+    return false
+end

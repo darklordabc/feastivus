@@ -28,7 +28,6 @@
     $.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse("quickstats").style.visibility = "collapse";
 
     $.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse("KillCam").style.visibility = "collapse";
-    $.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse("ChannelBar").style.visibility = "collapse";
 
     // These lines set up the panorama colors used by each team (for game select/setup, etc)
     GameUI.CustomUIConfig().team_colors = {}
@@ -54,7 +53,6 @@
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/containers/container_base.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/modmaker/modmaker.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/selection.xml" />
-    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus/recipe.xml" />
     
     <CustomUIElement type="GameSetup" layoutfile="file://{resources}/layout/custom_game/frostivus/welcome_screen.xml" />
 

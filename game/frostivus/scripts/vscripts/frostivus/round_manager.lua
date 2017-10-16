@@ -332,7 +332,7 @@ end
 function RoundManager:OnRoundEnd()
 	self.nCurrentLevel = self.nCurrentLevel + 1
 	self.vCurrentRound = nil
-	print("sssssssssssssssssssssssssss")
+
 	self:StartNewRound()
 end
 

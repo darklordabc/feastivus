@@ -3,12 +3,15 @@ if not Frostivus then
 
     Frostivus.RecipesKVs = LoadKeyValues("scripts/kv/recipes.kv")
     Frostivus.ItemsKVs = LoadKeyValues("scripts/npc/npc_items_custom.txt")
+    Frostivus.StagesKVs = LoadKeyValues("scripts/kv/stages.kv")
 
     Frostivus.state = {}
-    Frostivus.state[DOTA_TEAM_GOODGUYS] = {}
-    Frostivus.state[DOTA_TEAM_GOODGUYS].crates = Entities:FindAllByName("npc_crate_bench")
+    Frostivus.state.stages = {}
 
-    Frostivus.state[DOTA_TEAM_BADGUYS] = {}
+    for k,v in pairs(Frostivus.StagesKVs) do
+    	Frostivus.state.stages[k] = {}
+    	Frostivus.state.stages[k].crates = Entities:FindAllByName("npc_crate_bench_"..k)
+    end
 
     Frostivus.ROLE_DELIVERY = 0
     Frostivus.ROLE_REFINERY = 1
@@ -20,8 +23,7 @@ if not Frostivus then
 	LinkLuaModifier("modifier_hide_health_bar", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_unselectable", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_carrying_item", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
-
-	GameRules:GetGameModeEntity():SetExecuteOrderFilter( Dynamic_Wrap( Frostivus, "FilterExecuteOrder" ), self )
+	LinkLuaModifier("modifier_rooted", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 
     Frostivus.DEBUG = true
 
@@ -37,8 +39,7 @@ if not Frostivus then
 	end
 end
 
-require("frostivus/filters")
-require("frostivus/round_manager")
+
 
 function Frostivus:InitHero(hero)
 	InitAbilities( hero )

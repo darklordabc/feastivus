@@ -3,33 +3,26 @@ function InitBench( keys )
 	local ability = keys.ability
 
 	ExecOnGameInProgress(function (  )
-		caster:InitBench(1, CheckItem, StartCutting)
+		caster:InitBench(1, CheckItem)
 		caster:Set3DBench(true)
 		caster:SetBenchHidden(true)
 		caster:SetOnPickedFromBench(function ( item )
 			caster:SetBenchHidden(true)
 		end)
+		
+		caster:SetRefineTarget(function ( bench, items )
+			local original_item = items[1]
+
+			if Frostivus.ItemsKVs[original_item].CanBeCutted then
+				local target_item = Frostivus.ItemsKVs[original_item].RefineTarget
+				return target_item
+			end
+		end)
+		caster:SetRefineDuration(4)
+		caster:SetDefaultRefineRoutine()
 	end)
 end
 
 function CheckItem( bench, item )
-	return Frostivus.ItemsKVs[item:GetContainedItem():GetName()].CanBeCutted
-end
-
-function StartCutting( bench, items )
-	local original_item = items[1]
-	local target_item = Frostivus.ItemsKVs[original_item].RefineTarget
-
-	bench:SetBenchHidden(false)
-
-	local old_data = bench.wp:GetData()
-	old_data.duration = 3.5
-	bench.wp:SetData(old_data)
-
-	Timers:CreateTimer(3.5, function (  )
-		local old_data = bench.wp:GetData()
-		old_data.items[1] = target_item
-		old_data.duration = nil
-		bench.wp:SetData(old_data)
-	end)
+	return true -- Frostivus.ItemsKVs[item:GetContainedItem():GetName()].CanBeCutted
 end

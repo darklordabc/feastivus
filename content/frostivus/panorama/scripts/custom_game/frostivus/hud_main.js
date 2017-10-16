@@ -60,4 +60,10 @@ function SetRoundName(args) {
 	GameEvents.Subscribe("pre_round_countdown", OnPreRoundCountDown);
 	GameEvents.Subscribe("round_timer", OnTimer);
 	GameEvents.Subscribe("set_round_name", SetRoundName);
+
+    // var parent = $.GetContextPanel().GetParent();
+    // while(parent.GetParent() != null)
+    //     parent = parent.GetParent();
+	$.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse("HUDElements").FindChildTraverse("NetGraph").style.marginRight = "75px"
+    // parent.FindChildTraverse("Hud").FindChildTraverse("CustomUIRoot").FindChildTraverse("FrostivusHUD").FindChildTraverse("AbilitiesAndStatBranch").style.minWidth = "190px;";
 })();

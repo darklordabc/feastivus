@@ -4,6 +4,25 @@ function InitBench( keys )
 
 	ExecOnGameInProgress(function (  )
 		caster:InitBench(3, CheckItem, StartAssembling)
+		
+		caster:SetRefineTarget(function ( bench, items )
+			return bench.current_item
+		end)
+		caster:SetOnStartRefine(function ( bench, target_item )
+			local old_data = bench.wp:GetData()
+			old_data.items = {}
+			old_data.items[1] = target_item
+			bench.wp:SetData(old_data)
+		end)
+		caster:SetOnCompleteRefine(function ( bench )
+			local old_data = bench.wp:GetData()
+			old_data.items = {}
+			bench.wp:SetData(old_data)
+
+			bench.current_item = nil
+		end)
+		caster:SetRefineDuration(3)
+		caster:SetDefaultRefineRoutine()
 	end)
 end
 
@@ -36,23 +55,4 @@ function CheckItem( bench, item )
 	end
 
 	return allow
-end
-
-function StartAssembling( bench, items )
-	local original_item = items[1]
-	local target_item = bench.current_item
-
-	local old_data = bench.wp:GetData()
-	old_data.duration = 3.5
-	bench.wp:SetData(old_data)
-
-	Timers:CreateTimer(3.5, function (  )
-		local old_data = bench.wp:GetData()
-		old_data.items = {}
-		old_data.items[1] = target_item
-		old_data.duration = nil
-		bench.wp:SetData(old_data)
-
-		bench.current_item = nil
-	end)
 end

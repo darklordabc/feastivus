@@ -1,10 +1,10 @@
 "AddonInfo"
 {
 	"TeamCount" "1"
-	"maps"      "template_map playground test_map"
+	"maps"      "kitchen"
 	"IsPlayable"  "1"
 	
-	"test_map"
+	"kitchen"
 	{
 		"MaxPlayers"                    "5"
 	}

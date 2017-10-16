@@ -18,11 +18,10 @@ return {
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
-		Frostivus.state[DOTA_TEAM_GOODGUYS].current_item_table = item or Frostivus:GetRandomItemByTier(1)
 
 		local i = 1
-		for k,v in pairs(Frostivus.state[DOTA_TEAM_GOODGUYS].crates) do
-			local item = Frostivus.state[DOTA_TEAM_GOODGUYS].current_item_table.initial[tostring(i)]
+		for k,v in pairs(Frostivus.state.stages["tavern"].crates) do
+			local item = Frostivus.StagesKVs["tavern"].Initial[tostring(i)]
 			Frostivus:L(item)
 			if item then
 				v:InitBench(1)
@@ -32,10 +31,6 @@ return {
 			end
 			i = i + 1
 		end
-
-		CustomGameEventManager:Send_ServerToTeam(DOTA_TEAM_GOODGUYS,"frostivus_new_round",{recipe = Frostivus.state[DOTA_TEAM_GOODGUYS].current_item_table.assembly})
-
-		Frostivus:L( Frostivus.state[DOTA_TEAM_GOODGUYS].current_item_table.item )
 	end,
 	OnRoundEnd = function(round)
 		-- if you do something special, clean them
