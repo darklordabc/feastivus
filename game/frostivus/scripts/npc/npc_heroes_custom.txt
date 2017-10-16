@@ -6,7 +6,7 @@
     "ModelScale" "1.2"
     "AbilityLayout"     "3"
     "override_hero"     "npc_dota_hero_axe"
-    "SoundSet"          "0" 
+    "SoundSet"                  "Greevil"                   // Name of sound set.
     "Ability1"        "frostivus_boost" 
     "Ability2"        "frostivus_drop" 
     "Ability3"        "frostivus_pointer" 

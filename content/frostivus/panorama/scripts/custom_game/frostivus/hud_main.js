@@ -56,16 +56,6 @@ function SetRoundName(args) {
 	$("#round_name").text = $.Localize(name);
 }
 
-function RemoveAbilityPips(){
-	for(var i = 0; i < 5; i++){
-		var abilityPanel = abilities.FindChildTraverse("Ability"+i);
-		$.Msg(abilityPanel);
-		if (abilityPanel !== null){
-			abilityPanel.FindChildTraverse("AbilityLevelContainer").style.visibility = "collapse";
-		}
-	}
-}
-
 function AutoRemoveAbilityPips() {
 	var abilities = $("#abilities");
 	if (abilities==null){
