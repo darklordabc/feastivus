@@ -1,4 +1,4 @@
-_G.g_DEFAULT_ORDER_TIME_LIMIT = 60
+_G.g_DEFAULT_ORDER_TIME_LIMIT = 80
 
 GameRules.vRoundDefinations = LoadKeyValues('scripts/kv/rounds.kv')
 for level, data in pairs(GameRules.vRoundDefinations) do
