@@ -15,6 +15,8 @@ frostivus_drop = class({})
 function frostivus_drop:OnSpellStart()
 	local caster = self:GetCaster()
 	if caster:HasModifier("modifier_carrying_item") then
-		Frostivus:DropItem( caster, caster:FindModifierByName("modifier_carrying_item").item )
+		local item = caster:FindModifierByName("modifier_carrying_item").item
+		Frostivus:DropItem( caster, item )
+		item:FollowEntity( nil, false )
 	end
 end
