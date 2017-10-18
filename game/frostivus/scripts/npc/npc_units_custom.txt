@@ -160,7 +160,7 @@
     "npc_plate_bench"
     { 
         "BaseClass"         "npc_dota_creature"
-        "Model"             "models/table/table.vmdl"
+        "Model"             "models/plate_bench.vmdl"
         "ModelScale"        "0.9"
         "Level"             "10"
 
