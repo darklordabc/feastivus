@@ -73,7 +73,10 @@ end
 
 function Frostivus:BindItem( item, unit, position_callback, condition_callback, drop_callback, add_modifier, dont_hide )
 	Timers:CreateTimer(function ()
-		if not condition_callback() or not IsValidEntity(item) then
+		if not IsValidEntity(item) or not IsValidEntity(unit) then
+			return
+		end
+		if not condition_callback() then
 			if drop_callback then
 				drop_callback()
 			end
@@ -83,6 +86,8 @@ function Frostivus:BindItem( item, unit, position_callback, condition_callback, 
 			return 0.03
 		end
 	end)
+
+	item._holder = unit
 
 	-- Frostivus:WipeInventory( unit )
 
@@ -101,7 +106,7 @@ function Frostivus:DropItem( unit, item )
 	end
 
 	if IsValidEntity(item) then
-		item:FollowEntity(nil,false)
+		-- item:FollowEntity(nil,false)
 		item:SetAbsOrigin(GetGroundPosition(unit:GetAbsOrigin(), unit))
 	end
 

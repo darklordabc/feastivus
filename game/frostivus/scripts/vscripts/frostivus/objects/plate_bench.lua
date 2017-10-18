@@ -21,43 +21,33 @@ function InitBench( keys )
 		-- end), true, false)
 
 		caster.PickItemFromBench = (function( self, user, item_name )
-			local item = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem(item_name,nil,nil))
+			local plate = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem(item_name,nil,nil))
 
-			BenchAPI(item)
-			item:InitBench( 3, CheckItem )
-			item:SetOnPickedFromBench(function ( picked_item )
+			BenchAPI(plate)
+			plate:InitBench( 3, CheckItem )
+			plate:SetOnPickedFromBench(function ( picked_item )
 				
 			end)
+			plate:SetOnBenchIsFull( function ( bench, items, user )
+				local dish = CreateItemOnPositionSync(plate:GetAbsOrigin(),CreateItem(bench.current_item,nil,nil))
+
+				bench._holder:RemoveModifierByName("modifier_carrying_item")
+				bench._holder:PickItemFromBench(user, plate):RemoveSelf()
+
+				bench._holder:AddItemToBench(bench.current_item, user)
+				bench._holder:BindItem(dish)
+			end )
 			
 			if not self._bench_infinite_items then
 				local old_data = self.wp:GetData()
 				old_data.items = {}
 				self.wp:SetData(old_data)
 
-				self:OnPickedFromBench(item)
+				self:OnPickedFromBench(plate)
 			end
 
-			return item
+			return plate
 		end)
-		
-		-- caster:SetRefineTarget(function ( bench, items )
-		-- 	return bench.current_item
-		-- end)
-		-- caster:SetOnStartRefine(function ( bench, target_item )
-		-- 	local old_data = bench.wp:GetData()
-		-- 	old_data.items = {}
-		-- 	old_data.items[1] = target_item
-		-- 	bench.wp:SetData(old_data)
-		-- end)
-		-- caster:SetOnCompleteRefine(function ( bench )
-		-- 	local old_data = bench.wp:GetData()
-		-- 	old_data.items = {}
-		-- 	bench.wp:SetData(old_data)
-
-		-- 	bench.current_item = nil
-		-- end)
-		-- caster:SetRefineDuration(3)
-		-- caster:SetDefaultRefineRoutine()
 	end)
 end
 

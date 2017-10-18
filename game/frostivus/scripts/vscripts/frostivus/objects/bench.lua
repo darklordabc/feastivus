@@ -1,14 +1,16 @@
 function BenchAPI( keys )
 	local caster = keys.caster or keys
 
-	caster.InitBench = (function( self, layout, check_item_callback, on_full_callback, height )
+	caster.InitBench = (function( self, layout, check_item_callback, on_full_callback, height, no_wp )
 		if not caster.wp then
 			caster.wp = WorldPanels:CreateWorldPanelForAll({
 				layout = "file://{resources}/layout/custom_game/worldpanels/bench.xml",
 				data = {layout = layout, items = {}},
 				entity = caster,
 				entityHeight = height or 64,
+				noWP = no_wp
 			})
+
 			caster:SetCheckItem( check_item_callback )
 			caster:SetOnBenchIsFull( on_full_callback )
 			caster:SetOnUse( OnUse )
@@ -63,8 +65,11 @@ function BenchAPI( keys )
 		self._bench_infinite_items = b
 	end)
 
-	caster.PickItemFromBench = (function( self, user, item_name )
-		local item = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem(item_name,nil,nil))
+	caster.PickItemFromBench = (function( self, user, item )
+		if type(item) == 'string' then
+			item = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem(item,nil,nil))
+		end
+
 		-- item:StopAnimation()
 		
 		if not self._bench_infinite_items then
@@ -117,6 +122,12 @@ function BenchAPI( keys )
 
 	caster.IsRefineBench = (function( self)
 		return caster._on_bench_is_full ~= nil
+	end)
+
+	caster.ContainsPlate = (function( self )
+		local old_data = self.wp:GetData()
+
+		return old_data.items[1] and old_data.items[1] == "item_plate"
 	end)
 
 	caster.SetCheckItem = (function( self, callback )
@@ -214,14 +225,16 @@ function OnUse( bench, user )
 
 			if (Frostivus.ItemsKVs[item_name].CanBePickedFromBench or bench:HasModifier("modifier_crate") or bench:HasModifier("modifier_transfer_bench")) and bench:GetBenchItemCount() == 1 and not bench:IsRefining() then
 				-- Picking item from the bench
+				local item = item_name
 				if bench:Is3DBench() and Frostivus:IsCarryingItem( bench ) and not bench._bench_infinite_items then
-					local item = Frostivus:DropItem( bench, Frostivus:GetCarryingItem( bench ) )
-					if item then
-						item:RemoveSelf()
-					end
+					item = Frostivus:DropItem( bench, Frostivus:GetCarryingItem( bench ) )
+					-- if item then
+					-- 	item:RemoveSelf()
+					-- end
 				end
 
-				local item = bench:PickItemFromBench(user, item_name)
+				-- If bench is 3D then it will return binded container, otherwise it will create one
+				item = bench:PickItemFromBench(user, item)
 
 				Frostivus:BindItem(item, user, (function ()
 					return user:GetAbsOrigin() + Vector(0,0,128) + user:GetForwardVector() * 32
@@ -232,7 +245,11 @@ function OnUse( bench, user )
 				-- Use full bench (e.g. after interrupting channel)
 				bench:OnBenchIsFull(bench.wp:GetData().items, user)
 			end
-		elseif not bench:IsBenchFull() or bench:HasModifier("modifier_bin") then
+		elseif not bench:IsBenchFull() or bench:HasModifier("modifier_bin") or bench:ContainsPlate() then
+			if bench:ContainsPlate() then
+				bench = Frostivus:GetCarryingItem( bench )
+			end
+
 			-- Adding item to the bench
 			if user:FindModifierByName("modifier_carrying_item") then
 				local item = user:FindModifierByName("modifier_carrying_item").item
@@ -322,9 +339,9 @@ function RefineBase( bench, items, user )
 
 			item:RemoveSelf()
 
-			Timers:CreateTimer(0.03, function(  )
+			-- Timers:CreateTimer(0.06, function(  )
 				bench:BindItem(target_item)
-			end)
+			-- end)
 		end
 	end)
 

@@ -90,17 +90,19 @@ if not WorldPanels then
 end
 
 local UpdateTable = function(wp)
-  local idString = wp.idString
-  local pt = wp.pt
-  local pids = wp.pids
-  for i=1,#pids do
-    local pid = pids[i]
-    local ptName = "worldpanels_" .. pid
+  if not wp.noWP then
+    local idString = wp.idString
+    local pt = wp.pt
+    local pids = wp.pids
+    for i=1,#pids do
+      local pid = pids[i]
+      local ptName = "worldpanels_" .. pid
 
-    if not PlayerTables:TableExists(ptName) then
-      PlayerTables:CreateTable(ptName, {[idString]=pt}, {pid})
-    else
-      PlayerTables:SetTableValue(ptName, idString, pt, true)
+      if not PlayerTables:TableExists(ptName) then
+        PlayerTables:CreateTable(ptName, {[idString]=pt}, {pid})
+      else
+        PlayerTables:SetTableValue(ptName, idString, pt, true)
+      end
     end
   end
 end
@@ -199,6 +201,7 @@ function WorldPanels:CreateWorldPanel(pids, conf)
     idString =          idString,
     pids =              pids,
     pt =                pt,
+    noWP =              conf.no_wp,
   }
 
   function wp:SetPosition(pos)
