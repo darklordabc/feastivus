@@ -75,6 +75,9 @@ function BenchAPI( keys )
 			self:OnPickedFromBench(item)
 		end
 
+		-- play pickup sound
+		EmitGlobalSound('ui.passport.start_team_drag')
+
 		return item
 	end)
 
@@ -259,6 +262,7 @@ function RefineBase( bench, items, user )
 	end
 
 	bench:OnStartRefine(target_item)
+	EmitSoundOn('custom_sound.chopping',bench)
 
 	local duration = bench:GetRefineDuration()
 
@@ -292,7 +296,7 @@ function RefineBase( bench, items, user )
 
 	ab._interrupted = (function ( time )
 		ResetProgress()
-
+		StopSoundOn('custom_sound.chopping',bench)
 		local old_data = bench.wp:GetData()
 		old_data.passed = (old_data.passed or 0.0) + time
 		old_data.paused = old_data.passed / bench:GetRefineDuration()
@@ -301,6 +305,7 @@ function RefineBase( bench, items, user )
 
 	ab._finished = (function ()
 		ResetProgress()
+		StopSoundOn('custom_sound.chopping',bench)
 
 		bench:OnCompleteRefine()
 
