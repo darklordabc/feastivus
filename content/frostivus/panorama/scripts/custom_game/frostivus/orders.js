@@ -18,6 +18,7 @@ function OnOrderChanged() {
 			// create new panel
 			orderPanel = $.CreatePanel("Panel", parent, orderId);
 			orderPanel.BLoadLayoutSnippet("Order");
+			orderPanel.SetHasClass("OrderAppear", false);
 
 			orderPanel.FindChildTraverse("ProductImage").itemname = itemName;
 
@@ -57,7 +58,9 @@ function OnOrderChanged() {
 			}
 		}
 		if (!found) {
-			m_OrderPanels[k].DeleteAsync(0);
+			m_OrderPanels[k].DeleteAsync(0.5);
+			m_OrderPanels[k].SetHasClass("OrderAppear", true);
+
 			delete m_OrderPanels[k];
 		}
 

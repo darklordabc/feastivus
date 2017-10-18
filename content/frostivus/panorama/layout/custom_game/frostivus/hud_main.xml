@@ -16,7 +16,7 @@
 
 	<snippets>
 		<snippet name="Order">
-			<Panel class="OrderRoot">
+			<Panel class="OrderRoot OrderAppear">
 				<Panel class="OrderMain">
 					<Panel id="time_remaining_bg">
 						<Panel id="time_remaining" />
