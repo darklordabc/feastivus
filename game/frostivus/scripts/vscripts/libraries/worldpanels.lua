@@ -201,7 +201,7 @@ function WorldPanels:CreateWorldPanel(pids, conf)
     idString =          idString,
     pids =              pids,
     pt =                pt,
-    noWP =              conf.no_wp,
+    noWP =              conf.noWP,
   }
 
   function wp:SetPosition(pos)
