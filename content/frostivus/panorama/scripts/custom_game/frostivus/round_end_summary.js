@@ -57,4 +57,5 @@ function CloseSummary() {
 		FinishedOrdersCount: 16,
 		UnFinishedOrdersCount: 0,
 	})
+	
 })();

@@ -76,6 +76,7 @@ function AutoRemoveAbilityPips() {
 	}
 }
 
+
 (function(){
 	GameEvents.Subscribe("pre_round_countdown", OnPreRoundCountDown);
 	GameEvents.Subscribe("round_timer", OnTimer);
