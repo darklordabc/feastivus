@@ -24,6 +24,8 @@ if not Frostivus then
 	LinkLuaModifier("modifier_unselectable", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_carrying_item", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_rooted", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_fake_casting", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_bench_busy", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 
     Frostivus.DEBUG = true
 

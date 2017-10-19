@@ -65,3 +65,30 @@ end
 function modifier_rooted:IsPurgable()
     return false
 end
+
+modifier_bench_busy = class({})
+
+function modifier_bench_busy:IsHidden()
+    return true
+end
+
+modifier_fake_casting = class({})
+
+if IsServer() then
+    function modifier_fake_casting:DeclareFunctions()
+        local funcs = {
+            MODIFIER_EVENT_ON_ORDER
+        }
+
+        return funcs
+    end
+
+    function modifier_fake_casting:IsHidden()
+        return true
+    end
+
+    function modifier_fake_casting:OnOrder()
+        EndAnimation(self:GetParent())
+        self:Destroy()
+    end
+end
