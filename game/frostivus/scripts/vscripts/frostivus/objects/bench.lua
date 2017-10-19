@@ -81,7 +81,7 @@ function BenchAPI( keys )
 		end
 
 		-- play pickup sound
-		EmitGlobalSound('ui.passport.start_team_drag')
+		EmitSoundOn('custom_sound.pickup',user)
 
 		return item
 	end)

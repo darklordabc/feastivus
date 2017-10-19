@@ -255,8 +255,7 @@ function Round:OnServe(itemEntity)
 			UTIL_Remove(itemPhysical)
 		end
 
-		-- play sound
-		EmitGlobalSound("ui.treasure_reveal")
+		EmitSoundOn('custom_sound.serve',itemPhysical)
 	else
 	end
 end
