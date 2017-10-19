@@ -18,7 +18,7 @@ function InitBench( keys )
 				return target_item
 			end
 		end)
-		caster:SetRefineDuration(4)
+		caster:SetRefineDuration(2.2)
 		caster:SetDefaultRefineRoutine()
 	end)
 end
