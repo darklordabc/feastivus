@@ -9,7 +9,7 @@ if IsServer() then
 		self:AddParticle(pid,true,false,0,true,false)
 
 		-- start play sound
-		EmitSoundOn('Portal.Loop_Appear',caster)
+		caster:EmitSound('Portal.Loop_Appear')
 		caster:StartGesture(ACT_DOTA_FLAIL)
 	end
 
@@ -24,13 +24,14 @@ if IsServer() then
 	function modifier_teleport_to_new_round:OnDestroy()
 		local caster = self:GetParent()
 
-		StopSoundOn('Portal.Loop_Appear',caster)
+		caster:StopSound('Portal.Loop_Appear')
+
 		caster:RemoveGesture(ACT_DOTA_FLAIL)
 		EmitSoundOn('Portal.Hero_Disappear',caster)
 
 		-- delayed teleported in sound
 		Timers:CreateTimer(0.2, function()
-			EmitSoundOn('Portal.Loop_Appear',caster)
+			caster:EmitSound('Portal.Hero_Appear')
 		end)
 	end
 end

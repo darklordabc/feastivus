@@ -116,7 +116,6 @@ function Round:OnTimer()
 		self.nPreRoundCountDownTimer = self.nPreRoundTime
 
 		LoopOverHeroes(function(hero)
-			hero:RespawnHero(false,false,false)
 			hero:AddNewModifier(hero,nil,"modifier_preround_freeze",{})
 		end)
 
@@ -383,16 +382,29 @@ function RoundManager:StartNewRound(level) -- level is passed for test purpose
 
 	local roundData = GameRules.vRoundDefinations[level]
 
-	local teleport_target_entities = Entities:FindAllByName('level_' .. tostring(level) .. '_target')
+	local teleport_target_entities = Entities:FindAllByName('level_' .. tostring(level) .. '_start')
+	print("teleport target found", table.count(teleport_target_entities))
+	local lastTeleportTarget = nil
 	LoopOverHeroes(function(hero)
 		-- teleport players to new round
-		local randomTarget = hero:GetOrigin()
+		local teleportTarget
 		if table.count(teleport_target_entities) > 0 then
-			randomTarget = table.random(teleport_target_entities)
-			randomTarget = randomTarget:GetOrigin()
+			teleportTarget = table.remove(teleport_target_entities)
+			teleportTarget = teleportTarget:GetOrigin()
 		end
 
-		FindClearSpaceForUnit(hero,randomTarget,true)
+		if teleportTarget == nil then
+			print("Not enough level start position entity!! moving hero to last teleport target pos")
+			if lastTeleportTarget == nil then
+				print("Not any level start entity found!! go check the map file")
+			else
+				teleportTarget = lastTeleportTarget
+			end
+		else
+			lastTeleportTarget = teleportTarget
+		end
+
+		FindClearSpaceForUnit(hero,teleportTarget or hero:GetOrigin(),true)
 
 		-- remove teleporting effect
 		hero:RemoveModifierByName('modifier_teleport_to_new_round')

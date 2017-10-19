@@ -18,19 +18,6 @@ return {
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
-
-		local i = 1
-		for k,v in pairs(Frostivus.state.stages["tavern"].crates) do
-			local item = Frostivus.StagesKVs["tavern"].Initial[tostring(i)]
-			Frostivus:L(item)
-			if item then
-				v:InitBench(1)
-				v:SetCrateItem(item)
-			else
-
-			end
-			i = i + 1
-		end
 	end,
 	OnRoundEnd = function(round)
 		-- if you do something special, clean them
