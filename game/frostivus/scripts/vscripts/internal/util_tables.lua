@@ -162,3 +162,11 @@ function table.contains(t, v)
     if _v == v then return true end
   end
 end
+
+function table.count(t)
+  local c = 0
+  for _ in pairs(t) do
+    c = c + 1
+  end
+  return c
+end

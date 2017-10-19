@@ -100,7 +100,7 @@ function Round:constructor(roundData)
 	self.vCurrentOrders = {}
 
 	self.nPreRoundTime = 5
-	self.nEndRoundDelay = 5
+	self.nEndRoundDelay = 10
 	
 	if self.vRoundScript.OnInitialize then
 		self.vRoundScript.OnInitialize(self)
@@ -166,24 +166,9 @@ function Round:OnTimer()
 	self.nCountDownTimer = self.nCountDownTimer - 1
 	self.nExpiredTime = self.nExpiredTime + 1
 
-	-- time's up
-	if self.nCountDownTimer <= 0 then
-
-		if self.vRoundScript.OnRoundEnd then
-			self.vRoundScript.OnRoundEnd(self)
-		end
-
-		-- @todo clear everything created in this round
-		-- I have to know what may happen in rounds 
-		-- to finish this
-
-		-- @todo show round end summary
-
-		-- tell the round manager to start a new round after delay
-		Timers:CreateTimer(self.nEndRoundDelay, function()
-			GameRules.RoundManager:OnRoundEnd()
-		end)
-
+	-- time's up or there are no pending orders, finish this round
+	if self.nCountDownTimer <= 0 or table.count(self.vPendingOrders) <= 0 then
+		self:EndRound()
 	end
 
 	-- time for more orders
@@ -226,6 +211,42 @@ function Round:OnTimer()
 	CustomGameEventManager:Send_ServerToAllClients("round_timer",{
 		value = self.nCountDownTimer
 	})
+end
+
+function Round:EndRound()
+
+	-- show round end summary
+	-- The score screen should last for about 10 seconds, gives stars, tell how many orders 
+	-- they completed out of the max.
+	-- Should teleport all players to the next level and start the ready set go graphic again.
+	
+	-- 1. calculate stars
+	-- 
+	local stars = 0
+	local starCriterias = self.vRoundData.StarCriteria
+	for _, criteria in pairs(starCriterias) do
+		if criteria.Type == 'STAR_CRITERIA_FINISHED_RECIPES' then
+			local values = string.split(criteria.values, ' ')
+			for index, value in pairs(values) do
+				if table.count(self.vFinishedOrders) >= tonumber(value) then
+					stars = index
+				end
+			end
+		end
+		-- @todo other criterias
+	end
+
+	-- tell client to show round end summary
+	CustomGameEventManager:Send_ServerToAllClients('show_round_end_summary',{
+		Stars = stars,
+		FinishedOrdersCount = table.count(self.vFinishedOrders),
+		UnFinishedOrdersCount = table.count(self.vPendingOrders),
+	})
+
+	-- tell the round manager to start a new round after delay
+	Timers:CreateTimer(self.nEndRoundDelay, function()
+		GameRules.RoundManager:OnRoundEnd()
+	end)
 end
 
 function Round:OnServe(itemEntity)
