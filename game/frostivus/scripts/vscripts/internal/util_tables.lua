@@ -157,16 +157,164 @@ function orderedPairs(t)
   return orderedNext, t, nil
 end
 
-function table.contains(t, v)
-  for _, _v in pairs(t) do
-    if _v == v then return true end
-  end
+--[[
+  table library in table scope
+  @author:XavierCHN
+  @date:2015.11
+]]
+function table.count(t)
+    local c = 0
+    for _ in pairs(t) do
+        c = c + 1
+    end
+
+    return c
 end
 
-function table.count(t)
-  local c = 0
-  for _ in pairs(t) do
-    c = c + 1
-  end
-  return c
+function table.contains(t, v)
+    for _, _v in pairs(t) do
+        if _v == v then
+            return true
+        end
+    end
+end
+
+function table.has_element_fit(t, func)
+    for k, v in pairs(t) do
+        if func(t, k, v) then
+            return k, v
+        end
+    end
+end
+
+function table.findkey(t, v)
+    for k, _v in pairs(t) do
+        if _v == v then
+            return k
+        end
+    end
+end
+
+function table.shallowcopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in pairs(orig) do
+            copy[orig_key] = orig_value
+        end
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
+
+function table.deepcopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[deepcopy(orig_key)] = deepcopy(orig_value)
+        end
+        setmetatable(copy, deepcopy(getmetatable(orig)))
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
+
+function table.random(t)
+    local keys = {}
+    for k, _ in pairs(t) do
+        table.insert(keys, k)
+    end
+    local key = keys[RandomInt(1, # keys)]
+    return t[key], key
+end
+
+function table.shuffle(tbl)
+    local t = table.shallowcopy(tbl)
+    for i = # t, 2, - 1 do
+        local j    = RandomInt(1, i)
+        t[i], t[j] = t[j], t[i]
+    end
+    return t
+end
+
+function table.random_some(t, count)
+    local key_table = table.make_key_table(t)
+    key_table       = table.shuffle(key_table)
+    local r         = {}
+    for i = 1, count do
+        local key = key_table[i]
+        table.insert(r, t[key])
+    end
+    return r
+end
+
+function table.random_with_condition(t, func)
+    local keys = {}
+    for k, v in pairs(t) do
+        if func(t, k, v) then
+            table.insert(keys, k)
+        end
+    end
+
+    local key = keys[RandomInt(1, # keys)]
+    return t[key], key
+end
+
+function table.random_with_weight(t)
+    local weight_table = {}
+    local total_weight = 0
+    for k, v in pairs(t) do
+        local w
+        if v.GetWeight then
+            w = v:GetWeight()
+        else
+            w = v.Weight or v[2] or 0
+        end
+        total_weight = total_weight + w
+        table.insert(weight_table, { key = k, total_weight = total_weight })
+    end
+
+    local randomValue = RandomFloat(0, total_weight)
+    for i = 1, # weight_table do
+        if weight_table[i].total_weight >= randomValue then
+            local key = weight_table[i].key
+            return t[key]
+        end
+    end
+end
+
+function table.filter(t, condition)
+    local r = {}
+    for k, v in pairs(t) do
+        if condition(t, k, v) then
+            r[k] = v
+        end
+    end
+    return r
+end
+
+function table.make_key_table(t)
+    local r = {}
+    for k, _ in pairs(t) do
+        table.insert(r, k)
+    end
+    return r
+end
+
+function table.is_equal(t1, t2)
+    for k, v in pairs(t1) do
+        if t2[k] ~= v then
+            return false
+        end
+    end
+    return true
+end
+
+function table.random_key(t)
+    return table.random(table.make_key_table(t))
 end

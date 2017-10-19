@@ -1,0 +1,45 @@
+#round_end_summary {
+	width: 100%;
+	height: 100%;
+}
+
+.RoundEndSummary_BackgroundBlur {
+	background-color: #ffffff22;
+}
+
+.RoundEndSummary_PanelRoot {
+	vertical-align: center;
+	horizontal-align: center;
+}
+
+.UnReached {
+	wash-color:#444444;
+}
+
+#finished_orders_count {
+	color:white;
+	font-size: 100px;
+	vertical-align: bottom;
+	horizontal-align: center;
+	font-weight: bold;
+
+	margin-bottom: 50px;
+}
+
+.RoundEndSummary_Perfect {
+
+}
+
+.CloseButton {
+	horizontal-align: right;
+	width: 40px;
+	height: 40px;
+	wash-color:#eeeeee;
+
+	margin-top: 250px;
+	margin-right:70px;
+}
+
+.CloseButton:hover {
+	margin-top: 246px;
+}

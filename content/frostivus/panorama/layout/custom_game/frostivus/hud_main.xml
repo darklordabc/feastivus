@@ -7,11 +7,13 @@
 
 		<include src="file://{resources}/styles/custom_game/frostivus/hud_main.css" />
 		<include src="file://{resources}/styles/custom_game/frostivus/orders.css" />
+		<include src="file://{resources}/styles/custom_game/frostivus/round_end_summary.css" />
 
 	</styles>
 	<scripts>
 		<include src="file://{resources}/scripts/custom_game/frostivus/hud_main.js" />
 		<include src="file://{resources}/scripts/custom_game/frostivus/orders.js" />
+		<include src="file://{resources}/scripts/custom_game/frostivus/round_end_summary.js" />
 	</scripts>
 
 	<snippets>
@@ -75,6 +77,20 @@
 					<Image class="TimerColon" />
 					<Image class="TimerDigit" id="count_down_secs_1" />
 					<Image class="TimerDigit" id="count_down_secs_2" />
+				</Panel>
+			</Panel>
+
+			<!-- round end summary -->
+			<Panel id="round_end_summary" class="Hidden">
+				<Panel class="RoundEndSummary_BackgroundBlur" />
+				<Panel class="RoundEndSummary_PanelRoot">
+					<Image class="RoundEndSummary_BackgroundArt" src="file://{resources}/images/custom_game/ui/round_end_summary/background.png" />
+					<Image class="RoundEndSummary_Stars UnReached" id="round_end_star1" src="file://{resources}/images/custom_game/ui/round_end_summary/star1.png" />
+					<Image class="RoundEndSummary_Stars UnReached" id="round_end_star2" src="file://{resources}/images/custom_game/ui/round_end_summary/star2.png" />
+					<Image class="RoundEndSummary_Stars UnReached" id="round_end_star3" src="file://{resources}/images/custom_game/ui/round_end_summary/star3.png" />
+					<Label id="finished_orders_count" text="0 / 0" />
+					<Image class="RoundEndSummary_Perfect Hidden" id="perfect_panel" src="file://{resources}/images/custom_game/ui/round_end_summary/perfect.png" />
+					<Image class="CloseButton" src="file://{resources}/images/custom_game/ui/round_end_summary/close_button.png" onactivate="CloseSummary()" />
 				</Panel>
 			</Panel>
 

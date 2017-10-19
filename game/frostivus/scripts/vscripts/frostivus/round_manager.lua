@@ -4,6 +4,9 @@ GameRules.vRoundDefinations = LoadKeyValues('scripts/kv/rounds.kv')
 for level, data in pairs(GameRules.vRoundDefinations) do
 	GameRules.vRoundDefinations[tonumber(level)] = data
 end
+
+LinkLuaModifier("modifier_teleport_to_new_round","frostivus/modifiers/modifier_teleport_to_new_round.lua",LUA_MODIFIER_MOTION_NONE)
+
 ---------------------------------------------------------------------------------------
 -- GLOBAL API
 --=====================================================================================
@@ -220,6 +223,9 @@ function Round:EndRound()
 	-- they completed out of the max.
 	-- Should teleport all players to the next level and start the ready set go graphic again.
 	
+	if self.bRoundEnded then return end
+	self.bRoundEnded = true
+
 	-- 1. calculate stars
 	-- 
 	local stars = 0
@@ -246,6 +252,13 @@ function Round:EndRound()
 	-- tell the round manager to start a new round after delay
 	Timers:CreateTimer(self.nEndRoundDelay, function()
 		GameRules.RoundManager:OnRoundEnd()
+	end)
+
+	-- show teleporting particle
+	Timers:CreateTimer(self.nEndRoundDelay - 2, function()
+		LoopOverHeroes(function(hero)
+			hero:AddNewModifier(hero,nil,"modifier_teleport_to_new_round",{})
+		end)
 	end)
 end
 
@@ -370,6 +383,21 @@ function RoundManager:StartNewRound(level) -- level is passed for test purpose
 
 	local roundData = GameRules.vRoundDefinations[level]
 
+	local teleport_target_entities = Entities:FindAllByName('level_' .. tostring(level) .. '_target')
+	LoopOverHeroes(function(hero)
+		-- teleport players to new round
+		local randomTarget = hero:GetOrigin()
+		if table.count(teleport_target_entities) > 0 then
+			randomTarget = table.random(teleport_target_entities)
+			randomTarget = randomTarget:GetOrigin()
+		end
+
+		FindClearSpaceForUnit(hero,randomTarget,true)
+
+		-- remove teleporting effect
+		hero:RemoveModifierByName('modifier_teleport_to_new_round')
+	end)
+
 	-- if there is no new round, end this game
 	if roundData == nil then
 		-- @todo, end game!!!!
@@ -381,7 +409,7 @@ function RoundManager:StartNewRound(level) -- level is passed for test purpose
 	self.vCurrentRound = Round(roundData)
 
 	print("RoundManager -> New round started, level-", level)
-
+	
 	-- display round start message on clients
 	CustomGameEventManager:Send_ServerToAllClients("round_start",{
 		Level = level
@@ -411,4 +439,9 @@ if IsInToolsMode() then
 		end
 		GameRules.RoundManager:StartNewRound(tonumber(level))
 	end,"jump to a certain round and start",FCVAR_CHEAT)
+
+	Convars:RegisterCommand("debug_set_round_time",function(_, time)
+		if time == nil then time = 100 end
+		GameRules.RoundManager:GetCurrentRound():_Debug_SetRoundTime(tonumber(time))
+	end,"set round time",FCVAR_CHEAT)
 end

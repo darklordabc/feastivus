@@ -3,6 +3,7 @@
 require('internal/util')
 require('internal/util_unit')
 require('internal/util_tables')
+require('internal/util_string')
 require('gamemode')
 
 function Precache( context )
