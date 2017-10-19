@@ -4,10 +4,11 @@ function OnPreRoundCountDown(args){
 	var imagePanel = $("#ready_set_go");
 	center.AddClass("SlideIn");
 
-	if (time == 5) {
+	if (time == 5 || time == 4) {
 		// show round name and game logo
 		$("#game_logo").RemoveClass("Hidden");
 		$("#round_name").RemoveClass("Hidden");
+		imagePanel.AddClass("Hidden");
 	}else if (time == 3){
 		// ready
 		imagePanel.SetImage("s2r://panorama/images/custom_game/ui/image_ready.png")

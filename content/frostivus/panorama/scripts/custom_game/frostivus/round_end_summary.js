@@ -5,8 +5,6 @@
 // 	})
 
 function ShowRoundEndSummary(args) {
-	$.Msg("round end summary");
-	$.Msg(args);
 	var stars = args.Stars;
 	var finishedOrdersCount = args.FinishedOrdersCount;
 	var unFinishedOrdersCount = args.UnFinishedOrdersCount;
@@ -24,21 +22,28 @@ function ShowRoundEndSummary(args) {
 		perfect = true;
 	}
 
-	for (var i = 1; i <= stars; ++i){
-		$.Schedule(i / 2, function(){
-			$("#round_end_star" + i).RemoveClass("UnReached");
-		});
-	}
+	for (var i = 1; i <= 3; i++)
+		$("#round_end_star" + i).AddClass("UnReached");
+
+	if (stars >= 1)
+		$.Schedule(0.5, function(){ $("#round_end_star1").RemoveClass("UnReached"); });
+	if (stars >= 2)
+		$.Schedule(1.0, function(){ $("#round_end_star2").RemoveClass("UnReached"); });
+	if (stars >= 3)
+		$.Schedule(1.5, function(){ $("#round_end_star3").RemoveClass("UnReached"); });
 
 	if (perfect) {
 		$.Schedule(2, function() {
 			$("#perfect_panel").RemoveClass("Hidden");
+			// @todo perfect sound!
 		});	
 	}
 
 	$.Schedule(10, function() {
 		CloseSummary();
 	});
+
+	$("#round_end_summary").RemoveClass("Hidden");
 }
 
 function CloseSummary() {
@@ -47,4 +52,9 @@ function CloseSummary() {
 
 (function() {
 	GameEvents.Subscribe('show_round_end_summary', ShowRoundEndSummary);
+	ShowRoundEndSummary({
+		Stars: 4,
+		FinishedOrdersCount: 16,
+		UnFinishedOrdersCount: 0,
+	})
 })();
