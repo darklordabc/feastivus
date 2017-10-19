@@ -52,10 +52,4 @@ function CloseSummary() {
 
 (function() {
 	GameEvents.Subscribe('show_round_end_summary', ShowRoundEndSummary);
-	ShowRoundEndSummary({
-		Stars: 4,
-		FinishedOrdersCount: 16,
-		UnFinishedOrdersCount: 0,
-	})
-	
 })();
