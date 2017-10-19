@@ -126,7 +126,8 @@ function Frostivus:OnPickupItem( item, ply )
 	if not Frostivus.ItemsKVs[item:GetName()].CantPickup then
 		if Frostivus:IsCarryingItem( caster ) then
 			Frostivus:L("Swapping Items...")
-			Frostivus:DropItem( caster, Frostivus:GetCarryingItem( caster ) )
+			local item = Frostivus:DropItem( caster, Frostivus:GetCarryingItem( caster ) )
+			item:FollowEntity( nil, false )
 		end
 		
 		local item = item:GetContainer()
