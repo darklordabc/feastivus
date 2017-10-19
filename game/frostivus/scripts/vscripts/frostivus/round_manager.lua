@@ -125,7 +125,8 @@ function Round:OnTimer()
 					table.insert(self.vCurrentOrders, {
 						nTimeRemaining = g_DEFAULT_ORDER_TIME_LIMIT,
 						pszItemName = recipeName,
-						pszID = DoUniqueString("order")
+						pszID = DoUniqueString("order"),
+						nTimeLimit = g_DEFAULT_ORDER_TIME_LIMIT,
 					})
 				end
 			end
@@ -193,7 +194,8 @@ function Round:OnTimer()
 					table.insert(self.vCurrentOrders, {
 						nTimeRemaining = g_DEFAULT_ORDER_TIME_LIMIT,
 						pszItemName = recipeName,
-						pszID = DoUniqueString("order")
+						pszID = DoUniqueString("order"),
+						nTimeLimit = g_DEFAULT_ORDER_TIME_LIMIT,
 					})
 				end
 			end

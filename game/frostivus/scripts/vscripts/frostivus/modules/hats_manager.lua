@@ -53,7 +53,7 @@ function HatsManager:constructor()
 	self.vPlayerHats = {}
 	CustomGameEventManager:RegisterListener("player_select_hats", function(_, args) self:OnPlayerSelect(args) end)	
 	ListenToGameEvent("npc_spawned",Dynamic_Wrap(HatsManager, "OnNPCSpawned"),self)
-	print("HatsManager:constructor")
+	-- print("HatsManager:constructor")
 end
 
 function HatsManager:OnPlayerSelect(args)
@@ -76,7 +76,7 @@ end
 
 function HatsManager:OnNPCSpawned(args)
 
-	print("Hats Manager -> NPC Spawned")
+	-- print("Hats Manager -> NPC Spawned")
 
 	local npc = EntIndexToHScript(args.entindex)
 
