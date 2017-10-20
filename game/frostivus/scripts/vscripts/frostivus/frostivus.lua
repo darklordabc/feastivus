@@ -134,11 +134,7 @@ function Frostivus:OnPickupItem( item, ply )
 		
 		local item = item:GetContainer()
 
-		Frostivus:BindItem(item, caster, (function ()
-			return caster:GetAbsOrigin() + Vector(0,0,128) + caster:GetForwardVector() * 32
-		end),(function ()
-			return Frostivus:IsCarryingItem( caster, item )
-		end), nil, true, false)
+		caster:BindItem( item )
 	end
 end
 

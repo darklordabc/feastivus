@@ -248,11 +248,7 @@ function OnUse( bench, user )
 					-- If bench is 3D then it will return binded container, otherwise it will create one
 					item = bench:PickItemFromBench(user, item)
 
-					Frostivus:BindItem(item, user, (function ()
-						return user:GetAbsOrigin() + Vector(0,0,128) + user:GetForwardVector() * 32
-					end),(function ()
-						return Frostivus:IsCarryingItem( user, item )
-					end), nil, true, false)
+					user:BindItem( item )
 				elseif bench:IsBenchFull() and bench:IsRefineBench() then
 					-- Use full bench (e.g. after interrupting channel)
 					bench:OnBenchIsFull(bench.wp:GetData().items, user)
