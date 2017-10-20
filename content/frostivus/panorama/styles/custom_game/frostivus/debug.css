@@ -1,0 +1,28 @@
+.Debug_Root {
+	vertical-align: center;
+	background-color:#00000066;
+	flow-children:down;
+}
+
+#DebugPanel {
+	padding:20px;
+	flow-children:down;
+	width:400px;
+}
+
+.SetRoundTimePanel {
+	flow-children: right;
+	margin-top:10px;
+}
+
+.JumpToRoundPanel {
+	flow-children:right;
+	margin-top:10px;
+}
+
+.Debug_Root Button {
+}
+
+.Hidden {
+	visibility: collapse;
+}

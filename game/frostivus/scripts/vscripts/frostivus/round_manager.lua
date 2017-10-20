@@ -444,18 +444,3 @@ end
 if GameRules.RoundManager == nil then GameRules.RoundManager = RoundManager() end
 
 g_RoundManager = GameRules.RoundManager
-
-
-if IsInToolsMode() then
-	Convars:RegisterCommand("debug_start_round",function(_, level)
-		if level == nil then
-			level = GameRules.RoundManager:GetCurrentLevel() + 1
-		end
-		GameRules.RoundManager:StartNewRound(tonumber(level))
-	end,"jump to a certain round and start",FCVAR_CHEAT)
-
-	Convars:RegisterCommand("debug_set_round_time",function(_, time)
-		if time == nil then time = 100 end
-		GameRules.RoundManager:GetCurrentRound():_Debug_SetRoundTime(tonumber(time))
-	end,"set round time",FCVAR_CHEAT)
-end

@@ -1,0 +1,33 @@
+<root>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/frostivus/debug.js" />
+	</scripts>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="s2r://panorama/styles/hud.vcss_c"/>
+		<include src="file://{resources}/styles/custom_game/frostivus/debug.css" />
+
+	</styles>
+	<Panel class="Debug_Root Hidden" hittest="false">
+		<Button class="ButtonBevel" onactivate="ToggleDebugPanel()">
+			<Label text="Toggle debug panel" />
+		</Button>
+		<Panel id="DebugPanel">
+			<Button class="ButtonBevel" onactivate="CreateExtraGreevilling()">
+				<Label text="MORE Greevilling" />
+			</Button>
+			<Panel class="SetRoundTimePanel">
+				<Button class="ButtonBevel" onactivate="SetRoundTime()">
+					<Label text="Set Round Time" />
+				</Button>
+				<TextEntry id="RoundTimeTextbox" maxchars="3" placeholder="secs..." />
+			</Panel>
+			<Panel class="JumpToRoundPanel">
+				<Button class="ButtonBevel" onactivate="JumpToRound()">
+					<Label text="Jump To Round" />
+				</Button>
+				<TextEntry id="RoundNoTextbox" maxchars="3" placeholder="1" />
+			</Panel>
+		</Panel>
+	</Panel>
+</root>
