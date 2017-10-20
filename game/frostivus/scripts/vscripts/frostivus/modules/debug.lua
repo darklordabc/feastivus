@@ -33,6 +33,9 @@ function DebugModule:CreateExtraGreevilling(keys)
 	-- create a greevilling for the player
 	local greevilling = CreateUnitByName('npc_dota_hero_axe',hero:GetOrigin() + RandomVector(200),true,player,player,hero:GetTeamNumber())
 	greevilling:SetControllableByPlayer(hero:GetPlayerID(),false)
+
+	player.vExtraGreevillings = player.vExtraGreevillings or {}
+	table.insert(player.vExtraGreevillings, greevilling)
 end
 
 function DebugModule:SetRoundTime(keys)
@@ -69,9 +72,11 @@ function DebugModule:UpdateCurrentUnit(keys)
 	local unit = EntIndexToHScript(keys.entindex)
 	if not (unit and IsValidEntity(unit)) then unit = hero end
 	if not unit then return end
-	
+
+	if not player.vExtraGreevillings or table.count(player.vExtraGreevillings) <= 0 then return end
+
 	if player._DebugParticle == nil then
-		player._DebugParticle = ParticleManager:CreateParticleForPlayer('particles/econ/events/ti7/ti7_hero_effect.vpcf',PATTACH_ABSORIGIN_FOLLOW,hero,player)
+		player._DebugParticle = ParticleManager:CreateParticleForPlayer('particles/econ/items/juggernaut/bladekeeper_healing_ward/juggernaut_healing_ward_ring_dc.vpcf',PATTACH_ABSORIGIN_FOLLOW,hero,player)
 	end
 	ParticleManager:SetParticleControlEnt(player._DebugParticle,0,unit,PATTACH_ABSORIGIN_FOLLOW,"attach_hitloc",unit:GetOrigin(),true)
 end

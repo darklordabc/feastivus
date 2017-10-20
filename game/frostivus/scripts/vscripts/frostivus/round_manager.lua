@@ -408,6 +408,14 @@ function RoundManager:StartNewRound(level) -- level is passed for test purpose
 
 		FindClearSpaceForUnit(hero,teleportTarget or hero:GetOrigin(),true)
 
+		-- move all greevillings controlled by this player around the point
+		local player = PlayerResource:GetPlayer(hero:GetPlayerID())
+		if player.vExtraGreevillings and table.count(player.vExtraGreevillings) > 0 then
+			for _, greevilling in pairs(player.vExtraGreevillings) do
+				FindClearSpaceForUnit(greevilling, teleportTarget or hero:GetOrigin(), true)
+			end
+		end
+
 		-- remove teleporting effect
 		hero:RemoveModifierByName('modifier_teleport_to_new_round')
 	end)
