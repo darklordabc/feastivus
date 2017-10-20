@@ -221,51 +221,77 @@ end
 function OnUse( bench, user )
 	if user then
 		if not user:FindModifierByName("modifier_carrying_item") and bench.wp:GetData().items[1] then
-			local item_name = bench.wp:GetData().items[1]
-
-			if (Frostivus.ItemsKVs[item_name].CanBePickedFromBench or bench:HasModifier("modifier_crate") or bench:HasModifier("modifier_transfer_bench")) and bench:GetBenchItemCount() == 1 and not bench:IsRefining() then
-				-- Picking item from the bench
-				local item = item_name
-				if bench:Is3DBench() and Frostivus:IsCarryingItem( bench ) and not bench._bench_infinite_items then
-					item = Frostivus:DropItem( bench, Frostivus:GetCarryingItem( bench ) )
-					-- if item then
-					-- 	item:RemoveSelf()
-					-- end
+			bench:AddNewModifier(nil,nil,"modifier_bench_busy",{duration = 0.4})
+			user:AddNewModifier(nil,nil,"modifier_fake_casting",{})
+			StartAnimation(user, {duration=0.4, activity=ACT_DOTA_GREEVIL_CAST, rate=1.2, translate="greevil_miniboss_black_nightmare"})
+			
+			Timers:CreateTimer(0.0, function ()
+				if not user:HasModifier("modifier_fake_casting") then
+					return
 				end
 
-				-- If bench is 3D then it will return binded container, otherwise it will create one
-				item = bench:PickItemFromBench(user, item)
+				user:RemoveModifierByName("modifier_fake_casting")
+				user:EmitSound("WeaponImpact_Common.Wood")
 
-				Frostivus:BindItem(item, user, (function ()
-					return user:GetAbsOrigin() + Vector(0,0,128) + user:GetForwardVector() * 32
-				end),(function ()
-					return Frostivus:IsCarryingItem( user, item )
-				end), nil, true, false)
-			elseif bench:IsBenchFull() and bench:IsRefineBench() then
-				-- Use full bench (e.g. after interrupting channel)
-				bench:OnBenchIsFull(bench.wp:GetData().items, user)
-			end
+				local item_name = bench.wp:GetData().items[1]
+
+				if (Frostivus.ItemsKVs[item_name].CanBePickedFromBench or bench:HasModifier("modifier_crate") or bench:HasModifier("modifier_transfer_bench")) and bench:GetBenchItemCount() == 1 and not bench:IsRefining() then
+					-- Picking item from the bench
+					local item = item_name
+					if bench:Is3DBench() and Frostivus:IsCarryingItem( bench ) and not bench._bench_infinite_items then
+						item = Frostivus:DropItem( bench, Frostivus:GetCarryingItem( bench ) )
+						-- if item then
+						-- 	item:RemoveSelf()
+						-- end
+					end
+
+					-- If bench is 3D then it will return binded container, otherwise it will create one
+					item = bench:PickItemFromBench(user, item)
+
+					Frostivus:BindItem(item, user, (function ()
+						return user:GetAbsOrigin() + Vector(0,0,128) + user:GetForwardVector() * 32
+					end),(function ()
+						return Frostivus:IsCarryingItem( user, item )
+					end), nil, true, false)
+				elseif bench:IsBenchFull() and bench:IsRefineBench() then
+					-- Use full bench (e.g. after interrupting channel)
+					bench:OnBenchIsFull(bench.wp:GetData().items, user)
+				end
+			end)
 		elseif not bench:IsBenchFull() or bench:HasModifier("modifier_bin") or bench:ContainsPlate() then
-			if bench:ContainsPlate() then
-				bench = Frostivus:GetCarryingItem( bench )
-			end
+			bench:AddNewModifier(nil,nil,"modifier_bench_busy",{duration = 0.45})
+			user:AddNewModifier(nil,nil,"modifier_fake_casting",{})
+			StartAnimation(user, {duration=0.45, activity=ACT_DOTA_GREEVIL_CAST, rate=1, translate="greevil_laguna_blade"})
 
-			-- Adding item to the bench
-			if user:FindModifierByName("modifier_carrying_item") then
-				local item = user:FindModifierByName("modifier_carrying_item").item
+			Timers:CreateTimer(0.0, function ()
+				if not user:HasModifier("modifier_fake_casting") then
+					return
+				end
 
-				if item and bench:CheckItem(item) then
-					bench:AddItemToBench(item:GetContainedItem():GetName(), user)
+				user:RemoveModifierByName("modifier_fake_casting")
+				user:EmitSound("WeaponImpact_Common.Wood")
 
-					Frostivus:DropItem( user, item )
+				if bench:ContainsPlate() then
+					bench = Frostivus:GetCarryingItem( bench )
+				end
 
-					if bench:Is3DBench() then
-						bench:BindItem(item)
-					else
-						item:RemoveSelf()
+				-- Adding item to the bench
+				if user:FindModifierByName("modifier_carrying_item") then
+					local item = user:FindModifierByName("modifier_carrying_item").item
+
+					if item and bench:CheckItem(item) then
+						bench:AddItemToBench(item:GetContainedItem():GetName(), user)
+
+						Frostivus:DropItem( user, item )
+
+						if bench:Is3DBench() then
+							bench:BindItem(item)
+						else
+							item:RemoveSelf()
+						end
 					end
 				end
-			end
+			end)
 		end
 	end
 end

@@ -24,6 +24,8 @@ if not Frostivus then
 	LinkLuaModifier("modifier_unselectable", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_carrying_item", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_rooted", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_fake_casting", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_bench_busy", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 
     Frostivus.DEBUG = true
 
@@ -126,7 +128,8 @@ function Frostivus:OnPickupItem( item, ply )
 	if not Frostivus.ItemsKVs[item:GetName()].CantPickup then
 		if Frostivus:IsCarryingItem( caster ) then
 			Frostivus:L("Swapping Items...")
-			Frostivus:DropItem( caster, Frostivus:GetCarryingItem( caster ) )
+			local item = Frostivus:DropItem( caster, Frostivus:GetCarryingItem( caster ) )
+			item:FollowEntity( nil, false )
 		end
 		
 		local item = item:GetContainer()
