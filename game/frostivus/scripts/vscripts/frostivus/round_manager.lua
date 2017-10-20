@@ -168,8 +168,10 @@ function Round:OnTimer()
 	self.nCountDownTimer = self.nCountDownTimer - 1
 	self.nExpiredTime = self.nExpiredTime + 1
 
-	-- time's up or there are no pending orders, finish this round
-	if self.nCountDownTimer <= 0 or table.count(self.vPendingOrders) <= 0 then
+	-- time's up or there are no pending orders and no orders running
+	-- this round is ended
+	if self.nCountDownTimer <= 0 or (table.count(self.vPendingOrders) <= 0 and table.count(self.vCurrentOrders) <= 0) then
+		self.nCountDownTime = 0
 		self:EndRound()
 	end
 
