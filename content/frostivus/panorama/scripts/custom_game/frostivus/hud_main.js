@@ -30,6 +30,11 @@ function OnPreRoundCountDown(args){
 	});
 }
 
+// hide the timer when round end
+function HideTimer() {
+	$("#count_down_timer").AddClass("Hidden");
+}
+
 function OnTimer(args){
 	var time = args.value
 	
@@ -89,4 +94,5 @@ function AutoRemoveAbilityPips() {
     // parent.FindChildTraverse("Hud").FindChildTraverse("CustomUIRoot").FindChildTraverse("FrostivusHUD").FindChildTraverse("AbilitiesAndStatBranch").style.minWidth = "190px;";
 
     AutoRemoveAbilityPips();
+	GameEvents.Subscribe('show_round_end_summary', HideTimer);
 })();

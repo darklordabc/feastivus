@@ -168,8 +168,10 @@ function Round:OnTimer()
 	self.nCountDownTimer = self.nCountDownTimer - 1
 	self.nExpiredTime = self.nExpiredTime + 1
 
-	-- time's up or there are no pending orders, finish this round
-	if self.nCountDownTimer <= 0 or table.count(self.vPendingOrders) <= 0 then
+	-- time's up or there are no pending orders and no orders running
+	-- this round is ended
+	if self.nCountDownTimer <= 0 or (table.count(self.vPendingOrders) <= 0 and table.count(self.vCurrentOrders) <= 0) then
+		self.nCountDownTime = 0
 		self:EndRound()
 	end
 
@@ -442,18 +444,3 @@ end
 if GameRules.RoundManager == nil then GameRules.RoundManager = RoundManager() end
 
 g_RoundManager = GameRules.RoundManager
-
-
-if IsInToolsMode() then
-	Convars:RegisterCommand("debug_start_round",function(_, level)
-		if level == nil then
-			level = GameRules.RoundManager:GetCurrentLevel() + 1
-		end
-		GameRules.RoundManager:StartNewRound(tonumber(level))
-	end,"jump to a certain round and start",FCVAR_CHEAT)
-
-	Convars:RegisterCommand("debug_set_round_time",function(_, time)
-		if time == nil then time = 100 end
-		GameRules.RoundManager:GetCurrentRound():_Debug_SetRoundTime(tonumber(time))
-	end,"set round time",FCVAR_CHEAT)
-end

@@ -225,7 +225,7 @@ function OnUse( bench, user )
 			user:AddNewModifier(nil,nil,"modifier_fake_casting",{})
 			StartAnimation(user, {duration=0.4, activity=ACT_DOTA_GREEVIL_CAST, rate=1.2, translate="greevil_miniboss_black_nightmare"})
 			
-			Timers:CreateTimer(0.3, function ()
+			Timers:CreateTimer(0.0, function ()
 				if not user:HasModifier("modifier_fake_casting") then
 					return
 				end
@@ -259,7 +259,7 @@ function OnUse( bench, user )
 			user:AddNewModifier(nil,nil,"modifier_fake_casting",{})
 			StartAnimation(user, {duration=0.45, activity=ACT_DOTA_GREEVIL_CAST, rate=1, translate="greevil_laguna_blade"})
 
-			Timers:CreateTimer(0.35, function ()
+			Timers:CreateTimer(0.0, function ()
 				if not user:HasModifier("modifier_fake_casting") then
 					return
 				end
