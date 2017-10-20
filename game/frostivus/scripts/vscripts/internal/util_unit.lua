@@ -28,10 +28,12 @@ function CDOTA_BaseNPC:BindItem( item )
 	end),(function ()
 		return Frostivus:IsCarryingItem( self, item )
 	end), (function (  )
+		RemoveAnimationTranslate(self)
 		AddAnimationTranslate(self, "level_3")
 	end), true, false)
 
 	RemoveAnimationTranslate(self)
+	AddAnimationTranslate(self, "miniboss")
 end
 
 function CDOTA_Item_Physical:TriggerOnUse( user )

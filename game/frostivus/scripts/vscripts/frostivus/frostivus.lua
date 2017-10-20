@@ -41,8 +41,6 @@ if not Frostivus then
 	end
 end
 
-
-
 function Frostivus:InitHero(hero)
 	InitAbilities( hero )
 	AddAnimationTranslate(hero, "level_3")
@@ -74,6 +72,10 @@ function Frostivus:IsCarryingItem( unit, item )
 end
 
 function Frostivus:BindItem( item, unit, position_callback, condition_callback, drop_callback, add_modifier, dont_hide )
+	item:AddEffects(EF_NODRAW )
+	Timers:CreateTimer(0.1, function (  )
+		item:RemoveEffects(EF_NODRAW )
+	end)
 	Timers:CreateTimer(function ()
 		if not IsValidEntity(item) or not IsValidEntity(unit) then
 			return
@@ -109,7 +111,7 @@ function Frostivus:DropItem( unit, item )
 
 	if IsValidEntity(item) then
 		-- item:FollowEntity(nil,false)
-		item:SetAbsOrigin(GetGroundPosition(unit:GetAbsOrigin(), unit))
+		-- item:SetAbsOrigin(GetGroundPosition(unit:GetAbsOrigin(), unit))
 	end
 
 	return item
