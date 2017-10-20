@@ -18,8 +18,26 @@ function JumpToRound() {
 	GameEvents.SendCustomGameEventToServer('debug_jump_to_round', {round: round})
 }
 
+function ToggleTrackingCamera() {
+	var portraitUnit = Players.GetLocalPlayerPortraitUnit();
+	GameEvents.SendCustomGameEventToServer('toggle_tracking_camera', {entindex: portraitUnit})
+}
+
+var m_PortraitUnit;
+
+function DetectCurrentUnit() {
+	var portraitUnit = Players.GetLocalPlayerPortraitUnit();
+	if (portraitUnit == null || portraitUnit < 0) $.Schedule(0.03, DetectCurrentUnit);
+	if (portraitUnit != m_PortraitUnit) {
+		m_PortraitUnit = portraitUnit;
+		GameEvents.SendCustomGameEventToServer('debug_update_current_unit', {entindex: portraitUnit});
+	}
+	$.Schedule(0.03, DetectCurrentUnit);
+}
+
 (function(){
 	if (Game.IsInToolsMode()) {
 		$.GetContextPanel().RemoveClass('Hidden');
+		DetectCurrentUnit();
 	}
 })();

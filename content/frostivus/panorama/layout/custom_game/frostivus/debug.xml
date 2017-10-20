@@ -16,6 +16,9 @@
 			<Button class="ButtonBevel" onactivate="CreateExtraGreevilling()">
 				<Label text="MORE Greevilling" />
 			</Button>
+			<Button class="ButtonBevel ToggleTrackingCameraPanel" onactivate="ToggleTrackingCamera()">
+				<Label text="TOGGLE TRACKING CAMERA" />
+			</Button>
 			<Panel class="SetRoundTimePanel">
 				<Button class="ButtonBevel" onactivate="SetRoundTime()">
 					<Label text="Set Round Time" />
