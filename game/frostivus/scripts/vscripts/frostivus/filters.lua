@@ -31,6 +31,20 @@ function Frostivus:FilterExecuteOrder( filterTable )
 
     if order_type == DOTA_UNIT_ORDER_RADAR or order_type == DOTA_UNIT_ORDER_GLYPH then return end
 
+    if unit:HasModifier("modifier_frostivus_boost") then
+        local targetPosition
+        if order_type == DOTA_UNIT_ORDER_MOVE_TO_TARGET then
+            targetPosition = EntIndexToHScript(targetIndex):GetAbsOrigin()
+        end
+        if order_type == DOTA_UNIT_ORDER_MOVE_TO_POSITION then
+            targetPosition = Vector(x, y, z)
+        end
+        if targetPosition then
+            unit._vBoostLastOrderPosition = targetPosition
+            return false
+        end
+    end
+
     if order_type == DOTA_UNIT_ORDER_MOVE_TO_TARGET then
         unit.moving_target = EntIndexToHScript(targetIndex)
 
