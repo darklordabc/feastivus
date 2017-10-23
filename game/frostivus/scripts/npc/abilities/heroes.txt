@@ -32,12 +32,12 @@
       "01"
       {
         "var_type"          "FIELD_INTEGER"
-        "distance"          "200"
+        "distance"          "600"
       }
       "02"
       {
         "var_type"          "FIELD_INTEGER"
-        "speed"           "600"
+        "speed"           "900"
       }
       "03"
       {
@@ -47,7 +47,7 @@
       "04"
       {
         "var_type"          "FIELD_FLOAT"
-        "duration"          "2.5"
+        "duration"          "1.5"
       }
     }
 

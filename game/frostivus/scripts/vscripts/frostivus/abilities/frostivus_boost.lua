@@ -4,6 +4,9 @@ function frostivus_boost:OnSpellStart()
 	local caster = self:GetCaster()
 	caster:AddNewModifier(caster, self, "modifier_frostivus_boost", {})
 	EmitSoundOn("DOTA_Item.ForceStaff.Activate", caster)
+
+	-- clear the last boost target position
+	caster._vBoostLastOrderPosition = nil
 end
 
 modifier_frostivus_boost = class({})
@@ -25,24 +28,72 @@ if IsServer() then
 		GridNav:DestroyTreesAroundPoint(position, hullRadius, true)
 		if self.dist_travelled < self.distance then
 			local allies = FindUnitsInRadius(caster:GetTeamNumber(), position, nil, hullRadius, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
-			caster:SetForwardVector(self.vDir)
-			for _, ally in ipairs(allies) do
-				if ally ~= caster and ally:HasModifier("modifier_frostivus_boost") then
-					local boost = ally:FindModifierByName("modifier_frostivus_boost")
-					local velocityC = caster:GetForwardVector() * self.speed
-					local velocityA = ally:GetForwardVector() * boost.speed
-					local newVel = Vector(-velocityC.x, -velocityC.y)
-					local intersectLength = CalculateDistance(caster, ally) - caster:GetHullRadius() + caster:GetCollisionPadding()
-					
-					self.vDir = newVel:Normalized() * Vector(1,1,0)
-					self.speed = newVel:Length2D()
-					position = position + self.vDir * intersectLength
-					caster:SetAbsOrigin(GetGroundPosition(position, caster))
-					self.dist_travelled = 0
-					self.distance = math.min(200, self.distance - 25)
+			
+			-- make the direction slightly changed to the ordered direction
+			local w, cw
+			if caster._vBoostLastOrderPosition then
+				local orderDir = (caster._vBoostLastOrderPosition - caster:GetOrigin()):Normalized()
+				local crossProduct = self.vDir:Cross(orderDir)
+				if crossProduct.z > 0 then
+					w = true
+				end
+				if crossProduct.z < 0 then
+					cw = true
 				end
 			end
+			if w then
+				self.vDir = RotatePosition(Vector(0,0,0),QAngle(0,8 * 400 / self.speed,0),self.vDir)
+			end
+			if cw then
+				self.vDir = RotatePosition(Vector(0,0,0),QAngle(0,-8 * 400 / self.speed,0),self.vDir)
+			end
+
+			caster:SetForwardVector(self.vDir)
+
+			self.speed = self.speed - 150 * FrameTime()
+
+			for _, ally in ipairs(allies) do
+				if ally ~= caster then
+					if ally:HasModifier('modifier_frostivus_boost') then
+							local boost = ally:FindModifierByName("modifier_frostivus_boost")
+							local velocityC = caster:GetForwardVector() * self.speed
+							local velocityA = ally:GetForwardVector() * boost.speed
+							local newVel = Vector(-velocityC.x, -velocityC.y)
+							local intersectLength = CalculateDistance(caster, ally) - caster:GetHullRadius() + caster:GetCollisionPadding()
+							
+							self.vDir = newVel:Normalized() * Vector(1,1,0)
+							self.speed = newVel:Length2D()
+							position = position + self.vDir * intersectLength
+							caster:SetAbsOrigin(GetGroundPosition(position, caster))
+							self.dist_travelled = 0
+							self.distance = math.min(200, self.distance - 25)
+					else
+						if not ally:HasModifier('modifier_knockback') then
+							-- just kock back
+							local distance = 64
+							local speed = 800
+							local duration = 0.4
+							local center = caster:GetOrigin()
+
+							local knockback =	{
+								should_stun = false,
+								knockback_duration = distance / speed,
+								duration = distance / speed,
+								knockback_distance = distance,
+								knockback_height = distance * 0.2,
+								center_x = center.x,
+								center_y = center.y,
+								center_z = center.z
+							}
+
+							ally:AddNewModifier(caster, ability, "modifier_knockback", knockback)
+						end
+					end
+				end
+			end
+
 			local newPos = GetGroundPosition(position, caster) + self.vDir * self.speed * FrameTime()
+
 			if GridNav:CanFindPath(caster:GetAbsOrigin(), newPos) then
 				caster:SetAbsOrigin( newPos )
 				self.dist_travelled = self.dist_travelled + self.speed * FrameTime()
