@@ -15,8 +15,17 @@ function frostivus_serve_table:OnUpgrade()
         -- caster:AddItemToBench("item_bin_icon")
 
         caster.AddItemToBench = (function( self, item )
+            if type(item) ~= 'string' then
+                item = item:GetContainedItem():GetName()
+            end
+
         	item = CreateItem(item,nil,nil)
     		g_Serve(item)
+
+            caster._dirty_plates = caster._dirty_plates or CreateItemOnPositionSync(caster:GetAbsOrigin() + Vector(-64,-64,100),CreateItem("item_dirty_plates",caster,caster))
+            caster._dirty_plates:GetContainedItem()._counter = (caster._dirty_plates:GetContainedItem()._counter or 0) + 1
+
+            caster._dirty_plates:SetModel("models/plates/dirty_plate_"..tostring(caster._dirty_plates:GetContainedItem()._counter)..".vmdl")
         end)
     end)
 end

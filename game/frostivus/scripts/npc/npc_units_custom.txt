@@ -160,7 +160,7 @@
     "npc_plate_bench"
     { 
         "BaseClass"         "npc_dota_creature"
-        "Model"             "models/plate_bench.vmdl"
+        "Model"             "models/table/table.vmdl"
         "ModelScale"        "0.9"
         "Level"             "10"
 
@@ -239,6 +239,27 @@
         "MovementCapabilities"    "DOTA_UNIT_CAP_MOVE_NONE"
 
         "TeamName"          "DOTA_TEAM_GOODGUYS"
+    }
+
+    "npc_sink_bench"
+    { 
+        "BaseClass"         "npc_dota_creature"
+        "Model"             "models/sink/sink.vmdl"
+        "ModelScale"        "0.9"
+        "Level"             "10"
+
+        "Ability1"          "frostivus_bench"
+        "Ability2"          "frostivus_sink"
+        "Ability3"          ""
+        "Ability4"          ""
+
+        "ArmorPhysical"             "0"
+        "MagicalResistance"         "0"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
     }
 
     "wearable_model"

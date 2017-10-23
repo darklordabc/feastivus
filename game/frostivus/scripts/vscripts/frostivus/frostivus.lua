@@ -74,7 +74,9 @@ end
 function Frostivus:BindItem( item, unit, position_callback, condition_callback, drop_callback, add_modifier, dont_hide )
 	item:AddEffects(EF_NODRAW )
 	Timers:CreateTimer(0.1, function (  )
-		item:RemoveEffects(EF_NODRAW )
+		if IsValidEntity(item) then
+			item:RemoveEffects(EF_NODRAW )
+		end
 	end)
 	Timers:CreateTimer(function ()
 		if not IsValidEntity(item) or not IsValidEntity(unit) then
@@ -122,6 +124,7 @@ function Frostivus:OnPickupItem( item, ply )
 
 	local model = Frostivus.ItemsKVs[item:GetName()].Model
 	local charges = item:GetCurrentCharges()
+	local counter = item._counter
 
 	Frostivus:L(item:GetName()..":"..tostring(charges))
 
@@ -135,6 +138,12 @@ function Frostivus:OnPickupItem( item, ply )
 		end
 		
 		local item = item:GetContainer()
+
+		-- Plate stack
+		if counter then
+			item._counter = counter
+			item:SetModel("models/plates/dirty_plate_"..tostring(counter)..".vmdl")
+		end
 
 		caster:BindItem( item )
 	end

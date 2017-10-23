@@ -155,7 +155,7 @@ function GameMode:ExampleConsoleCommand()
 		local playerID = cmdPlayer:GetPlayerID()
 		if playerID ~= nil and playerID ~= -1 then
 			-- Do something here for the player who called this command
-			PlayerResource:ReplaceHeroWith(playerID, "npc_dota_hero_viper", 1000, 1000)
+			CreateItemOnPositionSync(cmdPlayer:GetAssignedHero():GetAbsOrigin(),CreateItem("item_tango_salad",cmdPlayer:GetAssignedHero(),cmdPlayer:GetAssignedHero()))
 		end
 	end
 

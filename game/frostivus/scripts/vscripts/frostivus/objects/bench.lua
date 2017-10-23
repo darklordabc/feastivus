@@ -88,6 +88,10 @@ function BenchAPI( keys )
 
 	caster.AddItemToBench = (function( self, item, user )
 		local old_data = self.wp:GetData()
+
+		if type(item) ~= 'string' then
+			item = item:GetContainedItem():GetName()
+		end
 		
 		if GetTableLength(old_data.items) < old_data.layout then
 			table.insert(old_data.items, item)
@@ -122,6 +126,12 @@ function BenchAPI( keys )
 
 	caster.IsRefineBench = (function( self)
 		return caster._on_bench_is_full ~= nil
+	end)
+
+	caster.ContainsPlateStack = (function( self )
+		local old_data = self.wp:GetData()
+
+		return old_data.items[1] and old_data.items[1] == "item_clean_plates"
 	end)
 
 	caster.ContainsPlate = (function( self )
@@ -164,7 +174,7 @@ function BenchAPI( keys )
 	caster.IsRefining = (function( self )
 		local old_data = self.wp:GetData()
 
-		return old_data.passed or old_data.paused or self:HasModifier("modifier_unselectable")
+		return old_data.passed or old_data.paused or (self.HasModifier and self:HasModifier("modifier_unselectable"))
 	end)
 
 	caster.GetRefineTarget = (function( self )
@@ -185,7 +195,7 @@ function BenchAPI( keys )
 
 	caster.OnCompleteRefine = (function( self )
 		if caster._on_complete_refine then
-			caster._on_complete_refine(self)
+			return caster._on_complete_refine(self)
 		else
 			Frostivus:L("Refine Complete!")
 		end
@@ -216,6 +226,14 @@ function BenchAPI( keys )
 			Frostivus:DropItem( self, item )
 		end), true, false)
 	end)
+
+	caster.ClearBench = (function ( self )
+		Frostivus:GetCarryingItem(self):RemoveSelf()
+		self:RemoveModifierByName("modifier_carrying_item")
+		local old_data = self.wp:GetData()
+		old_data.items = {}
+		self.wp:SetData(old_data)
+	end)
 end
 
 function OnUse( bench, user )
@@ -225,6 +243,11 @@ function OnUse( bench, user )
 			StartAnimation(user, {duration=0.3, activity=ACT_DOTA_GREEVIL_CAST, rate=2, translate="greevil_miniboss_black_nightmare"})
 
 			user:EmitSound("WeaponImpact_Common.Wood")
+
+			-- Picking a plate from a plate stack
+			if bench:ContainsPlateStack() then
+				bench = Frostivus:GetCarryingItem(bench)
+			end
 
 			local item_name = bench.wp:GetData().items[1]
 
@@ -252,6 +275,7 @@ function OnUse( bench, user )
 
 			user:EmitSound("WeaponImpact_Common.Wood")
 
+			-- Adding item to a plate
 			if bench:ContainsPlate() then
 				bench = Frostivus:GetCarryingItem( bench )
 			end
@@ -261,7 +285,7 @@ function OnUse( bench, user )
 				local item = user:FindModifierByName("modifier_carrying_item").item
 
 				if item and bench:CheckItem(item) then
-					bench:AddItemToBench(item:GetContainedItem():GetName(), user)
+					bench:AddItemToBench(item, user)
 
 					Frostivus:DropItem( user, item )
 
@@ -330,24 +354,31 @@ function RefineBase( bench, items, user )
 		ResetProgress()
 		StopSoundOn('custom_sound.chopping',bench)
 
-		bench:OnCompleteRefine()
+		local custom_refine = bench:OnCompleteRefine()
 
 		local old_data = bench.wp:GetData()
-		old_data.items[1] = target_item
 		old_data.layout = bench._initial_layout
+		old_data.items[1] = target_item
 		old_data.passed = nil
+		old_data.paused = nil
 		bench.wp:SetData(old_data)
 
-		if bench:Is3DBench() and bench:FindModifierByName("modifier_carrying_item") then
-			local item = bench:FindModifierByName("modifier_carrying_item").item
+		if custom_refine then
 
-			Frostivus:DropItem( bench, item )
+		else
+			-- local old_data = bench.wp:GetData()
+			-- old_data.items[1] = target_item
+			-- bench.wp:SetData(old_data)
 
-			item:RemoveSelf()
+			if bench:Is3DBench() and bench:FindModifierByName("modifier_carrying_item") then
+				local item = bench:FindModifierByName("modifier_carrying_item").item
 
-			-- Timers:CreateTimer(0.06, function(  )
+				Frostivus:DropItem( bench, item )
+
+				item:RemoveSelf()
+
 				bench:BindItem(target_item)
-			-- end)
+			end
 		end
 	end)
 
@@ -355,4 +386,105 @@ function RefineBase( bench, items, user )
 	user:CastAbilityNoTarget(ab, user:GetPlayerOwnerID())
 
 	bench:SetBenchHidden(false)
+end
+
+function AddPlateStack(caster, quantity)
+	quantity = quantity or 3
+
+	caster:AddItemToBench("item_clean_plates")
+
+	local stack = CreateItemOnPositionSync(caster:GetAbsOrigin(), CreateItem("item_clean_plates", caster, caster))
+	stack:SetModel("models/plates/dirty_plate_"..tostring(quantity)..".vmdl")
+	print(quantity, "creating plates")
+	caster:BindItem(stack)
+
+	BenchAPI(stack)
+	stack:InitBench(1, (function()
+		return false
+	end), nil, nil, true)
+	stack:SetBenchHidden(true)
+	stack:AddItemToBench("item_plate")
+	stack:SetBenchInfiniteItems(true)
+
+	stack._count = quantity
+
+	stack.PickItemFromBench = (function( self, user, item_name )
+		local plate = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem(item_name,nil,nil))
+
+		BenchAPI(plate)
+		plate:InitBench( 3, (function ( bench, item )
+			local item_name = item:GetContainedItem():GetName()
+
+			for k,v in pairs(Frostivus.RecipesKVs["1"]) do
+				for k1,v1 in pairs(v.Assembly) do
+
+					if v1 == item_name then
+						return true
+					end
+				end
+			end
+
+			return false
+		end))
+		plate:SetOnPickedFromBench(function ( picked_item )
+			
+		end)
+		plate:SetOnBenchIsFull( function ( bench, items, user )
+			local result
+
+			for k,v in pairs(Frostivus.RecipesKVs["1"]) do
+				if CheckRecipe(items, v.Assembly) then
+					result = k
+					break
+				end
+			end
+
+			if result then
+				local dish = CreateItemOnPositionSync(plate:GetAbsOrigin(),CreateItem(result,nil,nil))
+
+				bench._holder:RemoveModifierByName("modifier_carrying_item")
+				bench._holder:PickItemFromBench(user, plate):RemoveSelf()
+
+				bench._holder:AddItemToBench(result, user)
+				bench._holder:BindItem(dish)
+			end
+		end )
+		
+		if not self._bench_infinite_items then
+			local old_data = self.wp:GetData()
+			old_data.items = {}
+			self.wp:SetData(old_data)
+
+			self:OnPickedFromBench(plate)
+		end
+
+		stack._count = stack._count - 1
+
+		if stack._count == 0 then
+			Frostivus:DropItem( stack._holder, stack )
+			stack._holder:PickItemFromBench(stack._holder, stack):RemoveSelf()
+		else
+			stack:SetModel("models/plates/dirty_plate_"..tostring(stack._count)..".vmdl")
+		end
+		
+		return plate
+	end)
+
+	return stack
+end
+
+function CheckRecipe(items, recipe)
+	local function IDArray( a )
+		local new = {}
+		for k,v in pairs(a) do
+			table.insert(new, Frostivus.ItemsKVs[v].ID)
+		end
+		table.sort(new)
+		return new
+	end
+
+	local v1 = IDArray( items )
+	local v2 = IDArray( recipe )
+
+	return deepcompare(v1,v2,true)
 end
