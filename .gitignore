@@ -4,6 +4,8 @@
 *.vxml_c
 *.vtex_c
 *.vmat_c
+*.vsndevts_c
+*.vsnd_c
 *.bin
 *.vpk
 game/frostivus/scripts/vscripts/.idea/workspace.xml
