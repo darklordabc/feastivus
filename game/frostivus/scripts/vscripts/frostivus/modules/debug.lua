@@ -15,6 +15,10 @@ Convars:RegisterCommand("debug_set_round_time",function(_, time)
 	GameRules.RoundManager:GetCurrentRound():_Debug_SetRoundTime(tonumber(time))
 end,"set round time",FCVAR_CHEAT)
 
+Convars:RegisterCommand("show_debug_panel",function()
+	CustomGameEventManager:Send_ServerToAllClients("show_debug_panel",{})
+end,"show debug panel",FCVAR_CHEAT)
+
 if DebugModule == nil then DebugModule = class({}) end
 
 function DebugModule:constructor()

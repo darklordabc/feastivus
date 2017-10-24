@@ -35,9 +35,12 @@ function DetectCurrentUnit() {
 	$.Schedule(0.03, DetectCurrentUnit);
 }
 
+function ShowDebugPanel() {
+	$.GetContextPanel().RemoveClass('Hidden');
+	DetectCurrentUnit();
+}
+
 (function(){
-	if (Game.IsInToolsMode()) {
-		$.GetContextPanel().RemoveClass('Hidden');
-		DetectCurrentUnit();
-	}
+	$.GetContextPanel().AddClass('Hidden');
+	GameEvents.Subscribe('show_debug_panel', ShowDebugPanel);
 })();
