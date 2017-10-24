@@ -3,9 +3,7 @@ frostivus_boost = class({})
 function frostivus_boost:OnSpellStart()
 	local caster = self:GetCaster()
 	caster:AddNewModifier(caster, self, "modifier_frostivus_boost", {})
-	EmitSoundOn("DOTA_Item.ForceStaff.Activate", caster)
-
-	-- clear the last boost target position
+	-- EmitSoundOn("DOTA_Item.ForceStaff.Activate", caster) --@todo change boost sound
 	caster._vBoostLastOrderPosition = nil
 end
 
@@ -130,7 +128,7 @@ function modifier_frostivus_boost:DeclareFunctions()
 end
 
 function modifier_frostivus_boost:GetOverrideAnimation()
-	return ACT_DOTA_FLAIL
+	return ACT_DOTA_RUN
 end
 
 function modifier_frostivus_boost:GetEffectName()
