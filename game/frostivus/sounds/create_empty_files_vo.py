@@ -1,5 +1,5 @@
 import os
-rootdir = 'vo/axe'
+rootdir = 'music/valve_dota_001/music'
 list = os.listdir(rootdir) 
 for i in range(0,len(list)):
 	path = os.path.join(rootdir,list[i])

@@ -163,8 +163,6 @@ function Round:OnTimer()
 		LoopOverHeroes(function(hero)
 			hero:RemoveModifierByName("modifier_preround_freeze")
 		end)
-
-		GameRules.MusicPlayer:SetMusicState(FeastivusMusicState.Normal)
 	end
 
 	self.nCountDownTimer = self.nCountDownTimer - 1
@@ -252,19 +250,16 @@ function Round:EndRound()
 		UnFinishedOrdersCount = table.count(self.vPendingOrders),
 	})
 
-	-- stop main sound loop
-	GameRules.MusicPlayer:SetMusicState(FeastivusMusicState.RoundEnd)
-
-	-- tell the round manager to start a new round after delay
-	Timers:CreateTimer(self.nEndRoundDelay, function()
-		GameRules.RoundManager:OnRoundEnd()
-	end)
-
-	-- show teleporting particle
+	-- teleport particle
 	Timers:CreateTimer(self.nEndRoundDelay - 2, function()
 		LoopOverHeroes(function(hero)
 			hero:AddNewModifier(hero,nil,"modifier_teleport_to_new_round",{})
 		end)
+	end)
+
+	-- tell the round manager to start a new round after delay
+	Timers:CreateTimer(self.nEndRoundDelay, function()
+		GameRules.RoundManager:OnRoundEnd()
 	end)
 end
 

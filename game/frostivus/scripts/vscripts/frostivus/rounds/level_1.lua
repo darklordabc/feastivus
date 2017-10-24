@@ -31,10 +31,20 @@ return {
 			end
 			i = i + 1
 		end
+
+		-- sound for first level
+		Timers:CreateTimer(function()
+			if round.nCountDownTimer > 0 then
+				GameRules:GetGameModeEntity():EmitSound("custom_music.main_theme")
+				return GameRules:GetGameModeEntity():GetSoundDuration('custom_music.main_theme',nil)
+			end
+		end)
 	end,
 	OnRoundEnd = function(round)
 		-- if you do something special, clean them
 		print("RoundScript -> OnRoundEnd")
+
+		GameRules:GetGameModeEntity():StopSound("custom_music.main_theme")
 	end,
 	OnOrderExpired = function(round, order)
 		-- @param order, table
