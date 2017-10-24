@@ -7,8 +7,5 @@ for i in range(0,len(list)):
 		print(path)
 		file_list = os.listdir(path + "/stingers")
 		for file in file_list:
-			open(path + "/stingers/" + file, "wb").write(open("null.vsnd_c", "rb").read())
-		# print("finished", path)
-		# open(path, "wb").write(open("null.vsnd_c", "rb").read())
-		
+			open(path + "/stingers/" + file, "wb").write(open("null.vsnd_c", "rb").read())		
 
