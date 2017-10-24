@@ -1,3 +1,11 @@
+local custom_item_pickup_sounds = {
+	-- add item name here
+	-- add custom pickup sound in custom_sounds.vsndevts as
+	-- custom_sound.pickup_item_raw_leaf
+	
+	-- "item_raw_leaf",
+}
+
 function BenchAPI( keys )
 	local caster = keys.caster or keys
 
@@ -81,7 +89,12 @@ function BenchAPI( keys )
 		end
 
 		-- play pickup sound
-		EmitSoundOn('custom_sound.pickup',user)
+		local itemName = item:GetContainedItem():GetAbilityName()
+		soundName = 'custom_sound.pickup'
+		if table.contains(custom_item_pickup_sounds, itemName) then
+			soundName = soundName .. "_" .. itemName
+		end
+		EmitSoundOn(soundName,user)
 
 		return item
 	end)
