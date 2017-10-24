@@ -145,6 +145,10 @@ function GameMode:InitGameMode()
 	require("frostivus/round_manager")
 
 	GameRules:GetGameModeEntity():SetExecuteOrderFilter( Dynamic_Wrap( Frostivus, "FilterExecuteOrder" ), self )
+
+	GameRules:SetCustomGameAllowHeroPickMusic( false )
+	GameRules:SetCustomGameAllowBattleMusic( false )
+	GameRules:SetCustomGameAllowMusicAtGameStart( false )
 end
 
 -- This is an example console command

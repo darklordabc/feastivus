@@ -1,0 +1,16 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	custom_music.theme_loop = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/music/theme_loop.vsnd",
+        ]
+        start_point = "1.000000"
+        end_point = "139.0000"
+        restart_time = "139.0000"
+        volume = "1.0"
+        volume_fade_in = "0.7"
+        volume_fade_out = "0.7"
+	}
+}

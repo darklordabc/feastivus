@@ -231,3 +231,12 @@ function LoopOverHeroes(callback)
       end
     end   
 end
+
+function LoopOverPlayers(callback)
+  for i = 0, DOTA_MAX_PLAYERS do
+    local player = PlayerResource:GetPlayer(i)
+    if player then
+      callback(player)
+    end
+  end
+end

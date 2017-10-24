@@ -163,6 +163,14 @@ function Round:OnTimer()
 		LoopOverHeroes(function(hero)
 			hero:RemoveModifierByName("modifier_preround_freeze")
 		end)
+
+		Timers:CreateTimer(1, function()
+			if self.nCountDownTimer > 0 then
+				EmitGlobalSound("custom_music.theme_loop")
+				local soundLength = GameRules:GetGameModeEntity():GetSoundDuration('custom_music.theme_loop',nil)
+				return soundLength
+			end
+		end)
 	end
 
 	self.nCountDownTimer = self.nCountDownTimer - 1
@@ -249,6 +257,9 @@ function Round:EndRound()
 		FinishedOrdersCount = table.count(self.vFinishedOrders),
 		UnFinishedOrdersCount = table.count(self.vPendingOrders),
 	})
+
+	-- stop main sound loop
+	SendToServerConsole("stopsound")
 
 	-- tell the round manager to start a new round after delay
 	Timers:CreateTimer(self.nEndRoundDelay, function()
