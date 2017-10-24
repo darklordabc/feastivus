@@ -55,6 +55,7 @@ require('frostivus/modules/move_controller')
 require('frostivus/modules/hats_manager')
 -- debug module
 require('frostivus/modules/debug')
+require('frostivus/modules/music_player')
 
 --[[
 	This function should be used to set up Async precache calls at the beginning of the gameplay.

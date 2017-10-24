@@ -1,16 +1,56 @@
 <!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
 {
-	custom_music.theme_loop = {
-		type = "dota_src1_2d"
-		vsnd_files =
-        [
-            "sounds/music/theme_loop.vsnd",
-        ]
-        start_point = "1.000000"
-        end_point = "139.0000"
-        restart_time = "139.0000"
-        volume = "1.0"
-        volume_fade_in = "0.7"
-        volume_fade_out = "0.7"
-	}
+	FeastivusMusic.normal =
+    {
+        type = "dota_update_music_3layer"
+        volume = "0.30000000"
+        remap_intensity_x1 = "0.000000"
+        remap_intensity_y1 = "0.750000"
+        remap_intensity_x2 = "0.500000"
+        remap_intensity_y2 = "0.750000"
+        remap_intensity_x3 = "0.750000"
+        remap_intensity_y3 = "0.800000"
+        remap_intensity_x4 = "1.000000"
+        remap_intensity_y4 = "0.900000"
+        laning_master = "DOTAMusic.Laning_01"
+        vsnd_files = "sounds/music/theme_loop.vsnd"
+        random_delay_opvar = "laning_01_random_delay_opvar"
+        track = "explore1"
+    }
+    
+    FeastivusMusic.round_start =
+    {
+        type = "dota_update_music_3layer"
+        volume = "0.30000000"
+        remap_intensity_x1 = "0.000000"
+        remap_intensity_y1 = "0.100000"
+        remap_intensity_x2 = "0.250000"
+        remap_intensity_y2 = "0.100000"
+        remap_intensity_x3 = "0.500000"
+        remap_intensity_y3 = "0.500000"
+        remap_intensity_x4 = "0.750000"
+        remap_intensity_y4 = "0.750000"
+        laning_master = "DOTAMusic.Laning_01"
+        vsnd_files = "sounds/music/theme_loop.vsnd"
+        random_delay_opvar = "laning_01_random_delay_opvar"
+        track = "explore2"
+    }
+
+    FeastivusMusic.round_end =
+    {
+        type = "dota_update_music_3layer"
+        volume = "0.30000000"
+        remap_intensity_x1 = "0.000000"
+        remap_intensity_y1 = "0.100000"
+        remap_intensity_x2 = "0.250000"
+        remap_intensity_y2 = "0.100000"
+        remap_intensity_x3 = "0.500000"
+        remap_intensity_y3 = "0.500000"
+        remap_intensity_x4 = "0.750000"
+        remap_intensity_y4 = "0.750000"
+        laning_master = "DOTAMusic.Laning_01"
+        vsnd_files = "sounds/music/theme_loop.vsnd"
+        random_delay_opvar = "laning_01_random_delay_opvar"
+        track = "explore3"
+    }
 }

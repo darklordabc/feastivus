@@ -164,13 +164,7 @@ function Round:OnTimer()
 			hero:RemoveModifierByName("modifier_preround_freeze")
 		end)
 
-		Timers:CreateTimer(1, function()
-			if self.nCountDownTimer > 0 then
-				EmitGlobalSound("custom_music.theme_loop")
-				local soundLength = GameRules:GetGameModeEntity():GetSoundDuration('custom_music.theme_loop',nil)
-				return soundLength
-			end
-		end)
+		GameRules.MusicPlayer:SetMusicState(FeastivusMusicState.Normal)
 	end
 
 	self.nCountDownTimer = self.nCountDownTimer - 1
@@ -259,7 +253,7 @@ function Round:EndRound()
 	})
 
 	-- stop main sound loop
-	SendToServerConsole("stopsound")
+	GameRules.MusicPlayer:SetMusicState(FeastivusMusicState.RoundEnd)
 
 	-- tell the round manager to start a new round after delay
 	Timers:CreateTimer(self.nEndRoundDelay, function()
