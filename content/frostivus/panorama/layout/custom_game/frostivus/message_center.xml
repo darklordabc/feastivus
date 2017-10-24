@@ -1,0 +1,21 @@
+<root>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/frostivus/message_center.js" />
+	</scripts>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/frostivus/message_center.css" />
+	</styles>
+	<snippets>
+		<snippet name="Message">
+			<Panel class="MessageRoot">
+				<Panel class="MessageBackground" />
+
+				<!-- all message content are added dynamiclly -->
+				<Panel class="MessageContent" /> 
+			</Panel>
+		</snippet>
+	</snippets>
+	<Panel class="MessageCenterRoot" hittest="false" hittestchildren="false">
+		<Panel id="message_center_panel" />
+	</Panel>
+</root>
