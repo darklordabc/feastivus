@@ -115,6 +115,11 @@ if IsServer() then
 	function modifier_frostivus_boost:OnDestroy()
 		local caster = self:GetCaster()
 		caster:AddNewModifier(caster, self:GetAbility(), "modifier_frostivus_boost_ms", {duration = self:GetAbility():GetSpecialValueFor("duration")})
+
+		-- order unit to move to last order position
+		if caster._vBoostLastOrderPosition then
+			caster:MoveToPosition(caster._vBoostLastOrderPosition)
+		end
 	end
 	
 end
