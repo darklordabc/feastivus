@@ -194,10 +194,19 @@ function Round:OnTimer()
 
 	-- reduce all recipe time remaining
 	for k, order in pairs(self.vCurrentOrders) do
-		order.nTimeRemaining = order.nTimeRemaining - 1
+		if order.pszFinishType == nil then 
+			-- reduce unfinised orders only
+			order.nTimeRemaining = order.nTimeRemaining - 1
+		end
 		if order.nTimeRemaining <= 0 then -- remove the un-finished orders
 			-- @todo, punishment??
-			self.vCurrentOrders[k] = nil
+			
+			-- tell client to show order finished message
+			self.vCurrentOrders[k].pszFinishType = "Expired"
+			Timers:CreateTimer(2, function()
+				-- remove order after a short delay
+				self.vCurrentOrders[k] = nil
+			end)
 
 
 			if self.vRoundScript.OnRecipeExpired then
@@ -284,7 +293,14 @@ function Round:OnServe(itemEntity)
 		end
 
 		table.insert(self.vFinishedOrders, {pszItemName = itemName, nFinishTime = self.nCountDownTimer})
-		self.vCurrentOrders[orderIndex] = nil
+		-- tell client to show order finished message
+		self.vCurrentOrders[orderIndex].pszFinishType = "Finished"
+
+		Timers:CreateTimer(2, function()
+			-- remove order after a short delay
+			self.vCurrentOrders[orderIndex] = nil
+		end)
+
 		self:UpdateOrdersToClient()
 
 		local itemPhysical = itemEntity:GetContainer()
