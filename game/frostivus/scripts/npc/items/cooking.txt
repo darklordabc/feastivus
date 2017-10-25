@@ -15,6 +15,8 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_raw_leaf"
@@ -35,6 +37,8 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_refined_leaf"
@@ -54,6 +58,8 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   // "item_empty_bottle"
@@ -129,6 +135,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_raw_mango"
@@ -149,6 +156,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_refined_mango"
@@ -168,6 +176,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_mango_salad"
@@ -188,6 +197,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_plate"
@@ -208,6 +218,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        ""
   }
 
   "item_mixed_tango_salad"
@@ -228,6 +239,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_mixed_mango_salad"
@@ -248,6 +260,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_dirty_plates"
@@ -267,6 +280,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        ""
   }
 
   "item_clean_plates"
@@ -286,5 +300,6 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        ""
   }
 }

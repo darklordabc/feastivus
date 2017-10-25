@@ -36,7 +36,7 @@ return {
 		Timers:CreateTimer(function()
 			if round.nCountDownTimer > 0 then
 				GameRules:GetGameModeEntity():EmitSound("custom_music.main_theme")
-				return GameRules:GetGameModeEntity():GetSoundDuration('custom_music.main_theme',nil)
+				return 138
 			end
 		end)
 	end,
