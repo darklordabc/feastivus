@@ -1,11 +1,3 @@
-local custom_item_pickup_sounds = {
-	-- add item name here
-	-- add custom pickup sound in custom_sounds.vsndevts as
-	-- custom_sound.pickup_item_raw_leaf
-	
-	-- "item_raw_leaf",
-}
-
 function BenchAPI( keys )
 	local caster = keys.caster or keys
 
@@ -23,15 +15,6 @@ function BenchAPI( keys )
 			caster:SetOnBenchIsFull( on_full_callback )
 			caster:SetOnUse( OnUse )
 			caster:SetBenchLayout(layout)
-
-			-- local pos = caster:GetAbsOrigin()
-
-			-- caster._blocker = SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = pos, block_fow = false})
-			
-			-- Timers:CreateTimer(function (  )
-			-- 	caster:SetAbsOrigin(pos)
-			-- 	return 0.03
-			-- end)
 		end
 	end)
 
@@ -73,6 +56,10 @@ function BenchAPI( keys )
 		self._bench_infinite_items = b
 	end)
 
+	caster.IsBenchInfiniteItems = (function( self )
+		return self._bench_infinite_items
+	end)
+
 	caster.PickItemFromBench = (function( self, user, item )
 		if type(item) == 'string' then
 			item = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem(item,nil,nil))
@@ -87,15 +74,7 @@ function BenchAPI( keys )
 
 			self:OnPickedFromBench(item)
 		end
-
-		-- play pickup sound
-		local itemName = item:GetContainedItem():GetAbilityName()
-		soundName = 'custom_sound.pickup'
-		if table.contains(custom_item_pickup_sounds, itemName) then
-			soundName = soundName .. "_" .. itemName
-		end
-		EmitSoundOn(soundName,user)
-
+		
 		return item
 	end)
 
@@ -247,11 +226,15 @@ function BenchAPI( keys )
 		old_data.items = {}
 		self.wp:SetData(old_data)
 	end)
+
+    caster.GetBenchItemBySlot = (function ( self, slot )
+        return self.wp:GetData().items[slot]
+    end)
 end
 
 function OnUse( bench, user )
 	if user then
-		if not user:FindModifierByName("modifier_carrying_item") and bench.wp:GetData().items[1] then
+		if not Frostivus:IsCarryingItem(user) and bench.wp:GetData().items[1] then
 			-- bench:AddNewModifier(nil,nil,"modifier_bench_busy",{duration = 0.4})
 			StartAnimation(user, {duration=0.3, activity=ACT_DOTA_GREEVIL_CAST, rate=2, translate="greevil_miniboss_black_nightmare"})
 
@@ -262,16 +245,13 @@ function OnUse( bench, user )
 				bench = Frostivus:GetCarryingItem(bench)
 			end
 
-			local item_name = bench.wp:GetData().items[1]
+			local item_name = bench:GetBenchItemBySlot(1)
 
 			if (Frostivus.ItemsKVs[item_name].CanBePickedFromBench or bench:HasModifier("modifier_crate") or bench:HasModifier("modifier_transfer_bench")) and bench:GetBenchItemCount() == 1 and not bench:IsRefining() then
 				-- Picking item from the bench
 				local item = item_name
-				if bench:Is3DBench() and Frostivus:IsCarryingItem( bench ) and not bench._bench_infinite_items then
+				if bench:Is3DBench() and Frostivus:IsCarryingItem( bench ) and not bench:IsBenchInfiniteItems() then
 					item = Frostivus:DropItem( bench, Frostivus:GetCarryingItem( bench ) )
-					-- if item then
-					-- 	item:RemoveSelf()
-					-- end
 				end
 
 				-- If bench is 3D then it will return binded container, otherwise it will create one
@@ -282,20 +262,41 @@ function OnUse( bench, user )
 				-- Use full bench (e.g. after interrupting channel)
 				bench:OnBenchIsFull(bench.wp:GetData().items, user)
 			end
-		elseif not bench:IsBenchFull() or bench:HasModifier("modifier_bin") or bench:ContainsPlate() then
+		elseif not bench:IsBenchFull() or bench:HasModifier("modifier_bin") or bench:ContainsPlate() or Frostivus:GetCarryingItem(user).CheckItem then
 			-- bench:AddNewModifier(nil,nil,"modifier_bench_busy",{duration = 0.45})
 			StartAnimation(user, {duration=0.3, activity=ACT_DOTA_GREEVIL_CAST, rate=2.5, translate="greevil_laguna_blade"})
 
 			user:EmitSound("WeaponImpact_Common.Wood")
 
-			-- Adding item to a plate
-			if bench:ContainsPlate() then
-				bench = Frostivus:GetCarryingItem( bench )
-			end
-
 			-- Adding item to the bench
-			if user:FindModifierByName("modifier_carrying_item") then
-				local item = user:FindModifierByName("modifier_carrying_item").item
+			if Frostivus:IsCarryingItem(user) then
+				local item = Frostivus:GetCarryingItem(user)
+
+				-- Swap plate with item
+				if Frostivus:IsCarryingItem(bench) and item.CheckItem then
+					if item:CheckItem(Frostivus:GetCarryingItem(bench)) then
+						local bench_item = Frostivus:GetCarryingItem(bench)
+						Frostivus:DropItem( bench, bench_item )
+
+						bench:RemoveModifierByName("modifier_carrying_item")
+						local old_data = bench.wp:GetData()
+						old_data.items = {}
+						bench.wp:SetData(old_data)
+
+						bench:AddItemToBench(item, user)
+						Frostivus:DropItem( user, item )
+						bench:BindItem(item)
+
+						item = bench_item
+					else
+						return
+					end
+				end
+
+				-- Adding item to a plate
+				if bench:ContainsPlate() then
+					bench = Frostivus:GetCarryingItem( bench )
+				end
 
 				if item and bench:CheckItem(item) then
 					bench:AddItemToBench(item, user)
@@ -339,6 +340,7 @@ function RefineBase( bench, items, user )
 	bench.wp:SetData(old_data)
 
 	user:AddNewModifier(user,ab,"modifier_bench_interaction",{duration = duration}):SetStackCount(duration * 100)
+	user:AddNewModifier(user,ab,"modifier_command_restricted",{duration = 0.03})
 	bench:AddNewModifier(user,ab,"modifier_unselectable",{})
 
 	local function ResetProgress()
@@ -399,105 +401,4 @@ function RefineBase( bench, items, user )
 	user:CastAbilityNoTarget(ab, user:GetPlayerOwnerID())
 
 	bench:SetBenchHidden(false)
-end
-
-function AddPlateStack(caster, quantity)
-	quantity = quantity or 3
-
-	caster:AddItemToBench("item_clean_plates")
-
-	local stack = CreateItemOnPositionSync(caster:GetAbsOrigin(), CreateItem("item_clean_plates", caster, caster))
-	stack:SetModel("models/plates/dirty_plate_"..tostring(quantity)..".vmdl")
-	print(quantity, "creating plates")
-	caster:BindItem(stack)
-
-	BenchAPI(stack)
-	stack:InitBench(1, (function()
-		return false
-	end), nil, nil, true)
-	stack:SetBenchHidden(true)
-	stack:AddItemToBench("item_plate")
-	stack:SetBenchInfiniteItems(true)
-
-	stack._count = quantity
-
-	stack.PickItemFromBench = (function( self, user, item_name )
-		local plate = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem(item_name,nil,nil))
-
-		BenchAPI(plate)
-		plate:InitBench( 3, (function ( bench, item )
-			local item_name = item:GetContainedItem():GetName()
-
-			for k,v in pairs(Frostivus.RecipesKVs["1"]) do
-				for k1,v1 in pairs(v.Assembly) do
-
-					if v1 == item_name then
-						return true
-					end
-				end
-			end
-
-			return false
-		end))
-		plate:SetOnPickedFromBench(function ( picked_item )
-			
-		end)
-		plate:SetOnBenchIsFull( function ( bench, items, user )
-			local result
-
-			for k,v in pairs(Frostivus.RecipesKVs["1"]) do
-				if CheckRecipe(items, v.Assembly) then
-					result = k
-					break
-				end
-			end
-
-			if result then
-				local dish = CreateItemOnPositionSync(plate:GetAbsOrigin(),CreateItem(result,nil,nil))
-
-				bench._holder:RemoveModifierByName("modifier_carrying_item")
-				bench._holder:PickItemFromBench(user, plate):RemoveSelf()
-
-				bench._holder:AddItemToBench(result, user)
-				bench._holder:BindItem(dish)
-			end
-		end )
-		
-		if not self._bench_infinite_items then
-			local old_data = self.wp:GetData()
-			old_data.items = {}
-			self.wp:SetData(old_data)
-
-			self:OnPickedFromBench(plate)
-		end
-
-		stack._count = stack._count - 1
-
-		if stack._count == 0 then
-			Frostivus:DropItem( stack._holder, stack )
-			stack._holder:PickItemFromBench(stack._holder, stack):RemoveSelf()
-		else
-			stack:SetModel("models/plates/dirty_plate_"..tostring(stack._count)..".vmdl")
-		end
-		
-		return plate
-	end)
-
-	return stack
-end
-
-function CheckRecipe(items, recipe)
-	local function IDArray( a )
-		local new = {}
-		for k,v in pairs(a) do
-			table.insert(new, Frostivus.ItemsKVs[v].ID)
-		end
-		table.sort(new)
-		return new
-	end
-
-	local v1 = IDArray( items )
-	local v2 = IDArray( recipe )
-
-	return deepcompare(v1,v2,true)
 end

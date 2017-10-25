@@ -46,7 +46,13 @@ function OnOrderChanged() {
 		orderPanel.FindChildTraverse('time_remaining').style.transitionDuration = "1s";
 		orderPanel.FindChildTraverse('time_remaining').style.width = 100 * timeRemaining / timeLimit + "%";
 
-		if (timeRemaining < 10){
+		if (order.pszFinishType == "Finished") {
+			orderPanel.SetHasClass("TimeRunningOut", false);
+			orderPanel.AddClass("Finished");
+		}else if (order.pszFinishType == "Expired") {
+			orderPanel.SetHasClass("TimeRunningOut", false);
+			orderPanel.AddClass("Expired");
+		}else if (timeRemaining < 10){
 			orderPanel.SetHasClass("TimeRunningOut", true);
 		}
 	}

@@ -26,6 +26,7 @@ if not Frostivus then
 	LinkLuaModifier("modifier_rooted", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_fake_casting", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_bench_busy", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_command_restricted", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 
     Frostivus.DEBUG = true
 
@@ -122,6 +123,8 @@ end
 function Frostivus:OnPickupItem( item, ply )
 	local caster = ply:GetAssignedHero()
 
+	local old_container = item:GetContainer()
+
 	local model = Frostivus.ItemsKVs[item:GetName()].Model
 	local charges = item:GetCurrentCharges()
 	local counter = item._counter
@@ -136,8 +139,19 @@ function Frostivus:OnPickupItem( item, ply )
 			local item = Frostivus:DropItem( caster, Frostivus:GetCarryingItem( caster ) )
 			item:FollowEntity( nil, false )
 		end
-		
+
 		local item = item:GetContainer()
+
+		-- Move bench API to new container
+		if old_container.wp then
+			old_container.wp:SetEntity(item:entindex())
+
+			for k,v in pairs(old_container) do
+				if k ~= "__self" then
+					item[k] = v
+				end
+			end
+		end
 
 		-- Plate stack
 		if counter then

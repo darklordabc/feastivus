@@ -46,6 +46,7 @@ require('events')
 require('frostivus/objects/Objects')
 
 require('frostivus/objects/bench')
+require('frostivus/objects/plates')
 
 require("libraries/worldpanels")
 

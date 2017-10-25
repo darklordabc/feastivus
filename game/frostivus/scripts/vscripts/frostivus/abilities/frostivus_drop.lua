@@ -18,5 +18,6 @@ function frostivus_drop:OnSpellStart()
 		local item = caster:FindModifierByName("modifier_carrying_item").item
 		Frostivus:DropItem( caster, item )
 		item:FollowEntity( nil, false )
+		item:SetAbsOrigin(caster:GetAbsOrigin())
 	end
 end

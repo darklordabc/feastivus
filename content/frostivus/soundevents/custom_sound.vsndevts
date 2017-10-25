@@ -9,7 +9,7 @@
         volume = "0.500000"
 	}
 	custom_sound.pickup = {
-		type = "dota_src1_2d"
+		type = "dota_src1_3d"
 		vsnd_files =
         [
             "sounds/pick.vsnd",
