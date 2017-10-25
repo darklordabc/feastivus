@@ -56,6 +56,10 @@ function BenchAPI( keys )
 		self._bench_infinite_items = b
 	end)
 
+	caster.IsBenchInfiniteItems = (function( self )
+		return self._bench_infinite_items
+	end)
+
 	caster.PickItemFromBench = (function( self, user, item )
 		if type(item) == 'string' then
 			item = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem(item,nil,nil))
@@ -222,11 +226,15 @@ function BenchAPI( keys )
 		old_data.items = {}
 		self.wp:SetData(old_data)
 	end)
+
+    caster.GetBenchItemBySlot = (function ( self, slot )
+        return self.wp:GetData().items[slot]
+    end)
 end
 
 function OnUse( bench, user )
 	if user then
-		if not user:FindModifierByName("modifier_carrying_item") and bench.wp:GetData().items[1] then
+		if not Frostivus:IsCarryingItem(user) and bench.wp:GetData().items[1] then
 			-- bench:AddNewModifier(nil,nil,"modifier_bench_busy",{duration = 0.4})
 			StartAnimation(user, {duration=0.3, activity=ACT_DOTA_GREEVIL_CAST, rate=2, translate="greevil_miniboss_black_nightmare"})
 
@@ -237,12 +245,12 @@ function OnUse( bench, user )
 				bench = Frostivus:GetCarryingItem(bench)
 			end
 
-			local item_name = bench.wp:GetData().items[1]
+			local item_name = bench:GetBenchItemBySlot(1)
 
 			if (Frostivus.ItemsKVs[item_name].CanBePickedFromBench or bench:HasModifier("modifier_crate") or bench:HasModifier("modifier_transfer_bench")) and bench:GetBenchItemCount() == 1 and not bench:IsRefining() then
 				-- Picking item from the bench
 				local item = item_name
-				if bench:Is3DBench() and Frostivus:IsCarryingItem( bench ) and not bench._bench_infinite_items then
+				if bench:Is3DBench() and Frostivus:IsCarryingItem( bench ) and not bench:IsBenchInfiniteItems() then
 					item = Frostivus:DropItem( bench, Frostivus:GetCarryingItem( bench ) )
 					-- if item then
 					-- 	item:RemoveSelf()
@@ -257,20 +265,41 @@ function OnUse( bench, user )
 				-- Use full bench (e.g. after interrupting channel)
 				bench:OnBenchIsFull(bench.wp:GetData().items, user)
 			end
-		elseif not bench:IsBenchFull() or bench:HasModifier("modifier_bin") or bench:ContainsPlate() then
+		elseif not bench:IsBenchFull() or bench:HasModifier("modifier_bin") or bench:ContainsPlate() or Frostivus:GetCarryingItem(user).CheckItem then
 			-- bench:AddNewModifier(nil,nil,"modifier_bench_busy",{duration = 0.45})
 			StartAnimation(user, {duration=0.3, activity=ACT_DOTA_GREEVIL_CAST, rate=2.5, translate="greevil_laguna_blade"})
 
 			user:EmitSound("WeaponImpact_Common.Wood")
 
-			-- Adding item to a plate
-			if bench:ContainsPlate() then
-				bench = Frostivus:GetCarryingItem( bench )
-			end
-
 			-- Adding item to the bench
-			if user:FindModifierByName("modifier_carrying_item") then
-				local item = user:FindModifierByName("modifier_carrying_item").item
+			if Frostivus:IsCarryingItem(user) then
+				local item = Frostivus:GetCarryingItem(user)
+
+				-- Swap plate with item
+				if Frostivus:IsCarryingItem(bench) and item.CheckItem then
+					if item:CheckItem(Frostivus:GetCarryingItem(bench)) then
+						local bench_item = Frostivus:GetCarryingItem(bench)
+						Frostivus:DropItem( bench, bench_item )
+
+						bench:RemoveModifierByName("modifier_carrying_item")
+						local old_data = bench.wp:GetData()
+						old_data.items = {}
+						bench.wp:SetData(old_data)
+
+						bench:AddItemToBench(item, user)
+						Frostivus:DropItem( user, item )
+						bench:BindItem(item)
+
+						item = bench_item
+					else
+						return
+					end
+				end
+
+				-- Adding item to a plate
+				if bench:ContainsPlate() then
+					bench = Frostivus:GetCarryingItem( bench )
+				end
 
 				if item and bench:CheckItem(item) then
 					bench:AddItemToBench(item, user)

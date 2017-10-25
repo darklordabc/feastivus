@@ -22,20 +22,7 @@ function AddPlateStack(caster, quantity)
 		local plate = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem(item_name,nil,nil))
 
 		BenchAPI(plate)
-		plate:InitBench( 3, (function ( bench, item )
-			local item_name = item:GetContainedItem():GetName()
-
-			for k,v in pairs(Frostivus.RecipesKVs["1"]) do
-				for k1,v1 in pairs(v.Assembly) do
-
-					if v1 == item_name then
-						return true
-					end
-				end
-			end
-
-			return false
-		end))
+		plate:InitBench( 3, CanPutItemOnPlate)
 		plate:SetOnPickedFromBench(function ( picked_item )
 			
 		end)
@@ -97,4 +84,19 @@ function CheckRecipe(items, recipe)
 	local v2 = IDArray( recipe )
 
 	return deepcompare(v1,v2,true)
+end
+
+function CanPutItemOnPlate( bench, item )
+	local item_name = item:GetContainedItem():GetName()
+
+	for k,v in pairs(Frostivus.RecipesKVs["1"]) do
+		for k1,v1 in pairs(v.Assembly) do
+
+			if v1 == item_name then
+				return true
+			end
+		end
+	end
+
+	return false
 end
