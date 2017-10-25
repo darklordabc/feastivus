@@ -252,9 +252,6 @@ function OnUse( bench, user )
 				local item = item_name
 				if bench:Is3DBench() and Frostivus:IsCarryingItem( bench ) and not bench:IsBenchInfiniteItems() then
 					item = Frostivus:DropItem( bench, Frostivus:GetCarryingItem( bench ) )
-					-- if item then
-					-- 	item:RemoveSelf()
-					-- end
 				end
 
 				-- If bench is 3D then it will return binded container, otherwise it will create one
@@ -343,6 +340,7 @@ function RefineBase( bench, items, user )
 	bench.wp:SetData(old_data)
 
 	user:AddNewModifier(user,ab,"modifier_bench_interaction",{duration = duration}):SetStackCount(duration * 100)
+	user:AddNewModifier(user,ab,"modifier_command_restricted",{duration = 0.03})
 	bench:AddNewModifier(user,ab,"modifier_unselectable",{})
 
 	local function ResetProgress()

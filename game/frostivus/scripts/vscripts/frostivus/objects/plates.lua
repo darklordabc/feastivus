@@ -19,42 +19,6 @@ function AddPlateStack(caster, quantity)
 	stack._count = quantity
 
 	stack.PickItemFromBench = (function( self, user, item_name )
-		local plate = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem(item_name,nil,nil))
-
-		BenchAPI(plate)
-		plate:InitBench( 3, CanPutItemOnPlate)
-		plate:SetOnPickedFromBench(function ( picked_item )
-			
-		end)
-		plate:SetOnBenchIsFull( function ( bench, items, user )
-			local result
-
-			for k,v in pairs(Frostivus.RecipesKVs["1"]) do
-				if CheckRecipe(items, v.Assembly) then
-					result = k
-					break
-				end
-			end
-
-			if result then
-				local dish = CreateItemOnPositionSync(plate:GetAbsOrigin(),CreateItem(result,nil,nil))
-
-				bench._holder:RemoveModifierByName("modifier_carrying_item")
-				bench._holder:PickItemFromBench(user, plate):RemoveSelf()
-
-				bench._holder:AddItemToBench(result, user)
-				bench._holder:BindItem(dish)
-			end
-		end )
-		
-		if not self._bench_infinite_items then
-			local old_data = self.wp:GetData()
-			old_data.items = {}
-			self.wp:SetData(old_data)
-
-			self:OnPickedFromBench(plate)
-		end
-
 		stack._count = stack._count - 1
 
 		if stack._count == 0 then
@@ -63,11 +27,53 @@ function AddPlateStack(caster, quantity)
 		else
 			stack:SetModel("models/plates/dirty_plate_"..tostring(stack._count)..".vmdl")
 		end
+
+		local plate = CreatePlate()
+
+		if not self._bench_infinite_items then
+			local old_data = self.wp:GetData()
+			old_data.items = {}
+			self.wp:SetData(old_data)
+
+			self:OnPickedFromBench(plate)
+		end
 		
 		return plate
 	end)
 
 	return stack
+end
+
+function CreatePlate(  )
+	local plate = CreateItemOnPositionSync(Vector(0,0,0),CreateItem("item_plate",nil,nil))
+
+	BenchAPI(plate)
+	plate:InitBench( 3, CanPutItemOnPlate)
+	plate:SetOnPickedFromBench(function ( picked_item )
+		
+	end)
+	plate:SetOnBenchIsFull( function ( bench, items, user )
+		local result
+
+		for k,v in pairs(Frostivus.RecipesKVs["1"]) do
+			if CheckRecipe(items, v.Assembly) then
+				result = k
+				break
+			end
+		end
+
+		if result then
+			local dish = CreateItemOnPositionSync(bench:GetAbsOrigin(),CreateItem(result,nil,nil))
+
+			bench._holder:RemoveModifierByName("modifier_carrying_item")
+			bench._holder:PickItemFromBench(user, bench):RemoveSelf()
+
+			bench._holder:AddItemToBench(result, user)
+			bench._holder:BindItem(dish)
+		end
+	end )
+
+	return plate
 end
 
 function CheckRecipe(items, recipe)
