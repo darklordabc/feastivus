@@ -108,6 +108,7 @@ if IsServer() then
 			end
 		else
 			if not GridNav:CanFindPath(caster:GetAbsOrigin(), caster:GetAbsOrigin()) then FindClearSpaceForUnit(caster, caster:GetAbsOrigin(), true) end
+			caster:AddNewModifier(caster,nil,'modifier_phased',{Duration=.05})
 			self:Destroy()
 		end
 	end
