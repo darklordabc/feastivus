@@ -101,6 +101,7 @@ function Round:constructor(roundData)
 
 	self.vFinishedOrders = {}
 	self.vCurrentOrders = {}
+	self:UpdateOrdersToClient() -- clear all orders of last round
 
 	self.nPreRoundTime = 5
 	self.nEndRoundDelay = 10
@@ -232,7 +233,7 @@ function Round:EndRound()
 	-- The score screen should last for about 10 seconds, gives stars, tell how many orders 
 	-- they completed out of the max.
 	-- Should teleport all players to the next level and start the ready set go graphic again.
-	
+
 	if self.bRoundEnded then return end
 	self.bRoundEnded = true
 
