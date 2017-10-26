@@ -309,7 +309,7 @@ function Round:OnServe(itemEntity)
 			UTIL_Remove(itemPhysical)
 		end
 
-		EmitSoundOn('custom_sound.serve',itemPhysical)
+		EmitSoundOn('custom_sound.complete_order',itemPhysical)
 	else
 	end
 end

@@ -4,7 +4,7 @@
 		type = "dota_src1_2d"
 		vsnd_files =
         [
-            "sounds/chop.vsnd",
+            "sounds/benches/chop.vsnd",
         ]
         volume = "0.500000"
 	}
@@ -12,7 +12,7 @@
 		type = "dota_src1_2d"
 		vsnd_files =
         [
-            "sounds/chop_special.vsnd",
+            "sounds/benches/chop_special.vsnd",
         ]
         volume = "0.500000"
 	}
@@ -20,16 +20,39 @@
 		type = "dota_src1_3d"
 		vsnd_files =
         [
-            "sounds/pick.vsnd",
+            "sounds/benches/crate_pickup.vsnd",
         ]
         volume = "0.500000"
 	}
-	
-	custom_sound.serve = {
+	custom_sound.complete_order = {
 		type = "dota_src1_2d"
 		vsnd_files =
         [
-            "sounds/serve.vsnd",
+            "sounds/benches/complete_order.vsnd",
+        ]
+        volume = "0.500000"
+	}
+	custom_sound.plate_drop = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/benches/plate_drop.vsnd",
+        ]
+        volume = "0.500000"
+	}
+	custom_sound.plate_pickup = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/benches/plate_pickup.vsnd",
+        ]
+        volume = "0.500000"
+	}
+	custom_sound.crate_pickup = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/benches/crate_pickup.vsnd",
         ]
         volume = "0.500000"
 	}
