@@ -21,14 +21,22 @@ function AddPlateStack(caster, quantity)
 	stack.PickItemFromBench = (function( self, user, item_name )
 		stack._count = stack._count - 1
 
-		if stack._count == 0 then
-			Frostivus:DropItem( stack._holder, stack )
-			stack._holder:PickItemFromBench(stack._holder, stack):RemoveSelf()
+		local plate = CreatePlate()
+
+		if stack._count == 1 then
+			local bench = stack._holder
+
+			Frostivus:DropItem( bench, stack )
+			bench:PickItemFromBench(bench, stack):RemoveSelf()
+
+			-- Replacing stack with last plate
+			local last_plate = CreatePlate()
+
+			bench:AddItemToBench(last_plate, user)
+			bench:BindItem(last_plate)
 		else
 			stack:SetModel("models/plates/dirty_plate_"..tostring(stack._count)..".vmdl")
 		end
-
-		local plate = CreatePlate()
 
 		if not self._bench_infinite_items then
 			local old_data = self.wp:GetData()
@@ -48,7 +56,7 @@ function CreatePlate(  )
 	local plate = CreateItemOnPositionSync(Vector(0,0,0),CreateItem("item_plate",nil,nil))
 
 	BenchAPI(plate)
-	plate:InitBench( 3, CanPutItemOnPlate)
+	plate:InitBench( 3, CanPutItemOnPlate, nil, 0 )
 	plate:SetOnPickedFromBench(function ( picked_item )
 		
 	end)
