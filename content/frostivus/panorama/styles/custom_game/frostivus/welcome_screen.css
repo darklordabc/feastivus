@@ -11,8 +11,10 @@
 
 .GameLogo {
 	horizontal-align: center;
-	width: 410px;
-	height: 230px;
+	/*margin-top: -100px;*/
+	width: 575px;
+	height: 247px;
+	/*transform: rotateZ( 3deg);*/
 }
 
 .CountDownTimer {
@@ -81,6 +83,8 @@
 .PlayerCardRoot {
 	width:256px;
 	height: 440px;
+
+	box-shadow: #000000B8 2px 2px 8px -2px;
 }
 
 .PlayerHeroArt {
