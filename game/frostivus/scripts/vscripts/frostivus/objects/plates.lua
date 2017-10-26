@@ -48,7 +48,7 @@ function CreatePlate(  )
 	local plate = CreateItemOnPositionSync(Vector(0,0,0),CreateItem("item_plate",nil,nil))
 
 	BenchAPI(plate)
-	plate:InitBench( 3, CanPutItemOnPlate)
+	plate:InitBench( 3, CanPutItemOnPlate, nil, 0 )
 	plate:SetOnPickedFromBench(function ( picked_item )
 		
 	end)
