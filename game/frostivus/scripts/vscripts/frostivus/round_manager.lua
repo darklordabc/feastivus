@@ -308,9 +308,6 @@ function Round:OnServe(itemEntity)
 		if itemPhysical then
 			UTIL_Remove(itemPhysical)
 		end
-
-		EmitSoundOn('custom_sound.complete_order',itemPhysical)
-	else
 	end
 end
 
