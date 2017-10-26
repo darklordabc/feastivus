@@ -1,6 +1,13 @@
 function AddPlateStack(caster, quantity)
 	quantity = quantity or 3
 
+	if quantity == 1 then
+		local single_plate = CreatePlate(  )
+		caster:AddItemToBench("item_plate")
+		caster:BindItem(single_plate)
+		return single_plate
+	end
+
 	caster:AddItemToBench("item_clean_plates")
 
 	local stack = CreateItemOnPositionSync(caster:GetAbsOrigin(), CreateItem("item_clean_plates", caster, caster))
@@ -60,7 +67,7 @@ function CreatePlate(  )
 	plate:SetOnPickedFromBench(function ( picked_item )
 		
 	end)
-	plate:SetOnBenchIsFull( function ( bench, items, user )
+	plate:SetOnBenchIsFull( function ( plate, items, user )
 		local result
 
 		for k,v in pairs(Frostivus.RecipesKVs["1"]) do
@@ -71,13 +78,16 @@ function CreatePlate(  )
 		end
 
 		if result then
-			local dish = CreateItemOnPositionSync(bench:GetAbsOrigin(),CreateItem(result,nil,nil))
+			local dish = CreateItemOnPositionSync(plate:GetAbsOrigin(),CreateItem(result,nil,nil))
 
-			bench._holder:RemoveModifierByName("modifier_carrying_item")
-			bench._holder:PickItemFromBench(user, bench):RemoveSelf()
+			plate._holder:RemoveModifierByName("modifier_carrying_item")
+			local item = plate._holder:PickItemFromBench(user, plate)
+			Timers:CreateTimer(function (  )
+				item:RemoveSelf()
+			end)
 
-			bench._holder:AddItemToBench(result, user)
-			bench._holder:BindItem(dish)
+			plate._holder:AddItemToBench(result, user)
+			plate._holder:BindItem(dish)
 		end
 	end )
 

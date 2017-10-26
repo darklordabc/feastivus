@@ -57,18 +57,22 @@ LinkLuaModifier("modifier_bench_interaction", "frostivus/abilities/frostivus_poi
 
 if IsServer() then
 	function modifier_bench_interaction:OnCreated(kv)
-		self.bOperatingCuttingBench = kv.cutting_bench == 1
 		StartAnimation(self:GetParent(), {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1, translate="greevil_magic_missile"})
-		EmitSoundOn("custom_sound.chop", self:GetParent())
-		if RollPercentage(20) then
-			EmitSoundOn("custom_sound.chop_special", self:GetParent())
+
+		if kv.sound then
+			self._sound = kv.sound
+			EmitSoundOn(self._sound, self:GetParent())
 		end
+
 		self:StartIntervalThink(1.0)
 	end
 
 	function modifier_bench_interaction:OnIntervalThink()
 		StartAnimation(self:GetParent(), {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1, translate="greevil_magic_missile"})
-		EmitSoundOn("custom_sound.chop", self:GetParent())
+
+		if self._sound then
+			EmitSoundOn(self._sound, self:GetParent())
+		end
 	end
 
 	function modifier_bench_interaction:OnDestroy()

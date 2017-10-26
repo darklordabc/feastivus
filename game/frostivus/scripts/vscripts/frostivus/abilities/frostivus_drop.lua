@@ -19,5 +19,7 @@ function frostivus_drop:OnSpellStart()
 		Frostivus:DropItem( caster, item )
 		item:FollowEntity( nil, false )
 		item:SetAbsOrigin(caster:GetAbsOrigin())
+
+		PlayDropSound( item, caster )
 	end
 end

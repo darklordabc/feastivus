@@ -71,9 +71,9 @@ function BenchAPI( keys )
 			local old_data = self.wp:GetData()
 			old_data.items = {}
 			self.wp:SetData(old_data)
-
-			self:OnPickedFromBench(item)
 		end
+
+		self:OnPickedFromBench(item)
 		
 		return item
 	end)
@@ -163,18 +163,32 @@ function BenchAPI( keys )
 		end
 	end)
 
+	caster.GetRefineTarget = (function( self )
+		if caster._get_refine_target then
+			return caster._get_refine_target(caster, caster.wp:GetData().items)
+		end
+	end)
+
+	caster.SetRefineSound = (function( self, t )
+		if type(t) == 'function' then
+			caster._get_refine_sound = t
+		else
+			caster._get_refine_sound = (function ()
+				return t
+			end)
+		end
+	end)
+
+	caster.GetRefineSound = (function( self )
+		if caster._get_refine_sound then
+			return caster._get_refine_sound(caster)
+		end
+	end)
+
 	caster.IsRefining = (function( self )
 		local old_data = self.wp:GetData()
 
 		return old_data.passed or old_data.paused or (self.HasModifier and self:HasModifier("modifier_unselectable"))
-	end)
-
-	caster.GetRefineTarget = (function( self )
-		if caster._get_refine_target then
-			return caster._get_refine_target(caster, caster.wp:GetData().items)
-		else
-
-		end
 	end)
 
 	caster.SetDefaultRefineRoutine = (function ( self )
@@ -243,8 +257,9 @@ function OnUse( bench, user )
 			local item_name = bench:GetBenchItemBySlot(1)
 
 			if (Frostivus.ItemsKVs[item_name].CanBePickedFromBench or bench:HasModifier("modifier_crate") or bench:HasModifier("modifier_transfer_bench")) and bench:GetBenchItemCount() == 1 and not bench:IsRefining() then
+				-- Play user animation and sound
 				StartAnimation(user, {duration=0.3, activity=ACT_DOTA_GREEVIL_CAST, rate=2, translate="greevil_miniboss_black_nightmare"})
-				user:EmitSound("WeaponImpact_Common.Wood")
+				PlayPickupSound( item_name, user )
 
 				-- Picking item from the bench
 				local item = item_name
@@ -261,13 +276,13 @@ function OnUse( bench, user )
 				bench:OnBenchIsFull(bench.wp:GetData().items, user)
 			end
 		elseif not bench:IsBenchFull() or bench:HasModifier("modifier_bin") or bench:ContainsPlate() or Frostivus:GetCarryingItem(user).CheckItem then
-			user:EmitSound("WeaponImpact_Common.Wood")
-
-			-- Adding item to the bench
 			if Frostivus:IsCarryingItem(user) then
-				StartAnimation(user, {duration=0.3, activity=ACT_DOTA_GREEVIL_CAST, rate=2.5, translate="greevil_laguna_blade"})
-				
+				-- Adding item to the bench
 				local item = Frostivus:GetCarryingItem(user)
+
+				-- Play user animation and sound
+				StartAnimation(user, {duration=0.3, activity=ACT_DOTA_GREEVIL_CAST, rate=2.5, translate="greevil_laguna_blade"})
+				PlayDropSound( item, user )
 
 				-- Swap plate with item
 				if Frostivus:IsCarryingItem(bench) and item.CheckItem then
@@ -340,6 +355,7 @@ function RefineBase( bench, items, user )
 	user:AddNewModifier(user,ab,"modifier_bench_interaction",{
 		duration = duration,
 		cutting_bench = 1,
+		sound = bench:GetRefineSound()
 	}):SetStackCount(duration * 100)
 	user:AddNewModifier(user,ab,"modifier_command_restricted",{duration = 0.03})
 	bench:AddNewModifier(user,ab,"modifier_unselectable",{})
@@ -380,12 +396,10 @@ function RefineBase( bench, items, user )
 		bench.wp:SetData(old_data)
 
 		if custom_refine then
-
+			local old_data = bench.wp:GetData()
+			old_data.items[1] = custom_refine:GetContainedItem():GetName()
+			bench.wp:SetData(old_data)
 		else
-			-- local old_data = bench.wp:GetData()
-			-- old_data.items[1] = target_item
-			-- bench.wp:SetData(old_data)
-
 			if bench:Is3DBench() and bench:FindModifierByName("modifier_carrying_item") then
 				local item = bench:FindModifierByName("modifier_carrying_item").item
 

@@ -20,7 +20,15 @@
 		type = "dota_src1_3d"
 		vsnd_files =
         [
-            "sounds/benches/crate_pickup.vsnd",
+            "sounds/ui/item_pickup_shop.vsnd",
+        ]
+        volume = "0.500000"
+	}
+	custom_sound.drop = {
+		type = "dota_src1_3d"
+		vsnd_files =
+        [
+            "sounds/ui/inventory/common_drop.vsnd",
         ]
         volume = "0.500000"
 	}
