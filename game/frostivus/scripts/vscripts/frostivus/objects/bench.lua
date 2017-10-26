@@ -306,7 +306,9 @@ function OnUse( bench, user )
 					if bench:Is3DBench() then
 						bench:BindItem(item)
 					else
-						item:RemoveSelf()
+						Timers:CreateTimer(function (  )
+							item:RemoveSelf()
+						end)
 					end
 				end
 			end
