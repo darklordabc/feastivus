@@ -29,6 +29,8 @@ function OnOrderChanged() {
 
 			var assemblies = m_Recipes[itemName];
 
+			$.Msg(assemblies);
+
 			if (assemblies != undefined) {
 				for (var i = 0; i < Object.keys(assemblies).length; ++i){
 					orderPanel.FindChildTraverse("Assembly_Image_" + i).itemname = assemblies[i+1];

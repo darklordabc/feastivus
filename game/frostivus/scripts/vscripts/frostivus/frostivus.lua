@@ -33,10 +33,10 @@ if not Frostivus then
 	local recipes = {}
 	for _, _data in pairs(Frostivus.RecipesKVs) do
 		for product, data in pairs(_data) do
-			local assemblies = {}
-			for _, assembly in pairs(data.Assembly) do
-				table.insert(assemblies, assembly)
-			end
+			local assemblies = data.Assembly
+			-- for _, assembly in pairs(data.Assembly) do
+			-- 	table.insert(assemblies, assembly)
+			-- end
 			CustomNetTables:SetTableValue("recipes", product, assemblies)
 		end
 	end

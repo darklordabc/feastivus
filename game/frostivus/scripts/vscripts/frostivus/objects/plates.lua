@@ -1,6 +1,13 @@
 function AddPlateStack(caster, quantity)
 	quantity = quantity or 3
 
+	if quantity == 1 then
+		local single_plate = CreatePlate(  )
+		caster:AddItemToBench("item_plate")
+		caster:BindItem(single_plate)
+		return single_plate
+	end
+
 	caster:AddItemToBench("item_clean_plates")
 
 	local stack = CreateItemOnPositionSync(caster:GetAbsOrigin(), CreateItem("item_clean_plates", caster, caster))
@@ -21,14 +28,22 @@ function AddPlateStack(caster, quantity)
 	stack.PickItemFromBench = (function( self, user, item_name )
 		stack._count = stack._count - 1
 
-		if stack._count == 0 then
-			Frostivus:DropItem( stack._holder, stack )
-			stack._holder:PickItemFromBench(stack._holder, stack):RemoveSelf()
+		local plate = CreatePlate()
+
+		if stack._count == 1 then
+			local bench = stack._holder
+
+			Frostivus:DropItem( bench, stack )
+			bench:PickItemFromBench(bench, stack):RemoveSelf()
+
+			-- Replacing stack with last plate
+			local last_plate = CreatePlate()
+
+			bench:AddItemToBench(last_plate, user)
+			bench:BindItem(last_plate)
 		else
 			stack:SetModel("models/plates/dirty_plate_"..tostring(stack._count)..".vmdl")
 		end
-
-		local plate = CreatePlate()
 
 		if not self._bench_infinite_items then
 			local old_data = self.wp:GetData()
@@ -48,11 +63,11 @@ function CreatePlate(  )
 	local plate = CreateItemOnPositionSync(Vector(0,0,0),CreateItem("item_plate",nil,nil))
 
 	BenchAPI(plate)
-	plate:InitBench( 3, CanPutItemOnPlate)
+	plate:InitBench( 3, CanPutItemOnPlate, nil, 0 )
 	plate:SetOnPickedFromBench(function ( picked_item )
 		
 	end)
-	plate:SetOnBenchIsFull( function ( bench, items, user )
+	plate:SetOnBenchIsFull( function ( plate, items, user )
 		local result
 
 		for k,v in pairs(Frostivus.RecipesKVs["1"]) do
@@ -63,13 +78,16 @@ function CreatePlate(  )
 		end
 
 		if result then
-			local dish = CreateItemOnPositionSync(bench:GetAbsOrigin(),CreateItem(result,nil,nil))
+			local dish = CreateItemOnPositionSync(plate:GetAbsOrigin(),CreateItem(result,nil,nil))
 
-			bench._holder:RemoveModifierByName("modifier_carrying_item")
-			bench._holder:PickItemFromBench(user, bench):RemoveSelf()
+			plate._holder:RemoveModifierByName("modifier_carrying_item")
+			local item = plate._holder:PickItemFromBench(user, plate)
+			Timers:CreateTimer(function (  )
+				item:RemoveSelf()
+			end)
 
-			bench._holder:AddItemToBench(result, user)
-			bench._holder:BindItem(dish)
+			plate._holder:AddItemToBench(result, user)
+			plate._holder:BindItem(dish)
 		end
 	end )
 

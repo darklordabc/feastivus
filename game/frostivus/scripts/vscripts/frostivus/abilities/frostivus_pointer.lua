@@ -56,13 +56,23 @@ modifier_bench_interaction = class({})
 LinkLuaModifier("modifier_bench_interaction", "frostivus/abilities/frostivus_pointer.lua", 0)
 
 if IsServer() then
-	function modifier_bench_interaction:OnCreated()
+	function modifier_bench_interaction:OnCreated(kv)
 		StartAnimation(self:GetParent(), {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1, translate="greevil_magic_missile"})
+
+		if kv.sound then
+			self._sound = kv.sound
+			EmitSoundOn(self._sound, self:GetParent())
+		end
+
 		self:StartIntervalThink(1.0)
 	end
 
 	function modifier_bench_interaction:OnIntervalThink()
 		StartAnimation(self:GetParent(), {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1, translate="greevil_magic_missile"})
+
+		if self._sound then
+			EmitSoundOn(self._sound, self:GetParent())
+		end
 	end
 
 	function modifier_bench_interaction:OnDestroy()

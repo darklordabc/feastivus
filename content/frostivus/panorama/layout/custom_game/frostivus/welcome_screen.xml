@@ -29,8 +29,8 @@
 		<Panel class="ImageCache">
 			<Image src="file://{resources}/images/custom_game/welcome_screen/cancel_button.psd" />
 		</Panel>
-		<Image class="WelcomeScreenBackground" src="file://{resources}/images/custom_game/welcome_screen/background.psd" />
-		<Image class="GameLogo" src="file://{resources}/images/custom_game/game_logo.psd" />
+		<Image class="WelcomeScreenBackground" src="file://{resources}/images/custom_game/welcome_screen/background.png" />
+		<Image class="GameLogo" src="file://{resources}/images/custom_game/game_logo.png" />
 		<Panel class="CountDownTimer">
 			<Image class="TimerDigit" id="count_down_mins_1" />
 			<Image class="TimerDigit" id="count_down_mins_2" />

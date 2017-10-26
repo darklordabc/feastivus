@@ -68,7 +68,7 @@ if IsServer() then
 					else
 						if not ally:HasModifier('modifier_knockback') then
 							-- just kock back
-							local distance = 64
+							local distance = 32
 							local speed = 800
 							local duration = 0.4
 							local center = caster:GetOrigin()
