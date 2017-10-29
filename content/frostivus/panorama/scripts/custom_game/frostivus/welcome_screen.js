@@ -29,7 +29,7 @@ function OnRockAndRoll() {
 	});
 
 	// disable the start tutorial button
-	$("#button_start_tutorial").enabled = false;
+	// $("#button_start_tutorial").enabled = false;
 	// set art to cancel
 	$("#rock_and_roll_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/cancel_button.psd");
 }

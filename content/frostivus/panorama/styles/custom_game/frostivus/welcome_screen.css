@@ -22,6 +22,8 @@
 	vertical-align: top;
 	horizontal-align: center;
 	margin-top: 240px;
+
+	transform: scale3d(0.68, 0.68, 1.0);
 }
 
 .TimerColon {
@@ -44,14 +46,27 @@
 .ButtonsPanel {
 	vertical-align: bottom;
 	horizontal-align: center;
-	flow-children: right;
+	flow-children: down;
+
+	margin-bottom: 50px;
 }
 
 .Button {
-	width: 326px;
-	height: 115px;
+	width: 420px;
+	height: 110px;
 	margin-left: 20px;
 	margin-right: 20px;
+
+	border-radius: 10px;
+}
+
+.Button .Label {
+	color: white;
+
+	align: center center;
+	font-size: 90px;
+
+	font-family: Goudy Trajan Medium,FZKai-Z03,TH Sarabun New,YDYGO 540;
 }
 
 #button_ready {
@@ -75,14 +90,16 @@
 .PlayerCardPanel {
 	vertical-align: center;
 	horizontal-align: center;
-	height: 340px;
+	height: 520px;
+
+	margin-bottom: 50px;
 
 	flow-children: right;
 }
 
 .PlayerCardRoot {
-	width:256px;
-	height: 440px;
+	height: 520px;
+	width: 420px;
 
 	box-shadow: #000000B8 2px 2px 8px -2px;
 }
@@ -97,6 +114,13 @@
 	width: 100%;
 	background-color: #232323aa;
 	padding-top: 15px;
+}
+
+.PlayerCardOverlay {
+	width: 100%;
+	height: 100%;
+
+	background-image:url("file://{resources}/images/custom_game/welcome_screen/player_card.png");
 }
 
 .PlayerName {
