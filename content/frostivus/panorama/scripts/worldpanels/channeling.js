@@ -12,6 +12,10 @@ function ChannelingCheck()
 
     $("#Progress").SetHasClass("Oscillate", data.progress == 100);
 
+    if (data.cooking_done) {
+      // $("#Frame").style.opacity = "0.0;";
+    }
+
     // if (!$.GetContextPanel().Initiated && data.progress) {
     //   $("#Progress").style.transitionDuration = data.duration + "s;";
     //   $("#Progress").style.width = data.progress + "%";

@@ -3,13 +3,17 @@
 	height: 210px;
 }
 
-.Frame
+#Frame
 {
   width: 95px;
   height: 17px;
   background-color: #555555;
 
   border-radius: 10px;
+
+  transition-duration: 1s;
+  transition-property: opacity;
+  transition-timing-function: linear;
 }
 
 #Progress 

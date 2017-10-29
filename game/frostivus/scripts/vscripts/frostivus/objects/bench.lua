@@ -287,13 +287,14 @@ function OnUse( bench, user )
 			if Frostivus:IsCarryingItem(user) then
 				-- Adding item to the bench
 				local item = Frostivus:GetCarryingItem(user)
+				local item_name = item:GetContainedItem():GetName()
 
 				-- Play user animation and sound
 				StartAnimation(user, {duration=0.3, activity=ACT_DOTA_GREEVIL_CAST, rate=2.5, translate="greevil_laguna_blade"})
 				PlayDropSound( item, user )
 
 				-- Swap plate with item
-				if Frostivus:IsCarryingItem(bench) and item.CheckItem then
+				if Frostivus:IsCarryingItem(bench) and item_name == "item_plate" then
 					if item:CheckItem(Frostivus:GetCarryingItem(bench)) then
 						local bench_item = Frostivus:GetCarryingItem(bench)
 						Frostivus:DropItem( bench, bench_item )
@@ -308,6 +309,7 @@ function OnUse( bench, user )
 						bench:BindItem(item)
 
 						item = bench_item
+						item_name = item:GetContainedItem():GetName()
 					else
 						return
 					end
@@ -315,21 +317,37 @@ function OnUse( bench, user )
 
 				-- Adding item to a plate or some other container
 				if bench:IsForwardOnUseToItem() then
-					print("asdasdasdd")
 					bench = Frostivus:GetCarryingItem( bench )
 				end
 
-				if item and bench:CheckItem(item) then
-					bench:AddItemToBench(item, user)
+				if item then
+					-- Pot
+					if item_name == "item_pot" and bench.GetContainedItem and bench:GetContainedItem():GetName() == "item_plate" then
+						local pot = item
+						local old_data = pot.wp:GetData()
 
-					Frostivus:DropItem( user, item )
+						if pot.progress:GetData().cooking_done then
+							for k,v in pairs(old_data.items) do
+								bench:AddItemToBench(v, user)
+							end
 
-					if bench:Is3DBench() then
-						bench:BindItem(item)
-					else
-						Timers:CreateTimer(function (  )
-							item:RemoveSelf()
-						end)
+							old_data.items = {}
+							pot.wp:SetData(old_data)
+
+							pot.progress:SetData({ progress = 0 })
+						end
+					elseif bench:CheckItem(item) then
+						bench:AddItemToBench(item, user)
+
+						Frostivus:DropItem( user, item )
+
+						if bench:Is3DBench() then
+							bench:BindItem(item)
+						else
+							Timers:CreateTimer(function (  )
+								item:RemoveSelf()
+							end)
+						end
 					end
 				end
 			end

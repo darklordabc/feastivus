@@ -78,16 +78,18 @@ function CreatePlate(  )
 		end
 
 		if result then
-			local dish = CreateItemOnPositionSync(plate:GetAbsOrigin(),CreateItem(result,nil,nil))
+			local holder = plate._holder
+			plate:RemoveSelf()
+			local dish = CreateItemOnPositionSync(holder:GetAbsOrigin(),CreateItem(result,nil,nil))
 
-			plate._holder:RemoveModifierByName("modifier_carrying_item")
-			local item = plate._holder:PickItemFromBench(user, plate)
-			Timers:CreateTimer(function (  )
-				item:RemoveSelf()
-			end)
+			-- plate._holder:RemoveModifierByName("modifier_carrying_item")
+			-- local item = 
+			-- Timers:CreateTimer(function (  )
+				
+			-- end)
 
-			plate._holder:AddItemToBench(result, user)
-			plate._holder:BindItem(dish)
+			holder:AddItemToBench(result, user)
+			holder:BindItem(dish)
 		end
 	end )
 

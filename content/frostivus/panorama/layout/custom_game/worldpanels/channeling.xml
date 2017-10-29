@@ -7,7 +7,7 @@
     <include src="file://{resources}/scripts/worldpanels/channeling.js" /> 
   </scripts>
   <Panel hittest="false" class="Channeling">
-    <Panel class="Frame">
+    <Panel id="Frame">
       <Panel id="Progress"/>
     </Panel>
   </Panel>

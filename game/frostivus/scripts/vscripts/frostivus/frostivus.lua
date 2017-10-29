@@ -146,6 +146,10 @@ function Frostivus:OnPickupItem( item, ply )
 		if old_container.wp then
 			old_container.wp:SetEntity(item:entindex())
 
+			if old_container.progress then
+				old_container.progress:SetEntity(item:entindex())
+			end
+
 			for k,v in pairs(old_container) do
 				if k ~= "__self" then
 					item[k] = v

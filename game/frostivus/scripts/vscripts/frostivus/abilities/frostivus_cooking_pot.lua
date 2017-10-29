@@ -21,29 +21,47 @@ modifier_cooking_pot = class({})
 
 if IsServer() then
     function modifier_cooking_pot:OnCreated(kv)
-        self:StartIntervalThink(0.1)
+        self:StartIntervalThink(0.2)
     end
 
     function modifier_cooking_pot:OnIntervalThink()
         local caster = self:GetParent()
+        local delta = 0.2
 
         if caster.GetBenchItemBySlot and caster:GetBenchItemBySlot(1) == "item_pot" then
             local pot = Frostivus:GetCarryingItem(caster)
 
-            if not pot._cooking then
-                if pot:GetBenchItemBySlot(1) then
-                    StartCooking( pot )
-                end
-            else
-                local old_data = pot.progress:GetData()
-
-                if old_data.progress >= 100 then
-                    
+            if pot then
+                if not pot._cooking then
+                    if pot:GetBenchItemBySlot(1) then
+                        StartCooking( pot )
+                    end
                 else
-                    old_data.progress = math.min(old_data.progress + (0.1 * (100 / pot:GetRefineDuration())), 100)
+                    local old_data = pot.progress:GetData()
+
+                    if not deepcompare(self._temp_items,pot.wp:GetData().items) then
+                        old_data.progress = math.max(old_data.progress - ((100 / pot:GetRefineDuration()) * 4), 0)
+                    end
+
+                    if old_data.progress >= 100 then
+                        if GetTableLength(self._temp_items) == 3 then
+                            old_data.cooking_done = true
+                        end
+                        old_data.overtime = old_data.overtime + delta
+                    else
+                        old_data.overtime = 0
+                        old_data.progress = math.min(old_data.progress + (delta * (100 / pot:GetRefineDuration())), 100)
+                    end
 
                     pot.progress:SetData(old_data)
                 end
+
+                self._temp_items = {}
+                for k,v in pairs(pot.wp:GetData().items) do
+                    self._temp_items[k] = v
+                end
+            else
+
             end
         else
 
@@ -58,7 +76,7 @@ function CreatePot()
 
     BenchAPI(pot)
     pot:InitBench( 3, CanPutItemInPot, nil, 0 )
-    pot:SetRefineDuration(7.0)
+    pot:SetRefineDuration(10.0)
 
     return pot
 end

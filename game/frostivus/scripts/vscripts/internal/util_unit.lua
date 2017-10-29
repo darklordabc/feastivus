@@ -36,6 +36,10 @@ function CDOTA_BaseNPC:BindItem( item )
 	AddAnimationTranslate(self, "miniboss")
 end
 
+function CDOTA_BaseNPC:IsBench()
+	return self.wp ~= nil
+end
+
 function CDOTA_Item_Physical:TriggerOnUse( user )
 	self._on_use = self._on_use or (function( ) Frostivus:L("Triggered!") end)
 	self._on_use(self, user)
@@ -43,4 +47,8 @@ end
 
 function CDOTA_Item_Physical:SetOnUse( callback )
 	self._on_use = callback or (function( ) Frostivus:L("Triggered!") end)
+end
+
+function CDOTA_Item_Physical:IsBench()
+	return self.wp ~= nil
 end
