@@ -24,7 +24,7 @@ end
 
 function CDOTA_BaseNPC:BindItem( item )
 	Frostivus:BindItem(item, self, (function ()
-		return self:GetAbsOrigin() + Vector(0,0,128) + self:GetForwardVector() * 32
+		return self:GetAbsOrigin() + Vector(0,0,100) + self:GetForwardVector() * 32
 	end),(function ()
 		return Frostivus:IsCarryingItem( self, item )
 	end), (function (  )

@@ -6,7 +6,7 @@
 		[
 			{
 				m_meshName = "ingredient_crate_01"
-				m_meshFile = "models/crate/ingredient_crate_01.fbx"
+				m_meshFile = "models/crate/dmx/mesh/ingredient_crate_01.dmx"
 				m_materialSearchPath = ""
 				m_bSkinParentedObjects = true
 				m_bLegacySkinParentedTransforms = false
@@ -62,8 +62,8 @@
 								m_sSurfaceProperty = ""
 								m_nGroupId = 0
 								m_sBoneName = "cube"
-								m_vMinBounds = [ -52.2271, 0.0, -55.7677 ]
-								m_vMaxBounds = [ 52.227139, 103.188576, 55.767719 ]
+								m_vMinBounds = [ -64.0, 0.0, -64.0 ]
+								m_vMaxBounds = [ 64.0, 124.887108, 64.0 ]
 								m_bTranslationOnly = false
 								m_cRenderColor = [ 0, 0, 0, 0 ]
 							},
@@ -168,16 +168,7 @@
 	m_sOffsetHitboxSets = [  ]
 	m_vHitboxSetOffset = [ 0.0, 0.0, 0.0 ]
 	m_scriptFiles = [  ]
-	m_pMaterialRemapList = 
-	{
-		m_vMaterialRemapList = 
-		[
-			{
-				m_sSearchMaterial = "material_#26.vmat"
-				m_sReplaceMaterial = "materials/models/props_cave/wood_structure.vmat"
-			},
-		]
-	}
+	m_pMaterialRemapList = null
 	m_flFbxScale = 1.0
 	m_flQCScale = 1.0
 	m_vOrigin = [ 0.0, 0.0, 0.0 ]

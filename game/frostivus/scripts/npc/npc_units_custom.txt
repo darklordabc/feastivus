@@ -98,7 +98,7 @@
     { 
         "BaseClass"         "npc_dota_creature"
         "Model"           "models/table/table.vmdl"
-        "ModelScale" "0.9"
+        "ModelScale" "1"
         "Level"           "10"
 
         "Ability1"          "frostivus_bench"
@@ -119,7 +119,7 @@
     { 
         "BaseClass"         "npc_dota_creature"
         "Model"           "models/chopping/chopping.vmdl"
-        "ModelScale" "0.9"
+        "ModelScale" "1"
         "Level"           "10"
 
         "Ability1"          "frostivus_bench"
@@ -161,7 +161,7 @@
     { 
         "BaseClass"         "npc_dota_creature"
         "Model"             "models/table/table.vmdl"
-        "ModelScale"        "0.9"
+        "ModelScale"        "1"
         "Level"             "10"
 
         "Ability1"          "frostivus_bench"
@@ -181,9 +181,9 @@
     "npc_crate_bench"
     { 
         "BaseClass"         "npc_dota_creature"
-        "Model"           "models/crate/ingredient_crate_02.vmdl"
-        "ModelScale" "0.9"
-        "Level"           "10"
+        "Model"             "models/crate/ingredient_crate_01.vmdl"
+        "ModelScale"        "1"
+        "Level"             "10"
 
         "Ability1"          "frostivus_bench"
         "Ability2"          "frostivus_crate"
@@ -203,7 +203,7 @@
     { 
         "BaseClass"         "npc_dota_creature"
         "Model"             "models/bin/bin.vmdl"
-        "ModelScale"        "12.0"
+        "ModelScale"        "1"
         "Level"             "10"
 
         "Ability1"          "frostivus_bench"
@@ -223,8 +223,8 @@
     "npc_serve_table"
     { 
         "BaseClass"         "npc_dota_creature"
-        "Model"             "models/table.vmdl"
-        "ModelScale"        "0.8"
+        "Model"             "models/serve_table/serve_table.vmdl"
+        "ModelScale"        "1"
         "Level"             "10"
 
         "Ability1"          "frostivus_bench"
@@ -244,12 +244,33 @@
     "npc_sink_bench"
     { 
         "BaseClass"         "npc_dota_creature"
-        "Model"             "models/sink/sink.vmdl"
-        "ModelScale"        "0.9"
+        "Model"             "models/table/table.vmdl"
+        "ModelScale"        "1"
         "Level"             "10"
 
         "Ability1"          "frostivus_bench"
         "Ability2"          "frostivus_sink"
+        "Ability3"          ""
+        "Ability4"          ""
+
+        "ArmorPhysical"             "0"
+        "MagicalResistance"         "0"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+
+        "TeamName"                  "DOTA_TEAM_GOODGUYS"
+    }
+
+    "npc_cooking_pot"
+    { 
+        "BaseClass"         "npc_dota_creature"
+        "Model"             "models/lava_bench/lava_bench.vmdl"
+        "ModelScale"        "1"
+        "Level"             "10"
+
+        "Ability1"          "frostivus_bench"
+        "Ability2"          "frostivus_cooking_pot"
         "Ability3"          ""
         "Ability4"          ""
 

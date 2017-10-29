@@ -62,8 +62,8 @@
 								m_sSurfaceProperty = ""
 								m_nGroupId = 0
 								m_sBoneName = "cube"
-								m_vMinBounds = [ -66.779732, 0.0, -62.275661 ]
-								m_vMaxBounds = [ 66.779732, 98.441711, 62.275661 ]
+								m_vMinBounds = [ -64.0, 0.0, -64.0 ]
+								m_vMaxBounds = [ 64.0, 100.0, 64.0 ]
 								m_bTranslationOnly = false
 								m_cRenderColor = [ 0, 0, 0, 0 ]
 							},

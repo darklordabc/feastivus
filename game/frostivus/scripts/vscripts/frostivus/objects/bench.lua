@@ -30,6 +30,12 @@ function BenchAPI( keys )
 		return self._bench_hidden
 	end)
 
+	caster.IsForwardOnUseToItem = (function( self )
+		local old_data = self.wp:GetData()
+
+		return old_data.items[1] and Frostivus.ItemsKVs[old_data.items[1]].ForwardOnUse
+	end)
+
 	caster.Set3DBench = (function( self, b )
 		self._3d_bench = b
 	end)
@@ -225,7 +231,7 @@ function BenchAPI( keys )
 		end
 
 		Frostivus:BindItem(item, self, (function ()
-			return self:GetAbsOrigin() + Vector(0,0,128)
+			return self:GetAbsOrigin() + Vector(0,0,100)
 		end),(function ()
 			return Frostivus:IsCarryingItem( self, item )
 		end), (function ()
@@ -242,7 +248,9 @@ function BenchAPI( keys )
 	end)
 
     caster.GetBenchItemBySlot = (function ( self, slot )
-        return self.wp:GetData().items[slot]
+    	if self.wp then
+        	return self.wp:GetData().items[slot]
+        end
     end)
 end
 
@@ -275,7 +283,7 @@ function OnUse( bench, user )
 				-- Use full bench (e.g. after interrupting channel)
 				bench:OnBenchIsFull(bench.wp:GetData().items, user)
 			end
-		elseif not bench:IsBenchFull() or bench:HasModifier("modifier_bin") or bench:ContainsPlate() or Frostivus:GetCarryingItem(user).CheckItem then
+		elseif not bench:IsBenchFull() or bench:HasModifier("modifier_bin") or Frostivus:GetCarryingItem(user).CheckItem or bench:IsForwardOnUseToItem() then
 			if Frostivus:IsCarryingItem(user) then
 				-- Adding item to the bench
 				local item = Frostivus:GetCarryingItem(user)
@@ -305,8 +313,9 @@ function OnUse( bench, user )
 					end
 				end
 
-				-- Adding item to a plate
-				if bench:ContainsPlate() then
+				-- Adding item to a plate or some other container
+				if bench:IsForwardOnUseToItem() then
+					print("asdasdasdd")
 					bench = Frostivus:GetCarryingItem( bench )
 				end
 
