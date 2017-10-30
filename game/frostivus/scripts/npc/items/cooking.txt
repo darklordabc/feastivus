@@ -186,7 +186,7 @@
     "ID"    "1109"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
-    "AbilityTextureName"      "item_enchanted_mango"
+    "AbilityTextureName"      "mango_plate"
     "Model"                   "models/dishes/mango_salad.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
