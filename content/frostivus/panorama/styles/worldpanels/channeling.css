@@ -1,6 +1,10 @@
 .Channeling
 {
 	height: 210px;
+
+  transition-property: opacity;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in;
 }
 
 #Frame
@@ -34,6 +38,11 @@
   animation-name: oscillate;
   animation-duration: 0.5s;
   animation-iteration-count: infinite;
+}
+
+.Hide 
+{
+  opacity: 0;
 }
 
 @keyframes 'oscillate'

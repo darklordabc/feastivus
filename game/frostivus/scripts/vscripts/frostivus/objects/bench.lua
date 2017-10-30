@@ -267,6 +267,10 @@ function BenchAPI( keys )
         	return self.wp:GetData().items[slot]
         end
     end)
+
+    caster.IsHotBench = (function ( self )
+    	return caster.GetModelName and caster:GetModelName() == "models/lava_bench/lava_bench.vmdl"
+    end)
 end
 
 function OnUse( bench, user )

@@ -8,9 +8,12 @@ function ChannelingCheck()
   var data = $.GetContextPanel().Data
   
   if (wp) {
-    $("#Progress").style.width = RoundToTwo(data.progress) + "%";
-
+    if (data.progress) {
+      $("#Progress").style.width = RoundToTwo(data.progress) + "%";
+    }
+    
     $("#Progress").SetHasClass("Oscillate", data.progress == 100);
+    $("#Frame").SetHasClass("Hide", data.hidden);
 
     if (data.cooking_done) {
       // $("#Frame").style.opacity = "0.0;";
