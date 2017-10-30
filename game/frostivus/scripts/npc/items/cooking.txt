@@ -231,7 +231,7 @@
     "ID"    "1111"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
-    "AbilityTextureName"      "item_tango"
+    "AbilityTextureName"      "tango_mango_salad"
     "Model"                   "models/dishes/tango_salad.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
@@ -252,7 +252,7 @@
     "ID"    "1112"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
-    "AbilityTextureName"      "item_enchanted_mango"
+    "AbilityTextureName"      "mango_tango_salad"
     "Model"                   "models/dishes/mango_salad.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
