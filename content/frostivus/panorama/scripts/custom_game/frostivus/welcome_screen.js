@@ -68,7 +68,8 @@ function FindOrCreatePanelForPlayer(playerID, parent) {
 	var playerInfo = Game.GetPlayerInfo( playerID );
 	newPlayerPanel.FindChildTraverse("player_name").steamid = playerInfo.player_steamid;
 
-	newPlayerPanel.BCreateChildren("<DOTAScenePanel particleonly='false' class='GreevilScene' map='greevils/greevil_1' camera='camera7'/> ");
+	var id = "player_portrait_" + playerID;
+	newPlayerPanel.BCreateChildren("<DOTAScenePanel id='" + id + "' particleonly='false' class='GreevilScene' map='greevils/greevil_1' camera='camera7'/> ");
 
 	// highlight local player card
 	var localPlayerInfo = Game.GetLocalPlayerInfo();
