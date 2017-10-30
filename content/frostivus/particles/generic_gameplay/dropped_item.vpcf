@@ -18,6 +18,7 @@
 			m_bAdditive = true
 			m_hTexture = resource:"materials/particle/burst01.vtex"
 			m_nOrientationType = 2
+			m_bDisableOperator = true
 		},
 	]
 	m_Operators = 
@@ -115,12 +116,15 @@
 	[
 		{
 			m_ChildRef = resource:"particles/generic_gameplay/dropped_item_bloom.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/generic_gameplay/dropped_item_smoke.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/generic_gameplay/dropped_item_b.vpcf"
+			m_bDisableChild = true
 		},
 	]
 	m_controlPointConfigurations = 

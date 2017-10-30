@@ -30,9 +30,9 @@ function OnClickReadyOrStart() {
 	// the players dont have host privileges just need to wait for it to start atm
 	// just leave the hats feature later
 	if (b_HasHostPrivileges && IsAllReady()) {
-		// CountDownAndStart();
+		CountDownAndStart();
 	}else{
-		// GameEvents.SendCustomGameEventToServer('player_ready', {})
+		GameEvents.SendCustomGameEventToServer('player_ready', {})
 	}
 }
 

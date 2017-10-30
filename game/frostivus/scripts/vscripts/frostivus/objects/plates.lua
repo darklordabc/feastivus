@@ -46,9 +46,7 @@ function AddPlateStack(caster, quantity)
 		end
 
 		if not self._bench_infinite_items then
-			local old_data = self.wp:GetData()
-			old_data.items = {}
-			self.wp:SetData(old_data)
+			self:SetItems({})
 
 			self:OnPickedFromBench(plate)
 		end

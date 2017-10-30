@@ -40,6 +40,10 @@ function CDOTA_BaseNPC:IsBench()
 	return self.wp ~= nil
 end
 
+function CDOTA_BaseNPC:GetHolder()
+	return self._holder
+end
+
 function CDOTA_Item_Physical:TriggerOnUse( user )
 	self._on_use = self._on_use or (function( ) Frostivus:L("Triggered!") end)
 	self._on_use(self, user)
@@ -51,4 +55,8 @@ end
 
 function CDOTA_Item_Physical:IsBench()
 	return self.wp ~= nil
+end
+
+function CDOTA_Item_Physical:GetHolder()
+	return self._holder
 end
