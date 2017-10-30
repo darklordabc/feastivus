@@ -210,7 +210,7 @@ function OnGameRulesStateChanged() {
 
 	// debug freeze the count down timer
 	// Game.SetRemainingSetupTime(30); 
-	Game.SetRemainingSetupTime(4); 
+	Game.SetRemainingSetupTime(30); 
 
 	// Register a listener for the event which is brodcast when the team assignment of a player is actually assigned
 	$.RegisterForUnhandledEvent( "DOTAGame_TeamPlayerListChanged", OnTeamPlayerListChanged );

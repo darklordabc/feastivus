@@ -12,7 +12,6 @@
 
 				<!-- player card content -->
 				<!-- <Image class="PlayerHeroArt" id="hero_art" src="file://{resources}/images/custom_game/welcome_screen/temp_hero_art.psd"/> -->
-				<DOTAScenePanel style="width:420px;height:520px;" map="greevils/greevil_1" camera="camera1"/>
 				<Panel class="PlayerInfoArea">
 					<DOTAUserName class="PlayerName" id="player_name" steamid="local" />
 					<DOTAAvatarImage class="PlayerPortrait" id="player_portrait" steamid="local" />
@@ -38,6 +37,8 @@
 		<!-- @todo dire heroes panel for versus mode -->
 		<!-- <Panel class="HeroesPanel Badguys">
 		</Panbel> -->
+
+		<DOTAScenePanel id="greevil_portrait_local" style="width:420px;height:520px;" map="greevils/greevil_selection" camera="camera_greevil" particleonly="false"/>
 
 		<Panel class="ButtonsPanel">
 			<Panel class="CountDownTimer">
