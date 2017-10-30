@@ -271,6 +271,14 @@ function BenchAPI( keys )
     caster.IsHotBench = (function ( self )
     	return caster.GetModelName and caster:GetModelName() == "models/lava_bench/lava_bench.vmdl"
     end)
+
+    caster.SetFakeItem = (function ( self, item )
+		local old_data = self.wp:GetData()
+
+		old_data.fake = item
+
+		self.wp:SetData(old_data)
+    end)
 end
 
 function OnUse( bench, user )
@@ -314,8 +322,9 @@ function OnUse( bench, user )
 
 				-- Swap plate with item
 				if Frostivus:IsCarryingItem(bench) and item_name == "item_plate" then
-					if item:CheckItem(Frostivus:GetCarryingItem(bench)) then
-						local bench_item = Frostivus:GetCarryingItem(bench)
+					local bench_item = Frostivus:GetCarryingItem(bench)
+
+					if item:CheckItem(bench_item) then
 						Frostivus:DropItem( bench, bench_item )
 
 						bench:RemoveModifierByName("modifier_carrying_item")
@@ -350,10 +359,11 @@ function OnUse( bench, user )
 							end
 
 							pot:SetItems({})
+							pot:SetFakeItem(nil)
 
 							pot.progress:SetData({ progress = 0 })
 						end
-					elseif bench:CheckItem(item) then
+					elseif bench.CheckItem and bench:CheckItem(item) then
 						bench:AddItemToBench(item, user)
 
 						Frostivus:DropItem( user, item )

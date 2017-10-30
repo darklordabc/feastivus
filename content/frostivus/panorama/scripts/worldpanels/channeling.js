@@ -12,6 +12,10 @@ function ChannelingCheck()
       $("#Progress").style.width = RoundToTwo(data.progress) + "%";
     }
     
+    if (data.overtime && data.max_overtime) {
+      $("#Progress").style.animationDuration = Math.max(RoundToTwo((data.max_overtime - Math.min(data.overtime, data.max_overtime - 0.1)) / 5), 0.2) + "s;";
+    }
+
     $("#Progress").SetHasClass("Oscillate", data.progress == 100);
     $("#Frame").SetHasClass("Hide", data.hidden);
 

@@ -151,6 +151,7 @@
 
     "CanBeCutted" "1"
     "RefineTarget" "item_refined_mango"
+    "BoilTarget" "item_boiled_mango"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
@@ -333,7 +334,7 @@
     "ID"    "1116"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
-    "AbilityTextureName"      "item_bottle"
+    "AbilityTextureName"      "item_tango_salad"
     "Model"                   "models/dishes/tango_salad.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
@@ -355,6 +356,46 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "item_plate"
+    "Model"                   "models/props_gameplay/salve.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+    
+    "WorldDropSound"        "custom_sound.pickup"
+  }
+
+  "item_mango_soup"
+  {
+    "ID"    "1118"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_mango_salad"
+    "Model"                   "models/dishes/tango_salad.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "CanBePickedFromBench"  "1"
+    "CanBeServed"  "1"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
+  }
+
+  "item_boiled_mango"
+  {
+    "ID"    "1119"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_enchanted_mango"
     "Model"                   "models/props_gameplay/salve.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 

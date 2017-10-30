@@ -36,7 +36,7 @@
 .Oscillate
 {
   animation-name: oscillate;
-  animation-duration: 0.5s;
+  animation-duration: 7.0s;
   animation-iteration-count: infinite;
 }
 
