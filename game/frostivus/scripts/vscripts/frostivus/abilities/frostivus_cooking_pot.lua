@@ -40,8 +40,6 @@ function CreatePot()
         local progress = pot.progress
 
         if holder and holder:IsBench() and holder:IsHotBench() then
-            pot.bubbles = pot.bubbles or ParticleManager:CreateParticle("particles/frostivus_gameplay/pot_bubbles.vpcf", PATTACH_ABSORIGIN_FOLLOW, pot)
-
             if pot:GetBenchItemBySlot(1) then
                 if not progress or not progress:GetData().cooking_done then
                     StartCooking( pot )
@@ -82,6 +80,8 @@ function CreatePot()
                 old_data.hidden = false
 
                 progress:SetData(old_data)
+
+                pot.bubbles = pot.bubbles or ParticleManager:CreateParticle("particles/frostivus_gameplay/pot_bubbles.vpcf", PATTACH_ABSORIGIN_FOLLOW, pot)
             end
         else
             pot._cooking = false
