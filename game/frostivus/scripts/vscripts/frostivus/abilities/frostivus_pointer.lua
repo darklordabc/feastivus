@@ -61,6 +61,7 @@ if IsServer() then
 
 		if kv.sound then
 			self._sound = kv.sound
+			self._dont_repeat_sound = kv.dont_repeat_sound
 			EmitSoundOn(self._sound, self:GetParent())
 		end
 
@@ -70,7 +71,7 @@ if IsServer() then
 	function modifier_bench_interaction:OnIntervalThink()
 		StartAnimation(self:GetParent(), {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1, translate="greevil_magic_missile"})
 
-		if self._sound then
+		if self._sound and not self._dont_repeat_sound then
 			EmitSoundOn(self._sound, self:GetParent())
 		end
 	end

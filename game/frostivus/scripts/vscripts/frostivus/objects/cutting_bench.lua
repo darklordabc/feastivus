@@ -20,9 +20,9 @@ function InitBench( keys )
 		end)
 		caster:SetRefineSound(function ()
 			if RollPercentage(20) then
-				return "custom_sound.chop_special"
+				return "custom_sound.chop_special", true
 			end
-			return "custom_sound.chop"
+			return "custom_sound.chop", false
 		end)
 		caster:SetRefineDuration(2.2)
 		caster:SetDefaultRefineRoutine()

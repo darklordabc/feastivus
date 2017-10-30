@@ -379,10 +379,13 @@ function RefineBase( bench, items, user )
 	old_data.layout = 1
 	bench.wp:SetData(old_data)
 
+	local soundName, dontRepeat = bench:GetRefineSound()
+
 	user:AddNewModifier(user,ab,"modifier_bench_interaction",{
 		duration = duration,
 		cutting_bench = 1,
-		sound = bench:GetRefineSound()
+		sound = soundName,
+		dont_repeat_sound = dontRepeat,
 	}):SetStackCount(duration * 100)
 	user:AddNewModifier(user,ab,"modifier_command_restricted",{duration = 0.03})
 	bench:AddNewModifier(user,ab,"modifier_unselectable",{})

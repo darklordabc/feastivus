@@ -135,7 +135,9 @@ if IsServer() then
 
 		if not self._bDestroyedByMistake then
 			caster:AddNewModifier(caster, self:GetAbility(), "modifier_frostivus_boost_ms", {duration = self:GetAbility():GetSpecialValueFor("duration")})
-			caster:MoveToPosition(caster._vBoostLastOrderPosition)
+			if caster._vBoostLastOrderPosition then
+				caster:MoveToPosition(caster._vBoostLastOrderPosition)
+			end
 		end
 	end
 	
