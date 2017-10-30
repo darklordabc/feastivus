@@ -47,9 +47,9 @@
 				<Image class="TimerDigit" id="count_down_secs_1" />
 				<Image class="TimerDigit" id="count_down_secs_2" />
 			</Panel>
-			<Panel class="Button" id="button_rock_and_roll" onactivate="OnRockAndRoll()">
-				<Image id="rock_and_roll_button_bg" src="file://{resources}/images/custom_game/welcome_screen/button.png" />
-				<Label class="Label" text="Start"/><!--  make an empty label, we have well designed text in button art -->
+			<Panel class="Button" id="button_start_ready" onactivate="OnClickReadyOrStart()">
+				<Image class="ButtonBG" src="file://{resources}/images/custom_game/welcome_screen/button.png" />
+				<Label class="Label" id="label_button_start_ready" text="#ready" />
 			</Panel>
 		</Panel>
 	</Panel>

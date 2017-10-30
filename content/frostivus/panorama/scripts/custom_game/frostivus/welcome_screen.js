@@ -6,65 +6,95 @@ var g_PlayersPanel = [];
 var g_PlayerIDPanelMapper = {};
 var g_UnreadyPlayers = [];
 var b_CountingDown = false;
-function OnClickReadyButton() {
-	// player id will be attached by default in game events
-	// @todo, implement in lua for player ready.
-	$.Msg("player ready!")
-	GameEvents.SendCustomGameEventToServer("player_ready", {})
-}
+var b_HasHostPrivileges = false;
 
-function OnRockAndRoll() {
-	// dont allow start if there are un-ready players
-	if (g_UnreadyPlayers.length > 0) return;
-
-	if (b_CountingDown){
-		OnCancelStart();
+function CheckHostPrivileges() {
+	var playerInfo = Game.GetLocalPlayerInfo();
+	if ( !playerInfo )
 		return;
+	b_HasHostPrivileges = playerInfo.player_has_host_privileges;
+
+	$.GetContextPanel().SetHasClass( "player_has_host_privileges", playerInfo.player_has_host_privileges );
+
+	// if (b_HasHostPrivileges)
+	// 	$("#label_button_start_ready").text = $.Localize("#ready");
+}
+
+function IsAllReady() {
+	// @fixme
+	return true
+}
+
+function OnClickReadyOrStart() {
+	// if player has host privileges, start the game
+	// the players dont have host privileges just need to wait for it to start atm
+	// just leave the hats feature later
+	if (b_HasHostPrivileges && IsAllReady()) {
+		// CountDownAndStart();
+	}else{
+		// GameEvents.SendCustomGameEventToServer('player_ready', {})
 	}
-
-	b_CountingDown = true;
-	CountDownAndStart();
-	GameEvents.SendCustomGameEventToServer("set_play_tutorial", {
-		value: false
-	});
-
-	// disable the start tutorial button
-	// $("#button_start_tutorial").enabled = false;
-	// set art to cancel
-	// $("#rock_and_roll_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/cancel_button.psd");
 }
 
-function OnStartTutorial() {
-	// dont allow start if there are un-ready players
-	if (g_UnreadyPlayers.length > 0) return;
+// function OnClickReadyButton() {
+// 	// player id will be attached by default in game events
+// 	// @todo, implement in lua for player ready.
+// 	$.Msg("player ready!")
+// 	GameEvents.SendCustomGameEventToServer("player_ready", {})
+// }
 
-	if (b_CountingDown){
-		OnCancelStart();
-		return;
-	}
+// function OnRockAndRoll() {
+// 	// dont allow start if there are un-ready players
+// 	// if (g_UnreadyPlayers.length > 0) return;
 
-	b_CountingDown = true;
-	CountDownAndStart();
-	GameEvents.SendCustomGameEventToServer("set_play_tutorial", {
-		value: true
-	});
+// 	if (b_CountingDown){
+// 		OnCancelStart();
+// 		return;
+// 	}
 
-	// disable the start button
-	$("#button_rock_and_roll").enabled= false;
-	// switch bg to cancel
-	$("#start_tutorial_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/cancel_button.psd");
-}
+// 	b_CountingDown = true;
+// 	CountDownAndStart();
+// 	GameEvents.SendCustomGameEventToServer("set_play_tutorial", {
+// 		value: false
+// 	});
 
-function OnCancelStart() {
-	// enable buttons
-	$("#button_rock_and_roll").enabled= true;
-	$("#button_start_tutorial").enabled = true;
-	$("#rock_and_roll_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/start_button.psd");
-	$("#start_tutorial_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/start_tutorial_button.psd");
+// 	// disable the start tutorial button
+// 	// $("#button_start_tutorial").enabled = false;
+// 	// set art to cancel
+// 	// $("#rock_and_roll_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/cancel_button.psd");
+// }
 
-	// reset timer to 30
-	Game.SetRemainingSetupTime(30);
-}
+// function OnStartTutorial() {
+// 	// dont allow start if there are un-ready players
+// 	if (g_UnreadyPlayers.length > 0) return;
+
+// 	if (b_CountingDown){
+// 		OnCancelStart();
+// 		return;
+// 	}
+
+// 	b_CountingDown = true;
+// 	CountDownAndStart();
+// 	GameEvents.SendCustomGameEventToServer("set_play_tutorial", {
+// 		value: true
+// 	});
+
+// 	// disable the start button
+// 	$("#button_rock_and_roll").enabled= false;
+// 	// switch bg to cancel
+// 	$("#start_tutorial_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/cancel_button.psd");
+// }
+
+// function OnCancelStart() {
+// 	// enable buttons
+// 	$("#button_rock_and_roll").enabled= true;
+// 	$("#button_start_tutorial").enabled = true;
+// 	$("#rock_and_roll_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/start_button.psd");
+// 	$("#start_tutorial_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/start_tutorial_button.psd");
+
+// 	// reset timer to 30
+// 	Game.SetRemainingSetupTime(30);
+// }
 
 function CountDownAndStart() {
 	// Disable the auto start count down
@@ -124,7 +154,7 @@ function UpdatePlayerCards(teamid) {
 
 	// create them
 	for (var i = 0; i < teamPlayers.length; ++i) {
-		$.Msg("creating panel for player", teamPlayers[i])
+		// $.Msg("creating panel for player", teamPlayers[i])
 		FindOrCreatePanelForPlayer(teamPlayers[i], teamPanel)
 	}
 }
@@ -179,7 +209,8 @@ function OnGameRulesStateChanged() {
 	UpdateTimer();
 
 	// debug freeze the count down timer
-	Game.SetRemainingSetupTime(30); 
+	// Game.SetRemainingSetupTime(30); 
+	Game.SetRemainingSetupTime(4); 
 
 	// Register a listener for the event which is brodcast when the team assignment of a player is actually assigned
 	$.RegisterForUnhandledEvent( "DOTAGame_TeamPlayerListChanged", OnTeamPlayerListChanged );
@@ -189,4 +220,5 @@ function OnGameRulesStateChanged() {
 
 	GameEvents.Subscribe("dota_game_rules_state_change", OnGameRulesStateChanged);
 
+	CheckHostPrivileges();
 })();
