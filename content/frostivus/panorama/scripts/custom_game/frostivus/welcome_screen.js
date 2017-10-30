@@ -12,12 +12,13 @@ function CheckHostPrivileges() {
 	var playerInfo = Game.GetLocalPlayerInfo();
 	if ( !playerInfo )
 		return;
+
 	b_HasHostPrivileges = playerInfo.player_has_host_privileges;
 
 	$.GetContextPanel().SetHasClass( "player_has_host_privileges", playerInfo.player_has_host_privileges );
 
-	// if (b_HasHostPrivileges)
-	// 	$("#label_button_start_ready").text = $.Localize("#ready");
+	if (b_HasHostPrivileges)
+		$("#label_button_start_ready").text = $.Localize("#start");
 }
 
 function IsAllReady() {
@@ -26,77 +27,21 @@ function IsAllReady() {
 }
 
 function OnClickReadyOrStart() {
-	// if player has host privileges, start the game
-	// the players dont have host privileges just need to wait for it to start atm
-	// just leave the hats feature later
+	
+	if (b_CountingDown && b_HasHostPrivileges) {
+		GameEvents.SendCustomGameEventToServer('host_cancel_start', {})
+		return;
+	}
+
 	if (b_HasHostPrivileges && IsAllReady()) {
-		// CountDownAndStart();
+		CountDownAndStart();
 	}else{
-		// GameEvents.SendCustomGameEventToServer('player_ready', {})
+		GameEvents.SendCustomGameEventToServer('player_ready', {})
 	}
 }
 
-// function OnClickReadyButton() {
-// 	// player id will be attached by default in game events
-// 	// @todo, implement in lua for player ready.
-// 	$.Msg("player ready!")
-// 	GameEvents.SendCustomGameEventToServer("player_ready", {})
-// }
-
-// function OnRockAndRoll() {
-// 	// dont allow start if there are un-ready players
-// 	// if (g_UnreadyPlayers.length > 0) return;
-
-// 	if (b_CountingDown){
-// 		OnCancelStart();
-// 		return;
-// 	}
-
-// 	b_CountingDown = true;
-// 	CountDownAndStart();
-// 	GameEvents.SendCustomGameEventToServer("set_play_tutorial", {
-// 		value: false
-// 	});
-
-// 	// disable the start tutorial button
-// 	// $("#button_start_tutorial").enabled = false;
-// 	// set art to cancel
-// 	// $("#rock_and_roll_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/cancel_button.psd");
-// }
-
-// function OnStartTutorial() {
-// 	// dont allow start if there are un-ready players
-// 	if (g_UnreadyPlayers.length > 0) return;
-
-// 	if (b_CountingDown){
-// 		OnCancelStart();
-// 		return;
-// 	}
-
-// 	b_CountingDown = true;
-// 	CountDownAndStart();
-// 	GameEvents.SendCustomGameEventToServer("set_play_tutorial", {
-// 		value: true
-// 	});
-
-// 	// disable the start button
-// 	$("#button_rock_and_roll").enabled= false;
-// 	// switch bg to cancel
-// 	$("#start_tutorial_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/cancel_button.psd");
-// }
-
-// function OnCancelStart() {
-// 	// enable buttons
-// 	$("#button_rock_and_roll").enabled= true;
-// 	$("#button_start_tutorial").enabled = true;
-// 	$("#rock_and_roll_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/start_button.psd");
-// 	$("#start_tutorial_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/start_tutorial_button.psd");
-
-// 	// reset timer to 30
-// 	Game.SetRemainingSetupTime(30);
-// }
-
 function CountDownAndStart() {
+	b_CountingDown = true;
 	// Disable the auto start count down
 	Game.SetAutoLaunchEnabled( false );
 	// Set the remaining time before the game starts
@@ -122,7 +67,9 @@ function FindOrCreatePanelForPlayer(playerID, parent) {
 	// setup username and avatar
 	var playerInfo = Game.GetPlayerInfo( playerID );
 	newPlayerPanel.FindChildTraverse("player_name").steamid = playerInfo.player_steamid;
-	newPlayerPanel.FindChildTraverse("player_portrait").steamid = playerInfo.player_steamid;
+
+	var id = "player_portrait_" + playerID;
+	newPlayerPanel.BCreateChildren("<DOTAScenePanel id='" + id + "' particleonly='false' class='GreevilScene' map='greevils/greevil_1' camera='camera7'/> ");
 
 	// highlight local player card
 	var localPlayerInfo = Game.GetLocalPlayerInfo();
@@ -134,7 +81,6 @@ function FindOrCreatePanelForPlayer(playerID, parent) {
 
 	// check host and show!
 	$.GetContextPanel().SetHasClass("Host", localPlayerInfo.player_has_host_privileges)
-
 	return newPlayerPanel;
 }
 
@@ -210,7 +156,7 @@ function OnGameRulesStateChanged() {
 
 	// debug freeze the count down timer
 	// Game.SetRemainingSetupTime(30); 
-	Game.SetRemainingSetupTime(30); 
+	Game.SetRemainingSetupTime(-1); 
 
 	// Register a listener for the event which is brodcast when the team assignment of a player is actually assigned
 	$.RegisterForUnhandledEvent( "DOTAGame_TeamPlayerListChanged", OnTeamPlayerListChanged );
@@ -221,4 +167,6 @@ function OnGameRulesStateChanged() {
 	GameEvents.Subscribe("dota_game_rules_state_change", OnGameRulesStateChanged);
 
 	CheckHostPrivileges();
+
+	UpdatePlayerCards(2);
 })();

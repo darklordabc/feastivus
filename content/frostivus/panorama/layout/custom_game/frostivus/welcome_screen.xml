@@ -9,17 +9,10 @@
 		<snippet name="PlayerCard">
 			<Panel class="PlayerCardRoot">
 				<Panel class="PlayerCardBackground" />
-
-				<!-- player card content -->
-				<!-- <Image class="PlayerHeroArt" id="hero_art" src="file://{resources}/images/custom_game/welcome_screen/temp_hero_art.psd"/> -->
-				<Panel class="PlayerInfoArea">
+				<Panel class="PlayerNamePanel">
+					<Image class= "PlayerNameBackground" src="file://{resources}/images/custom_game/welcome_screen/player_name_background.png" />
 					<DOTAUserName class="PlayerName" id="player_name" steamid="local" />
-					<DOTAAvatarImage class="PlayerPortrait" id="player_portrait" steamid="local" />
-					<Image id="ready_state" />
 				</Panel>
-
-				<!-- @todo other message to display in bottom section -->
-
 				<Panel class="PlayerCardOverlay" />
 			</Panel>
 		</snippet>
@@ -29,6 +22,7 @@
 		<Panel class="ImageCache">
 			<Image src="file://{resources}/images/custom_game/welcome_screen/cancel_button.psd" />
 		</Panel>
+
 		<Image class="WelcomeScreenBackground" src="file://{resources}/images/custom_game/welcome_screen/welcome_screen.png" />
 		<!-- <Image class="GameLogo" src="file://{resources}/images/custom_game/game_logo.png" /> -->
 
@@ -38,7 +32,7 @@
 		<!-- <Panel class="HeroesPanel Badguys">
 		</Panbel> -->
 
-		<DOTAScenePanel id="greevil_portrait_local" style="width:420px;height:520px;" map="greevils/greevil_selection" camera="camera_greevil" particleonly="false"/>
+		
 
 		<Panel class="ButtonsPanel">
 			<Panel class="CountDownTimer">

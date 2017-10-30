@@ -109,8 +109,11 @@ function HatsManager:OnNPCSpawned(args)
 				end
 			end
 
-			-- add eyes by default
+			-- add set of items by default
 			self:AttachBodyComponent(npc, "models/courier/greevil/greevil_eyes.vmdl")
+			self:AttachBodyComponent(npc, "models/courier/greevil/greevil_horns1.vmdl")
+			self:AttachBodyComponent(npc, "models/courier/greevil/greevil_teeth1.vmdl")
+			self:AttachBodyComponent(npc, "models/courier/greevil/greevil_tail2.vmdl")
 		end
 	end
 end

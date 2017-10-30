@@ -52,6 +52,7 @@
 
     "CanBePickedFromBench"  "1"
     "CanBePutInPot" "1"
+    "BoilTarget" "item_boiled_leaf"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
@@ -345,6 +346,25 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
+  }
+
+  "item_boiled_leaf"
+  {
+    "ID"    "1117"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_plate"
+    "Model"                   "models/props_gameplay/salve.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+    
     "WorldDropSound"        "custom_sound.pickup"
   }
 }

@@ -74,9 +74,7 @@ function BenchAPI( keys )
 		-- item:StopAnimation()
 		
 		if not self._bench_infinite_items then
-			local old_data = self.wp:GetData()
-			old_data.items = {}
-			self.wp:SetData(old_data)
+			self:SetItems()
 		end
 
 		self:OnPickedFromBench(item)
@@ -90,6 +88,8 @@ function BenchAPI( keys )
 		if type(item) ~= 'string' then
 			item = item:GetContainedItem():GetName()
 		end
+
+		self:OnItemAddedToBench(item)
 		
 		if GetTableLength(old_data.items) < old_data.layout then
 			table.insert(old_data.items, item)
@@ -108,6 +108,15 @@ function BenchAPI( keys )
 	caster.OnPickedFromBench = (function( self, item )
 		caster._on_picked_from_bench = caster._on_picked_from_bench or (function( ) Frostivus:L("Triggered!") end)
 		caster._on_picked_from_bench(self, item)
+	end)
+
+	caster.SetOnItemAddedToBench = (function( self, callback )
+		caster._on_item_added_to_bench = callback
+	end)
+
+	caster.OnItemAddedToBench = (function( self, item )
+		caster._on_item_added_to_bench = caster._on_item_added_to_bench or (function( ) Frostivus:L("Triggered!") end)
+		caster._on_item_added_to_bench(self, item)
 	end)
 
 	caster.SetOnBenchIsFull = (function( self, callback )
@@ -136,6 +145,14 @@ function BenchAPI( keys )
 		local old_data = self.wp:GetData()
 
 		return old_data.items[1] and old_data.items[1] == "item_plate"
+	end)
+
+	caster.SetItems = (function( self, items )
+		local old_data = self.wp:GetData()
+
+		old_data.items = items or {}
+
+		self.wp:SetData(old_data)
 	end)
 
 	caster.SetCheckItem = (function( self, callback )
@@ -242,9 +259,7 @@ function BenchAPI( keys )
 	caster.ClearBench = (function ( self )
 		Frostivus:GetCarryingItem(self):RemoveSelf()
 		self:RemoveModifierByName("modifier_carrying_item")
-		local old_data = self.wp:GetData()
-		old_data.items = {}
-		self.wp:SetData(old_data)
+		self:SetItems({})
 	end)
 
     caster.GetBenchItemBySlot = (function ( self, slot )
@@ -300,9 +315,8 @@ function OnUse( bench, user )
 						Frostivus:DropItem( bench, bench_item )
 
 						bench:RemoveModifierByName("modifier_carrying_item")
-						local old_data = bench.wp:GetData()
-						old_data.items = {}
-						bench.wp:SetData(old_data)
+
+						bench:SetItems({})
 
 						bench:AddItemToBench(item, user)
 						Frostivus:DropItem( user, item )
@@ -331,8 +345,7 @@ function OnUse( bench, user )
 								bench:AddItemToBench(v, user)
 							end
 
-							old_data.items = {}
-							pot.wp:SetData(old_data)
+							pot:SetItems({})
 
 							pot.progress:SetData({ progress = 0 })
 						end
