@@ -30,44 +30,62 @@ function CreatePot()
         ParticleManager:CreateParticle("particles/frostivus_gameplay/pot_splash.vpcf",PATTACH_ABSORIGIN_FOLLOW,bench)
     end)
 
+    local temp_items
+
     Timers:CreateTimer(function ()
         local holder = pot:GetHolder()
         local delta = 0.2
+        local items = pot.wp:GetData().items
 
-        if not pot._cooking then
-            if holder and holder:IsBench() then
+        if holder and holder:IsBench() and holder:IsHotBench() then
+            if not pot._cooking and pot:GetBenchItemBySlot(1) then
                 StartCooking( pot )
             end
-        else
-            local old_data = pot.progress:GetData()
 
-            if not deepcompare(self._temp_items,pot.wp:GetData().items) then
-                old_data.progress = math.max(old_data.progress - ((100 / pot:GetRefineDuration()) * 4), 0)
-            end
+            if pot._cooking then
+                local old_data = pot.progress:GetData()
 
-            if old_data.progress >= 100 then
-                if not old_data.cooking_done and GetTableLength(self._temp_items) == 3 then
-                    old_data.cooking_done = true
-
-                    local new_items = {}
-                    for k,v in pairs(pot.wp:GetData().items) do
-                        table.insert(new_items, Frostivus.ItemsKVs[v].BoilTarget)
-                    end
-
-                    pot:SetItems(new_items)
+                if not deepcompare(temp_items,items) and not old_data.cooking_done then
+                    old_data.progress = math.max(old_data.progress - ((100 / pot:GetRefineDuration()) * 4), 0)
                 end
-                old_data.overtime = old_data.overtime + delta
-            else
-                old_data.overtime = 0
-                old_data.progress = math.min(old_data.progress + (delta * (100 / pot:GetRefineDuration())), 100)
-            end
 
-            pot.progress:SetData(old_data)
+                if old_data.progress >= 100 then
+                    if not old_data.cooking_done and GetTableLength(temp_items) == 3 then
+                        old_data.cooking_done = true
+
+                        local new_items = {}
+                        for k,v in pairs(items) do
+                            table.insert(new_items, Frostivus.ItemsKVs[v].BoilTarget)
+                        end
+
+                        pot:SetItems(new_items)
+                    end
+                    old_data.overtime = old_data.overtime + delta
+                else
+                    old_data.overtime = 0
+                    old_data.progress = math.min(old_data.progress + (delta * (100 / pot:GetRefineDuration())), 100)
+                end
+
+                pot.progress:SetData(old_data)
+            end
+        else
+            pot._cooking = false
+
+            if pot.progress then
+                local old_data = pot.progress:GetData()
+
+                if GetTableLength(items) == 0 then
+                    old_data.hidden = true
+                    old_data.progress = 0
+                end
+
+                pot.progress:SetData(old_data)
+            end
         end
 
-        self._temp_items = {}
-        for k,v in pairs(pot.wp:GetData().items) do
-            self._temp_items[k] = v
+        temp_items = {}
+        for k,v in pairs(items) do
+            temp_items[k] = v
         end
 
         return delta
@@ -90,6 +108,11 @@ function StartCooking( pot )
         entity = pot,
         entityHeight = 0
     })
+
+    local old_data = pot.progress:GetData()
+    old_data.hidden = false
+    old_data.progress = 0
+    pot.progress:SetData(old_data)
 
     pot.bubbles = pot.bubbles or ParticleManager:CreateParticle("particles/frostivus_gameplay/pot_bubbles.vpcf",PATTACH_ABSORIGIN_FOLLOW,pot)
 
