@@ -99,7 +99,7 @@
 
 .PlayerCardRoot {
 	height: 520px;
-	width: 420px;
+	width: 360px;
 
 	box-shadow: #000000B8 2px 2px 8px -2px;
 }
@@ -120,17 +120,10 @@
 	width: 100%;
 	height: 100%;
 
-	background-image:url("file://{resources}/images/custom_game/welcome_screen/player_card.png");
+	background-image:url("file://{resources}/images/custom_game/welcome_screen/player_card_resized.png");
 }
 
-.PlayerName {
-	vertical-align: bottom;
-	color: white;
-	font-size: 30px;
-	width: 100%;
-	margin-left: 90px;
-	margin-bottom: 10px;
-}
+
 
 .PlayerPortrait {
 	width : 80px;
@@ -143,4 +136,22 @@
 
 .ImageCache {
 	visibility: collapse;
+}
+
+.PlayerNamePanel {
+	margin-left: 20px;
+	margin-top: 20px;
+}
+
+.PlayerName {
+	vertical-align: center;
+	color: white;
+	font-size: 27px;
+	width: 100%;
+	margin-left: 20px;
+}
+
+.GreevilScene {
+	width: 100%;
+	height: 100%;
 }
