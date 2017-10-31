@@ -5,6 +5,7 @@
     "containers_lua",
     "selection",
     "recipes",
-    "orders"
+    "orders",
+    "player_hats"
   ]
 }

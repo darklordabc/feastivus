@@ -8,6 +8,36 @@ var g_UnreadyPlayers = [];
 var b_CountingDown = false;
 var b_HasHostPrivileges = false;
 
+var m_MaterialSet = 0;
+
+function OnClickPreviousMaterial() {
+	if (m_MaterialSet <= 0) {
+		m_MaterialSet = 8;
+	}else{
+		m_MaterialSet -= 1;
+	}
+
+	$.DispatchEvent( 'DOTAGlobalSceneSetCameraEntity', 'player_portrait_' + Players.GetLocalPlayer(), 'camera' + m_MaterialSet, 0);
+
+	GameEvents.SendCustomGameEventToServer("player_change_hats", {
+		MaterialGroup: m_MaterialSet,
+	});
+}
+
+function OnClickNextMaterial() {
+	if (m_MaterialSet >= 8) {
+		m_MaterialSet = 0;
+	}else{
+		m_MaterialSet += 1;
+	}
+
+	$.DispatchEvent( 'DOTAGlobalSceneSetCameraEntity', 'player_portrait_' + Players.GetLocalPlayer(), 'camera' + m_MaterialSet, 0);
+
+	GameEvents.SendCustomGameEventToServer("player_change_hats", {
+		MaterialGroup: m_MaterialSet,
+	});
+}
+
 function CheckHostPrivileges() {
 	var playerInfo = Game.GetLocalPlayerInfo();
 	if ( !playerInfo )
@@ -69,8 +99,10 @@ function FindOrCreatePanelForPlayer(playerID, parent) {
 	newPlayerPanel.FindChildTraverse("player_name").steamid = playerInfo.player_steamid;
 
 	var id = "player_portrait_" + playerID;
-	newPlayerPanel.BCreateChildren("<DOTAScenePanel id='" + id + "' particleonly='false' class='GreevilScene' map='greevils/greevil_1' camera='camera7'/> ");
-
+	newPlayerPanel.BCreateChildren("<DOTAScenePanel id='" + id + "' particleonly='false' class='GreevilScene' map='greevils/greevil_1' camera='camera0'/> ");
+	
+	newPlayerPanel.FindChildTraverse(id).hittest = false;
+	newPlayerPanel.MoveChildBefore(id, 'playerCardOverlay');
 	// highlight local player card
 	var localPlayerInfo = Game.GetLocalPlayerInfo();
 	if (localPlayerInfo) {
@@ -81,6 +113,7 @@ function FindOrCreatePanelForPlayer(playerID, parent) {
 
 	// check host and show!
 	$.GetContextPanel().SetHasClass("Host", localPlayerInfo.player_has_host_privileges)
+
 	return newPlayerPanel;
 }
 
@@ -144,6 +177,20 @@ function OnGameRulesStateChanged() {
 	$.Msg("game state has changed to",newState);
 }
 
+function OnPlayerHatsChanged() {
+	var hatsData = CustomNetTables.GetTableValue('player_hats', 'player_hats');
+	for (var playerID in hatsData) {
+		
+		var data = hatsData[playerID]
+		$.Msg(playerID, " [HATS DATA]", data);
+
+		// change material camera for other players
+		if (playerID != Players.GetLocalPlayer()) {
+			$.DispatchEvent( 'DOTAGlobalSceneSetCameraEntity', 'player_portrait_' + playerID, 'camera' + data.materialGroup, 0.2);
+		}
+	}
+}
+
 (function() {
 	// i dont know why there is a blank section at left
 	// maybe we should remove this later
@@ -169,4 +216,6 @@ function OnGameRulesStateChanged() {
 	CheckHostPrivileges();
 
 	UpdatePlayerCards(2);
+
+	CustomNetTables.SubscribeNetTableListener("player_hats", OnPlayerHatsChanged);
 })();

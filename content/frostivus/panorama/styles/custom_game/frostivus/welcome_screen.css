@@ -97,10 +97,14 @@
 	flow-children: right;
 }
 
-.PlayerCardRoot {
-	height: 520px;
+.LocalPlayer .PlayerCardRoot {
+	height: 5200px;
 	width: 360px;
+}
 
+.PlayerCardRoot {
+	height: 470px;
+	width: 320px;
 	box-shadow: #000000B8 2px 2px 8px -2px;
 }
 
@@ -123,17 +127,6 @@
 	background-image:url("file://{resources}/images/custom_game/welcome_screen/player_card_resized.png");
 }
 
-
-
-.PlayerPortrait {
-	width : 80px;
-	height: 80px;
-	vertical-align: bottom;
-	margin-left:10px;
-	margin-bottom: 10px;
-
-}
-
 .ImageCache {
 	visibility: collapse;
 }
@@ -154,4 +147,28 @@
 .GreevilScene {
 	width: 100%;
 	height: 100%;
+}
+
+.ChangeMaterialButtons {
+	vertical-align: center;
+	width: 100%;
+	visibility: collapse;
+}
+
+.LocalPlayer .ChangeMaterialButtons {
+	visibility: visible;
+}
+
+#button_left {
+	horizontal-align: left;
+	margin-left: 10px;
+	width: 64px;
+	height: 64px;
+}
+
+#button_right {
+	horizontal-align: right;
+	margin-right: 10px;
+	width: 64px;
+	height: 64px;
 }
