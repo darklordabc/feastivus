@@ -252,7 +252,7 @@ function BenchAPI( keys )
 		end),(function ()
 			return Frostivus:IsCarryingItem( self, item )
 		end), (function ()
-			Frostivus:DropItem( self, item )
+			-- Frostivus:DropItem( self, item )
 		end), true, false)
 	end)
 
@@ -323,17 +323,22 @@ function OnUse( bench, user )
 				-- Swap plate with item
 				if Frostivus:IsCarryingItem(bench) and item_name == "item_plate" then
 					local bench_item = Frostivus:GetCarryingItem(bench)
+					local bench_item_name = bench_item:GetContainedItem():GetName()
 
-					if item:CheckItem(bench_item) then
+					local is_pot = bench_item_name == "item_pot"
+
+					if item:CheckItem(bench_item) or is_pot then
 						Frostivus:DropItem( bench, bench_item )
-
-						bench:RemoveModifierByName("modifier_carrying_item")
+						Frostivus:DropItem( user, item )
 
 						bench:SetItems({})
-
 						bench:AddItemToBench(item, user)
-						Frostivus:DropItem( user, item )
+						
 						bench:BindItem(item)
+
+						if is_pot then
+							user:BindItem(bench_item)
+						end
 
 						item = bench_item
 						item_name = item:GetContainedItem():GetName()

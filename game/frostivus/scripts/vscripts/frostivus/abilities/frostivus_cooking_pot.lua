@@ -72,6 +72,13 @@ function CreatePot()
                         pot:SetItems(new_items)
                     end
                     old_data.overtime = old_data.overtime + delta
+
+                    if old_data.overtime >= 7 then
+                        pot:SetItems({})
+                        pot:SetFakeItem(nil)
+
+                        old_data.progress = 0
+                    end
                 else
                     old_data.overtime = 0
                     old_data.progress = math.min(old_data.progress + (delta * (100 / pot:GetRefineDuration())), 100)

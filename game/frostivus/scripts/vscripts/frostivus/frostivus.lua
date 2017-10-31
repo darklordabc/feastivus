@@ -69,7 +69,7 @@ function Frostivus:GetCarryingItem( unit )
 end
 
 function Frostivus:IsCarryingItem( unit, item )
-	return unit:HasModifier("modifier_carrying_item") and (not item or unit:FindModifierByName("modifier_carrying_item").item == item)
+	return unit.HasModifier and unit:HasModifier("modifier_carrying_item") and (not item or unit:FindModifierByName("modifier_carrying_item").item == item)
 end
 
 function Frostivus:BindItem( item, unit, position_callback, condition_callback, drop_callback, add_modifier, dont_hide )
