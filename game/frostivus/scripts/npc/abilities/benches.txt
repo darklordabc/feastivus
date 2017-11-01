@@ -79,6 +79,15 @@
     "MaxLevel"            "1"
   }
 
+  "frostivus_frying_pan"
+  {
+    "BaseClass"           "ability_lua"
+    "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+    "ScriptFile"          "frostivus/abilities/frostivus_frying_pan"
+    "AbilityTextureName"  "rubick_empty1"
+    "MaxLevel"            "1"
+  }
+
   "frostivus_plate_bench"
   {
     "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
