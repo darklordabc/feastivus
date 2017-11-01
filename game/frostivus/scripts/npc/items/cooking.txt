@@ -408,4 +408,25 @@
     
     "WorldDropSound"        "custom_sound.pickup"
   }
+
+  "item_frying_pan"
+  {
+    "ID"    "1120"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_plate"
+    "Model"                   "models/frying_pan/frying_pan.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "CanBePickedFromBench"  "1"
+    "ForwardOnUse" "1"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+    "WorldDropSound"        ""
+  }
 }
