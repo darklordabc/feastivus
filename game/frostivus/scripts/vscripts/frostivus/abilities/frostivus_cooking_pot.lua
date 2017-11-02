@@ -3,13 +3,16 @@ frostivus_cooking_pot = class({})
 function frostivus_cooking_pot:OnUpgrade()
 	local caster = self:GetCaster()
 
+    local on_added_particle = "particles/frostivus_gameplay/pot_splash.vpcf"
+    local on_cooking_particle = "particles/frostivus_gameplay/pot_bubbles.vpcf"
+
     ExecOnGameInProgress(function (  )
         caster:InitBench(1, nil, nil, 0)
         caster:Set3DBench(true)
         caster:SetBenchHidden(true)
 
         caster:AddItemToBench("item_pot")
-        caster:BindItem(CreateBank("item_pot", 3, CanPutItemInPot))
+        caster:BindItem(CreateBank("item_pot", 3, on_added_particle, on_cooking_particle, GetBoilTarget, CanPutItemInPot))
     end)
 end
 
@@ -19,6 +22,10 @@ end
 
 modifier_cooking_pot = class({})
 LinkLuaModifier("modifier_cooking_pot", "frostivus/abilities/frostivus_cooking_pot.lua", 0)
+
+function GetBoilTarget(v)
+    return Frostivus.ItemsKVs[v].BoilTarget
+end
 
 function CanPutItemInPot( bench, item )
     local item_name = item:GetContainedItem():GetName()

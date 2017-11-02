@@ -1,12 +1,15 @@
-function CreateBank(name, count, CheckItem)
+function CreateBank(name, count, on_added_particle, on_cooking_particle, GetTarget, CheckItem)
     local pot = CreateItemOnPositionSync(Vector(0,0,0),CreateItem(name,nil,nil))
 
     BenchAPI(pot)
     pot:InitBench( count, CheckItem, nil, 0 )
     pot:SetRefineDuration(10.0)
-    pot:SetOnItemAddedToBench(function ( bench, item )
-        ParticleManager:CreateParticle("particles/frostivus_gameplay/pot_splash.vpcf",PATTACH_ABSORIGIN_FOLLOW,bench)
-    end)
+
+    if on_added_particle then
+        pot:SetOnItemAddedToBench(function ( bench, item )
+            ParticleManager:CreateParticle(on_added_particle, PATTACH_ABSORIGIN_FOLLOW, bench)
+        end)
+    end
 
     local temp_items
 
@@ -38,12 +41,12 @@ function CreateBank(name, count, CheckItem)
                 end
 
                 if old_data.progress >= 100 then
-                    if not old_data.cooking_done and GetTableLength(temp_items) == 3 then
+                    if not old_data.cooking_done and GetTableLength(temp_items) == count then
                         old_data.cooking_done = true
 
                         local new_items = {}
-                        for k,v in pairs(items) do
-                            table.insert(new_items, Frostivus.ItemsKVs[v].BoilTarget)
+                        for k,v in pairs(items) do 
+                            table.insert(new_items, GetTarget(v))
                         end
 
                         pot:SetFakeItem(new_items[1])
@@ -66,7 +69,7 @@ function CreateBank(name, count, CheckItem)
 
                 progress:SetData(old_data)
 
-                pot.bubbles = pot.bubbles or ParticleManager:CreateParticle("particles/frostivus_gameplay/pot_bubbles.vpcf", PATTACH_ABSORIGIN_FOLLOW, pot)
+                pot.bubbles = pot.bubbles or ParticleManager:CreateParticle(on_cooking_particle, PATTACH_ABSORIGIN_FOLLOW, pot)
             end
         else
             pot._cooking = false

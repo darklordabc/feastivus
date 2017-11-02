@@ -429,4 +429,47 @@
     "ItemBaseLevel"         "1"
     "WorldDropSound"        ""
   }
+
+  "item_raw_meat"
+  {
+    "ID"    "1121"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_raw_meat"
+    "Model"                   "models/props_gameplay/salve.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "CanBePutInPan" "1"
+    "FryingTarget" "item_fried_meat"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+
+    "WorldDropSound"        "custom_sound.pickup"
+  }
+
+  "item_fried_meat"
+  {
+    "ID"    "1102"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_raw_meat"
+    "Model"                   "models/props_gameplay/salve.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "CanBePickedFromBench"  "1"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+    
+    "WorldDropSound"        "custom_sound.pickup"
+  }
 }
