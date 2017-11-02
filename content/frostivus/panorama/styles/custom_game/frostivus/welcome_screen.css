@@ -125,6 +125,7 @@
 	height: 100%;
 
 	background-image:url("file://{resources}/images/custom_game/welcome_screen/player_card_resized.png");
+	background-size:100% 100%;
 }
 
 .ImageCache {
@@ -149,26 +150,29 @@
 	height: 100%;
 }
 
-.ChangeMaterialButtons {
-	vertical-align: center;
+.ChangeMaterialSetButton {
+	vertical-align: bottom;
 	width: 100%;
+	background-color:#9b3a31;
 	visibility: collapse;
+
+	padding: 10px;
 }
 
-.LocalPlayer .ChangeMaterialButtons {
+.LocalPlayer .ChangeMaterialSetButton {
 	visibility: visible;
 }
 
-#button_left {
-	horizontal-align: left;
-	margin-left: 10px;
-	width: 64px;
-	height: 64px;
+.ChangeMaterialSetButton Label {
+	text-align: center;
+
+	width: 100%;
+	font-size: 30px;
+	background-color:#582b34;
+	color: white;
 }
 
-#button_right {
-	horizontal-align: right;
-	margin-right: 10px;
-	width: 64px;
-	height: 64px;
+
+.ChangeMaterialSetButton:hover {
+	background-color:#784b54;
 }
