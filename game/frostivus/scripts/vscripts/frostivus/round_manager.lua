@@ -108,6 +108,23 @@ function Round:constructor(roundData)
 	
 	if self.vRoundScript.OnInitialize then
 		self.vRoundScript.OnInitialize(self)
+
+		for k,v in pairs(HeroList:GetAllHeroes()) do
+			if IsValidEntity(v) then
+				EndAnimation(v)
+				RemoveAnimationTranslate(v)
+
+				AddAnimationTranslate(v, "level_3")
+
+				if Frostivus:IsCarryingItem( v ) then
+					Frostivus:GetCarryingItem( v ):RemoveSelf()
+				end
+
+				v:RemoveModifierByName("modifier_bench_interaction")
+
+				v:Stop()
+			end
+		end
 	end
 end
 

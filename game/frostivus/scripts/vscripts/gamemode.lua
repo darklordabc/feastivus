@@ -153,14 +153,14 @@ function GameMode:InitGameMode()
 end
 
 -- This is an example console command
-function GameMode:ExampleConsoleCommand()
+function GameMode:ExampleConsoleCommand(item)
 	print( '******* Example Console Command ***************' )
 	local cmdPlayer = Convars:GetCommandClient()
 	if cmdPlayer then
 		local playerID = cmdPlayer:GetPlayerID()
 		if playerID ~= nil and playerID ~= -1 then
 			-- Do something here for the player who called this command
-			CreateItemOnPositionSync(cmdPlayer:GetAssignedHero():GetAbsOrigin(),CreateItem("item_refined_leaf",cmdPlayer:GetAssignedHero(),cmdPlayer:GetAssignedHero()))
+			CreateItemOnPositionSync(cmdPlayer:GetAssignedHero():GetAbsOrigin(),CreateItem(item or "item_refined_leaf",cmdPlayer:GetAssignedHero(),cmdPlayer:GetAssignedHero()))
 		end
 	end
 

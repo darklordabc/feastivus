@@ -244,7 +244,7 @@
     "npc_sink_bench"
     { 
         "BaseClass"         "npc_dota_creature"
-        "Model"             "models/table/table.vmdl"
+        "Model"             "models/sink/sink.vmdl"
         "ModelScale"        "1"
         "Level"             "10"
 
