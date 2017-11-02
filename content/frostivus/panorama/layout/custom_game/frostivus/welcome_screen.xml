@@ -14,9 +14,8 @@
 					<DOTAUserName class="PlayerName" id="player_name" steamid="local" />
 				</Panel>
 				<Panel class="PlayerCardOverlay" id="playerCardOverlay" />
-				<Panel class="ChangeMaterialButtons">
-					<Image id="button_left" src="file://{resources}/images/custom_game/welcome_screen/left.png" onactivate="OnClickPreviousMaterial()" />
-					<Image id="button_right" src="file://{resources}/images/custom_game/welcome_screen/right.png" onactivate="OnClickNextMaterial()" />
+				<Panel class="ChangeMaterialSetButton" onactivate="OnChangeMaterial()">
+					<Label text="#change_material" />
 				</Panel>
 			</Panel>
 		</snippet>

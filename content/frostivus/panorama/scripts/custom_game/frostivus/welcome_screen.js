@@ -10,21 +10,7 @@ var b_HasHostPrivileges = false;
 
 var m_MaterialSet = 0;
 
-function OnClickPreviousMaterial() {
-	if (m_MaterialSet <= 0) {
-		m_MaterialSet = 8;
-	}else{
-		m_MaterialSet -= 1;
-	}
-
-	$.DispatchEvent( 'DOTAGlobalSceneSetCameraEntity', 'player_portrait_' + Players.GetLocalPlayer(), 'camera' + m_MaterialSet, 0);
-
-	GameEvents.SendCustomGameEventToServer("player_change_hats", {
-		MaterialGroup: m_MaterialSet,
-	});
-}
-
-function OnClickNextMaterial() {
+function OnChangeMaterial() {
 	if (m_MaterialSet >= 8) {
 		m_MaterialSet = 0;
 	}else{
