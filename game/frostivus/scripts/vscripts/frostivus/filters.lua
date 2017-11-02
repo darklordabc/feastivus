@@ -45,7 +45,7 @@ function Frostivus:FilterExecuteOrder( filterTable )
         end
     end
 
-    if order_type == DOTA_UNIT_ORDER_MOVE_TO_TARGET then
+    if order_type == DOTA_UNIT_ORDER_MOVE_TO_TARGET or order_type == DOTA_UNIT_ORDER_ATTACK_TARGET then
         unit.moving_target = EntIndexToHScript(targetIndex)
 
         local old_pos = unit:GetAbsOrigin()
