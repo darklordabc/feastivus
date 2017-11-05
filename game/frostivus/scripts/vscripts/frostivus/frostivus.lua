@@ -13,6 +13,12 @@ if not Frostivus then
     	Frostivus.state.stages[k].crates = Entities:FindAllByName("npc_crate_bench_"..k)
     end
 
+    Frostivus.state.tutorials = {}
+
+    for i=0,4 do
+    	Frostivus.state.tutorials[i] = Entities:FindByName(nil, "frostivus_tutorial_"..tostring(i))
+    end
+
     Frostivus.ROLE_DELIVERY = 0
     Frostivus.ROLE_REFINERY = 1
 

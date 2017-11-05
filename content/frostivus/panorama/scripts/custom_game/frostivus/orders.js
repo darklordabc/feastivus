@@ -1,10 +1,17 @@
 var m_Recipes = null;
 var m_OrderPanels = {};
+var m_TutorialOrders = {};
 
-function OnOrderChanged() {
-	var orders = CustomNetTables.GetTableValue("orders", "orders");
+var m_Subscription = null;
+
+function OnOrderChanged(table_name, key, data) {
+	if (key == "tutorial") return;
+	var orders = data;//CustomNetTables.GetTableValue("orders", "orders");
+	var tutorial = CustomNetTables.GetTableValue("orders", "tutorial");
 
 	var parent = $("#orders");
+
+	$.Msg(orders);
 
 	for (var k in orders) {
 		var order = orders[k];
@@ -12,6 +19,16 @@ function OnOrderChanged() {
 		var itemName = order.pszItemName
 		var timeRemaining = order.nTimeRemaining
 		var timeLimit = order.nTimeLimit
+		var finishType = order.pszFinishType;
+
+		if (tutorial) {
+			timeRemaining = timeLimit;
+
+			// check if order is complete
+			if (tutorial[Players.GetLocalPlayer()] && tutorial[Players.GetLocalPlayer()][orderId]) {
+				finishType = "Finished";
+			}
+		}
 
 		var orderPanel = parent.FindChildTraverse(orderId);
 		
@@ -48,10 +65,10 @@ function OnOrderChanged() {
 		orderPanel.FindChildTraverse('time_remaining').style.transitionDuration = "1s";
 		orderPanel.FindChildTraverse('time_remaining').style.width = 100 * timeRemaining / timeLimit + "%";
 
-		if (order.pszFinishType == "Finished") {
+		if (finishType == "Finished") {
 			orderPanel.SetHasClass("TimeRunningOut", false);
 			orderPanel.AddClass("Finished");
-		}else if (order.pszFinishType == "Expired") {
+		}else if (finishType == "Expired") {
 			orderPanel.SetHasClass("TimeRunningOut", false);
 			orderPanel.AddClass("Expired");
 		}else if (timeRemaining < 10){
@@ -88,8 +105,33 @@ function OnRecipesChanged() {
 	}
 }
 
+function OnTutorialDone(keys) {
+	$.Msg(keys);
+	m_TutorialOrders[keys.order] = keys.lowestTime;
+	// 
+	// orders[keys.order].pszFinishType = "Finished";
+	// Unsubscribe()
+	// OnOrderChanged("orders", "orders", orders);
+	// $.Schedule(1.0, function () {
+	// 	OnOrderChanged("orders", "orders", {});
+	// 	// Subscribe();
+	// });
+}
+
+function Subscribe() {
+	m_Subscription = CustomNetTables.SubscribeNetTableListener("orders", OnOrderChanged);
+}
+
+function Unsubscribe() {
+	CustomNetTables.UnsubscribeNetTableListener(m_Subscription)
+}
+
 (function(){
 	OnRecipesChanged();
-	CustomNetTables.SubscribeNetTableListener("orders", OnOrderChanged);
 	CustomNetTables.SubscribeNetTableListener("recipes", OnRecipesChanged);
+
+	Subscribe();
+	
+	GameEvents.Subscribe("frostivus_tutorial_order", OnTutorialDone);
+	GameEvents.Subscribe("frostivus_resubscribe", Subscribe);
 })();

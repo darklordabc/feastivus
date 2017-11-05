@@ -14,13 +14,13 @@ function frostivus_serve_table:OnUpgrade()
 
         -- caster:AddItemToBench("item_bin_icon")
 
-        caster.AddItemToBench = (function( self, item )
+        caster.AddItemToBench = (function( self, item, user )
             if type(item) ~= 'string' then
                 item = item:GetContainedItem():GetName()
             end
 
         	item = CreateItem(item,nil,nil)
-    		g_Serve(item)
+    		g_Serve(item, user)
 
             if not IsValidEntity(caster._dirty_plates) then
                 caster._dirty_plates = CreateItemOnPositionSync(caster:GetAbsOrigin() + Vector(-64,-64,100),CreateItem("item_dirty_plates",caster,caster))

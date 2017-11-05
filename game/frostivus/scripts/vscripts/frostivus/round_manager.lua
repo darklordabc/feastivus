@@ -28,10 +28,10 @@ GameRules.TryServe = g_TryServe
 -- this function will remove the itemEntity and its container(if exists)
 -- @param itemEntity CDOTA_Item
 --=====================================================================================
-function g_Serve(itemEntity)
+function g_Serve(itemEntity, user)
 	local round = g_GetCurrentRound()
 	if round then
-		local success = round:OnServe(itemEntity)
+		local success = round:OnServe(itemEntity, user)
 	end
 end
 GameRules.Serve = g_Serve
@@ -109,28 +109,28 @@ function Round:constructor(roundData)
 	if self.vRoundScript.OnInitialize then
 		self.vRoundScript.OnInitialize(self)
 
-		for k,v in pairs(HeroList:GetAllHeroes()) do
-			if IsValidEntity(v) then
-				EndAnimation(v)
-				RemoveAnimationTranslate(v)
+		LoopOverHeroes(function(v)
+			EndAnimation(v)
+			RemoveAnimationTranslate(v)
 
-				AddAnimationTranslate(v, "level_3")
+			AddAnimationTranslate(v, "level_3")
 
-				if Frostivus:IsCarryingItem( v ) then
-					Frostivus:GetCarryingItem( v ):RemoveSelf()
-				end
-
-				v:RemoveModifierByName("modifier_bench_interaction")
-
-				v:Stop()
+			if Frostivus:IsCarryingItem( v ) then
+				Frostivus:GetCarryingItem( v ):RemoveSelf()
 			end
-		end
+
+			v:RemoveModifierByName("modifier_bench_interaction")
+
+			v:Stop()
+		end)
 	end
 end
 
 function Round:OnTimer()
 	-- count down pre round time
 	if self.nPreRoundCountDownTimer == nil then
+		CustomGameEventManager:Send_ServerToAllClients("frostivus_resubscribe", {})
+
 		self.nPreRoundCountDownTimer = self.nPreRoundTime
 
 		LoopOverHeroes(function(hero)
@@ -216,7 +216,7 @@ function Round:OnTimer()
 			-- reduce unfinised orders only
 			order.nTimeRemaining = order.nTimeRemaining - 1
 		end
-		if order.nTimeRemaining <= 0 then -- remove the un-finished orders
+		if order.nTimeRemaining <= 0 and g_RoundManager.nCurrentLevel ~= 0 then -- remove the un-finished orders
 			-- @todo, punishment??
 			
 			-- tell client to show order finished message
@@ -236,6 +236,26 @@ function Round:OnTimer()
 
 	if self.vRoundScript.OnTimer then
 		self.vRoundScript.OnTimer(self.nExpiredTime, self.nCountDownTimer)
+	end
+
+	if self.vTutorialState then
+		local finished = true
+		for i=0,4 do
+	        local pID = i
+	        if (not self.vTutorialState[pID] or GetTableLength(self.vTutorialState[pID]) < 3) and (PlayerResource:IsValidPlayerID(pID) and (PlayerResource:GetConnectionState(pID) == 1 or PlayerResource:GetConnectionState(pID) == 2)) then
+				finished = false
+				break
+	        end
+		end
+		if finished then
+			CustomNetTables:SetTableValue("orders", "tutorial", nil)
+			for k,v in pairs(self.vCurrentOrders) do
+				self.vCurrentOrders[k].nTimeRemaining = self.vCurrentOrders[k].nTimeLimit
+				self.vCurrentOrders[k].pszFinishType = "Finished"
+			end
+			self:UpdateOrdersToClient()
+			self:EndRound()
+		end
 	end
 
 	-- update ui timer
@@ -258,16 +278,18 @@ function Round:EndRound()
 	-- 
 	local stars = 0
 	local starCriterias = self.vRoundData.StarCriteria
-	for _, criteria in pairs(starCriterias) do
-		if criteria.Type == 'STAR_CRITERIA_FINISHED_RECIPES' then
-			local values = string.split(criteria.values, ' ')
-			for index, value in pairs(values) do
-				if table.count(self.vFinishedOrders) >= tonumber(value) then
-					stars = index
+	if starCriterias then
+		for _, criteria in pairs(starCriterias) do
+			if criteria.Type == 'STAR_CRITERIA_FINISHED_RECIPES' then
+				local values = string.split(criteria.values, ' ')
+				for index, value in pairs(values) do
+					if table.count(self.vFinishedOrders) >= tonumber(value) then
+						stars = index
+					end
 				end
 			end
+			-- @todo other criterias
 		end
-		-- @todo other criterias
 	end
 
 	-- tell client to show round end summary
@@ -290,7 +312,7 @@ function Round:EndRound()
 	end)
 end
 
-function Round:OnServe(itemEntity)
+function Round:OnServe(itemEntity, user)
 	-- the item entity should be CDOTA_Item, not a CDOTA_Item_Physical
 	if not itemEntity.GetContainer then
 		error(debug.traceback("The param 'itemEntity' should be an CDOTA_Item"))
@@ -301,25 +323,39 @@ function Round:OnServe(itemEntity)
 		local itemName = itemEntity:GetAbilityName()
 		local orderIndex, theOrder = nil, nil
 		local lowestTime = 999
+		local pszID
 
 		for k, order in pairs(self.vCurrentOrders) do
 			if order.pszItemName == itemName and order.nTimeRemaining < lowestTime then
-				orderIndex = k
-				theOrder = order
-				lowestTime = order.nTimeRemaining
+				if not self.vTutorialState or not self.vTutorialState[user:GetPlayerOwnerID()] or not self.vTutorialState[user:GetPlayerOwnerID()][order.pszID] then
+					orderIndex = k
+					theOrder = order
+					lowestTime = order.nTimeRemaining
+					pszID = order.pszID
+				end
 			end
 		end
 
-		table.insert(self.vFinishedOrders, {pszItemName = itemName, nFinishTime = self.nCountDownTimer})
-		-- tell client to show order finished message
-		self.vCurrentOrders[orderIndex].pszFinishType = "Finished"
+		-- tutorial stuff
+		if g_RoundManager.nCurrentLevel == 0 then
+			self.vTutorialState = self.vTutorialState or {}
+			self.vTutorialState[user:GetPlayerOwnerID()] = self.vTutorialState[user:GetPlayerOwnerID()] or {} --(self.vTutorialState[user:GetPlayerOwnerID()] or 0) + 1
+			self.vTutorialState[user:GetPlayerOwnerID()][pszID] = true
+			CustomNetTables:SetTableValue("orders", "tutorial", self.vTutorialState)
 
-		Timers:CreateTimer(2, function()
-			-- remove order after a short delay
-			self.vCurrentOrders[orderIndex] = nil
-		end)
+			--CustomGameEventManager:Send_ServerToPlayer(user:GetPlayerOwner(), "frostivus_tutorial_order", { finished = self.vTutorialState[user:GetPlayerOwnerID()] == 3, order = pszID, lowestTime = lowestTime })
+		else
+			table.insert(self.vFinishedOrders, {pszItemName = itemName, nFinishTime = self.nCountDownTimer})
+			-- tell client to show order finished message
+			self.vCurrentOrders[orderIndex].pszFinishType = "Finished"
 
-		self:UpdateOrdersToClient()
+			self:UpdateOrdersToClient()
+
+			Timers:CreateTimer(2, function()
+				-- remove order after a short delay
+				self.vCurrentOrders[orderIndex] = nil
+			end)
+		end
 
 		local itemPhysical = itemEntity:GetContainer()
 		if itemPhysical then
@@ -391,9 +427,12 @@ function RoundManager:OnGameRulesStateChanged()
 end
 
 function RoundManager:Init()
+	self:SetPlayTutorial()
+
 	self.nCurrentLevel = 1
 	if self.bPlayTutorial then
 		self.nCurrentLevel = 0
+		CustomNetTables:SetTableValue("orders", "tutorial", {})
 	end
 
 	self:StartNewRound()
@@ -421,20 +460,24 @@ function RoundManager:StartNewRound(level) -- level is passed for test purpose
 	LoopOverHeroes(function(hero)
 		-- teleport players to new round
 		local teleportTarget
-		if table.count(teleport_target_entities) > 0 then
-			teleportTarget = table.remove(teleport_target_entities)
-			teleportTarget = teleportTarget:GetOrigin()
-		end
-
-		if teleportTarget == nil then
-			print("Not enough level start position entity!! moving hero to last teleport target pos")
-			if lastTeleportTarget == nil then
-				print("Not any level start entity found!! go check the map file")
-			else
-				teleportTarget = lastTeleportTarget
-			end
+		if level == 0 then
+			teleportTarget = Entities:FindByName(nil, 'level_0_start_'..tostring(hero:GetPlayerOwnerID())):GetAbsOrigin()
 		else
-			lastTeleportTarget = teleportTarget
+			if table.count(teleport_target_entities) > 0 then
+				teleportTarget = table.remove(teleport_target_entities)
+				teleportTarget = teleportTarget:GetOrigin()
+			end
+
+			if teleportTarget == nil then
+				print("Not enough level start position entity!! moving hero to last teleport target pos")
+				if lastTeleportTarget == nil then
+					print("Not any level start entity found!! go check the map file")
+				else
+					teleportTarget = lastTeleportTarget
+				end
+			else
+				lastTeleportTarget = teleportTarget
+			end
 		end
 
 		FindClearSpaceForUnit(hero,teleportTarget or hero:GetOrigin(),true)
