@@ -8,7 +8,7 @@
   <scripts>
     <include src="file://{resources}/scripts/worldpanels/bench.js" /> 
   </scripts>
-  <Panel hittest="false" class="BenchPanel">
+  <Panel hittest="false" class="BenchPanel Hide">
     <Panel hittest="false" id="Row1" class="Row">
       <Panel hittest="true" id="Slot1" class="Slot Ring">
         <DOTAItemImage hittest="false" class="Icon Hide" abilityname=""/>

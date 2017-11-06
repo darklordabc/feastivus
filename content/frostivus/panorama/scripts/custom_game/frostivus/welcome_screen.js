@@ -6,67 +6,58 @@ var g_PlayersPanel = [];
 var g_PlayerIDPanelMapper = {};
 var g_UnreadyPlayers = [];
 var b_CountingDown = false;
-function OnClickReadyButton() {
-	// player id will be attached by default in game events
-	// @todo, implement in lua for player ready.
-	$.Msg("player ready!")
-	GameEvents.SendCustomGameEventToServer("player_ready", {})
+var b_HasHostPrivileges = false;
+
+var m_MaterialSet = 0;
+
+function OnChangeMaterial() {
+	if (m_MaterialSet >= 8) {
+		m_MaterialSet = 0;
+	}else{
+		m_MaterialSet += 1;
+	}
+
+	$.DispatchEvent( 'DOTAGlobalSceneSetCameraEntity', 'player_portrait_' + Players.GetLocalPlayer(), 'camera' + m_MaterialSet, 0);
+
+	GameEvents.SendCustomGameEventToServer("player_change_hats", {
+		MaterialGroup: m_MaterialSet,
+	});
 }
 
-function OnRockAndRoll() {
-	// dont allow start if there are un-ready players
-	if (g_UnreadyPlayers.length > 0) return;
+function CheckHostPrivileges() {
+	var playerInfo = Game.GetLocalPlayerInfo();
+	if ( !playerInfo )
+		return;
 
-	if (b_CountingDown){
-		OnCancelStart();
+	b_HasHostPrivileges = playerInfo.player_has_host_privileges;
+
+	$.GetContextPanel().SetHasClass( "player_has_host_privileges", playerInfo.player_has_host_privileges );
+
+	if (b_HasHostPrivileges)
+		$("#label_button_start_ready").text = $.Localize("#start");
+}
+
+function IsAllReady() {
+	// @fixme
+	return true
+}
+
+function OnClickReadyOrStart() {
+	
+	if (b_CountingDown && b_HasHostPrivileges) {
+		GameEvents.SendCustomGameEventToServer('host_cancel_start', {})
 		return;
 	}
 
-	b_CountingDown = true;
-	CountDownAndStart();
-	GameEvents.SendCustomGameEventToServer("set_play_tutorial", {
-		value: false
-	});
-
-	// disable the start tutorial button
-	$("#button_start_tutorial").enabled = false;
-	// set art to cancel
-	$("#rock_and_roll_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/cancel_button.psd");
-}
-
-function OnStartTutorial() {
-	// dont allow start if there are un-ready players
-	if (g_UnreadyPlayers.length > 0) return;
-
-	if (b_CountingDown){
-		OnCancelStart();
-		return;
+	if (b_HasHostPrivileges && IsAllReady()) {
+		CountDownAndStart();
+	}else{
+		GameEvents.SendCustomGameEventToServer('player_ready', {})
 	}
-
-	b_CountingDown = true;
-	CountDownAndStart();
-	GameEvents.SendCustomGameEventToServer("set_play_tutorial", {
-		value: true
-	});
-
-	// disable the start button
-	$("#button_rock_and_roll").enabled= false;
-	// switch bg to cancel
-	$("#start_tutorial_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/cancel_button.psd");
-}
-
-function OnCancelStart() {
-	// enable buttons
-	$("#button_rock_and_roll").enabled= true;
-	$("#button_start_tutorial").enabled = true;
-	$("#rock_and_roll_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/start_button.psd");
-	$("#start_tutorial_button_bg").SetImage("file://{resources}/images/custom_game/welcome_screen/start_tutorial_button.psd");
-
-	// reset timer to 30
-	Game.SetRemainingSetupTime(30);
 }
 
 function CountDownAndStart() {
+	b_CountingDown = true;
 	// Disable the auto start count down
 	Game.SetAutoLaunchEnabled( false );
 	// Set the remaining time before the game starts
@@ -92,8 +83,12 @@ function FindOrCreatePanelForPlayer(playerID, parent) {
 	// setup username and avatar
 	var playerInfo = Game.GetPlayerInfo( playerID );
 	newPlayerPanel.FindChildTraverse("player_name").steamid = playerInfo.player_steamid;
-	newPlayerPanel.FindChildTraverse("player_portrait").steamid = playerInfo.player_steamid;
 
+	var id = "player_portrait_" + playerID;
+	newPlayerPanel.BCreateChildren("<DOTAScenePanel id='" + id + "' particleonly='false' class='GreevilScene' map='greevils/greevil_1' camera='camera0'/> ");
+	
+	newPlayerPanel.FindChildTraverse(id).hittest = false;
+	newPlayerPanel.MoveChildBefore(id, 'playerCardOverlay');
 	// highlight local player card
 	var localPlayerInfo = Game.GetLocalPlayerInfo();
 	if (localPlayerInfo) {
@@ -124,7 +119,7 @@ function UpdatePlayerCards(teamid) {
 
 	// create them
 	for (var i = 0; i < teamPlayers.length; ++i) {
-		$.Msg("creating panel for player", teamPlayers[i])
+		// $.Msg("creating panel for player", teamPlayers[i])
 		FindOrCreatePanelForPlayer(teamPlayers[i], teamPanel)
 	}
 }
@@ -168,6 +163,20 @@ function OnGameRulesStateChanged() {
 	$.Msg("game state has changed to",newState);
 }
 
+function OnPlayerHatsChanged() {
+	var hatsData = CustomNetTables.GetTableValue('player_hats', 'player_hats');
+	for (var playerID in hatsData) {
+		
+		var data = hatsData[playerID]
+		$.Msg(playerID, " [HATS DATA]", data);
+
+		// change material camera for other players
+		if (playerID != Players.GetLocalPlayer()) {
+			$.DispatchEvent( 'DOTAGlobalSceneSetCameraEntity', 'player_portrait_' + playerID, 'camera' + data.materialGroup, 0.2);
+		}
+	}
+}
+
 (function() {
 	// i dont know why there is a blank section at left
 	// maybe we should remove this later
@@ -179,7 +188,8 @@ function OnGameRulesStateChanged() {
 	UpdateTimer();
 
 	// debug freeze the count down timer
-	Game.SetRemainingSetupTime(30); 
+	// Game.SetRemainingSetupTime(30); 
+	Game.SetRemainingSetupTime(-1); 
 
 	// Register a listener for the event which is brodcast when the team assignment of a player is actually assigned
 	$.RegisterForUnhandledEvent( "DOTAGame_TeamPlayerListChanged", OnTeamPlayerListChanged );
@@ -189,4 +199,9 @@ function OnGameRulesStateChanged() {
 
 	GameEvents.Subscribe("dota_game_rules_state_change", OnGameRulesStateChanged);
 
+	CheckHostPrivileges();
+
+	UpdatePlayerCards(2);
+
+	CustomNetTables.SubscribeNetTableListener("player_hats", OnPlayerHatsChanged);
 })();

@@ -18,6 +18,27 @@ return {
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
+
+		local i = 1
+		for k,v in pairs(Frostivus.state.stages["bottleneck"].crates) do
+			local item = Frostivus.StagesKVs["bottleneck"].Initial[tostring(i)]
+			Frostivus:L(item)
+			if item then
+				v:InitBench(1)
+				v:SetCrateItem(item)
+			else
+
+			end
+			i = i + 1
+		end
+
+		-- sound for first level
+		Timers:CreateTimer(function()
+			if round.nCountDownTimer > 0 then
+				GameRules:GetGameModeEntity():EmitSound("custom_music.main_theme")
+				return 138
+			end
+		end)
 	end,
 	OnRoundEnd = function(round)
 		-- if you do something special, clean them

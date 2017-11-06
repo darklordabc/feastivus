@@ -68,7 +68,7 @@ if IsServer() then
 					else
 						if not ally:HasModifier('modifier_knockback') then
 							-- just kock back
-							local distance = 64
+							local distance = 32
 							local speed = 800
 							local duration = 0.4
 							local center = caster:GetOrigin()
@@ -96,29 +96,48 @@ if IsServer() then
 				caster:SetAbsOrigin( newPos )
 				self.dist_travelled = self.dist_travelled + self.speed * FrameTime()
 			else
-				local velocityC = caster:GetForwardVector() * self.speed
-				local newVel = Vector(-velocityC.x, -velocityC.y)
+				-- darklord - Today at 10:13 PM
+				-- @XavierCHN can u make it so when u hit a bench while boosting you lose the boost and the move speed bonus
+				-- Bounce back is not good with lag
+				if not GridNav:CanFindPath(caster:GetAbsOrigin(), caster:GetAbsOrigin()) then FindClearSpaceForUnit(caster, caster:GetAbsOrigin(), true) end
+				caster:AddNewModifier(caster,nil,'modifier_phased',{Duration=.05})
+				self._bDestroyedByMistake = true
+
+				-- add a particle to show this
+				local pid = ParticleManager:CreateParticle("particles/generic_gameplay/generic_stunned.vpcf",PATTACH_OVERHEAD_FOLLOW,caster)
+				ParticleManager:SetParticleControlEnt(pid,0,caster,PATTACH_OVERHEAD_FOLLOW,"follow_overhead",caster:GetOrigin(),true)
+				Timers:CreateTimer(0.3, function()
+					ParticleManager:DestroyParticle(pid,true)
+				end)
+
+				self:Destroy()
+
+				-- old bounces code
+				-- local velocityC = caster:GetForwardVector() * self.speed
+				-- local newVel = Vector(-velocityC.x, -velocityC.y)
 				
-				self.vDir = newVel:Normalized() * Vector(1,1,0)
-				self.speed = newVel:Length2D()
-				position = position + self.vDir * CalculateDistance(caster:GetAbsOrigin(), newPos)
-				caster:SetAbsOrigin(GetGroundPosition(position, caster))
-				self.dist_travelled = 0
-				self.distance = math.min(125, self.distance - 25)
+				-- self.vDir = newVel:Normalized() * Vector(1,1,0)
+				-- self.speed = newVel:Length2D()
+				-- position = position + self.vDir * CalculateDistance(caster:GetAbsOrigin(), newPos)
+				-- caster:SetAbsOrigin(GetGroundPosition(position, caster))
+				-- self.dist_travelled = 0
+				-- self.distance = math.min(125, self.distance - 25)
 			end
 		else
 			if not GridNav:CanFindPath(caster:GetAbsOrigin(), caster:GetAbsOrigin()) then FindClearSpaceForUnit(caster, caster:GetAbsOrigin(), true) end
+			caster:AddNewModifier(caster,nil,'modifier_phased',{Duration=.05})
 			self:Destroy()
 		end
 	end
 	
 	function modifier_frostivus_boost:OnDestroy()
 		local caster = self:GetCaster()
-		caster:AddNewModifier(caster, self:GetAbility(), "modifier_frostivus_boost_ms", {duration = self:GetAbility():GetSpecialValueFor("duration")})
 
-		-- order unit to move to last order position
-		if caster._vBoostLastOrderPosition then
-			caster:MoveToPosition(caster._vBoostLastOrderPosition)
+		if not self._bDestroyedByMistake then
+			caster:AddNewModifier(caster, self:GetAbility(), "modifier_frostivus_boost_ms", {duration = self:GetAbility():GetSpecialValueFor("duration")})
+			if caster._vBoostLastOrderPosition then
+				caster:MoveToPosition(caster._vBoostLastOrderPosition)
+			end
 		end
 	end
 	

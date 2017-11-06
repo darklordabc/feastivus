@@ -1,22 +1,53 @@
 .Channeling
 {
+	height: 210px;
 
+  transition-property: opacity;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in;
 }
 
-.Frame
+#Frame
 {
-  width: 150px;
-  height: 20px;
-  background-color: #bbbbbb;
+  width: 95px;
+  height: 17px;
+  background-color: #555555;
+
+  border-radius: 10px;
+
+  transition-duration: 1s;
+  transition-property: opacity;
+  transition-timing-function: linear;
 }
 
 #Progress 
 {
-  background-color: red;
+  background-color: #2BC253;
 
   height: 100%;
-  margin: 3px;
-  transition-duration: 0s;
+  width: 0%;
+  margin: 4px;
+  border-radius: 10px;
+/*  transition-duration: 0s;
   transition-property: width;
-  transition-timing-function: linear;
+  transition-timing-function: linear;*/
+}
+
+.Oscillate
+{
+  animation-name: oscillate;
+  animation-duration: 7.0s;
+  animation-iteration-count: infinite;
+}
+
+.Hide 
+{
+  opacity: 0;
+}
+
+@keyframes 'oscillate'
+{
+  0%   {background-color: #c2b72b;}
+  50%  {background-color: #c22b4f;}
+  100% {background-color: #c2b72b;}
 }

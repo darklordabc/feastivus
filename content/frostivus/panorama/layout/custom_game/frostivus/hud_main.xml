@@ -19,31 +19,35 @@
 	<snippets>
 		<snippet name="Order">
 			<Panel class="OrderRoot OrderAppear">
-				<Panel class="OrderMain">
-					<Panel id="time_remaining_bg">
-						<Panel id="time_remaining" />
-					</Panel>	
-					<Panel class="ProductImagePanel">
-						<DOTAItemImage id="ProductImage" itemname="item_blink" />
-					</Panel>
-				</Panel>
-				<Panel class="OrderBottom">
-					<Panel class="AssembliesImage">
-						<Panel class="AssemblyImagePanel" id="Assembly_Panel_0" >
-							<DOTAItemImage id="Assembly_Image_0" itemname="item_blink" />
-						</Panel>
-						<Panel class="AssemblyImagePanel" id="Assembly_Panel_1" >
-							<DOTAItemImage id="Assembly_Image_1" itemname="item_blink" />
-						</Panel>
-						<Panel class="AssemblyImagePanel" id="Assembly_Panel_2" >
-							<DOTAItemImage id="Assembly_Image_2" itemname="item_blink" />
-						</Panel>
-						<Panel class="AssemblyImagePanel" id="Assembly_Panel_3" >
-							<DOTAItemImage id="Assembly_Image_3" itemname="item_blink" />
+				<Panel class="OrderPanel">
+					<Panel class="OrderMain">
+						<Panel id="time_remaining_bg">
+							<Panel id="time_remaining" />
+						</Panel>	
+						<Panel class="ProductImagePanel">
+							<DOTAItemImage id="ProductImage" itemname="item_blink" />
 						</Panel>
 					</Panel>
-					<!-- <Panel class="OrderMainShadow" /> -->
+					<Panel class="OrderBottom">
+						<Panel class="AssembliesImage">
+							<Panel class="AssemblyImagePanel" id="Assembly_Panel_0" >
+								<DOTAItemImage id="Assembly_Image_0" itemname="item_blink" />
+							</Panel>
+							<Panel class="AssemblyImagePanel" id="Assembly_Panel_1" >
+								<DOTAItemImage id="Assembly_Image_1" itemname="item_blink" />
+							</Panel>
+							<Panel class="AssemblyImagePanel" id="Assembly_Panel_2" >
+								<DOTAItemImage id="Assembly_Image_2" itemname="item_blink" />
+							</Panel>
+							<Panel class="AssemblyImagePanel" id="Assembly_Panel_3" >
+								<DOTAItemImage id="Assembly_Image_3" itemname="item_blink" />
+							</Panel>
+						</Panel>
+						<!-- <Panel class="OrderMainShadow" /> -->
+					</Panel>
 				</Panel>
+				<Image class="MarkFinished" src="file://{resources}/images/custom_game/ui/right.png" />
+				<Image class="MarkExpired" src="file://{resources}/images/custom_game/ui/wrong.png" />
 			</Panel>
 		</snippet>
 	</snippets>
@@ -62,7 +66,7 @@
 
 			<!-- center popup block -->
 			<Panel id="center" hittestchildren="false">
-				<Image id="game_logo" src="file://{resources}/images/custom_game/game_logo.psd" />
+				<Image id="game_logo" src="file://{resources}/images/custom_game/game_logo.png" />
 				<Image id="ready_set_go" />
 				<!-- maybe better art, use label for now -->
 				<Label id="round_name" /> 

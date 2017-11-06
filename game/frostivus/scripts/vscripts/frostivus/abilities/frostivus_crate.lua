@@ -5,6 +5,10 @@ function frostivus_crate:OnUpgrade()
 	caster.SetCrateItem = (function( self, item )
 		self:AddItemToBench(item)
         self:SetBenchInfiniteItems(true)
+
+        self:SetOnPickedFromBench(function ( item )
+            EmitSoundOn("custom_sound.crate_pickup", item)
+        end)
 	end)
 end
 

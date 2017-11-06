@@ -13,6 +13,12 @@ if not Frostivus then
     	Frostivus.state.stages[k].crates = Entities:FindAllByName("npc_crate_bench_"..k)
     end
 
+    Frostivus.state.tutorials = {}
+
+    for i=0,4 do
+    	Frostivus.state.tutorials[i] = Entities:FindByName(nil, "frostivus_tutorial_"..tostring(i))
+    end
+
     Frostivus.ROLE_DELIVERY = 0
     Frostivus.ROLE_REFINERY = 1
 
@@ -26,16 +32,17 @@ if not Frostivus then
 	LinkLuaModifier("modifier_rooted", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_fake_casting", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_bench_busy", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_command_restricted", "frostivus/modifiers/states.lua", LUA_MODIFIER_MOTION_NONE)
 
     Frostivus.DEBUG = true
 
 	local recipes = {}
 	for _, _data in pairs(Frostivus.RecipesKVs) do
 		for product, data in pairs(_data) do
-			local assemblies = {}
-			for _, assembly in pairs(data.Assembly) do
-				table.insert(assemblies, assembly)
-			end
+			local assemblies = data.Assembly
+			-- for _, assembly in pairs(data.Assembly) do
+			-- 	table.insert(assemblies, assembly)
+			-- end
 			CustomNetTables:SetTableValue("recipes", product, assemblies)
 		end
 	end
@@ -68,7 +75,7 @@ function Frostivus:GetCarryingItem( unit )
 end
 
 function Frostivus:IsCarryingItem( unit, item )
-	return unit:HasModifier("modifier_carrying_item") and (not item or unit:FindModifierByName("modifier_carrying_item").item == item)
+	return unit.HasModifier and unit:HasModifier("modifier_carrying_item") and (not item or unit:FindModifierByName("modifier_carrying_item").item == item)
 end
 
 function Frostivus:BindItem( item, unit, position_callback, condition_callback, drop_callback, add_modifier, dont_hide )
@@ -122,6 +129,8 @@ end
 function Frostivus:OnPickupItem( item, ply )
 	local caster = ply:GetAssignedHero()
 
+	local old_container = item:GetContainer()
+
 	local model = Frostivus.ItemsKVs[item:GetName()].Model
 	local charges = item:GetCurrentCharges()
 	local counter = item._counter
@@ -136,8 +145,23 @@ function Frostivus:OnPickupItem( item, ply )
 			local item = Frostivus:DropItem( caster, Frostivus:GetCarryingItem( caster ) )
 			item:FollowEntity( nil, false )
 		end
-		
+
 		local item = item:GetContainer()
+
+		-- Move bench API to new container
+		if old_container.wp then
+			old_container.wp:SetEntity(item:entindex())
+
+			if old_container.progress then
+				old_container.progress:SetEntity(item:entindex())
+			end
+
+			for k,v in pairs(old_container) do
+				if k ~= "__self" then
+					item[k] = v
+				end
+			end
+		end
 
 		-- Plate stack
 		if counter then

@@ -41,11 +41,11 @@ Database = database() # make connection pool to database
 def index():
 	return "server for darklord's feastivus"
 
-@app.route('NewMatch', methods=['POST'])
+@app.route('/NewMatch', methods=['POST'])
 def new_match():
 	pass
 
-@app.route('EndMatch', methods=['POST'])
+@app.route('/EndMatch', methods=['POST'])
 def end_match():
 	pass
 

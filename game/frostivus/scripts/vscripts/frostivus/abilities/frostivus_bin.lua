@@ -4,7 +4,7 @@ function frostivus_bin:OnUpgrade()
 	local caster = self:GetCaster()
 
     ExecOnGameInProgress(function (  )
-        caster:InitBench(1, nil, nil, 0)
+        caster:InitBench(1, nil, nil, 64)
 
         caster:AddItemToBench("item_bin_icon")
 

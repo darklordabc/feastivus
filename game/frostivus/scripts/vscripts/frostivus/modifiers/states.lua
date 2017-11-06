@@ -92,3 +92,19 @@ if IsServer() then
         self:Destroy()
     end
 end
+
+modifier_command_restricted = class({})
+
+function modifier_command_restricted:CheckState()
+    return {
+        [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
+    }
+end
+
+function modifier_command_restricted:IsHidden()
+    return true
+end
+
+function modifier_command_restricted:IsPurgable()
+    return false
+end

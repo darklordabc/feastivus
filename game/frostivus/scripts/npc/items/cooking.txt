@@ -15,6 +15,8 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_raw_leaf"
@@ -35,6 +37,8 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_refined_leaf"
@@ -42,11 +46,13 @@
     "ID"    "1102"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
-    "AbilityTextureName"      "item_tango_single"
+    "AbilityTextureName"      "item_tango"
     "Model"                   "models/props_gameplay/salve.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
+    "CanBePutInPot" "1"
+    "BoilTarget" "item_boiled_leaf"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
@@ -54,6 +60,8 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   // "item_empty_bottle"
@@ -116,7 +124,7 @@
     "ID"    "1106"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
-    "AbilityTextureName"      "item_tango"
+    "AbilityTextureName"      "item_tango_salad"
     "Model"                   "models/dishes/tango_salad.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
@@ -129,6 +137,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_raw_mango"
@@ -142,6 +151,7 @@
 
     "CanBeCutted" "1"
     "RefineTarget" "item_refined_mango"
+    "BoilTarget" "item_boiled_mango"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
@@ -149,6 +159,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_refined_mango"
@@ -161,6 +172,7 @@
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
+    "CanBePutInPot" "1"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
@@ -168,6 +180,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_mango_salad"
@@ -175,7 +188,7 @@
     "ID"    "1109"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
-    "AbilityTextureName"      "item_enchanted_mango"
+    "AbilityTextureName"      "item_mango_salad"
     "Model"                   "models/dishes/mango_salad.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
@@ -188,6 +201,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_plate"
@@ -201,6 +215,7 @@
 
     "CanBePickedFromBench"  "1"
     "CanBeServed"  "1"
+    "ForwardOnUse" "1"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
@@ -208,6 +223,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        ""
   }
 
   "item_mixed_tango_salad"
@@ -215,7 +231,7 @@
     "ID"    "1111"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
-    "AbilityTextureName"      "item_tango"
+    "AbilityTextureName"      "tango_mango_salad"
     "Model"                   "models/dishes/tango_salad.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
@@ -228,6 +244,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_mixed_mango_salad"
@@ -235,7 +252,7 @@
     "ID"    "1112"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
-    "AbilityTextureName"      "item_enchanted_mango"
+    "AbilityTextureName"      "mango_tango_salad"
     "Model"                   "models/dishes/mango_salad.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
@@ -248,6 +265,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
   }
 
   "item_dirty_plates"
@@ -267,6 +285,7 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        ""
   }
 
   "item_clean_plates"
@@ -286,5 +305,192 @@
 
     "MaxUpgradeLevel"       "1"
     "ItemBaseLevel"         "1"
+    "WorldDropSound"        ""
+  }
+
+  "item_pot"
+  {
+    "ID"    "1115"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_plate"
+    "Model"                   "models/cooking_pot/cooking_pot_3.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "CanBePickedFromBench"  "1"
+    "ForwardOnUse" "1"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+    "WorldDropSound"        ""
+  }
+
+  "item_tango_soup"
+  {
+    "ID"    "1116"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "tango_soup"
+    "Model"                   "models/dishes/tango_salad.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "CanBePickedFromBench"  "1"
+    "CanBeServed"  "1"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
+  }
+
+  "item_boiled_leaf"
+  {
+    "ID"    "1117"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_tango"
+    "Model"                   "models/props_gameplay/salve.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+    
+    "WorldDropSound"        "custom_sound.pickup"
+  }
+
+  "item_mango_soup"
+  {
+    "ID"    "1118"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "mango_soup"
+    "Model"                   "models/dishes/tango_salad.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "CanBePickedFromBench"  "1"
+    "CanBeServed"  "1"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+    "WorldDropSound"        "custom_sound.pickup"
+  }
+
+  "item_boiled_mango"
+  {
+    "ID"    "1119"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_enchanted_mango"
+    "Model"                   "models/props_gameplay/salve.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+    
+    "WorldDropSound"        "custom_sound.pickup"
+  }
+
+  "item_frying_pan"
+  {
+    "ID"    "1120"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_plate"
+    "Model"                   "models/frying_pan/frying_pan.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "CanBePickedFromBench"  "1"
+    "ForwardOnUse" "1"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+    "WorldDropSound"        ""
+  }
+
+  "item_raw_meat"
+  {
+    "ID"    "1121"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_raw_meat"
+    "Model"                   "models/props_gameplay/salve.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "CanBePutInPan" "1"
+    "FryingTarget" "item_fried_meat"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+
+    "WorldDropSound"        "custom_sound.pickup"
+  }
+
+  "item_fried_meat"
+  {
+    "ID"    "1122"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_raw_meat"
+    "Model"                   "models/props_gameplay/salve.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "CanBePickedFromBench"  "1"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+    
+    "WorldDropSound"        "custom_sound.pickup"
+  }
+
+  "item_bread"
+  {
+    "ID"    "1123"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "BaseClass"           "item_datadriven"
+    "AbilityTextureName"      "item_bread"
+    "Model"                   "models/props_gameplay/salve.vmdl"
+    // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
+
+    "CanBePickedFromBench"  "1"
+
+    "ItemStackable"         "0"
+    "ItemPermanent"         "0"
+    "ItemInitialCharges"            "0"
+
+    "MaxUpgradeLevel"       "1"
+    "ItemBaseLevel"         "1"
+    
+    "WorldDropSound"        "custom_sound.pickup"
   }
 }

@@ -1,27 +1,66 @@
 <!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
 {
-	custom_sound.chopping = {
+	custom_sound.chop = {
 		type = "dota_src1_2d"
 		vsnd_files =
         [
-            "sounds/chop.vsnd",
+            "sounds/benches/chop.vsnd",
+        ]
+        volume = "0.500000"
+	}
+	custom_sound.chop_special = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/benches/chop_special.vsnd",
         ]
         volume = "0.500000"
 	}
 	custom_sound.pickup = {
-		type = "dota_src1_2d"
+		type = "dota_src1_3d"
 		vsnd_files =
         [
-            "sounds/pick.vsnd",
+            "sounds/ui/item_pickup_shop.vsnd",
         ]
         volume = "0.500000"
 	}
-	
-	custom_sound.serve = {
+	custom_sound.drop = {
+		type = "dota_src1_3d"
+		vsnd_files =
+        [
+            "sounds/ui/inventory/common_drop.vsnd",
+        ]
+        volume = "0.500000"
+	}
+	custom_sound.complete_order = {
 		type = "dota_src1_2d"
 		vsnd_files =
         [
-            "sounds/serve.vsnd",
+            "sounds/benches/complete_order.vsnd",
+        ]
+        volume = "0.500000"
+	}
+	custom_sound.plate_drop = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/benches/plate_drop.vsnd",
+        ]
+        volume = "0.500000"
+	}
+	custom_sound.plate_pickup = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/benches/plate_pickup.vsnd",
+        ]
+        volume = "0.500000"
+	}
+	custom_sound.crate_pickup = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/benches/crate_pickup.vsnd",
         ]
         volume = "0.500000"
 	}

@@ -42,19 +42,18 @@ require('settings')
 -- events.lua is where you can specify the actions to be taken when any event occurs and is one of the core barebones files.
 require('events')
 
---Objects handler
-require('frostivus/objects/Objects')
-
-require('frostivus/objects/bench')
-
 require("libraries/worldpanels")
 
--- WASD move controller
+-- stuff
+require('frostivus/objects/objects')
+require('frostivus/objects/bench')
+require('frostivus/objects/plates')
+
+require('frostivus/frostivus_event_listener')
 require('frostivus/modules/move_controller')
--- hats manager
 require('frostivus/modules/hats_manager')
--- debug module
 require('frostivus/modules/debug')
+require('frostivus/modules/message_center')
 
 --[[
 	This function should be used to set up Async precache calls at the beginning of the gameplay.
@@ -153,14 +152,14 @@ function GameMode:InitGameMode()
 end
 
 -- This is an example console command
-function GameMode:ExampleConsoleCommand()
+function GameMode:ExampleConsoleCommand(item)
 	print( '******* Example Console Command ***************' )
 	local cmdPlayer = Convars:GetCommandClient()
 	if cmdPlayer then
 		local playerID = cmdPlayer:GetPlayerID()
 		if playerID ~= nil and playerID ~= -1 then
 			-- Do something here for the player who called this command
-			CreateItemOnPositionSync(cmdPlayer:GetAssignedHero():GetAbsOrigin(),CreateItem("item_tango_salad",cmdPlayer:GetAssignedHero(),cmdPlayer:GetAssignedHero()))
+			CreateItemOnPositionSync(cmdPlayer:GetAssignedHero():GetAbsOrigin(),CreateItem(item or "item_refined_leaf",cmdPlayer:GetAssignedHero(),cmdPlayer:GetAssignedHero()))
 		end
 	end
 

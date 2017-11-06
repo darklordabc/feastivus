@@ -51,15 +51,15 @@ local BODY_COMPONENTS = {
 
 function HatsManager:constructor()
 	self.vPlayerHats = {}
-	CustomGameEventManager:RegisterListener("player_select_hats", function(_, args) self:OnPlayerSelect(args) end)	
+	CustomGameEventManager:RegisterListener("player_change_hats", function(_, args) self:OnPlayerChangeHats(args) end)	
 	ListenToGameEvent("npc_spawned",Dynamic_Wrap(HatsManager, "OnNPCSpawned"),self)
 	-- print("HatsManager:constructor")
 end
 
-function HatsManager:OnPlayerSelect(args)
+function HatsManager:OnPlayerChangeHats(args)
 	local playerID = args.PlayerID
 
-	local json = require 'dkjson'
+	local json = require 'utils.dkjson'
 
 	local materialGroup = args.MaterialGroup or tostring(RandomInt(0,8))
 	local particles = json.decode(args.ParticlesJSON or '[]') -- maybe we should decode a json table to do this if we want multiple particles on one greevil
@@ -72,6 +72,8 @@ function HatsManager:OnPlayerSelect(args)
 		hat = hat,
 		bodyComponents = bodyComponents,
 	}
+
+	CustomNetTables:SetTableValue('player_hats',"player_hats", self.vPlayerHats)
 end
 
 function HatsManager:OnNPCSpawned(args)
@@ -80,26 +82,27 @@ function HatsManager:OnNPCSpawned(args)
 
 	local npc = EntIndexToHScript(args.entindex)
 
-	if npc:IsHero() then -- also apply custom components to illusions
-		-- if all body components will be remove upon death, we should recreate it
-		-- 
+	if npc:IsHero() then
+
+		
+
 		if not npc.bHatsManager_Created then
 			npc.bHatsManager_Created = true
 			local playerID = npc:GetPlayerID()
 
 			local hats = self.vPlayerHats[playerID] or {}
 
-			-- create hat
-			if hats.hat ~= nil then
-				self:AttachHat(npc, hats.hat)
-			end
-
 			-- set material group
 			-- if not exist, just random it?
 			if hats.materialGroup then
-				npc:SetMaterialGroup(hats.materialGroup)
+				npc:SetMaterialGroup(tostring(hats.materialGroup))
 			else
 				npc:SetMaterialGroup(tostring(RandomInt(0,8)))
+			end
+
+			-- create hat
+			if hats.hat ~= nil then
+				self:AttachHat(npc, hats.hat)
 			end
 
 			-- add body components
@@ -109,8 +112,11 @@ function HatsManager:OnNPCSpawned(args)
 				end
 			end
 
-			-- add eyes by default
+			-- add set of items by default
 			self:AttachBodyComponent(npc, "models/courier/greevil/greevil_eyes.vmdl")
+			self:AttachBodyComponent(npc, "models/courier/greevil/greevil_horns1.vmdl")
+			self:AttachBodyComponent(npc, "models/courier/greevil/greevil_teeth1.vmdl")
+			self:AttachBodyComponent(npc, "models/courier/greevil/greevil_tail2.vmdl")
 		end
 	end
 end

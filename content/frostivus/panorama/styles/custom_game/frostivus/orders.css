@@ -6,8 +6,45 @@
 	width: 100%;
 }
 
-.OrderRoot {
+.OrderPanel {
 	flow-children: down;
+}
+
+.MarkFinished {
+	vertical-align: center;
+	horizontal-align: center;
+	opacity: 0;
+	pre-transform-scale2d: 1.6;
+
+	transition-property: pre-transform-scale2d, opacity;
+	transition-duration: 0.4s;
+	transition-timing-function: ease-in;
+}
+
+.Finished .MarkFinished {
+	opacity: 1;
+	pre-transform-scale2d: 1;
+}
+
+.MarkExpired {
+	vertical-align: center;
+	horizontal-align: center;
+
+	opacity: 0;
+	pre-transform-scale2d: 1.6;
+
+	transition-property: pre-transform-scale2d, opacity;
+	transition-duration: 0.4s;
+	transition-timing-function: ease-in;
+}
+
+.Expired .MarkExpired {
+	opacity: 1;
+	pre-transform-scale2d: 1;
+}
+
+
+.OrderRoot {
 	margin-left:2px;
 	margin-right:2px;
 	margin-top:-10px;
