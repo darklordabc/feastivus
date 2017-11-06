@@ -14,6 +14,10 @@
 .MessageRoot {
 	min-height: 40px;
 	width: 400px;
+	
+	padding-top: 5px;
+	padding-bottom: 5px;
+
 	background-color:gradient( linear, 0% 0%, 100% 0%, from( #1a6d00ff ), color-stop(0.7, #1a6d00cc), to( #1a6d0000 )) ;
 	border-left: 5px solid #4a4b49;
 
@@ -24,9 +28,15 @@
 	animation-timing-function: linear;
 	animation-iteration-count: 1;
 
-	transition-property: y;
-	transition-duration: 0.2s;
+	transition-property: opacity, transform;
+	transition-duration: 0.5s;
 	transition-timing-function: ease-in-out;
+}
+
+.Fadeout.MessageRoot {
+	opacity: 0;
+	transform: translateX(-200px);
+
 }
 
 .Negative.MessageRoot {
@@ -43,4 +53,32 @@
 	{
 		transform: translateX( 0px);
 	}
+}
+
+.NoImage {
+	visibility: collapse;
+}
+
+.MessageContent {
+	flow-children: right;
+}
+
+.Images {
+	margin-left: 10px;
+	width: 88px;
+	height: 64px;
+
+	border-radius: 10px;
+	border: 2px solid white;
+}
+
+.ImageCache {
+	visibility: collapse;
+}
+
+#message_text {
+	margin-left: 5px;
+	vertical-align: center;
+	color: white;
+	font-size: 22px;
 }
