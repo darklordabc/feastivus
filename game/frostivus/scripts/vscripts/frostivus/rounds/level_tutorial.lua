@@ -59,17 +59,14 @@ return {
 				if keys.Unit.__bPickupTutorial then return end
 				keys.Unit.__bPickupTutorial = true
 				local playerID = keys.Unit:GetPlayerID()
+				local player = PlayerResource:GetPlayer(playerID)
 				MessageCenter:RemoveMessage(msgs[playerID])
 				msgs[playerID] = MessageCenter:ShowMessageOnClient(player, {icon = "tutorial/cutting_bench.png", text = "#tutorial_text_cutting"})
-				local player = PlayerResource:GetPlayer(playerID)
 				local units = FindUnitsInRadius(player:GetTeamNumber(),keys.Unit:GetOrigin(),nil,1200,DOTA_UNIT_TARGET_TEAM_BOTH,DOTA_UNIT_TARGET_ALL,DOTA_UNIT_TARGET_FLAG_NONE,FIND_ANY_ORDER,false)
 				for _, unit in pairs(units) do
-					print("unit->", unit:GetUnitName())
 					if unit:GetUnitName() == 'npc_cutting_bench' then
-						print("add tooltip")
 						unit:AddNewModifier(unit,nil,"modifier_target_tooltip",{})
 					else
-						print("remove tooltip")
 						unit:RemoveModifierByName('modifier_target_tooltip')
 					end
 				end
@@ -82,6 +79,7 @@ return {
 			unit.__bRefineTutorial = true
 
 			local playerID = unit:GetPlayerID()
+			local player = PlayerResource:GetPlayer(playerID)
 			MessageCenter:RemoveMessage(msgs[playerID])
 			msgs[playerID] = MessageCenter:ShowMessageOnClient(player, {icon = "tutorial/plate_bench.png", text = "#tutorial_collect_plate"})
 
@@ -96,16 +94,18 @@ return {
 		end)
 
 		GameRules.FrostivusEventListener:RegisterListener("frostivus_serve", function(keys)
-			local unit = Keys.Unit
+			local unit = keys.Unit
 			if unit.__bServeTutorial then return end
 			unit.__bServeTutorial = true
 
 			local playerID = unit:GetPlayerID()
+			local player = PlayerResource:GetPlayer(playerID)
+
 			MessageCenter:RemoveMessage(msgs[playerID])
 			MessageCenter:ShowMessageOnClient(player, {icon = "tutorial/sink.png", text="#tutorial_clean_plates", duration=5})
 
 			Timers:CreateTimer(5, function()
-				MessageCenter:ShowMessageOnClient(player, {icon = "tutorial/mixed_mango.png", text="#tutorial_finish_remaining_orders", duration=5})
+				MessageCenter:ShowMessageOnClient(player, {item = "item_mixed_tango_salad", text="#tutorial_finish_remaining_orders", duration=5})
 			end)
 		end)
 	end,

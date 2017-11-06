@@ -361,6 +361,11 @@ function Round:OnServe(itemEntity, user)
 		if itemPhysical then
 			UTIL_Remove(itemPhysical)
 		end
+
+		-- trigger event
+		GameRules.FrostivusEventListener:Trigger("frostivus_serve", {
+			Unit = user
+		})
 	end
 end
 

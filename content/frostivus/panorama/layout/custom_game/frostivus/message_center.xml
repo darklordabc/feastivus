@@ -9,13 +9,23 @@
 		<snippet name="Message">
 			<Panel class="MessageRoot">
 				<Panel class="MessageBackground" />
-
-				<!-- all message content are added dynamiclly -->
-				<Panel class="MessageContent" /> 
+				<Panel class="MessageContent">
+					<Panel class="Images NoImage" id="images_panel">
+						<DOTAItemImage itemname="item_blink" id="item_image" class="NoImage" />
+						<Image id="normal_image" src="file://{resources}/images/custom_game/msgs/empty.png" class="NoImage" />
+					</Panel>
+					<Label id="message_text" text="#empty" />
+				</Panel> 
 			</Panel>
 		</snippet>
 	</snippets>
 	<Panel class="MessageCenterRoot" hittest="false" hittestchildren="false">
 		<Panel id="message_center_panel" />
+
+		<Panel class="ImageCache">
+			<Image src="file://{resources}/images/custom_game/msgs/tutorial/cutting_bench.png" />
+			<Image src="file://{resources}/images/custom_game/msgs/tutorial/plate_bench.png" />
+			<Image src="file://{resources}/images/custom_game/msgs/tutorial/sink.png" />
+		</Panel>
 	</Panel>
 </root>
