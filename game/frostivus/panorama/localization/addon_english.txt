@@ -17,4 +17,15 @@
 	"DOTA_Custom8"    								"Purple Horse"
 	
 	"addonname"										"Barebones"
+
+	"tutorial_text_pickup_tango" "Right-click the Tango crate to collect a Tango"	
+
+	"tutorial_text_cutting" "Right-click cutting bench to process the Tango"	
+
+	"tutorial_collect_plate" "Put 3 ingredients onto a plate and drop it on the service table"	
+
+	"tutorial_clean_plates" "Pickup the plate and right-click the sink to wash it"
+
+	"tutorial_finish_remaining_orders" "Finish the remaining orders!"	
+
 }
