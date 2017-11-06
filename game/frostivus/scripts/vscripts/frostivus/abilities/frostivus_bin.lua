@@ -6,9 +6,28 @@ function frostivus_bin:OnUpgrade()
     ExecOnGameInProgress(function (  )
         caster:InitBench(1, nil, nil, 64)
 
-        caster:AddItemToBench("item_bin_icon")
+        caster:SetFakeItem("item_bin_icon")
 
-        caster.AddItemToBench = (function( self, item ) end)
+        caster:SetCustomInteract(function ( bench, user, item )
+        	local item_name = item:GetContainedItem():GetName()
+
+        	local is_bank = item_name == "item_pot" or item_name == "item_frying_pan"
+
+        	if is_bank then
+				item:SetItems({})
+				item:SetFakeItem(nil)
+				item.progress:SetData({ progress = 0, overtime = 0 })
+        	elseif Frostivus.ItemsKVs[item_name].CanBeServed then
+				local dirty_plate = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem("item_dirty_plates",user,user))
+            	dirty_plate:GetContainedItem()._counter = 1
+            	dirty_plate:SetModel("models/plates/dirty_plate_1.vmdl")
+
+            	Frostivus:DropItem( user, item ):RemoveSelf()
+            	user:BindItem(dirty_plate)
+        	else
+        		Frostivus:DropItem( user, item ):RemoveSelf()
+        	end
+        end)
     end)
 end
 

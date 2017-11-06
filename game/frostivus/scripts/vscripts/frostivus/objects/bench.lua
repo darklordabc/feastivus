@@ -250,6 +250,16 @@ function BenchAPI( keys )
 		end
 	end)
 
+	caster.SetCustomInteract = (function( self, callback )
+		caster._custom_interact = callback
+	end)
+
+	caster.CustomInteract = (function( self, user, item )
+		if caster._custom_interact then
+			caster._custom_interact(self, user, item)
+		end
+	end)
+
 	caster.BindItem = (function( self, item )
 		if type(item) == 'string' then
 			item = CreateItemOnPositionSync(self:GetAbsOrigin(),CreateItem(item,self,self))
@@ -318,11 +328,17 @@ function OnUse( bench, user )
 				-- Use full bench (e.g. after interrupting channel)
 				bench:OnBenchIsFull(bench.wp:GetData().items, user)
 			end
-		elseif not bench:IsBenchFull() or bench:HasModifier("modifier_bin") or Frostivus:GetCarryingItem(user).CheckItem or bench:IsForwardOnUseToItem() then
+		elseif not bench:IsBenchFull() or Frostivus:GetCarryingItem(user).CheckItem or bench:IsForwardOnUseToItem() then
 			if Frostivus:IsCarryingItem(user) then
 				-- Adding item to the bench
 				local item = Frostivus:GetCarryingItem(user)
 				local item_name = item:GetContainedItem():GetName()
+
+				-- Some benches have custom interact handler (trash bin)
+				if bench._custom_interact then
+					bench:CustomInteract(user, item)
+					return
+				end
 
 				-- Play user animation and sound
 				StartAnimation(user, {duration=0.3, activity=ACT_DOTA_GREEVIL_CAST, rate=2.5, translate="greevil_laguna_blade"})
