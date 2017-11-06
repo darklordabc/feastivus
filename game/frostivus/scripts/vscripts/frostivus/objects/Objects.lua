@@ -81,6 +81,8 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, GetTarg
                     old_data.progress = 0
                 end
 
+                old_data.overtime = 0
+                old_data.progress = 0
                 old_data.hidden = true
 
                 progress:SetData(old_data)
