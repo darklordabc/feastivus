@@ -333,26 +333,28 @@ function OnUse( bench, user )
 					local bench_item = Frostivus:GetCarryingItem(bench)
 					local bench_item_name = bench_item:GetContainedItem():GetName()
 
-					local is_pot = bench_item_name == "item_pot"
+					local is_bank = bench_item_name == "item_pot" or bench_item_name == "item_frying_pan"
 
-					if item:CheckItem(bench_item) or is_pot then
-						Frostivus:DropItem( bench, bench_item )
-						Frostivus:DropItem( user, item )
+					if item:CheckItem(bench_item) then
+						item:AddItemToBench(bench_item, user)
+						bench:PickItemFromBench(user, bench_item):RemoveSelf()
+					elseif is_bank then
+						local bank = bench_item
+						local old_data = bank.wp:GetData()
 
-						bench:SetItems({})
-						bench:AddItemToBench(item, user)
-						
-						bench:BindItem(item)
+						if bank.progress:GetData().cooking_done then
+							for k,v in pairs(old_data.items) do
+								item:AddItemToBench(v, user)
+							end
 
-						if is_pot then
-							user:BindItem(bench_item)
+							bank:SetItems({})
+							bank:SetFakeItem(nil)
+
+							bank.progress:SetData({ progress = 0 })
 						end
-
-						item = bench_item
-						item_name = item:GetContainedItem():GetName()
-					else
-						return
 					end
+
+					return
 				end
 
 				-- Adding item to a plate or some other container
@@ -361,22 +363,7 @@ function OnUse( bench, user )
 				end
 
 				if item then
-					-- Pot
-					if item_name == "item_pot" and bench.GetContainedItem and bench:GetContainedItem():GetName() == "item_plate" then
-						local pot = item
-						local old_data = pot.wp:GetData()
-
-						if pot.progress:GetData().cooking_done then
-							for k,v in pairs(old_data.items) do
-								bench:AddItemToBench(v, user)
-							end
-
-							pot:SetItems({})
-							pot:SetFakeItem(nil)
-
-							pot.progress:SetData({ progress = 0 })
-						end
-					elseif bench.CheckItem and bench:CheckItem(item) then
+					if bench.CheckItem and bench:CheckItem(item) then
 						bench:AddItemToBench(item, user)
 
 						Frostivus:DropItem( user, item )

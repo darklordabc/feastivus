@@ -86,8 +86,14 @@ function CreatePlate(  )
 				
 			-- end)
 
-			holder:AddItemToBench(result, user)
-			holder:BindItem(dish)
+			if holder:IsBench() then
+				holder:AddItemToBench(result, user)
+				holder:BindItem(dish)
+			else
+				Timers:CreateTimer(function (  )
+					holder:BindItem(dish)
+				end)
+			end
 		end
 	end )
 
