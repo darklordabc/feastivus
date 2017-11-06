@@ -49,12 +49,11 @@ require('frostivus/objects/objects')
 require('frostivus/objects/bench')
 require('frostivus/objects/plates')
 
--- WASD move controller
+require('frostivus/frostivus_event_listener')
 require('frostivus/modules/move_controller')
--- hats manager
 require('frostivus/modules/hats_manager')
--- debug module
 require('frostivus/modules/debug')
+require('frostivus/modules/message_center')
 
 --[[
 	This function should be used to set up Async precache calls at the beginning of the gameplay.

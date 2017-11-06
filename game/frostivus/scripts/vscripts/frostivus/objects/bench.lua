@@ -71,6 +71,11 @@ function BenchAPI( keys )
 			item = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem(item,nil,nil))
 		end
 
+		GameRules.FrostivusEventListener:Trigger("frostivus_player_pickup", {
+			Unit = user,
+			ItemName = item:GetContainedItem():GetAbilityName()
+		})
+
 		-- item:StopAnimation()
 		
 		if not self._bench_infinite_items then
@@ -108,6 +113,8 @@ function BenchAPI( keys )
 	caster.OnPickedFromBench = (function( self, item )
 		caster._on_picked_from_bench = caster._on_picked_from_bench or (function( ) Frostivus:L("Triggered!") end)
 		caster._on_picked_from_bench(self, item)
+
+		
 	end)
 
 	caster.SetOnItemAddedToBench = (function( self, callback )
@@ -228,6 +235,7 @@ function BenchAPI( keys )
 		else
 			Frostivus:L("Refine Complete!")
 		end
+
 	end)
 
 	caster.SetOnStartRefine = (function( self, callback )
@@ -472,6 +480,11 @@ function RefineBase( bench, items, user )
 				bench:BindItem(target_item)
 			end
 		end
+
+		GameRules.FrostivusEventListener:Trigger("frostivus_complete_refine", {
+			Unit = user
+		})
+
 	end)
 
 	ab.bench = bench

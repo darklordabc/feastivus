@@ -11,8 +11,6 @@ function OnOrderChanged(table_name, key, data) {
 
 	var parent = $("#orders");
 
-	$.Msg(orders);
-
 	for (var k in orders) {
 		var order = orders[k];
 		var orderId = order.pszID
