@@ -170,4 +170,71 @@
 			}
 		}
 	}
+	"3"
+	{
+		"Name"		"#Feastivus_Round_Lava"
+		"TimeLimit"		"300"
+		"ScriptFile"	"frostivus/rounds/level_3"
+		"StarCriteria" // how to achieve 1/2/3 star
+		{
+			"01"
+			{
+				"Type"	"STAR_CRITERIA_FINISHED_RECIPES"
+				"values"	"5 9 14 18" // 1/2/3/perfect
+			}
+		}
+		"Orders"
+		{
+
+			"0" // order time
+			{
+				// order recipe 	order amount
+				"item_tango_salad"	"1"
+			}
+			"30"
+			{
+				"item_stew"	"1"
+			}
+			"60"
+			{
+				"item_tango_salad"	"1"
+			}
+			"90"
+			{
+				"item_stew_tango"	"1"	
+			}
+			"120"
+			{
+				"item_stew_mango"	"1"
+			}
+			"150"
+			{
+				"item_stew_mango_tango"	"1"
+				"item_tango_salad"	"1"
+			}
+			"180"
+			{
+				"item_stew"	"1"
+				"item_tango_salad"	"1"
+			}
+			"210"
+			{
+				"item_stew"	"1"
+				"item_stew_tango"	"1"	
+				"item_tango_salad"	"1"
+			}
+			"240"
+			{
+				"item_stew"	"1"
+				"item_stew_tango"	"1"	
+				"item_stew_mango"	"1"
+			}
+			"270"
+			{
+				"item_stew_tango"	"1"	
+				"item_stew_mango"	"1"
+				"item_stew_mango_tango"	"1"
+			}
+		}
+	}
 }
