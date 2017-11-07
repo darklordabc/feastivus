@@ -57,7 +57,7 @@
     <CustomUIElement type="GameSetup" layoutfile="file://{resources}/layout/custom_game/frostivus/welcome_screen.xml" />
 
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus/hud_main.xml" />
-    <!-- <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus/debug.xml" /> -->
+    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus/debug.xml" /> 
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus/message_center.xml" />
 
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus/key_binding.xml" />
