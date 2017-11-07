@@ -275,7 +275,10 @@ function BenchAPI( keys )
 	end)
 
 	caster.ClearBench = (function ( self )
-		Frostivus:GetCarryingItem(self):RemoveSelf()
+		local item = Frostivus:GetCarryingItem(self)
+		if IsValidEntity(item) then
+			item:RemoveSelf()
+		end
 		self:RemoveModifierByName("modifier_carrying_item")
 		self:SetItems({})
 	end)
@@ -353,7 +356,7 @@ function OnUse( bench, user )
 
 					if item:CheckItem(bench_item) then
 						item:AddItemToBench(bench_item, user)
-						bench:PickItemFromBench(user, bench_item):RemoveSelf()
+						bench:ClearBench()
 					elseif is_bank then
 						local bank = bench_item
 						local old_data = bank.wp:GetData()
