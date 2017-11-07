@@ -4,9 +4,23 @@ if not Frostivus then
     Frostivus.RecipesKVs = LoadKeyValues("scripts/kv/recipes.kv")
     Frostivus.ItemsKVs = LoadKeyValues("scripts/npc/npc_items_custom.txt")
     Frostivus.StagesKVs = LoadKeyValues("scripts/kv/stages.kv")
+    Frostivus.RoundsKVs = LoadKeyValues("scripts/kv/rounds.kv")
 
     Frostivus.state = {}
     Frostivus.state.stages = {}
+    Frostivus.state.rounds = {}
+
+    for k,v in pairs(Frostivus.RoundsKVs) do
+    	Frostivus.state.rounds[tonumber(k)] = {}
+    	if tonumber(k) == 0 then
+    		Frostivus.state.rounds[tonumber(k)].camera_target = {}
+    		for i=0,4 do
+    			Frostivus.state.rounds[tonumber(k)].camera_target[i] = Entities:FindByName(nil, "level_"..k.."_camera_target_"..tostring(i))
+    		end
+    	else
+    		Frostivus.state.rounds[tonumber(k)].camera_target = Entities:FindByName(nil, "level_"..k.."_camera_target")
+    	end
+    end
 
     for k,v in pairs(Frostivus.StagesKVs) do
     	Frostivus.state.stages[k] = {}

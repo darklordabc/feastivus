@@ -135,6 +135,15 @@ function Round:OnTimer()
 
 		LoopOverHeroes(function(hero)
 			hero:AddNewModifier(hero,nil,"modifier_preround_freeze",{})
+
+			local camera_target = Frostivus.state.rounds[self.vRoundData.level].camera_target
+			if camera_target then
+				if self.vRoundData.level == 0 then
+					PlayerResource:SetCameraTarget(hero:GetPlayerOwnerID(), camera_target[hero:GetPlayerOwnerID()])
+				else
+					PlayerResource:SetCameraTarget(hero:GetPlayerOwnerID(), camera_target)
+				end
+			end
 		end)
 
 		-- on pre round start, show initial recipes
@@ -458,6 +467,7 @@ function RoundManager:StartNewRound(level) -- level is passed for test purpose
 	level = level or self.nCurrentLevel
 
 	local roundData = GameRules.vRoundDefinations[level]
+	roundData.level = level
 
 	local teleport_target_entities = Entities:FindAllByName('level_' .. tostring(level) .. '_start')
 	print("teleport target found", table.count(teleport_target_entities))
