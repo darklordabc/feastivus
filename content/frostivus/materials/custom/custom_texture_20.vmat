@@ -4,16 +4,9 @@ Layer0
 {
 	shader "global_lit_simple.vfx"
 
-	//---- Normal Maps ----
-	F_NORMAL_MAP 1
-
 	//---- Color ----
 	g_vColorTint "[0.619608 0.631373 0.643137 1.000000]"
 	g_vTexCoordOffset "[0.000 0.000]"
 	g_vTexCoordScale "[1.000 1.000]"
 	TextureColor "materials/custom/7bfa38ea8c5d5c3e524a5788b87da0e1.jpg"
-
-	//---- Normal Map ----
-	g_flBumpStrength "1.000"
-	TextureNormal "materials/custom/a598e784fb8761885b6c5fcc477f61e0_normal.jpg"
 }
