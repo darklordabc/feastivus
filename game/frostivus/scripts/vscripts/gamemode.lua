@@ -104,6 +104,8 @@ end
 ]]
 function GameMode:OnHeroInGame(hero)
 	DebugPrint("[BAREBONES] Hero spawned in game for first time -- " .. hero:GetUnitName())
+
+	-- Attachments:AttachProp(hero, "attach_eye_r", "models/chefs_hat.vmdl", 0.05)
 	
 	table.insert(heroes, hero)
 

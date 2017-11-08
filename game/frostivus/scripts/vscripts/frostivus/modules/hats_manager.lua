@@ -117,6 +117,7 @@ function HatsManager:OnNPCSpawned(args)
 			self:AttachBodyComponent(npc, "models/courier/greevil/greevil_horns1.vmdl")
 			self:AttachBodyComponent(npc, "models/courier/greevil/greevil_teeth1.vmdl")
 			self:AttachBodyComponent(npc, "models/courier/greevil/greevil_tail2.vmdl")
+			self:AttachBodyComponent(npc, "models/chefs_hat/chefs_hat.vmdl")
 		end
 	end
 end
