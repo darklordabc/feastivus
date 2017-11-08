@@ -11,7 +11,7 @@ function AddPlateStack(caster, quantity)
 	caster:AddItemToBench("item_clean_plates")
 
 	local stack = CreateItemOnPositionSync(caster:GetAbsOrigin(), CreateItem("item_clean_plates", caster, caster))
-	stack:SetModel("models/plates/dirty_plate_"..tostring(quantity)..".vmdl")
+	stack:SetModel("models/plates/clean_plate_"..tostring(quantity)..".vmdl")
 
 	caster:BindItem(stack)
 
@@ -42,7 +42,7 @@ function AddPlateStack(caster, quantity)
 			bench:AddItemToBench(last_plate, user)
 			bench:BindItem(last_plate)
 		else
-			stack:SetModel("models/plates/dirty_plate_"..tostring(stack._count)..".vmdl")
+			stack:SetModel("models/plates/clean_plate_"..tostring(stack._count)..".vmdl")
 		end
 
 		if not self._bench_infinite_items then

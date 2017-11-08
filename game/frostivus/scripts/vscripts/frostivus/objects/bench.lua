@@ -266,7 +266,7 @@ function BenchAPI( keys )
 		end
 
 		Frostivus:BindItem(item, self, (function ()
-			return self:GetAbsOrigin() + Vector(0,0,100)
+			return self:GetAbsOrigin() + Vector(0,0,82)
 		end),(function ()
 			return Frostivus:IsCarryingItem( self, item )
 		end), (function ()

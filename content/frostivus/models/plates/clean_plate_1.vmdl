@@ -5,8 +5,8 @@
 		m_meshList = 
 		[
 			{
-				m_meshName = "three_dirty_plates"
-				m_meshFile = "models/plates/dmx/mesh/three_dirty_plates.dmx"
+				m_meshName = "one_dirty_plate"
+				m_meshFile = "models/plates/dmx/mesh/one_dirty_plate.dmx"
 				m_materialSearchPath = ""
 				m_bSkinParentedObjects = true
 				m_bLegacySkinParentedTransforms = false
@@ -31,7 +31,7 @@
 		m_flMatchProxiesToMeshes = 1.0
 		m_flFallbackEnvelope = 1.0
 		m_nReservedInt = 0
-		m_bSoftSkinAnimation = false
+		m_bReservedBool1 = false
 		m_bReservedBool2 = false
 		m_bReservedBool3 = false
 		m_bReservedBool4 = false
@@ -63,7 +63,7 @@
 								m_nGroupId = 0
 								m_sBoneName = "cube"
 								m_vMinBounds = [ -42.0, 0.0, -42.0 ]
-								m_vMaxBounds = [ 42.0, 29.186407, 42.0 ]
+								m_vMaxBounds = [ 42.0, 13.0, 42.0 ]
 								m_bTranslationOnly = false
 								m_cRenderColor = [ 0, 0, 0, 0 ]
 							},
@@ -168,16 +168,7 @@
 	m_sOffsetHitboxSets = [  ]
 	m_vHitboxSetOffset = [ 0.0, 0.0, 0.0 ]
 	m_scriptFiles = [  ]
-	m_pMaterialRemapList = 
-	{
-		m_vMaterialRemapList = 
-		[
-			{
-				m_sSearchMaterial = "materials/models/props_structures/midas_throne/baskets.vmat"
-				m_sReplaceMaterial = "materials/models/dirty_plates/dirty_plates.vmat"
-			},
-		]
-	}
+	m_pMaterialRemapList = null
 	m_flFbxScale = 1.0
 	m_flQCScale = 1.0
 	m_vOrigin = [ 0.0, 0.0, 0.0 ]
