@@ -133,17 +133,10 @@ function Round:OnTimer()
 
 		self.nPreRoundCountDownTimer = self.nPreRoundTime
 
+		Frostivus:UpdateCameraTargets(self.vRoundData.level)
+
 		LoopOverHeroes(function(hero)
 			hero:AddNewModifier(hero,nil,"modifier_preround_freeze",{})
-
-			local camera_target = Frostivus.state.rounds[self.vRoundData.level].camera_target
-			if camera_target then
-				if self.vRoundData.level == 0 then
-					PlayerResource:SetCameraTarget(hero:GetPlayerOwnerID(), camera_target[hero:GetPlayerOwnerID()])
-				else
-					PlayerResource:SetCameraTarget(hero:GetPlayerOwnerID(), camera_target)
-				end
-			end
 		end)
 
 		-- on pre round start, show initial recipes

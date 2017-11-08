@@ -1,3 +1,10 @@
+FROSTIVUS_CAMERA_TARGET = {}
+FROSTIVUS_CAMERA_TARGET[0] = {}
+FROSTIVUS_CAMERA_TARGET[0][0] = Vector(4232.102051, 3008.000000, 1400)
+FROSTIVUS_CAMERA_TARGET[1] = Vector(-1.579994, 26.258438, 1400)
+FROSTIVUS_CAMERA_TARGET[2] = Vector(4224.000000, -423.609528, 1400)
+FROSTIVUS_CAMERA_TARGET[3] = Vector(4608.000000, -4864.000000, 1400)
+
 if not Frostivus then
     Frostivus = class({})
 
@@ -19,6 +26,7 @@ if not Frostivus then
     		end
     	else
     		Frostivus.state.rounds[tonumber(k)].camera_target = Entities:FindByName(nil, "level_"..k.."_camera_target")
+
     	end
     end
 
@@ -60,6 +68,39 @@ if not Frostivus then
 			CustomNetTables:SetTableValue("recipes", product, assemblies)
 		end
 	end
+else
+	-- Reload
+	Frostivus:UpdateCameraTargets(g_RoundManager.nCurrentLevel)
+end
+
+function Frostivus:UpdateCameraTargets(level)
+    for k,v in pairs(Frostivus.RoundsKVs) do
+    	if tonumber(k) == 0 then
+    		for i=0,4 do
+        		if Frostivus.state.rounds[tonumber(k)].camera_target[i] then
+    				print(FROSTIVUS_CAMERA_TARGET[tonumber(k)][i])
+    				Frostivus.state.rounds[tonumber(k)].camera_target[i]:SetAbsOrigin(FROSTIVUS_CAMERA_TARGET[tonumber(k)][i])
+    			end
+    		end
+    	else
+        	if Frostivus.state.rounds[tonumber(k)].camera_target then
+    			Frostivus.state.rounds[tonumber(k)].camera_target:SetAbsOrigin(FROSTIVUS_CAMERA_TARGET[tonumber(k)])
+    		end
+    	end
+    end
+
+    LoopOverHeroes(function ( hero )
+		local camera_target = Frostivus.state.rounds[level].camera_target
+		if camera_target then
+			if level == 0 then
+				PlayerResource:SetCameraTarget(hero:GetPlayerOwnerID(), camera_target[hero:GetPlayerOwnerID()])
+				GameRules:GetGameModeEntity():SetCameraDistanceOverride( camera_target[hero:GetPlayerOwnerID()]:GetAbsOrigin().z )
+			else
+				PlayerResource:SetCameraTarget(hero:GetPlayerOwnerID(), camera_target)
+				GameRules:GetGameModeEntity():SetCameraDistanceOverride( camera_target:GetAbsOrigin().z )
+			end
+		end
+    end)
 end
 
 function Frostivus:InitHero(hero)
