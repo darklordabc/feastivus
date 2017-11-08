@@ -45,9 +45,8 @@ require('events')
 require("libraries/worldpanels")
 
 -- stuff
-require('frostivus/objects/objects')
-require('frostivus/objects/bench')
-require('frostivus/objects/plates')
+require('frostivus/frostivus_objects')
+require('frostivus/frostivus_bench_api')
 
 require('frostivus/frostivus_event_listener')
 require('frostivus/modules/move_controller')

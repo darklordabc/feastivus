@@ -1,9 +1,10 @@
-function InitBench( keys )
-	local caster = keys.caster
-	local ability = keys.ability
+frostivus_cutting_bench = class({})
 
-	ExecOnGameInProgress(function (  )
-		caster:InitBench(1, CheckItem)
+function frostivus_cutting_bench:OnUpgrade()
+	local caster = self:GetCaster()
+
+    ExecOnGameInProgress(function (  )
+		caster:InitBench(1)
 		caster:Set3DBench(true)
 		caster:SetBenchHidden(true)
 		caster:SetOnPickedFromBench(function ( item )
@@ -26,9 +27,12 @@ function InitBench( keys )
 		end)
 		caster:SetRefineDuration(2.2)
 		caster:SetDefaultRefineRoutine()
-	end)
+    end)
 end
 
-function CheckItem( bench, item )
-	return true -- Frostivus.ItemsKVs[item:GetContainedItem():GetName()].CanBeCutted
+function frostivus_cutting_bench:GetIntrinsicModifierName()
+    return "modifier_cutting_bench"
 end
+
+modifier_cutting_bench = class({})
+LinkLuaModifier("modifier_cutting_bench", "frostivus/abilities/frostivus_cutting_bench.lua", 0)

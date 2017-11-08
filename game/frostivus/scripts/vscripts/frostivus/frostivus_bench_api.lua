@@ -113,8 +113,6 @@ function BenchAPI( keys )
 	caster.OnPickedFromBench = (function( self, item )
 		caster._on_picked_from_bench = caster._on_picked_from_bench or (function( ) Frostivus:L("Triggered!") end)
 		caster._on_picked_from_bench(self, item)
-
-		
 	end)
 
 	caster.SetOnItemAddedToBench = (function( self, callback )
@@ -266,7 +264,7 @@ function BenchAPI( keys )
 		end
 
 		Frostivus:BindItem(item, self, (function ()
-			return self:GetAbsOrigin() + Vector(0,0,82)
+			return self:GetAbsOrigin() + Vector(0,0,84)
 		end),(function ()
 			return Frostivus:IsCarryingItem( self, item )
 		end), (function ()

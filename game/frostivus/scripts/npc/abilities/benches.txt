@@ -13,7 +13,7 @@
     {
       "RunScript"
       {
-        "ScriptFile"  "frostivus/objects/bench.lua"
+        "ScriptFile"  "frostivus/frostivus_bench_api.lua"
         "Function"    "BenchAPI"
       }
     }
@@ -90,79 +90,29 @@
 
   "frostivus_plate_bench"
   {
+    "BaseClass"           "ability_lua"
     "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
-    "BaseClass"           "ability_datadriven"
+    "ScriptFile"          "frostivus/abilities/frostivus_plate_bench"
     "AbilityTextureName"  "rubick_empty1"
     "MaxLevel"            "1"
-
-    "OnUpgrade"
-    {
-      "RunScript"
-      {
-        "ScriptFile"  "frostivus/objects/plate_bench.lua"
-        "Function"    "InitBench"
-      }
-    }
-  }
-
-  "frostivus_barrel"
-  {
-    "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
-    "BaseClass"           "ability_datadriven"
-    "AbilityTextureName"  "rubick_empty1"
-    "MaxLevel"            "1"
-
-    "OnUpgrade"
-    {
-      "RunScript"
-      {
-        "ScriptFile"  "frostivus/objects/barrel.lua"
-        "Function"    "InitBench"
-      }
-    }
   }
 
   "frostivus_cutting_bench"
   {
+    "BaseClass"           "ability_lua"
     "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
-    "BaseClass"           "ability_datadriven"
+    "ScriptFile"          "frostivus/abilities/frostivus_cutting_bench"
     "AbilityTextureName"  "rubick_empty1"
     "MaxLevel"            "1"
-
-    "OnUpgrade"
-    {
-      "RunScript"
-      {
-        "ScriptFile"  "frostivus/objects/cutting_bench.lua"
-        "Function"    "InitBench"
-      }
-    }
   }
 
   "frostivus_transfer_bench"
   {
+    "BaseClass"           "ability_lua"
     "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
-    "BaseClass"           "ability_datadriven"
+    "ScriptFile"          "frostivus/abilities/frostivus_transfer_bench"
     "AbilityTextureName"  "rubick_empty1"
     "MaxLevel"            "1"
-
-    "OnUpgrade"
-    {
-      "RunScript"
-      {
-        "ScriptFile"  "frostivus/objects/transfer_bench.lua"
-        "Function"    "InitBench"
-      }
-    }
-
-    "Modifiers"
-    {
-      "modifier_transfer_bench"
-      {
-        "Passive"      "1"
-        "IsHidden"      "1"
-      }
-    }
   }
 
   "frostivus_bin"
