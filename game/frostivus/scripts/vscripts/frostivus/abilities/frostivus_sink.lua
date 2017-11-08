@@ -49,5 +49,5 @@ function frostivus_sink:GetIntrinsicModifierName()
     return "modifier_sink"
 end
 
-modifier_serve_table = class({})
-LinkLuaModifier("modifier_serve_table", "frostivus/abilities/frostivus_sink.lua", 0)
+modifier_sink = class({})
+LinkLuaModifier("modifier_sink", "frostivus/abilities/frostivus_sink.lua", 0)

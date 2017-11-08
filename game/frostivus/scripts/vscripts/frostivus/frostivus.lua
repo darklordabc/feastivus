@@ -78,7 +78,6 @@ function Frostivus:UpdateCameraTargets(level)
     	if tonumber(k) == 0 then
     		for i=0,4 do
         		if Frostivus.state.rounds[tonumber(k)].camera_target[i] then
-    				print(FROSTIVUS_CAMERA_TARGET[tonumber(k)][i])
     				Frostivus.state.rounds[tonumber(k)].camera_target[i]:SetAbsOrigin(FROSTIVUS_CAMERA_TARGET[tonumber(k)][i])
     			end
     		end
@@ -199,6 +198,7 @@ function Frostivus:OnPickupItem( item, ply )
 			Frostivus:L("Swapping Items...")
 			local item = Frostivus:DropItem( caster, Frostivus:GetCarryingItem( caster ) )
 			item:FollowEntity( nil, false )
+			item:SetAbsOrigin(old_container:GetAbsOrigin())
 		end
 
 		local item = item:GetContainer()
