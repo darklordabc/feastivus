@@ -34,6 +34,12 @@ class database():
 	def deals_db(self):
 		return self.conn['deals']
 
+	# database to store all scores!
+	def score_db(self):
+		now = str(now.year) + str(now.month) 
+		db = self.conn['feastivus_' + now]
+		return db.score
+
 Database = database() # make connection pool to database
 
 # for testing purpose
@@ -48,6 +54,38 @@ def new_match():
 @app.route('/EndMatch', methods=['POST'])
 def end_match():
 	pass
+
+@app.route('/SaveScore', methods=['POST'])
+def save_score():
+	"""
+	save score send by client
+	return high score json
+	"""
+
+	if request.form.get("auth") != server_auth:
+		abort(502)
+
+	player_json = json.loads(request.form.get("player_json"))
+	players = []
+	for player in player_json:
+		players.append(player)
+	players.sort()
+	score = request.form.get("score")
+	level = request.form.get("level")
+
+	Database.score_db().update({"players": players, "level": level}, {
+		'$set':{"highscore": score}
+	}, {"upsert":"true"})
+
+	top10 = Database.score_db.find({"level":level},projection={'_id': False}).sort("highscore", DESCENDING)[:10]
+
+	data_for_client = list(
+		map( lambda record: {"players": json.dumps(record['players']), "score": record['highscore']}, top10)
+	)
+
+	return json.dumps(highscore)
+
+
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=10010, debug=True)

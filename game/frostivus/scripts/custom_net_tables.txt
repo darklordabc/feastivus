@@ -6,6 +6,8 @@
     "selection",
     "recipes",
     "orders",
-    "player_hats"
+    "player_hats",
+    "highscore",
+    "score"
   ]
 }

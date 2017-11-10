@@ -299,7 +299,28 @@ function Round:EndRound()
 		Stars = stars,
 		FinishedOrdersCount = table.count(self.vFinishedOrders),
 		UnFinishedOrdersCount = table.count(self.vPendingOrders),
+		Score = self.vRoundScore,
 	})
+
+	-- send the score to server
+	local player_json = {}
+	LoopOverPlayers(function(player)
+		table.insert(player_json, PlayerResource:GetSteamAccountID(player:GetPlayerID()))
+	end)
+	local json = require('utils.dkjson')
+	player_json = json:encode(player_json
+	local req = CreateHTTPRequest("http://18.216.43.117:10010/SaveScore","POST")
+	req:SetHTTPRequestGetOrPostParameter("auth","BOV4k4oOWI!yPeWSXY*1eZOlB3pBW3!#")
+	req:SetHTTPRequestGetOrPostParameter("player_json",player_json)
+	req:SetHTTPRequestGetOrPostParameter("level",g_RoundManager.nCurrentLevel)
+	req:SetHTTPRequestGetOrPostParameter("score",self.vRoundScore)
+	req:Send(function(result)
+		if result.StatusCode == 200 then
+			-- server will return highscore of this level
+			local highscore = json:decode(result.Body)
+			CustomNetTables:SetTableValue("highscore", "highscore", highscore)
+		end
+	end)
 
 	-- teleport particle
 	Timers:CreateTimer(self.nEndRoundDelay - 2, function()
@@ -357,6 +378,17 @@ function Round:OnServe(itemEntity, user)
 				-- remove order after a short delay
 				self.vCurrentOrders[orderIndex] = nil
 			end)
+
+			-- add score
+			self.vRoundScore = self.vRoundScore or 0
+			self.vRoundScore = self.vRoundScore + 100 -- score for finishing an order
+			local orderTimeRemaining = self.vCurrentOrders[orderIndex].nTimeRemaining
+			if orderTimeRemaining >= 1 then
+				-- add time bonus
+				self.vRoundScore = self.vRoundScore + math.floor(orderTimeRemaining)
+			end
+
+			self:UpdateScoreToClient()
 		end
 
 		local itemPhysical = itemEntity:GetContainer()
@@ -389,6 +421,10 @@ end
 
 function Round:UpdateOrdersToClient()
 	CustomNetTables:SetTableValue("orders","orders",self.vCurrentOrders)
+end
+
+function Round:UpdateScoreToClient()
+	CustomNetTables:SetTableValue("score","score_" ..  g_RoundManager.nCurrentLevel,{value=self.vRoundScore})
 end
 
 function Round:_Debug_SetRoundTime(time)
