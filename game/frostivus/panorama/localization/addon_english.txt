@@ -28,4 +28,10 @@
 
 	"tutorial_finish_remaining_orders" "Finish the remaining orders!"	
 
+	"DOTA_Tooltip_ability_item_plate"										"Plate"
+	"DOTA_Tooltip_ability_item_plate_Description"							""
+
+	"DOTA_Tooltip_ability_item_dirty_plates"										"Dirty Plate"
+	"DOTA_Tooltip_ability_item_dirty_plates_Description"							""
+
 }
