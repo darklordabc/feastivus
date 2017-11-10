@@ -108,21 +108,6 @@ function Round:constructor(roundData)
 	
 	if self.vRoundScript.OnInitialize then
 		self.vRoundScript.OnInitialize(self)
-
-		LoopOverHeroes(function(v)
-			EndAnimation(v)
-			RemoveAnimationTranslate(v)
-
-			AddAnimationTranslate(v, "level_3")
-
-			if Frostivus:IsCarryingItem( v ) then
-				Frostivus:GetCarryingItem( v ):RemoveSelf()
-			end
-
-			v:RemoveModifierByName("modifier_bench_interaction")
-
-			v:Stop()
-		end)
 	end
 end
 
@@ -324,8 +309,8 @@ function Round:EndRound()
 
 	-- teleport particle
 	Timers:CreateTimer(self.nEndRoundDelay - 2, function()
-		LoopOverHeroes(function(hero)
-			hero:AddNewModifier(hero,nil,"modifier_teleport_to_new_round",{})
+		LoopOverHeroes(function(v)
+			v:AddNewModifier(v,nil,"modifier_teleport_to_new_round",{})
 		end)
 	end)
 
@@ -502,6 +487,16 @@ function RoundManager:StartNewRound(level) -- level is passed for test purpose
 	print("teleport target found", table.count(teleport_target_entities))
 	local lastTeleportTarget = nil
 	LoopOverHeroes(function(hero)
+		EndAnimation(hero)
+		RemoveAnimationTranslate(hero)
+		AddAnimationTranslate(hero, "level_3")
+		if Frostivus:IsCarryingItem( hero ) then
+			Frostivus:GetCarryingItem( hero ):RemoveSelf()
+			Frostivus:DropItem( hero )
+		end
+		hero:RemoveModifierByName("modifier_bench_interaction")
+		hero:Stop()
+
 		-- teleport players to new round
 		local teleportTarget
 		if level == 0 then
