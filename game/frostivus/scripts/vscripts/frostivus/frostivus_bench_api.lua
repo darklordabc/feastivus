@@ -265,11 +265,13 @@ function BenchAPI( keys )
 
 		Frostivus:BindItem(item, self, (function ()
 			return self:GetAbsOrigin() + Vector(0, 0, caster._bind_height or 84)
-		end),(function ()
+		end), (function ()
 			return Frostivus:IsCarryingItem( self, item )
 		end), (function ()
 			-- Frostivus:DropItem( self, item )
 		end), true, false)
+
+		return item
 	end)
 
 	caster.SetBenchBindHeight = (function ( self, height )
@@ -485,7 +487,9 @@ function RefineBase( bench, items, user )
 
 				item:RemoveSelf()
 
-				bench:BindItem(target_item)
+				item = bench:BindItem(target_item)
+
+				ParticleManager:CreateParticle("particles/frostivus_gameplay/refine_end_v1.vpcf",PATTACH_ABSORIGIN,item)
 			end
 		end
 
