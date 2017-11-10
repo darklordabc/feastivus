@@ -80,13 +80,13 @@ def save_score():
 		'$set':{"highscore": score}
 	}, upsert=True)
 
-	top10 = Database.score_db.find({"level":level},projection={'_id': False}).sort("highscore", DESCENDING)[:10]
+	top10 = Database.score_db().find({"level":level},projection={'_id': False}).sort("highscore", DESCENDING)[:10]
 
 	data_for_client = list(
 		map( lambda record: {"players": json.dumps(record['players']), "score": record['highscore']}, top10)
 	)
 
-	return json.dumps(highscore)
+	return json.dumps(data_for_client)
 
 
 
