@@ -8,9 +8,14 @@ function frostivus_plate_bench:OnUpgrade()
 		caster:Set3DBench(true)
         caster:SetBenchHidden(true)
 
-        caster:AddItemToBench("item_clean_plates")
+        local count = 3
+        if caster:GetName() == "tutorial_plate" then count = 1 end
 
-        AddPlateStack(caster, 3 )
+        if count > 1 then
+        	caster:AddItemToBench("item_clean_plates")
+        end
+
+        AddPlateStack(caster, count )
     end)
 end
 

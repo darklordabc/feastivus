@@ -308,7 +308,7 @@ function Round:EndRound()
 		table.insert(player_json, PlayerResource:GetSteamAccountID(player:GetPlayerID()))
 	end)
 	local json = require('utils.dkjson')
-	player_json = json:encode(player_json
+	player_json = json:encode(player_json)
 	local req = CreateHTTPRequest("http://18.216.43.117:10010/SaveScore","POST")
 	req:SetHTTPRequestGetOrPostParameter("auth","BOV4k4oOWI!yPeWSXY*1eZOlB3pBW3!#")
 	req:SetHTTPRequestGetOrPostParameter("player_json",player_json)
