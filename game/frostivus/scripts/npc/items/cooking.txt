@@ -436,7 +436,7 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "item_raw_meat"
-    "Model"                   "models/props_gameplay/salve.vmdl"
+    "Model"                   "models/props_gameplay/halloween_candy.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePutInPan" "1"
@@ -458,7 +458,7 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "item_raw_meat"
-    "Model"                   "models/props_gameplay/salve.vmdl"
+    "Model"                   "models/props_gameplay/salve_red.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
@@ -479,7 +479,7 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "item_bread"
-    "Model"                   "models/props_gameplay/salve.vmdl"
+    "Model"                   "models/props_gameplay/cheese.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"

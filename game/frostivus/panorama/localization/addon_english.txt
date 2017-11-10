@@ -28,6 +28,8 @@
 
 	"tutorial_finish_remaining_orders" "Finish the remaining orders!"	
 
+	"change_material" "Change Colour"	
+
 	"DOTA_Tooltip_ability_item_plate"										"Plate"
 	"DOTA_Tooltip_ability_item_plate_Description"							""
 
