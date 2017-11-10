@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 class database():
 	def __init__(self):
-		self.conn = MongoClient('localhost', 27017)
+		self.conn = MongoClient('localhost', 27030)
 
 	# database to save player stats
 	def player_db(self):
