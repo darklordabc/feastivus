@@ -264,12 +264,16 @@ function BenchAPI( keys )
 		end
 
 		Frostivus:BindItem(item, self, (function ()
-			return self:GetAbsOrigin() + Vector(0,0,84)
+			return self:GetAbsOrigin() + Vector(0, 0, caster._bind_height or 84)
 		end),(function ()
 			return Frostivus:IsCarryingItem( self, item )
 		end), (function ()
 			-- Frostivus:DropItem( self, item )
 		end), true, false)
+	end)
+
+	caster.SetBenchBindHeight = (function ( self, height )
+		caster._bind_height = height
 	end)
 
 	caster.ClearBench = (function ( self )

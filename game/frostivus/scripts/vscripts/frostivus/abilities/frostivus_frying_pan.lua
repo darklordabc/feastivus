@@ -10,6 +10,7 @@ function frostivus_frying_pan:OnUpgrade()
         caster:InitBench(1, nil, nil, 0)
         caster:Set3DBench(true)
         caster:SetBenchHidden(true)
+        caster:SetBenchBindHeight(100)
 
         caster:AddItemToBench("item_frying_pan")
         caster:BindItem(CreateBank("item_frying_pan", 1, nil, nil, GetFryingTarget, CanPutItemInPan))
