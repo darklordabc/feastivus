@@ -155,7 +155,7 @@ function AddPlateStack(caster, quantity)
         local plate = CreatePlate()
 
         if stack._count == 1 then
-            local bench = stack._holder
+            local bench = stack:GetHolder()
 
             Frostivus:DropItem( bench, stack )
             bench:PickItemFromBench(bench, stack):RemoveSelf()

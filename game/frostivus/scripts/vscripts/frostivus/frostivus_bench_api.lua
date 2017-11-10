@@ -381,12 +381,30 @@ function OnUse( bench, user )
 				end
 
 				-- Adding item to a plate or some other container
+				local bench_name = bench:GetUnitName()
 				if bench:IsForwardOnUseToItem() then
 					bench = Frostivus:GetCarryingItem( bench )
+					bench_name = bench:GetContainedItem():GetName()
 				end
 
 				if item then
-					if bench.CheckItem and bench:CheckItem(item) then
+					local is_bank = item_name == "item_pot" or item_name == "item_frying_pan"
+
+					if is_bank and bench_name == "item_plate" then
+						local bank = item
+						local old_data = bank.wp:GetData()
+
+						if bank.progress:GetData().cooking_done then
+							for k,v in pairs(old_data.items) do
+								bench:AddItemToBench(v, user)
+							end
+
+							bank:SetItems({})
+							bank:SetFakeItem(nil)
+
+							bank.progress:SetData({ progress = 0 })
+						end
+					elseif bench.CheckItem and bench:CheckItem(item) then
 						bench:AddItemToBench(item, user)
 
 						Frostivus:DropItem( user, item )
