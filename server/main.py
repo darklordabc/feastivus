@@ -36,6 +36,9 @@ class database():
 
 	# database to store all scores!
 	def score_db(self):
+		now = datetime.datetime.now()
+		# so we can have different leaderboard every month
+		# use week key to make it update every week xD
 		now = str(now.year) + str(now.month) 
 		db = self.conn['feastivus_' + now]
 		return db.score
