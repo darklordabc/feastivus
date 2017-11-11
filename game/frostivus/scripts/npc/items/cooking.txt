@@ -436,7 +436,7 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "item_raw_meat"
-    "Model"                   "models/props_gameplay/halloween_candy.vmdl"
+    "Model"                   "models/tf2_meat/tf2_meat_v2.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePutInPan" "1"
@@ -458,7 +458,7 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "item_fried_meat"
-    "Model"                   "models/props_gameplay/salve_red.vmdl"
+    "Model"                   "models/tf2_meat/tf2_meat_v2.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"

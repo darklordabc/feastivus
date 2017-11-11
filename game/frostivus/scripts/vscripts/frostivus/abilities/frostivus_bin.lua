@@ -14,9 +14,7 @@ function frostivus_bin:OnUpgrade()
         	local is_bank = item_name == "item_pot" or item_name == "item_frying_pan"
 
         	if is_bank then
-				item:SetItems({})
-				item:SetFakeItem(nil)
-				item.progress:SetData({ progress = 0, overtime = 0 })
+				item:ClearBank()
         	elseif Frostivus.ItemsKVs[item_name].CanBeServed then
 				local dirty_plate = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem("item_dirty_plates",user,user))
             	dirty_plate:GetContainedItem()._counter = 1

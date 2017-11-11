@@ -365,15 +365,12 @@ function OnUse( bench, user )
 						local bank = bench_item
 						local old_data = bank.wp:GetData()
 
-						if bank.progress:GetData().cooking_done then
+						if bank:IsDoneCooking() then
 							for k,v in pairs(old_data.items) do
 								item:AddItemToBench(v, user)
 							end
 
-							bank:SetItems({})
-							bank:SetFakeItem(nil)
-
-							bank.progress:SetData({ progress = 0 })
+							bank:ClearBank()
 						end
 					end
 
@@ -394,15 +391,12 @@ function OnUse( bench, user )
 						local bank = item
 						local old_data = bank.wp:GetData()
 
-						if bank.progress:GetData().cooking_done then
+						if bank:IsDoneCooking() then
 							for k,v in pairs(old_data.items) do
 								bench:AddItemToBench(v, user)
 							end
 
-							bank:SetItems({})
-							bank:SetFakeItem(nil)
-
-							bank.progress:SetData({ progress = 0 })
+							bank:ClearBank()
 						end
 					elseif bench.CheckItem and bench:CheckItem(item) then
 						bench:AddItemToBench(item, user)

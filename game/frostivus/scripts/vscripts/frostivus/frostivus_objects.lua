@@ -5,6 +5,22 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, prop, G
     pot:InitBench( count, CheckItem, nil, 0 )
     pot:SetRefineDuration(10.0)
 
+    pot.ClearBank = (function ( self )
+        self:SetItems({})
+        self:SetFakeItem(nil)
+        if self.progress then
+            self.progress:SetData({ progress = 0, overtime = 0 })
+        end
+        if IsValidEntity(self._prop) then
+            self._prop:RemoveSelf()
+            self._prop = nil
+        end
+    end)
+
+    pot.IsDoneCooking = (function ( self )
+        return self.progress and self.progress:GetData().cooking_done
+    end)
+
     if on_added_particle then
         pot:SetOnItemAddedToBench(function ( bench, item )
             ParticleManager:CreateParticle(on_added_particle, PATTACH_ABSORIGIN_FOLLOW, bench)
@@ -35,6 +51,13 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, prop, G
 
             if progress then
                 local old_data = progress:GetData()
+
+                if prop and not pot._prop then
+                    pot._prop = SpawnEntityFromTableSynchronous("prop_dynamic",{
+                        model = Frostivus.ItemsKVs[GetTarget(items[1])].Model,
+                    })
+                    pot._prop:FollowEntity(pot, false)
+                end
 
                 if not deepcompare(temp_items,items) and not old_data.cooking_done then
                     old_data.progress = math.max(old_data.progress - ((100 / pot:GetRefineDuration()) * 4), 0)

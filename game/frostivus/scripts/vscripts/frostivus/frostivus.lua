@@ -138,12 +138,12 @@ end
 
 function Frostivus:BindItem( item, unit, position_callback, condition_callback, drop_callback, add_modifier, dont_hide )
 	item:SetAbsOrigin(position_callback())
-	-- item:AddEffects(EF_NODRAW )
-	-- Timers:CreateTimer(0.1, function (  )
-	-- 	if IsValidEntity(item) then
-	-- 		item:RemoveEffects(EF_NODRAW )
-	-- 	end
-	-- end)
+	item:AddEffects(EF_NODRAW )
+	Timers:CreateTimer(0.05, function (  )
+		if IsValidEntity(item) then
+			item:RemoveEffects(EF_NODRAW )
+		end
+	end)
 	Timers:CreateTimer(function ()
 		if not IsValidEntity(item) or not IsValidEntity(unit) then
 			return
