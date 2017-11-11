@@ -1,4 +1,4 @@
-function CreateBank(name, count, on_added_particle, on_cooking_particle, GetTarget, CheckItem)
+function CreateBank(name, count, on_added_particle, on_cooking_particle, prop, GetTarget, CheckItem)
     local pot = CreateItemOnPositionSync(Vector(0,0,0),CreateItem(name,nil,nil))
 
     BenchAPI(pot)

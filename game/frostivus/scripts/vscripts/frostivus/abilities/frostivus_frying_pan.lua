@@ -13,7 +13,7 @@ function frostivus_frying_pan:OnUpgrade()
         caster:SetBenchBindHeight(100)
 
         caster:AddItemToBench("item_frying_pan")
-        caster:BindItem(CreateBank("item_frying_pan", 1, nil, nil, GetFryingTarget, CanPutItemInPan))
+        caster:BindItem(CreateBank("item_frying_pan", 1, nil, "particles/frostivus_gameplay/frying_pan_steam.vpcf", true, GetFryingTarget, CanPutItemInPan))
     end)
 end
 

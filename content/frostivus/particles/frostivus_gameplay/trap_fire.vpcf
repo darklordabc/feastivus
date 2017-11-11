@@ -31,10 +31,11 @@
 		},
 		{
 			_class = "C_OP_Decay"
+			m_bDisableOperator = true
 		},
 		{
 			_class = "C_OP_FadeOutSimple"
-			m_flFadeOutTime = 0.9
+			m_flFadeOutTime = 0.8
 		},
 		{
 			_class = "C_OP_FadeInSimple"
@@ -58,12 +59,15 @@
 			_class = "C_OP_ColorInterpolate"
 			m_ColorFade = [ 46, 22, 12, 255 ]
 		},
+		{
+			_class = "C_OP_Decay"
+		},
 	]
 	m_Initializers = 
 	[
 		{
 			_class = "C_INIT_RandomLifeTime"
-			m_fLifetimeMax = 2.0
+			m_fLifetimeMax = 1.4
 			m_fLifetimeMin = 1.0
 		},
 		{
