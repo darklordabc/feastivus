@@ -280,11 +280,13 @@ function Round:EndRound()
 	end
 
 	-- tell client to show round end summary
+	local nScoreOrdersDelivered = table.count(self.vFinishedOrders) * SOCRE_PER_FINISHED_ORDER
 	CustomGameEventManager:Send_ServerToAllClients('show_round_end_summary',{
 		Stars = stars,
 		FinishedOrdersCount = table.count(self.vFinishedOrders),
 		UnFinishedOrdersCount = table.count(self.vPendingOrders),
-		Score = self.vRoundScore,
+		ScoreOrdersDelivered = nScoreOrdersDelivered,
+		ScoreSpeedBonus = self.vRoundScore - nScoreOrdersDelivered,
 	})
 
 	-- send the score to server
@@ -303,7 +305,7 @@ function Round:EndRound()
 		if result.StatusCode == 200 then
 			-- server will return highscore of this level
 			local highscore = json.decode(result.Body)
-			CustomNetTables:SetTableValue("highscore", "highscore", highscore)
+			CustomNetTables:SetTableValue("highscore", "highscore", json.decode(highscore))
 		end
 	end)
 
