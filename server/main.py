@@ -88,7 +88,28 @@ def save_score():
 
 	return json.dumps(data_for_client)
 
+@app.route('/IsFinishedTutorial', methods=['POST'])
+def is_finished_tutorial():
+	steamid = request.form.get('steamid')
+	if steamid is None:
+		abort(502)
 
+	player = Database.player_db().find_one({'steamid': steamid})
+	if player is None:
+		return '0'
+
+	if player['FinishedTutorial'] == True:
+		return '1'
+
+	return '0'
+
+@app.route('/SetFinishedTutorial', methods=['POST'])
+def set_finished_tutorial():
+	steamid = request.form.get('steamid')
+	if steamid is None:
+		abort(502)
+	Database.player_db().update_one({"steamid": steamid}, {'$set': {'FinishedTutorial': True}}, upsert=True)
+	return 'ok'
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=10010, debug=True)

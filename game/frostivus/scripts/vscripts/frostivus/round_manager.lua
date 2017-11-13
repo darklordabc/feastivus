@@ -280,11 +280,13 @@ function Round:EndRound()
 	end
 
 	-- tell client to show round end summary
+	local nScoreOrdersDelivered = table.count(self.vFinishedOrders) * SOCRE_PER_FINISHED_ORDER
 	CustomGameEventManager:Send_ServerToAllClients('show_round_end_summary',{
 		Stars = stars,
 		FinishedOrdersCount = table.count(self.vFinishedOrders),
 		UnFinishedOrdersCount = table.count(self.vPendingOrders),
-		Score = self.vRoundScore,
+		ScoreOrdersDelivered = nScoreOrdersDelivered,
+		ScoreSpeedBonus = self.vRoundScore - nScoreOrdersDelivered,
 	})
 
 	-- send the score to server
@@ -293,17 +295,17 @@ function Round:EndRound()
 		table.insert(player_json, PlayerResource:GetSteamAccountID(player:GetPlayerID()))
 	end)
 	local json = require('utils.dkjson')
-	player_json = json:encode(player_json)
-	local req = CreateHTTPRequest("http://18.216.43.117:10010/SaveScore","POST")
+	player_json = json.encode(player_json)
+	local req = CreateHTTPRequest("POST", "http://18.216.43.117:10010/SaveScore")
 	req:SetHTTPRequestGetOrPostParameter("auth","BOV4k4oOWI!yPeWSXY*1eZOlB3pBW3!#")
 	req:SetHTTPRequestGetOrPostParameter("player_json",player_json)
-	req:SetHTTPRequestGetOrPostParameter("level",g_RoundManager.nCurrentLevel)
-	req:SetHTTPRequestGetOrPostParameter("score",self.vRoundScore)
+	req:SetHTTPRequestGetOrPostParameter("level",tostring(g_RoundManager.nCurrentLevel))
+	req:SetHTTPRequestGetOrPostParameter("score",tostring(self.vRoundScore))
 	req:Send(function(result)
 		if result.StatusCode == 200 then
 			-- server will return highscore of this level
-			local highscore = json:decode(result.Body)
-			CustomNetTables:SetTableValue("highscore", "highscore", highscore)
+			local highscore = json.decode(result.Body)
+			CustomNetTables:SetTableValue("highscore", "highscore", json.decode(highscore))
 		end
 	end)
 
