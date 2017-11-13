@@ -214,7 +214,7 @@
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
-    "CanBeServed"  "1"
+    // "CanBeServed"  "1"
     "ForwardOnUse" "1"
 
     "ItemStackable"         "0"
