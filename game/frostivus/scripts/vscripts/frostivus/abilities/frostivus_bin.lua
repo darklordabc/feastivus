@@ -16,6 +16,7 @@ function frostivus_bin:OnUpgrade()
         	if is_bank then
 				item:ClearBank()
         	elseif Frostivus.ItemsKVs[item_name].CanBeServed then
+                if item:IsBench() and item:GetBenchItemCount() == 0 then return end
 				local dirty_plate = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem("item_dirty_plates",user,user))
             	dirty_plate:GetContainedItem()._counter = 1
             	dirty_plate:SetModel("models/plates/dirty_plate_1.vmdl")
