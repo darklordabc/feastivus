@@ -499,7 +499,7 @@
     "ID"    "1124"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
-    "AbilityTextureName"      "item_bread"
+    "AbilityTextureName"      "item_bread_meat"
     "Model"                   "models/props_gameplay/cheese.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
@@ -520,7 +520,7 @@
     "ID"    "1125"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
-    "AbilityTextureName"      "item_bread"
+    "AbilityTextureName"      "item_bread_meat_tango"
     "Model"                   "models/props_gameplay/cheese.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
@@ -541,7 +541,7 @@
     "ID"    "1126"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
-    "AbilityTextureName"      "item_bread"
+    "AbilityTextureName"      "item_bread_meat_mango"
     "Model"                   "models/props_gameplay/cheese.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
@@ -562,7 +562,7 @@
     "ID"    "1127"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
-    "AbilityTextureName"      "item_bread"
+    "AbilityTextureName"      "item_bread_meat_tango_mango"
     "Model"                   "models/props_gameplay/cheese.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
