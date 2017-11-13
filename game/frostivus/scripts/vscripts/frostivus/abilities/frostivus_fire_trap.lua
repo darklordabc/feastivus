@@ -6,44 +6,48 @@ function frostivus_fire_trap:OnUpgrade()
 
 end
 
-function frostivus_fire_trap:GetIntrinsicModifierName()
-    return "modifier_fire_trap"
-end
+-- function frostivus_fire_trap:GetIntrinsicModifierName()
+--     return "modifier_fire_trap"
+-- end
 
 modifier_fire_trap = class({})
 LinkLuaModifier("modifier_fire_trap", "frostivus/abilities/frostivus_fire_trap.lua", 0)
 
-function modifier_fire_trap:OnCreated()
-    local caster = self:GetParent()
-    local fire = true
-    local particle
+if IsServer() then
+    function modifier_fire_trap:OnCreated()
+        local caster = self:GetParent()
+        local fire = true
+        local particle
 
-    local walls = {}
+        local walls = {}
 
-    Timers:CreateTimer(function()
-        if fire then
-            particle = ParticleManager:CreateParticle("particles/frostivus_gameplay/trap_fire.vpcf", PATTACH_CUSTOMORIGIN, caster)
-            ParticleManager:SetParticleControlEnt(particle, 0, caster, PATTACH_POINT, "nozzle", caster:GetAbsOrigin(), false)
-            ParticleManager:SetParticleControlForward(particle, 0, caster:GetForwardVector())
+        local time = 10.0
 
-            for i=1,6 do
-                table.insert(walls, SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = caster:GetAbsOrigin() + (Vector(128 * i, 0) * caster:GetForwardVector()), block_fow = false}))
+        Timers:CreateTimer(function()
+            if fire then
+                particle = ParticleManager:CreateParticle("particles/frostivus_gameplay/trap_fire.vpcf", PATTACH_CUSTOMORIGIN, caster)
+                ParticleManager:SetParticleControlEnt(particle, 0, caster, PATTACH_POINT, "nozzle", caster:GetAbsOrigin(), false)
+                ParticleManager:SetParticleControlForward(particle, 0, caster:GetForwardVector())
+
+                for i=1,6 do
+                    table.insert(walls, SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = caster:GetAbsOrigin() + (Vector(128 * i, 0) * caster:GetForwardVector()), block_fow = false}))
+                end
+
+                EmitSoundOnLocationWithCaster(caster:GetAbsOrigin(), "Hero_DragonKnight.BreathFire", caster)
+            else
+                ParticleManager:DestroyParticle(particle, false)
+
+                for k,v in pairs(walls) do
+                    v:RemoveSelf()
+                end
+                walls = {}
             end
 
-            EmitSoundOnLocationWithCaster(caster:GetAbsOrigin(), "Hero_DragonKnight.BreathFire", caster)
-        else
-            ParticleManager:DestroyParticle(particle, false)
+            fire = not fire
 
-            for k,v in pairs(walls) do
-                v:RemoveSelf()
-            end
-            walls = {}
-        end
-
-        fire = not fire
-
-        return 5.0
-    end)
+            return time
+        end)
+    end
 end
 
 function modifier_fire_trap:IsHidden()

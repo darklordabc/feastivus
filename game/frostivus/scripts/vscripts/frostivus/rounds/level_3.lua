@@ -39,6 +39,21 @@ return {
 				return 138
 			end
 		end)
+
+		local traps = Entities:FindAllByModel("models/props/traps/hooded_fang/hooded_fang.vmdl")
+
+		local i = 0
+		for k,v in pairs(traps) do
+			print("dfgfd")
+			Timers:CreateTimer(i * 8, function (  )
+				local ab = v:FindAbilityByName("frostivus_fire_trap")
+
+				v:AddNewModifier(v, ab, "modifier_fire_trap", {})
+			end)
+
+			i = i + 1
+		end
+
 	end,
 	OnRoundEnd = function(round)
 		-- if you do something special, clean them
