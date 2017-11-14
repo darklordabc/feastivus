@@ -24,7 +24,9 @@ if IsServer() then
         local time = 10.0
 
         Timers:CreateTimer(function()
-            if fire then
+            fire = not fire
+
+            if not fire then
                 particle = ParticleManager:CreateParticle("particles/frostivus_gameplay/trap_fire.vpcf", PATTACH_CUSTOMORIGIN, caster)
                 ParticleManager:SetParticleControlEnt(particle, 0, caster, PATTACH_POINT, "nozzle", caster:GetAbsOrigin(), false)
                 ParticleManager:SetParticleControlForward(particle, 0, caster:GetForwardVector())
@@ -34,6 +36,8 @@ if IsServer() then
                 end
 
                 EmitSoundOnLocationWithCaster(caster:GetAbsOrigin(), "Hero_DragonKnight.BreathFire", caster)
+
+                return time
             else
                 ParticleManager:DestroyParticle(particle, false)
 
@@ -41,11 +45,9 @@ if IsServer() then
                     v:RemoveSelf()
                 end
                 walls = {}
+
+                return time / 2
             end
-
-            fire = not fire
-
-            return time
         end)
     end
 end
