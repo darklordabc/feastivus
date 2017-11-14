@@ -44,7 +44,6 @@ return {
 
 		local i = 0
 		for k,v in pairs(traps) do
-			print("dfgfd")
 			Timers:CreateTimer(i * 8, function (  )
 				local ab = v:FindAbilityByName("frostivus_fire_trap")
 

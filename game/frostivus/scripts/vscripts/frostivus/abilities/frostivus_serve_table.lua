@@ -23,7 +23,7 @@ function frostivus_serve_table:OnUpgrade()
     		g_Serve(item, user)
 
             if not IsValidEntity(caster._dirty_plates) then
-                caster._dirty_plates = CreateItemOnPositionSync(caster:GetAbsOrigin() + Vector(-64,-64,100),CreateItem("item_dirty_plates",caster,caster))
+                caster._dirty_plates = CreateItemOnPositionSync(caster:GetAbsOrigin() + Vector(0,-64,100),CreateItem("item_dirty_plates",caster,caster))
             end
 
             caster._dirty_plates:GetContainedItem()._counter = (caster._dirty_plates:GetContainedItem()._counter or 0) + 1

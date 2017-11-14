@@ -280,7 +280,7 @@ function Round:EndRound()
 	end
 
 	-- tell client to show round end summary
-	local nScoreOrdersDelivered = table.count(self.vFinishedOrders) * SOCRE_PER_FINISHED_ORDER
+	local nScoreOrdersDelivered = table.count(self.vFinishedOrders) * SCORE_PER_FINISHED_ORDER
 	CustomGameEventManager:Send_ServerToAllClients('show_round_end_summary',{
 		Stars = stars,
 		FinishedOrdersCount = table.count(self.vFinishedOrders),

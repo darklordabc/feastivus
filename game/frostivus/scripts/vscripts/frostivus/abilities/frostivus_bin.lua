@@ -24,7 +24,7 @@ function frostivus_bin:OnUpgrade()
 
             	Frostivus:DropItem( user, item ):RemoveSelf()
             	user:BindItem(dirty_plate)
-        	else
+        	elseif string.match(item_name, "plate") then
         		Frostivus:DropItem( user, item ):RemoveSelf()
         	end
         end)
