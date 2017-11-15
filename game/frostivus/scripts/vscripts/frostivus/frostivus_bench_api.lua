@@ -353,7 +353,7 @@ function OnUse( bench, user )
 				StartAnimation(user, {duration=0.3, activity=ACT_DOTA_GREEVIL_CAST, rate=2.5, translate="greevil_laguna_blade"})
 				PlayDropSound( item, user )
 
-				-- Swap plate with item
+				-- Plate interactions (e.g. swap)
 				if Frostivus:IsCarryingItem(bench) and item_name == "item_plate" then
 					local bench_item = Frostivus:GetCarryingItem(bench)
 					local bench_item_name = bench_item:GetContainedItem():GetName()
@@ -374,6 +374,9 @@ function OnUse( bench, user )
 
 							bank:ClearBank()
 						end
+					elseif bench.GetUnitName and bench:GetUnitName() == "npc_plate_bench" then
+						Frostivus:DropItem(user, item):RemoveSelf()
+						AddPlateStack(bench, 1)
 					end
 
 					return
