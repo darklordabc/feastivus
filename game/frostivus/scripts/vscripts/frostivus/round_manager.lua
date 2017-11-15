@@ -1,3 +1,5 @@
+local SCORE_PER_FINISHED_ORDER = 100
+
 _G.g_DEFAULT_ORDER_TIME_LIMIT = 80
 
 GameRules.vRoundDefinations = LoadKeyValues('scripts/kv/rounds.kv')
