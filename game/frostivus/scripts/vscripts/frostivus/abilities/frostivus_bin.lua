@@ -31,6 +31,9 @@ function frostivus_bin:OnUpgrade()
         	elseif not string.match(item_name, "plate") then
         		Frostivus:DropItem( user, item ):RemoveSelf()
         	end
+
+            EmitSoundOn("custom_sound.inv_delete", caster)
+            ParticleManager:CreateParticle("particles/frostivus_gameplay/bin_dispose.vpcf", PATTACH_ABSORIGIN, caster)
         end)
     end)
 end

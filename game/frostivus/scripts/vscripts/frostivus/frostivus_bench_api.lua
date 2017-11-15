@@ -343,15 +343,15 @@ function OnUse( bench, user )
 				local item = Frostivus:GetCarryingItem(user)
 				local item_name = item:GetContainedItem():GetName()
 
+				-- Play user animation and sound
+				StartAnimation(user, {duration=0.3, activity=ACT_DOTA_GREEVIL_CAST, rate=2.5, translate="greevil_laguna_blade"})
+				PlayDropSound( item, user )
+
 				-- Some benches have custom interact handler (trash bin)
 				if bench._custom_interact then
 					bench:CustomInteract(user, item)
 					return
 				end
-
-				-- Play user animation and sound
-				StartAnimation(user, {duration=0.3, activity=ACT_DOTA_GREEVIL_CAST, rate=2.5, translate="greevil_laguna_blade"})
-				PlayDropSound( item, user )
 
 				-- Plate interactions (e.g. swap)
 				if Frostivus:IsCarryingItem(bench) and item_name == "item_plate" then
@@ -493,9 +493,10 @@ function RefineBase( bench, items, user )
 		bench.wp:SetData(old_data)
 
 		if custom_refine then
-			local old_data = bench.wp:GetData()
-			old_data.items[1] = custom_refine:GetContainedItem():GetName()
-			bench.wp:SetData(old_data)
+			-- local old_data = bench.wp:GetData()
+			-- old_data.items[1] = custom_refine:GetContainedItem():GetName()
+			-- bench.wp:SetData(old_data)
+			bench:ClearBench()
 		else
 			if bench:Is3DBench() and bench:FindModifierByName("modifier_carrying_item") then
 				local item = bench:FindModifierByName("modifier_carrying_item").item

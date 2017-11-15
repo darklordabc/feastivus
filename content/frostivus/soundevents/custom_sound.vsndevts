@@ -64,4 +64,28 @@
         ]
         volume = "0.500000"
 	}
+	custom_sound.inv_delete = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/ui/inventory/inv_delete.vsnd",
+        ]
+        volume = "0.500000"
+	}
+	custom_sound.washing_plate = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/benches/washing_plate.vsnd",
+        ]
+        volume = "0.500000"
+	}
+	custom_sound.washing_plate_done = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/physics/footsteps/common/waterstep_01.vsnd",
+        ]
+        volume = "0.500000"
+	}
 }

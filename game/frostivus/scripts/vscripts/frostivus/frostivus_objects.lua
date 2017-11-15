@@ -151,7 +151,7 @@ function AddPlateStack(caster, quantity)
         if stack:GetContainedItem():GetName() == "item_clean_plates" then
             stack._count = stack._count + quantity
             stack:SetModel("models/plates/clean_plate_"..tostring(stack._count)..".vmdl")
-            return
+            return stack
         elseif stack:GetContainedItem():GetName() == "item_plate" then
             quantity = 1 + quantity
             caster:ClearBench()

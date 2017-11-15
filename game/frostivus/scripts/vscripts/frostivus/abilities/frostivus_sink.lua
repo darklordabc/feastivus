@@ -25,11 +25,17 @@ function frostivus_sink:OnUpgrade()
         caster:SetOnCompleteRefine(function (  )
             caster:SetBenchHidden(true)
             caster:ClearBench()
-            return AddPlateStack(plate_bench, caster._temp_counter)
+            local stack = AddPlateStack(plate_bench, caster._temp_counter)
+            ParticleManager:CreateParticle("particles/frostivus_gameplay/clean_plates.vpcf",PATTACH_ABSORIGIN,stack)
+            EmitSoundOn("custom_sound.washing_plate_done", stack)
+            return stack
         end)
         
         caster:SetRefineTarget("item_clean_plates")
         caster:SetRefineDuration(4.0)
+        caster:SetRefineSound(function ()
+            return "custom_sound.washing_plate", true
+        end)
         caster:SetDefaultRefineRoutine()
 
         caster.AddItemToBench = (function( self, item, user )
