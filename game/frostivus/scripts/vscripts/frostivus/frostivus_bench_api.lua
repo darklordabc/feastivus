@@ -258,12 +258,12 @@ function BenchAPI( keys )
 		end
 	end)
 
-	caster.BindItem = (function( self, item )
+	caster.BindItem = (function( self, item, position_callback )
 		if type(item) == 'string' then
 			item = CreateItemOnPositionSync(self:GetAbsOrigin(),CreateItem(item,self,self))
 		end
 
-		Frostivus:BindItem(item, self, (function ()
+		Frostivus:BindItem(item, self, position_callback or (function ()
 			return self:GetAbsOrigin() + Vector(0, 0, caster._bind_height or 84)
 		end), (function ()
 			return Frostivus:IsCarryingItem( self, item )
@@ -323,7 +323,7 @@ function OnUse( bench, user )
 
 				-- Picking item from the bench
 				local item = item_name
-				if bench:Is3DBench() and Frostivus:IsCarryingItem( bench ) and not bench:IsBenchInfiniteItems() then
+				if (bench:Is3DBench() or Frostivus:IsCarryingItem(bench)) and Frostivus:IsCarryingItem( bench ) and not bench:IsBenchInfiniteItems() then
 					item = Frostivus:DropItem( bench, Frostivus:GetCarryingItem( bench ) )
 				end
 

@@ -4,7 +4,7 @@ function frostivus_serve_table:OnUpgrade()
 	local caster = self:GetCaster()
 
     ExecOnGameInProgress(function (  )
-        caster:InitBench(1, (function( bench, item )
+        caster:InitBench(3, (function( bench, item )
         	return Frostivus.ItemsKVs[item:GetContainedItem():GetName()].CanBeServed == 1
         end), (function ( bench, items )
         	-- g_TryServe(CreateItem(item,nil,nil))
@@ -22,13 +22,24 @@ function frostivus_serve_table:OnUpgrade()
         	item = CreateItem(item,nil,nil)
     		g_Serve(item, user)
 
-            if not IsValidEntity(caster._dirty_plates) then
-                caster._dirty_plates = CreateItemOnPositionSync(caster:GetAbsOrigin() + Vector(0,-64,100),CreateItem("item_dirty_plates",caster,caster))
+            local container = Frostivus:GetCarryingItem(self)
+
+            if not IsValidEntity(container) then
+                container = CreateItemOnPositionSync(self:GetAbsOrigin(),CreateItem("item_dirty_plates",self,self))
+
+                local old_data = self.wp:GetData()
+                old_data.items = {}
+                table.insert(old_data.items, "item_dirty_plates")
+                self.wp:SetData(old_data)
             end
 
-            caster._dirty_plates:GetContainedItem()._counter = (caster._dirty_plates:GetContainedItem()._counter or 0) + 1
+            self:BindItem(container, (function ()
+                return self:GetAbsOrigin() + Vector(0, -100, 92)
+            end))
 
-            caster._dirty_plates:SetModel("models/plates/dirty_plate_"..tostring(caster._dirty_plates:GetContainedItem()._counter)..".vmdl")
+            container:GetContainedItem()._counter = (container:GetContainedItem()._counter or 0) + 1
+
+            container:SetModel("models/plates/dirty_plate_"..tostring(container:GetContainedItem()._counter)..".vmdl")
         end)
     end)
 end

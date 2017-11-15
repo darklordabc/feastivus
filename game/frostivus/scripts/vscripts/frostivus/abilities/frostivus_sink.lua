@@ -26,8 +26,8 @@ function frostivus_sink:OnUpgrade()
             local old_data = self.wp:GetData()
 
             if type(item) ~= 'string' then
-                if item._counter then
-                    caster._temp_counter = item._counter
+                if item:GetContainedItem()._counter then
+                    caster._temp_counter = item:GetContainedItem()._counter
                 end
 
                 item = item:GetContainedItem():GetName()
