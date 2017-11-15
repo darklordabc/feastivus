@@ -4,6 +4,16 @@ function frostivus_sink:OnUpgrade()
 	local caster = self:GetCaster()
 
     ExecOnGameInProgress(function (  )
+        local plate_bench
+        local units = FindUnitsInRadius(caster:GetTeam(), caster:GetAbsOrigin(), nil, 128, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_INVULNERABLE , FIND_ANY_ORDER, false)
+
+        for _,v in pairs(units) do
+            if v:GetUnitName() == "npc_plate_bench" then
+                plate_bench = v
+                break
+            end
+        end
+
         caster:InitBench(1, (function( bench, item )
             return item:GetContainedItem():GetName() == "item_dirty_plates"
         end))
@@ -15,7 +25,7 @@ function frostivus_sink:OnUpgrade()
         caster:SetOnCompleteRefine(function (  )
             caster:SetBenchHidden(true)
             caster:ClearBench()
-            return AddPlateStack(caster, caster._temp_counter)
+            return AddPlateStack(plate_bench, caster._temp_counter)
         end)
         
         caster:SetRefineTarget("item_clean_plates")

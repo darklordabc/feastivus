@@ -146,6 +146,18 @@ function StartCooking( pot )
 end
 
 function AddPlateStack(caster, quantity)
+    local stack = Frostivus:GetCarryingItem(caster)
+    if stack and quantity then
+        if stack:GetContainedItem():GetName() == "item_clean_plates" then
+            stack._count = stack._count + quantity
+            stack:SetModel("models/plates/clean_plate_"..tostring(stack._count)..".vmdl")
+            return
+        elseif stack:GetContainedItem():GetName() == "item_plate" then
+            quantity = 1 + quantity
+            caster:ClearBench()
+        end
+    end
+
     quantity = quantity or 3
 
     if quantity == 1 then
@@ -157,7 +169,7 @@ function AddPlateStack(caster, quantity)
 
     caster:AddItemToBench("item_clean_plates")
 
-    local stack = CreateItemOnPositionSync(caster:GetAbsOrigin(), CreateItem("item_clean_plates", caster, caster))
+    stack = CreateItemOnPositionSync(caster:GetAbsOrigin(), CreateItem("item_clean_plates", caster, caster))
     stack:SetModel("models/plates/clean_plate_"..tostring(quantity)..".vmdl")
 
     caster:BindItem(stack)
