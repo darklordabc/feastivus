@@ -283,7 +283,9 @@ function BenchAPI( keys )
 		if IsValidEntity(item) then
 			item:RemoveSelf()
 		end
-		self:RemoveModifierByName("modifier_carrying_item")
+		if self.RemoveModifierByName then
+			self:RemoveModifierByName("modifier_carrying_item")
+		end
 		self:SetItems({})
 	end)
 

@@ -15,8 +15,12 @@ function frostivus_bin:OnUpgrade()
 
         	if is_bank then
 				item:ClearBank()
-            elseif item:IsBench() and item:GetBenchItemCount() == 0 then
-                return
+            elseif item:IsBench() then
+                if item:GetBenchItemCount() == 0 then
+                    return
+                else
+                    item:ClearBench()
+                end
         	elseif Frostivus.ItemsKVs[item_name].CanBeServed then
 				local dirty_plate = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem("item_dirty_plates",user,user))
             	dirty_plate:GetContainedItem()._counter = 1
@@ -24,7 +28,7 @@ function frostivus_bin:OnUpgrade()
 
             	Frostivus:DropItem( user, item ):RemoveSelf()
             	user:BindItem(dirty_plate)
-        	elseif string.match(item_name, "plate") then
+        	elseif not string.match(item_name, "plate") then
         		Frostivus:DropItem( user, item ):RemoveSelf()
         	end
         end)
