@@ -1,3 +1,5 @@
+local SCORE_PER_FINISHED_ORDER = 100
+
 _G.g_DEFAULT_ORDER_TIME_LIMIT = 80
 
 GameRules.vRoundDefinations = LoadKeyValues('scripts/kv/rounds.kv')
@@ -105,6 +107,8 @@ function Round:constructor(roundData)
 
 	self.nPreRoundTime = 5
 	self.nEndRoundDelay = 10
+
+	self.vRoundScore = 0
 	
 	if self.vRoundScript.OnInitialize then
 		self.vRoundScript.OnInitialize(self)
@@ -305,7 +309,9 @@ function Round:EndRound()
 		if result.StatusCode == 200 then
 			-- server will return highscore of this level
 			local highscore = json.decode(result.Body)
-			CustomNetTables:SetTableValue("highscore", "highscore", json.decode(highscore))
+			print("highscore")
+			PrintTable(highscore)
+			CustomNetTables:SetTableValue("highscore", "highscore", highscore)
 		end
 	end)
 
