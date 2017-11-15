@@ -4,7 +4,7 @@ function frostivus_plate_bench:OnUpgrade()
 	local caster = self:GetCaster()
 
     ExecOnGameInProgress(function (  )
-		caster:InitBench(3, (function( bench, item )
+		caster:InitBench(1, (function( bench, item )
             local item_name = item:GetContainedItem():GetName()
             return item_name == "item_clean_plates" or item_name == "item_plate"
         end), nil, 0)
