@@ -35,9 +35,9 @@ function ShowRoundEndSummary(args) {
 
 	$("#round_end_summary").RemoveClass("Hidden");
 
-	$.Schedule(10, function() {
-		CloseSummary();
-	});
+	// $.Schedule(10, function() {
+	// 	$("#round_end_summary").AddClass("Hidden");
+	// });
 
 }
 
@@ -49,39 +49,39 @@ var n_CurrentHighscoreIndex = 0;
 
 function OnHighScoreDataArrived() {
 	var highscore_data = CustomNetTables.GetTableValue("highscore", "highscore");
-	var high_score_data_count = len(highscore_data);
-
-	for (var i = 1; i <= 6; i++){
-		var data = highscore_data[i+n_CurrentHighscoreIndex];
-		if (data == undefined){
-			$("#high_score_players_row_"+i).AddClass("NoPlayer");
-		}else{
-			$("#high_score_players_row_"+i).RemoveClass("NoPlayer");
-			var players = data.players;
-			var score = data.score;
-			for (var j in players) {
-				$("#highscore_players_" + i + j).RemoveClass("EmptyPlayer");
-				$("#highscore_players_" + i + j).steamid = players[i];
+	if (highscore_data != null){
+		for (var i = 1; i <= 6; i++){
+			var data = highscore_data[i+n_CurrentHighscoreIndex];
+			if (data == undefined){
+				$("#high_score_players_row_"+i).AddClass("NoPlayer");
+			}else{
+				$("#high_score_players_row_"+i).RemoveClass("NoPlayer");
+				var players = JSON.parse(data.players);
+				var score = data.score;
+				for (var j = 0; j < Object.keys(players).length; j++) {
+					$("#highscore_players_" + i.toString() + j.toString()).RemoveClass("EmptyPlayer");
+					$("#highscore_players_" + i.toString() + j.toString()).steamid = players[i];
+				}
+				for (var k = Object.keys(players).length; k < 5; k++){
+					$("#highscore_players_" + i.toString() + k.toString()).AddClass("EmptyPlayer");
+				}
+				$("#highscore_score_" + i).text = score;
 			}
-			for (var k = len(players); k < 5; k++){
-				$("#highscore_players_" + i + j).AddClass("EmptyPlayer");
-			}
-			$("#highscore_score_" + i).text = score;
 		}
-	}
-
-	if (n_CurrentHighscoreIndex == 0) {
-		("#high_score_players_row_1").AddClass("Rank1");
-		("#high_score_players_row_2").AddClass("Rank2");
-		("#high_score_players_row_3").AddClass("Rank3");
-	}else{
-		("#high_score_players_row_1").RemoveClass("Rank1");
-		("#high_score_players_row_2").RemoveClass("Rank2");
-		("#high_score_players_row_3").RemoveClass("Rank3");
+		if (n_CurrentHighscoreIndex == 0) {
+			$("#high_score_players_row_1").AddClass("Rank1");
+			$("#high_score_players_row_2").AddClass("Rank2");
+			$("#high_score_players_row_3").AddClass("Rank3");
+		}else{
+			$("#high_score_players_row_1").RemoveClass("Rank1");
+			$("#high_score_players_row_2").RemoveClass("Rank2");
+			$("#high_score_players_row_3").RemoveClass("Rank3");
+		}
 	}
 }
 
 (function() {
 	GameEvents.Subscribe('show_round_end_summary', ShowRoundEndSummary);
+	OnHighScoreDataArrived();
 	CustomNetTables.SubscribeNetTableListener("highscore", OnHighScoreDataArrived);
 })();

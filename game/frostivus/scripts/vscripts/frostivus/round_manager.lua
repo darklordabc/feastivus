@@ -107,6 +107,8 @@ function Round:constructor(roundData)
 
 	self.nPreRoundTime = 5
 	self.nEndRoundDelay = 10
+
+	self.vRoundScore = 0
 	
 	if self.vRoundScript.OnInitialize then
 		self.vRoundScript.OnInitialize(self)
@@ -307,7 +309,9 @@ function Round:EndRound()
 		if result.StatusCode == 200 then
 			-- server will return highscore of this level
 			local highscore = json.decode(result.Body)
-			CustomNetTables:SetTableValue("highscore", "highscore", json.decode(highscore))
+			print("highscore")
+			PrintTable(highscore)
+			CustomNetTables:SetTableValue("highscore", "highscore", highscore)
 		end
 	end)
 

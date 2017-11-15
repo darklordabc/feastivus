@@ -119,11 +119,11 @@
 
 							<Label class="HighScoreRank" text="1" id="rank_label_1" />
 							<Panel class="HighScorePlayers">
+								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_10" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_11" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_12" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_13" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_14" />
-								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_15" />
 							</Panel>
 							<Label class="HighScoreScore" text="9999" id="highscore_score_1" />
 						</Panel>
@@ -131,11 +131,11 @@
 						<Panel class="HighScorePlayersRow Rank2" id="high_score_players_row_2">
 							<Label class="HighScoreRank" text="2" id="rank_label_2" />
 							<Panel class="HighScorePlayers">
+								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_20" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_21" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_22" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_23" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_24" />
-								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_25" />
 							</Panel>
 							<Label class="HighScoreScore" text="9999" id="highscore_score_2" />
 						</Panel>
@@ -143,11 +143,11 @@
 						<Panel class="HighScorePlayersRow Rank3" id="high_score_players_row_3">
 							<Label class="HighScoreRank" text="3" id="rank_label_3" />
 							<Panel class="HighScorePlayers">
+								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_30" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_31" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_32" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_33" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_34" />
-								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_35" />
 							</Panel>
 							<Label class="HighScoreScore" text="9999" id="highscore_score_3" />
 						</Panel>
@@ -155,22 +155,22 @@
 						<Panel class="HighScorePlayersRow" id="high_score_players_row_4">
 							<Label class="HighScoreRank" text="4" id="rank_label_4" />
 							<Panel class="HighScorePlayers">
+								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_40" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_41" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_42" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_43" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_44" />
-								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_45" />
 							</Panel>
 							<Label class="HighScoreScore" text="9999" id="highscore_score_4" />
 						</Panel>
 						<Panel class="HighScorePlayersRow" id="high_score_players_row_5">
 							<Label class="HighScoreRank" text="5" id="rank_label_5" />
 							<Panel class="HighScorePlayers">
+								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_50" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_51" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_52" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_53" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_54" />
-								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_55" />
 							</Panel>
 							<Label class="HighScoreScore" text="9999" id="highscore_score_5" />
 						</Panel>
@@ -178,11 +178,11 @@
 						<Panel class="HighScorePlayersRow" id="high_score_players_row_6">
 							<Label class="HighScoreRank" text="6" id="rank_label_6" />
 							<Panel class="HighScorePlayers">
+								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_60" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_61" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_62" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_63" />
 								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_64" />
-								<DOTAAvatarImage steamid="local" class="HighScorePlayerPortrait" id="highscore_players_65" />
 							</Panel>
 							<Label class="HighScoreScore" text="9999" id="highscore_score_6" />
 						</Panel>
