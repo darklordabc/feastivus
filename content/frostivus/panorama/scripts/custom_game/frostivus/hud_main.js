@@ -46,17 +46,18 @@ function OnTimer(args){
 	var secs1 = Math.floor(secs / 10);
 	var secs2 = secs - secs1 * 10;
 	
-	if(mins <= 0) {
-		$("#count_down_timer").AddClass("SecondsOnly");
+	$("#timer_digits").text = mins1 + "" + mins2 + ":" + secs1 + "" + secs2;
+	// if(mins <= 0) {
+	// 	$("#count_down_timer").AddClass("SecondsOnly");
 
-	}else{
-		$("#count_down_timer").RemoveClass("SecondsOnly");
-	}
+	// }else{
+	// 	$("#count_down_timer").RemoveClass("SecondsOnly");
+	// }
 
-	$("#count_down_mins_1").style.backgroundPosition = -64 * mins1 + "px";
-	$("#count_down_mins_2").style.backgroundPosition = -64 * mins2 + "px";
-	$("#count_down_secs_1").style.backgroundPosition = -64 * secs1 + "px";
-	$("#count_down_secs_2").style.backgroundPosition = -64 * secs2 + "px";
+	// $("#count_down_mins_1").style.backgroundPosition = -64 * mins1 + "px";
+	// $("#count_down_mins_2").style.backgroundPosition = -64 * mins2 + "px";
+	// $("#count_down_secs_1").style.backgroundPosition = -64 * secs1 + "px";
+	// $("#count_down_secs_2").style.backgroundPosition = -64 * secs2 + "px";
 }
 
 function SetRoundName(args) {

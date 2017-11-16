@@ -304,8 +304,8 @@
 }
 
 .TimerBackground {
-	width: 125px;
-	height:125px;
+	width: 100px;
+	height:100px;
 }
 
 .TimeRunningOut .TimerBackground{
@@ -340,17 +340,17 @@
 }
 
 .TimerColon {
-	background-image:url("file://{resources}/images/custom_game/generic/digits.psd");
-	width: 40px;
-	height: 108px;
+	background-image:url("file://{resources}/images/custom_game/generic/digits_half.psd");
+	width: 20px;
+	height: 54px;
 	background-repeat: no-repeat;
-	background-position: -640px 0px;
+	background-position: -320px 0px;
 }
 
 .TimerDigit {
-	background-image:url("file://{resources}/images/custom_game/generic/digits.psd");
-	width: 64px;
-	height: 108px;
+	background-image:url("file://{resources}/images/custom_game/generic/digits_half.psd");
+	width: 32px;
+	height: 54px;
 	background-repeat: no-repeat;
 	background-position: -0px 0px;
 }
@@ -360,4 +360,16 @@
 .SecondsOnly .TimerColon
 {
 	visibility: collapse;
+}
+
+#timer_digits {
+	vertical-align: center;
+	font-size: 70px;
+	font-weight: bold;
+	color: gradient( linear, 0% 0%, 0% 100%, from( #ffe899 ), color-stop( .32, #e5eb37 ), color-stop( .64, #cdac14 ), to( #837b00 ) );
+	letter-spacing: 3px;
+}
+
+.TimeRunningOut #timer_digits {
+	color: gradient( linear, 0% 0%, 0% 100%, from( #ff9999 ), color-stop( .32, #eb3737 ), color-stop( .64, #cd142e ), to( #83000c ) );
 }
