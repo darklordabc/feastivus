@@ -104,4 +104,20 @@
         ]
         volume = "0.450000"
 	}
+	custom_sound.frying = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/benches/fry_pan_cooking.vsnd",
+        ]
+        volume = "0.600000"
+	}
+	custom_sound.boiling = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/benches/cooking_pot.vsnd",
+        ]
+        volume = "0.600000"
+	}
 }

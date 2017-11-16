@@ -1,4 +1,4 @@
-function CreateBank(name, count, on_added_particle, on_cooking_particle, prop, GetTarget, CheckItem)
+function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking_sound, prop, GetTarget, CheckItem)
     local pot = CreateItemOnPositionSync(Vector(0,0,0),CreateItem(name,nil,nil))
 
     BenchAPI(pot)
@@ -50,6 +50,8 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, prop, G
             end
 
             if progress then
+                StartSoundEvent(cooking_sound, pot)
+
                 local old_data = progress:GetData()
 
                 if prop and not pot._prop then
@@ -97,6 +99,8 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, prop, G
             pot._cooking = false
 
             if pot.progress then
+                StopSoundEvent(cooking_sound, pot)
+
                 local old_data = progress:GetData()
 
                 if GetTableLength(items) == 0 then
