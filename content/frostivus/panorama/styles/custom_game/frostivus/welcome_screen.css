@@ -1,3 +1,10 @@
+.Font1 {
+	font-family: Goudy Trajan Medium,FZKai-Z03,TH Sarabun New,YDYGO 540;
+}
+
+.Font2 {
+	font-family: Radiance,FZLanTingHei-R-GBK,TH Sarabun New,YDYGO 540,Gulim,MingLiU;
+}
 
 .WelcomeScreenRoot {
 	width: 100%;
@@ -21,7 +28,7 @@
 	flow-children: right;
 	vertical-align: top;
 	horizontal-align: center;
-	margin-top: 240px;
+	/*margin-top: 240px;*/
 
 	transform: scale3d(0.68, 0.68, 1.0);
 }
@@ -97,15 +104,19 @@
 	flow-children: right;
 }
 
-.LocalPlayer .PlayerCardRoot {
-	height: 5200px;
-	width: 360px;
+.PlayerCardRoot.LocalPlayer {
+	height: 470px;
+	width: 320px;
 }
 
 .PlayerCardRoot {
-	height: 470px;
+	height: 400px;
 	width: 320px;
 	box-shadow: #000000B8 2px 2px 8px -2px;
+
+	vertical-align: center;
+
+	margin: 6px;
 }
 
 .PlayerHeroArt {
@@ -126,6 +137,12 @@
 
 	background-image:url("file://{resources}/images/custom_game/welcome_screen/player_card_resized.png");
 	background-size:100% 100%;
+
+	brightness: 1.0;
+}
+
+.LocalPlayer .PlayerCardOverlay {
+	brightness: 0.8;
 }
 
 .ImageCache {
@@ -156,7 +173,16 @@
 	background-color:#9b3a31;
 	visibility: collapse;
 
-	padding: 10px;
+	padding: 9px;
+}
+
+/*.ChangeMaterialSetButton:hover {
+	opacity: 0.8;
+}*/
+
+.ChangeMaterialSetButton:active {
+	/*padding: 8px;*/
+	/*transform: rotateX( 30deg );*/
 }
 
 .LocalPlayer .ChangeMaterialSetButton {
@@ -175,4 +201,9 @@
 
 .ChangeMaterialSetButton:hover {
 	background-color:#784b54;
+}
+
+#timer {
+	font-size: 115px;
+	color: white;
 }

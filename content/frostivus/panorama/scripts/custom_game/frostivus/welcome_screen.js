@@ -88,7 +88,7 @@ function FindOrCreatePanelForPlayer(playerID, parent) {
 	newPlayerPanel.BCreateChildren("<DOTAScenePanel id='" + id + "' particleonly='false' class='GreevilScene' map='greevils/greevil_1' camera='camera0'/> ");
 	
 	newPlayerPanel.FindChildTraverse(id).hittest = false;
-	newPlayerPanel.MoveChildBefore(id, 'playerCardOverlay');
+	newPlayerPanel.MoveChildBefore(id, "playerCardOverlay");
 	// highlight local player card
 	var localPlayerInfo = Game.GetLocalPlayerInfo();
 	if (localPlayerInfo) {
@@ -112,15 +112,27 @@ function UpdatePlayerCards(teamid) {
 	}
 
 	// find all players in team
-	var teamPlayers = Game.GetPlayerIDsOnTeam(teamid);
+	var teamPlayers = Game.GetAllPlayerIDs();
 
 	// remove the current players
 	teamPanel.RemoveAndDeleteChildren();
 
+	var playerID = Players.GetLocalPlayer();
+
 	// create them
 	for (var i = 0; i < teamPlayers.length; ++i) {
-		// $.Msg("creating panel for player", teamPlayers[i])
-		FindOrCreatePanelForPlayer(teamPlayers[i], teamPanel)
+		if (teamPlayers.length >= 3) {
+			var seed = Math.floor(teamPlayers.length / 2);
+			if (teamPlayers[i] == playerID) {
+				FindOrCreatePanelForPlayer(teamPlayers[seed], teamPanel);
+			} else if (teamPlayers[i] == teamPlayers[seed]) {
+				FindOrCreatePanelForPlayer(playerID, teamPanel);
+			} else {
+				FindOrCreatePanelForPlayer(teamPlayers[i], teamPanel)
+			}
+		} else {
+			FindOrCreatePanelForPlayer(teamPlayers[i], teamPanel)
+		}
 	}
 }
 

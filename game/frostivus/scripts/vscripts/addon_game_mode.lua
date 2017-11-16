@@ -63,4 +63,6 @@ function Activate()
 	GameRules.GameMode = GameMode()
 	GameRules.GameMode:_InitGameMode()
   reload = true
+
+  -- SendToServerConsole( 'dota_create_fake_clients 4' )
 end
