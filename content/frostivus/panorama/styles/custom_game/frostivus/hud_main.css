@@ -297,18 +297,14 @@
 	padding: 20px;
 	padding-left: 30px;
 	border-radius:20px;
-
-	flow-children: right;
-
-	background-color:#000000aa;
 }
 
 .TimerBackground {
-	width: 100px;
-	height:100px;
+	width: 250px;
+	height:250px;
 }
 
-.TimeRunningOut .TimerBackground{
+.TimeRunningOut #count_down_timer{
 	animation-name: Shaking;
 	animation-duration: 0.3s;
 	animation-delay: 0s;
@@ -364,10 +360,11 @@
 
 #timer_digits {
 	vertical-align: center;
-	font-size: 70px;
+	horizontal-align: center;
+	font-size: 50px;
+	margin-right: 10px;
 	font-weight: bold;
 	color: gradient( linear, 0% 0%, 0% 100%, from( #ffe899 ), color-stop( .32, #e5eb37 ), color-stop( .64, #cdac14 ), to( #837b00 ) );
-	letter-spacing: 3px;
 }
 
 .TimeRunningOut #timer_digits {

@@ -81,8 +81,8 @@
 					<Image class="TimerDigit" id="count_down_secs_1" />
 					<Image class="TimerDigit" id="count_down_secs_2" />
 				</Panel> -->
-				<Label id="timer_digits" text="00:00" />
 				<Image src="file://{resources}/images/custom_game/ui/timer.png" class="TimerBackground" />
+				<Label id="timer_digits" text="00:00" />
 			</Panel>
 
 			<!-- round end summary -->

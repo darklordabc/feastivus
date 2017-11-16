@@ -36,6 +36,8 @@ function HideTimer() {
 }
 
 function OnTimer(args){
+	$("#count_down_timer").RemoveClass("Hidden");
+
 	var time = args.value
 	$("#count_down_timer").SetHasClass("TimeRunningOut", time < 20)
 	

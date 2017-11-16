@@ -13,6 +13,13 @@ local LEVEL_CAMERA_TARGET = Vector(-1.579994, 56.258438, 940)
 
 local function StartPlayTutorial(player)
 	local playerid = player:GetPlayerID()
+
+	if IsInToolsMode() then
+		playerid = table.random({0,1,2,3,4})
+	end
+
+	print("Tutorial room No.->", playerid)
+
 	local hero = player:GetAssignedHero()
 
 	hero.__bPlayingTutorial = true
