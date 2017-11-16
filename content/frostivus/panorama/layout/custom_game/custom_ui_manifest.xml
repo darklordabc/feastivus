@@ -46,13 +46,7 @@
 
   <Panel>
     <!-- CustomUIElements go here.-->
-
-    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/barebones_notifications.xml" /> 
-    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/barebones_attachments.xml" /> 
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/barebones_worldpanels.xml" />
-    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/containers/container_base.xml" />
-    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/modmaker/modmaker.xml" />
-    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/selection.xml" />
     
     <CustomUIElement type="GameSetup" layoutfile="file://{resources}/layout/custom_game/frostivus/welcome_screen.xml" />
 
