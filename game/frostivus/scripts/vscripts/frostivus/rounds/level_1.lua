@@ -69,7 +69,7 @@ local function StartPlayTutorial(player)
 		}
 	}
 
-	CustomNetTables:SetTableValue("orders", "tutorial_orders_" .. tostring(playerid), tutorialOrders)
+	CustomNetTables:SetTableValue("orders", "tutorial_orders_" .. hero:GetPlayerID(), tutorialOrders)
 
 	-- show tooltip message
 	hero.pszTooltipMessage = MessageCenter:ShowMessageOnClient(player, {item = "item_raw_leaf", text="#tutorial_text_pickup_tango"})
@@ -125,14 +125,14 @@ local function StartPlayTutorial(player)
 			tutorialOrders[1].pszFinishType = "Finished"
 			Timers:CreateTimer(2, function()
 				tutorialOrders[1] = nil
-				CustomNetTables:SetTableValue("orders", "tutorial_orders_" .. tostring(playerid), tutorialOrders)
+				CustomNetTables:SetTableValue("orders", "tutorial_orders_" .. hero:GetPlayerID(), tutorialOrders)
 				_checkTutorialEnd()
 			end)
 		elseif name == "item_mango_salad" then
 			tutorialOrders[2].pszFinishType = "Finished"
 			Timers:CreateTimer(2, function()
 				tutorialOrders[2] = nil
-				CustomNetTables:SetTableValue("orders", "tutorial_orders_" .. tostring(playerid), tutorialOrders)
+				CustomNetTables:SetTableValue("orders", "tutorial_orders_" .. hero:GetPlayerID(), tutorialOrders)
 				_checkTutorialEnd()
 			end)
 		end
