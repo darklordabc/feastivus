@@ -49,14 +49,14 @@ local function StartPlayTutorial(player)
 		{
 			pszID = "tutorial_order_1_" .. playerid,
 			pszItemName = "item_tango_salad",
-			nTimeRemainint = 60,
+			nTimeRemaining = 60,
 			nTimeLimit = 60,
 			pszFinishType = nil,
 		},
 		{
 			pszID = "tutorial_order_2_" .. playerid,
 			pszItemName = "item_mango_salad",
-			nTimeRemainint = 60,
+			nTimeRemaining = 60,
 			nTimeLimit = 60,
 			pszFinishType = nil,
 		}
