@@ -35,9 +35,9 @@ function ShowRoundEndSummary(args) {
 
 	$("#round_end_summary").RemoveClass("Hidden");
 
-	// $.Schedule(10, function() {
-	// 	$("#round_end_summary").AddClass("Hidden");
-	// });
+	$.Schedule(10, function() {
+		$("#round_end_summary").AddClass("Hidden");
+	});
 
 }
 
