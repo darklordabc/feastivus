@@ -1,6 +1,16 @@
 -- tutorial is played during level 1
 LinkLuaModifier("modifier_target_tooltip","frostivus/modifiers/modifier_target_tooltip.lua",LUA_MODIFIER_MOTION_NONE)
 
+local TUTORIAL_CAMERA_TARGETS = {
+	[0] = Vector(3573.28, 3458, 890),
+	[1] = Vector(6069.28, 3378, 890),
+	[2] = Vector(6069.28, 5426, 890),
+	[3] = Vector(3381.28, 5426, 890),
+	[4] = Vector(245.277, 5426, 890)
+}
+
+local LEVEL_CAMERA_TARGET = Vector(-1.579994, 56.258438, 940)
+
 local function StartPlayTutorial(player)
 	local playerid = player:GetPlayerID()
 	local hero = player:GetAssignedHero()
@@ -13,15 +23,7 @@ local function StartPlayTutorial(player)
 		FindClearSpaceForUnit(hero, ent_teleport_target:GetAbsOrigin(), true)
 	end
 
-	-- force camera to lock on tutorial in case of main thread release it
-	Timers:CreateTimer(function()
-		PlayerResource:SetCameraTarget(playerid, Entities:FindByName(nil, "level_0_camera_target_" .. tostring(playerid)))
-		if not hero.__bFinishedTutorial then
-			return 1
-		else
-			return nil
-		end
-	end)
+	hero:SetCameraTargetPosition(TUTORIAL_CAMERA_TARGETS[playerid])
 
 	CustomGameEventManager:Send_ServerToPlayer(player, "player_start_playing_tutorial", {})
 
@@ -102,7 +104,7 @@ local function StartPlayTutorial(player)
 				if start then
 					FindClearSpaceForUnit(hero, start:GetOrigin(), true)
 				end
-				PlayerResource:SetCameraTarget(playerid, Entities:FindByName(nil, "level_" ..currentLevel.. "_camera_target"))
+				hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
 			end
 		end
 
@@ -128,7 +130,7 @@ local function StartPlayTutorial(player)
 
 		plateBench:RemoveModifierByName("modifier_target_tooltip")
 		serveBench:RemoveModifierByName("modifier_target_tooltip")
-		
+
 		MessageCenter:RemoveMessage(hero.pszTooltipMessage)
 		MessageCenter:ShowMessageOnClient(player, {icon = "tutorial/sink.png", text="#tutorial_clean_plates", duration=5})
 		Timers:CreateTimer(5, function()
@@ -152,6 +154,30 @@ return {
 	end,
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
+
+		-- ask server for players that didnt play tutorial yet
+		LoopOverPlayers(function(player)
+			print("is player required to play tutorial?")
+			local req = CreateHTTPRequest("POST", "http://18.216.43.117:10010/IsFinishedTutorial")
+			req:SetHTTPRequestGetOrPostParameter("steamid", tostring(PlayerResource:GetSteamAccountID(player:GetPlayerID())))
+			req:Send(function(result)
+				for k, v in pairs(result) do
+					print(k, v)
+				end
+				if result.StatusCode == 200 then
+					local r = result.Body
+					if tonumber(r) == 1 then
+						-- player dont need to play tutorial
+						local hero = player:GetAssignedHero()
+						hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
+					else
+						-- ask player to start play tutorial
+						print("player have to play tutorial")
+						StartPlayTutorial(player)
+					end
+				end
+			end)
+		end)
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
@@ -175,27 +201,6 @@ return {
 				GameRules:GetGameModeEntity():EmitSound("custom_music.main_theme")
 				return 138
 			end
-		end)
-
-		-- ask server for players that didnt play tutorial yet
-		LoopOverPlayers(function(player)
-			print("is player required to play tutorial?")
-			local req = CreateHTTPRequest("POST", "http://18.216.43.117:10010/IsFinishedTutorial")
-			req:SetHTTPRequestGetOrPostParameter("steamid", tostring(PlayerResource:GetSteamAccountID(player:GetPlayerID())))
-			req:Send(function(result)
-				for k, v in pairs(result) do
-					print(k, v)
-				end
-				if result.StatusCode == 200 then
-					local r = result.Body
-					if tonumber(r) == 1 then
-					else
-						-- ask player to start play tutorial
-						print("player have to play tutorial")
-						StartPlayTutorial(player)
-					end
-				end
-			end)
 		end)
 	end,
 

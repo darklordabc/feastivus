@@ -1,5 +1,5 @@
--- round scripts
--- all keys are optional
+local LEVEL_CAMERA_TARGET = Vector(4224.000000, -300.609528, 1250)
+
 return {
 	OnInitialize = function(round)
 		-- in initialize script, setup round parameters
@@ -15,6 +15,9 @@ return {
 	end,
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
+		LoopOverHeroes(function(hero)
+			hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
+		end)
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")

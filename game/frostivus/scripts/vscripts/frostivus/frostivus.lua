@@ -1,14 +1,3 @@
-FROSTIVUS_CAMERA_TARGET = {}
-FROSTIVUS_CAMERA_TARGET[0] = {}
-FROSTIVUS_CAMERA_TARGET[0][0] = Vector(3573.28, 3458, 890)
-FROSTIVUS_CAMERA_TARGET[0][1] = Vector(6069.28, 3378, 890)
-FROSTIVUS_CAMERA_TARGET[0][2] = Vector(6069.28, 5426, 890)
-FROSTIVUS_CAMERA_TARGET[0][3] = Vector(3381.28, 5426, 890)
-FROSTIVUS_CAMERA_TARGET[0][4] = Vector(245.277, 5426, 890)
-FROSTIVUS_CAMERA_TARGET[1] = Vector(-1.579994, 56.258438, 940)
-FROSTIVUS_CAMERA_TARGET[2] = Vector(4224.000000, -300.609528, 1250)
-FROSTIVUS_CAMERA_TARGET[3] = Vector(4675.000000, -6100.000000, 1250)
-
 if not Frostivus then
     Frostivus = class({})
 
@@ -72,38 +61,6 @@ if not Frostivus then
 			CustomNetTables:SetTableValue("recipes", product, assemblies)
 		end
 	end
-else
-	-- Reload
-	Frostivus:UpdateCameraTargets(g_RoundManager.nCurrentLevel)
-end
-
-function Frostivus:UpdateCameraTargets(level)
-    for k,v in pairs(Frostivus.RoundsKVs) do
-    	if tonumber(k) == 0 then
-    		for i=0,4 do
-        		if Frostivus.state.rounds[tonumber(k)].camera_target[i] then
-    				Frostivus.state.rounds[tonumber(k)].camera_target[i]:SetAbsOrigin(FROSTIVUS_CAMERA_TARGET[tonumber(k)][i])
-    			end
-    		end
-    	else
-        	if Frostivus.state.rounds[tonumber(k)].camera_target then
-    			Frostivus.state.rounds[tonumber(k)].camera_target:SetAbsOrigin(FROSTIVUS_CAMERA_TARGET[tonumber(k)])
-    		end
-    	end
-    end
-
-    LoopOverHeroes(function ( hero )
-		local camera_target = Frostivus.state.rounds[level].camera_target
-		if camera_target then
-			if level == 0 then
-				PlayerResource:SetCameraTarget(hero:GetPlayerOwnerID(), camera_target[hero:GetPlayerOwnerID()])
-				GameRules:GetGameModeEntity():SetCameraDistanceOverride( camera_target[hero:GetPlayerOwnerID()]:GetAbsOrigin().z )
-			else
-				PlayerResource:SetCameraTarget(hero:GetPlayerOwnerID(), camera_target)
-				GameRules:GetGameModeEntity():SetCameraDistanceOverride( camera_target:GetAbsOrigin().z )
-			end
-		end
-    end)
 end
 
 function Frostivus:InitHero(hero)

@@ -122,8 +122,6 @@ function Round:OnTimer()
 
 		self.nPreRoundCountDownTimer = self.nPreRoundTime
 
-		Frostivus:UpdateCameraTargets(self.vRoundData.level)
-
 		LoopOverHeroes(function(hero)
 			hero:AddNewModifier(hero,nil,"modifier_preround_freeze",{})
 		end)
