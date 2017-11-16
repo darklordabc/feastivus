@@ -10,44 +10,20 @@ if GameMode == nil then
 		_G.GameMode = class({})
 end
 
--- This library allow for easily delayed/timed actions
 require('libraries/timers')
--- This library can be used for advancted physics/motion/collision of units.	See PhysicsReadme.txt for more information.
-require('libraries/physics')
--- This library can be used for advanced 3D projectile systems.
-require('libraries/projectiles')
--- This library can be used for sending panorama notifications to the UIs of players/teams/everyone
-require('libraries/notifications')
--- This library can be used for starting customized animations on units from lua
 require('libraries/animations')
--- This library can be used for performing "Frankenstein" attachments on units
-require('libraries/attachments')
--- This library can be used to synchronize client-server data via player/client-specific nettables
 require('libraries/playertables')
--- This library can be used to create container inventories or container shops
-require('libraries/containers')
--- This library provides a searchable, automatically updating lua API in the tools-mode via "modmaker_api" console command
-require('libraries/modmaker')
--- This library provides an automatic graph construction of path_corner entities within the map
-require('libraries/pathgraph')
--- This library (by Noya) provides player selection inspection and management from server lua
-require('libraries/selection')
 
--- These internal libraries set up barebones's events and processes.	Feel free to inspect them/change them if you need to.
 require('internal/gamemode')
 require('internal/events')
 
--- settings.lua is where you can specify many different properties for your game mode and is one of the core barebones files.
 require('settings')
--- events.lua is where you can specify the actions to be taken when any event occurs and is one of the core barebones files.
 require('events')
 
 require("libraries/worldpanels")
 
--- stuff
 require('frostivus/frostivus_objects')
 require('frostivus/frostivus_bench_api')
-
 require('frostivus/frostivus_event_listener')
 require('frostivus/modules/move_controller')
 require('frostivus/modules/hats_manager')
