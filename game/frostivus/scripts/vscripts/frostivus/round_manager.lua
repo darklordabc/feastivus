@@ -228,27 +228,7 @@ function Round:OnTimer()
 	if self.vRoundScript.OnTimer then
 		self.vRoundScript.OnTimer(self.nExpiredTime, self.nCountDownTimer)
 	end
-
-	if self.vTutorialState then
-		local finished = true
-		for i=0,4 do
-	        local pID = i
-	        if (not self.vTutorialState[pID] or GetTableLength(self.vTutorialState[pID]) < 3) and (PlayerResource:IsValidPlayerID(pID) and (PlayerResource:GetConnectionState(pID) == 1 or PlayerResource:GetConnectionState(pID) == 2)) then
-				finished = false
-				break
-	        end
-		end
-		if finished then
-			CustomNetTables:SetTableValue("orders", "tutorial", nil)
-			for k,v in pairs(self.vCurrentOrders) do
-				self.vCurrentOrders[k].nTimeRemaining = self.vCurrentOrders[k].nTimeLimit
-				self.vCurrentOrders[k].pszFinishType = "Finished"
-			end
-			self:UpdateOrdersToClient()
-			self:EndRound()
-		end
-	end
-
+	
 	-- update ui timer
 	CustomGameEventManager:Send_ServerToAllClients("round_timer",{
 		value = self.nCountDownTimer
@@ -465,6 +445,14 @@ function RoundManager:StartNewRound(level) -- level is passed for test purpose
 	self.nCurrentLevel = level
 
 	local roundData = GameRules.vRoundDefinations[level]
+
+	-- if there is no new round, end this game
+	if roundData == nil then
+		-- end game
+		GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
+		return
+	end
+
 	roundData.level = level
 
 	local teleport_target_entities = Entities:FindAllByName('level_' .. tostring(level) .. '_start')
@@ -512,13 +500,6 @@ function RoundManager:StartNewRound(level) -- level is passed for test purpose
 		-- remove teleporting effect
 		hero:RemoveModifierByName('modifier_teleport_to_new_round')
 	end)
-
-	-- if there is no new round, end this game
-	if roundData == nil then
-		-- end game
-		GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
-		return
-	end
 
 	-- instantiation round
 	self.vCurrentRound = Round(roundData)

@@ -1,16 +1,16 @@
 var m_Recipes = null;
 var m_OrderPanels = {};
-var m_TutorialOrders = {};
-
-var m_Subscription = null;
 
 function OnOrderChanged(table_name, key, data) {
-	if (key == "tutorial") return;
-	var orders = data;//CustomNetTables.GetTableValue("orders", "orders");
-	var tutorial = CustomNetTables.GetTableValue("orders", "tutorial");
+	var orders = CustomNetTables.GetTableValue("orders", "orders");
+	var tutorial = CustomNetTables.GetTableValue("orders", "tutorial_orders_" + Players.GetLocalPlayer());
+	if (tutorial != null) {
+		if (Object.keys(tutorial).length > 0)
+			orders = tutorial;
+	}
 
+	if (orders == null) return;
 	var parent = $("#orders");
-
 	for (var k in orders) {
 		var order = orders[k];
 		var orderId = order.pszID
@@ -21,11 +21,6 @@ function OnOrderChanged(table_name, key, data) {
 
 		if (tutorial) {
 			timeRemaining = timeLimit;
-
-			// check if order is complete
-			if (tutorial[Players.GetLocalPlayer()] && tutorial[Players.GetLocalPlayer()][orderId]) {
-				finishType = "Finished";
-			}
 		}
 
 		var orderPanel = parent.FindChildTraverse(orderId);
@@ -43,8 +38,6 @@ function OnOrderChanged(table_name, key, data) {
 			}
 
 			var assemblies = m_Recipes[itemName];
-
-			$.Msg(assemblies);
 
 			if (assemblies != undefined) {
 				for (var i = 0; i < Object.keys(assemblies).length; ++i){
@@ -84,52 +77,24 @@ function OnOrderChanged(table_name, key, data) {
 		if (!found) {
 			m_OrderPanels[k].DeleteAsync(0.5);
 			m_OrderPanels[k].SetHasClass("OrderAppear", true);
-
 			delete m_OrderPanels[k];
 		}
 
 	}
-
 }
 
-function OnRecipesChanged() {
-
+function OnRecipesChanged(){
 	var recipes = CustomNetTables.GetAllTableValues("recipes");
 	m_Recipes = {};
 
-	for (var k in recipes){
+	for (var k in recipes) {
 		var recipe = recipes[k];
-		m_Recipes[recipe.key] = recipe.value
+		m_Recipes[recipe.key] = recipe.value;
 	}
 }
 
-function OnTutorialDone(keys) {
-	$.Msg(keys);
-	m_TutorialOrders[keys.order] = keys.lowestTime;
-	// 
-	// orders[keys.order].pszFinishType = "Finished";
-	// Unsubscribe()
-	// OnOrderChanged("orders", "orders", orders);
-	// $.Schedule(1.0, function () {
-	// 	OnOrderChanged("orders", "orders", {});
-	// 	// Subscribe();
-	// });
-}
-
-function Subscribe() {
-	m_Subscription = CustomNetTables.SubscribeNetTableListener("orders", OnOrderChanged);
-}
-
-function Unsubscribe() {
-	CustomNetTables.UnsubscribeNetTableListener(m_Subscription)
-}
-
 (function(){
+	OnOrderChanged();
 	OnRecipesChanged();
-	CustomNetTables.SubscribeNetTableListener("recipes", OnRecipesChanged);
-
-	Subscribe();
-	
-	GameEvents.Subscribe("frostivus_tutorial_order", OnTutorialDone);
-	GameEvents.Subscribe("frostivus_resubscribe", Subscribe);
+	CustomNetTables.SubscribeNetTableListener("orders", OnOrderChanged);
 })();

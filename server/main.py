@@ -108,7 +108,7 @@ def set_finished_tutorial():
 	steamid = request.form.get('steamid')
 	if steamid is None:
 		abort(502)
-	Database.player_db().update_one({"steamid": steamid}, {'$set': {'FinishedTutorial': True}}, upsert=True)
+	
 	return 'ok'
 
 if __name__ == '__main__':

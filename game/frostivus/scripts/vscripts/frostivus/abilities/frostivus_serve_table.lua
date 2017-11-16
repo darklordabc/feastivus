@@ -20,7 +20,12 @@ function frostivus_serve_table:OnUpgrade()
             end
 
         	item = CreateItem(item,nil,nil)
-    		g_Serve(item, user)
+
+            if user.__bPlayingTutorial then
+                user:OnDoTutorialServe(item)
+    		else
+                g_Serve(item, user)
+            end
 
             local container = Frostivus:GetCarryingItem(self)
 
