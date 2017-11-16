@@ -210,7 +210,7 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "item_plate"
-    "Model"                   "models/plates/plate_1.vmdl"
+    "Model"                   "models/plates/clean_plate_1.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
