@@ -36,7 +36,7 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, prop, G
 
         local progress = pot.progress
 
-        if holder and holder:IsBench() and holder:IsHotBench() then
+        if holder and holder:IsBench() and holder:IsHotBench() and pot:GetBenchItemBySlot(1) then
             if pot:GetBenchItemBySlot(1) then
                 if not progress or not progress:GetData().cooking_done then
                     StartCooking( pot )
@@ -244,6 +244,11 @@ function CreatePlate(  )
             -- Timers:CreateTimer(function (  )
                 
             -- end)
+
+            local p = ParticleManager:CreateParticle("particles/frostivus_gameplay/order_done.vpcf", PATTACH_ABSORIGIN_FOLLOW, dish)
+            ParticleManager:SetParticleControl(p, 3, dish:GetAbsOrigin())
+
+            EmitSoundOn("custom_sound.dish", dish)
 
             if holder:IsBench() then
                 holder:AddItemToBench(result, user)

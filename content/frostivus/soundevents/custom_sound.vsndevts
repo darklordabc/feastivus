@@ -88,4 +88,12 @@
         ]
         volume = "0.500000"
 	}
+	custom_sound.dish = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/music/stingers/greevil_stingers/greevil_receive_present.vsnd",
+        ]
+        volume = "0.450000"
+	}
 }
