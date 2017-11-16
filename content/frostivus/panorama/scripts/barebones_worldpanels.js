@@ -39,7 +39,7 @@ function WorldPanelChange(id, changes, dels)
       wp.panel.Data = wp.data;
       wp.panel.DeleteWorldPanel = function(pan){ 
         return function(){
-          pan.DeleteAsync(0);
+          pan.RemoveAndDeleteChildren();
           delete panels[k];
         }
       }(wp.panel);
@@ -71,7 +71,7 @@ function WorldPanelChange(id, changes, dels)
   }
 
   for (var k in dels){
-    panels[k].panel.DeleteAsync(0);
+    panels[k].panel.RemoveAndDeleteChildren();
     delete panels[k];
   }
 }
@@ -85,7 +85,7 @@ function PositionPanels()
     if (!pos){
       if (!Entities.IsValidEntity(wp.entity)){
         if (wp.seen){
-          panels[k].panel.DeleteAsync(0);
+          panels[k].panel.RemoveAndDeleteChildren();
           delete panels[k];
           continue;
         }

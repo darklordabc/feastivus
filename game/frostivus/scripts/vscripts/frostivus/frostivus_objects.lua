@@ -78,10 +78,9 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, prop, G
                     old_data.overtime = old_data.overtime + delta
 
                     if old_data.overtime >= 7 then
-                        pot:SetItems({})
-                        pot:SetFakeItem(nil)
-
-                        old_data.progress = 0
+                        ParticleManager:CreateParticle("particles/frostivus_gameplay/bank_failed.vpcf", PATTACH_ABSORIGIN_FOLLOW, pot)
+                        EmitSoundOn("custom_sound.bank_failed", pot)
+                        pot:ClearBank()
                     end
                 else
                     old_data.overtime = 0
