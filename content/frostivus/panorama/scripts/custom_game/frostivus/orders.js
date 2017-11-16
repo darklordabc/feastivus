@@ -19,10 +19,6 @@ function OnOrderChanged(table_name, key, data) {
 		var timeLimit = order.nTimeLimit
 		var finishType = order.pszFinishType;
 
-		if (tutorial) {
-			timeRemaining = timeLimit;
-		}
-
 		var orderPanel = parent.FindChildTraverse(orderId);
 		
 		if (orderPanel == undefined) {
