@@ -12,7 +12,7 @@ function frostivus_plate_bench:OnUpgrade()
         caster:SetBenchHidden(true)
 
         local count = 3
-        if caster:GetName() == "tutorial_plate" then count = 1 end
+        if string.match(caster:GetName(), "npc_plate_bench") then count = 1 end
 
         if count > 1 then
         	caster:AddItemToBench("item_clean_plates")
