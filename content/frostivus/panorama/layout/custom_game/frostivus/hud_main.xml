@@ -74,7 +74,6 @@
 
 			<!-- countdown timer -->
 			<Panel id="count_down_timer" class="Hidden" hittestchildren="false" >
-				<Image src="file://{resources}/images/custom_game/ui/timer.psd" class="TimerBackground" />
 				<Panel class="TimerDigits">
 					<Image class="TimerDigit" id="count_down_mins_1" />
 					<Image class="TimerDigit" id="count_down_mins_2" />
@@ -82,6 +81,7 @@
 					<Image class="TimerDigit" id="count_down_secs_1" />
 					<Image class="TimerDigit" id="count_down_secs_2" />
 				</Panel>
+				<Image src="file://{resources}/images/custom_game/ui/timer.png" class="TimerBackground" />
 			</Panel>
 
 			<!-- round end summary -->

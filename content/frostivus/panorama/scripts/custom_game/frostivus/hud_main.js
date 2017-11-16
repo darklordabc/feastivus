@@ -37,6 +37,7 @@ function HideTimer() {
 
 function OnTimer(args){
 	var time = args.value
+	$("#count_down_timer").SetHasClass("TimeRunningOut", time < 20)
 	
 	var mins = Math.floor(time / 60);
 	var secs = Math.floor(time - mins * 60);
@@ -47,6 +48,9 @@ function OnTimer(args){
 	
 	if(mins <= 0) {
 		$("#count_down_timer").AddClass("SecondsOnly");
+
+
+
 	}else{
 		$("#count_down_timer").RemoveClass("SecondsOnly");
 	}

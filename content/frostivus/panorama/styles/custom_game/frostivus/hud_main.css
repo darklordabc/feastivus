@@ -292,21 +292,51 @@
 #count_down_timer {
 	vertical-align: bottom;
 	horizontal-align: right;
+	margin-bottom: -10px;
+	margin-right:-10px;
+	padding: 20px;
+	padding-left: 30px;
+	border-radius:20px;
 
-	margin-bottom: 10px;
-	margin-right:10px;
+	flow-children: right;
+
+	background-color:#000000aa;
 }
 
 .TimerBackground {
-	width: 250px;
-	height:250px;
+	width: 125px;
+	height:125px;
 }
+
+.TimeRunningOut .TimerBackground{
+	animation-name: Shaking;
+	animation-duration: 0.3s;
+	animation-delay: 0s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+@keyframes 'Shaking'  {
+	0%
+	{
+		transform: rotateZ( -3deg );
+	}
+	50%
+	{
+		transform: rotateZ( 3deg);
+	}
+	100%
+	{
+		transform: rotateZ( -3deg);
+	}
+}
+
 
 .TimerDigits {
 	flow-children:right;
 	vertical-align: center;
 	horizontal-align: center;
-	background-color: gradient( linear, 0% 100%, 0% 0%, from( #00000022 ), color-stop(0.2, #000000ee), color-stop(0.5, #000000ff), color-stop(0.8, #000000ee), to( #00000022 ) );
+	/*background-color: gradient( linear, 0% 100%, 0% 0%, from( #00000022 ), color-stop(0.2, #000000ee), color-stop(0.5, #000000ff), color-stop(0.8, #000000ee), to( #00000022 ) );*/
 }
 
 .TimerColon {
