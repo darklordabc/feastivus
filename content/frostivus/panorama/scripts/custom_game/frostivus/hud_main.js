@@ -49,8 +49,6 @@ function OnTimer(args){
 	if(mins <= 0) {
 		$("#count_down_timer").AddClass("SecondsOnly");
 
-
-
 	}else{
 		$("#count_down_timer").RemoveClass("SecondsOnly");
 	}
