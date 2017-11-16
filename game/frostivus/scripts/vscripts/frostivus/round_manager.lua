@@ -159,7 +159,6 @@ function Round:OnTimer()
 	end
 
 	-- ROUND START!
-
 	if self.nCountDownTimer == nil then
 		self.nCountDownTimer = self.nTimeLimit
 		self.nExpiredTime = 0
@@ -172,8 +171,12 @@ function Round:OnTimer()
 		end)
 	end
 
-	self.nCountDownTimer = self.nCountDownTimer - 1
-	self.nExpiredTime = self.nExpiredTime + 1
+	if GameRules.bLevelOneStarted then
+		self.nCountDownTimer = self.nCountDownTimer - 1
+		self.nExpiredTime = self.nExpiredTime + 1
+	else
+		return
+	end
 
 	-- time's up or there are no pending orders and no orders running
 	-- this round is ended
