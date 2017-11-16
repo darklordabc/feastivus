@@ -207,7 +207,7 @@ function Round:OnTimer()
 			-- reduce unfinised orders only
 			order.nTimeRemaining = order.nTimeRemaining - 1
 		end
-		if order.nTimeRemaining <= 0 and g_RoundManager.nCurrentLevel ~= 0 then -- remove the un-finished orders
+		if order.nTimeRemaining <= 0 then -- remove the un-finished orders
 			-- @todo, punishment??
 			
 			-- tell client to show order finished message
@@ -351,38 +351,27 @@ function Round:OnServe(itemEntity, user)
 				end
 			end
 		end
+		table.insert(self.vFinishedOrders, {pszItemName = itemName, nFinishTime = self.nCountDownTimer})
 
-		-- tutorial stuff
-		if g_RoundManager.nCurrentLevel == 0 then
-			self.vTutorialState = self.vTutorialState or {}
-			self.vTutorialState[user:GetPlayerOwnerID()] = self.vTutorialState[user:GetPlayerOwnerID()] or {} --(self.vTutorialState[user:GetPlayerOwnerID()] or 0) + 1
-			self.vTutorialState[user:GetPlayerOwnerID()][pszID] = true
-			CustomNetTables:SetTableValue("orders", "tutorial", self.vTutorialState)
+		-- tell client to show order finished message
+		self.vCurrentOrders[orderIndex].pszFinishType = "Finished"
+		self:UpdateOrdersToClient()
 
-			--CustomGameEventManager:Send_ServerToPlayer(user:GetPlayerOwner(), "frostivus_tutorial_order", { finished = self.vTutorialState[user:GetPlayerOwnerID()] == 3, order = pszID, lowestTime = lowestTime })
-		else
-			table.insert(self.vFinishedOrders, {pszItemName = itemName, nFinishTime = self.nCountDownTimer})
-			-- tell client to show order finished message
-			self.vCurrentOrders[orderIndex].pszFinishType = "Finished"
+		Timers:CreateTimer(2, function()
+			-- remove order after a short delay
+			self.vCurrentOrders[orderIndex] = nil
+		end)
 
-			self:UpdateOrdersToClient()
-
-			Timers:CreateTimer(2, function()
-				-- remove order after a short delay
-				self.vCurrentOrders[orderIndex] = nil
-			end)
-
-			-- add score
-			self.vRoundScore = self.vRoundScore or 0
-			self.vRoundScore = self.vRoundScore + 100 -- score for finishing an order
-			local orderTimeRemaining = self.vCurrentOrders[orderIndex].nTimeRemaining
-			if orderTimeRemaining >= 1 then
-				-- add time bonus
-				self.vRoundScore = self.vRoundScore + math.floor(orderTimeRemaining)
-			end
-
-			self:UpdateScoreToClient()
+		-- add score
+		self.vRoundScore = self.vRoundScore or 0
+		self.vRoundScore = self.vRoundScore + 100 -- score for finishing an order
+		local orderTimeRemaining = self.vCurrentOrders[orderIndex].nTimeRemaining
+		if orderTimeRemaining >= 1 then
+			-- add time bonus
+			self.vRoundScore = self.vRoundScore + math.floor(orderTimeRemaining)
 		end
+
+		self:UpdateScoreToClient()
 
 		local itemPhysical = itemEntity:GetContainer()
 		if itemPhysical then
@@ -444,7 +433,7 @@ if RoundManager == nil then RoundManager = class({}) end
 
 
 function RoundManager:constructor()
-	print("RoundManager -> constructor")
+	self.nCurrentLevel = 0
 	ListenToGameEvent("game_rules_state_change",Dynamic_Wrap(RoundManager, "OnGameRulesStateChanged"),self)
 	GameRules:GetGameModeEntity():SetContextThink(DoUniqueString("round_timer"),function()
 		self:OnTimer()
@@ -456,28 +445,14 @@ function RoundManager:OnGameRulesStateChanged()
 	-- init round manager when pre game
 	local newState = GameRules:State_Get()
 	if newState == DOTA_GAMERULES_STATE_PRE_GAME then
-		Timers:CreateTimer(1, function()
-			self:Init()
+		Timers:CreateTimer(0, function()
+			self:StartNewRound()
 		end)
 	end
 end
 
-function RoundManager:Init()
-	self:SetPlayTutorial()
-
-	self.nCurrentLevel = 1
-	if self.bPlayTutorial then
-		self.nCurrentLevel = 0
-		CustomNetTables:SetTableValue("orders", "tutorial", {})
-	end
-
-	self:StartNewRound()
-end
-
 function RoundManager:OnRoundEnd()
-	self.nCurrentLevel = self.nCurrentLevel + 1
 	self.vCurrentRound = nil
-
 	self:StartNewRound()
 end
 
@@ -486,14 +461,15 @@ function RoundManager:SetPlayTutorial()
 end
 
 function RoundManager:StartNewRound(level) -- level is passed for test purpose
-	level = level or self.nCurrentLevel
+	level = level or self.nCurrentLevel + 1
+	self.nCurrentLevel = level
 
 	local roundData = GameRules.vRoundDefinations[level]
 	roundData.level = level
 
 	local teleport_target_entities = Entities:FindAllByName('level_' .. tostring(level) .. '_start')
-	print("teleport target found", table.count(teleport_target_entities))
 	local lastTeleportTarget = nil
+
 	LoopOverHeroes(function(hero)
 		EndAnimation(hero)
 		RemoveAnimationTranslate(hero)
@@ -507,24 +483,20 @@ function RoundManager:StartNewRound(level) -- level is passed for test purpose
 
 		-- teleport players to new round
 		local teleportTarget
-		if level == 0 then
-			teleportTarget = Entities:FindByName(nil, 'level_0_start_'..tostring(hero:GetPlayerOwnerID())):GetAbsOrigin()
-		else
-			if table.count(teleport_target_entities) > 0 then
-				teleportTarget = table.remove(teleport_target_entities)
-				teleportTarget = teleportTarget:GetOrigin()
-			end
+		if table.count(teleport_target_entities) > 0 then
+			teleportTarget = table.remove(teleport_target_entities)
+			teleportTarget = teleportTarget:GetOrigin()
+		end
 
-			if teleportTarget == nil then
-				print("Not enough level start position entity!! moving hero to last teleport target pos")
-				if lastTeleportTarget == nil then
-					print("Not any level start entity found!! go check the map file")
-				else
-					teleportTarget = lastTeleportTarget
-				end
+		if teleportTarget == nil then
+			print("Not enough level start position entity!! moving hero to last teleport target pos")
+			if lastTeleportTarget == nil then
+				print("Not any level start entity found!! go check the map file")
 			else
-				lastTeleportTarget = teleportTarget
+				teleportTarget = lastTeleportTarget
 			end
+		else
+			lastTeleportTarget = teleportTarget
 		end
 
 		FindClearSpaceForUnit(hero,teleportTarget or hero:GetOrigin(),true)
@@ -543,16 +515,14 @@ function RoundManager:StartNewRound(level) -- level is passed for test purpose
 
 	-- if there is no new round, end this game
 	if roundData == nil then
-		-- @todo, end game!!!!
-		print("there is no new round, ending game!")
+		-- end game
+		GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
 		return
 	end
 
 	-- instantiation round
 	self.vCurrentRound = Round(roundData)
 
-	print("RoundManager -> New round started, level-", level)
-	
 	-- display round start message on clients
 	CustomGameEventManager:Send_ServerToAllClients("round_start",{
 		Level = level
