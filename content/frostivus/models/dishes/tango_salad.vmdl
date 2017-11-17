@@ -31,7 +31,7 @@
 		m_flMatchProxiesToMeshes = 1.0
 		m_flFallbackEnvelope = 1.0
 		m_nReservedInt = 0
-		m_bReservedBool1 = false
+		m_bSoftSkinAnimation = false
 		m_bReservedBool2 = false
 		m_bReservedBool3 = false
 		m_bReservedBool4 = false
@@ -62,8 +62,8 @@
 								m_sSurfaceProperty = ""
 								m_nGroupId = 0
 								m_sBoneName = "cube"
-								m_vMinBounds = [ -42.0, 0.0, -42.0 ]
-								m_vMaxBounds = [ 42.0, 25.0, 42.0 ]
+								m_vMinBounds = [ -41.04575, 0.0, -41.668018 ]
+								m_vMaxBounds = [ 41.04575, 16.0, 41.668018 ]
 								m_bTranslationOnly = false
 								m_cRenderColor = [ 0, 0, 0, 0 ]
 							},

@@ -6,9 +6,26 @@ function frostivus_fire_trap:OnUpgrade()
 
 end
 
--- function frostivus_fire_trap:GetIntrinsicModifierName()
---     return "modifier_fire_trap"
--- end
+function frostivus_fire_trap:GetIntrinsicModifierName()
+    return "modifier_fire_trap_passive"
+end
+
+modifier_fire_trap_passive = class({})
+LinkLuaModifier("modifier_fire_trap_passive", "frostivus/abilities/frostivus_fire_trap.lua", 0)
+
+function modifier_fire_trap_passive:IsHidden()
+    return true
+end
+
+function modifier_fire_trap_passive:CheckState()
+    local state = {
+        [MODIFIER_STATE_UNSELECTABLE] = true,
+        [MODIFIER_STATE_NO_HEALTH_BAR] = true,
+        [MODIFIER_STATE_ROOTED] = true
+    }
+
+    return state
+end
 
 modifier_fire_trap = class({})
 LinkLuaModifier("modifier_fire_trap", "frostivus/abilities/frostivus_fire_trap.lua", 0)
@@ -50,18 +67,4 @@ if IsServer() then
             end
         end)
     end
-end
-
-function modifier_fire_trap:IsHidden()
-    return true
-end
-
-function modifier_fire_trap:CheckState()
-    local state = {
-        [MODIFIER_STATE_UNSELECTABLE] = true,
-        [MODIFIER_STATE_NO_HEALTH_BAR] = true,
-        [MODIFIER_STATE_ROOTED] = true
-    }
-
-    return state
 end

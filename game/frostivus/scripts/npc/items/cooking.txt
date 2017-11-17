@@ -168,7 +168,7 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "item_enchanted_mango"
-    "Model"                   "models/props_gameplay/salve_blue.vmdl"
+    "Model"                   "models/chopped_mango/chopped_mango_v4.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
@@ -335,7 +335,7 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "tango_soup"
-    "Model"                   "models/dishes/tango_salad.vmdl"
+    "Model"                   "models/dishes/tango_soup.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
@@ -375,7 +375,7 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "mango_soup"
-    "Model"                   "models/dishes/tango_salad.vmdl"
+    "Model"                   "models/dishes/mango_soup.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
@@ -479,7 +479,7 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "item_bread"
-    "Model"                   "models/props_gameplay/cheese.vmdl"
+    "Model"                   "models/bread/bread_v2.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
@@ -504,6 +504,7 @@
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
+    // "CanBeServed"  "1"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
@@ -521,10 +522,11 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "item_bread_meat_tango"
-    "Model"                   "models/props_gameplay/cheese.vmdl"
+    "Model"                   "models/bowls/bread_meat_tango.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
+    "CanBeServed"  "1"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
@@ -542,10 +544,11 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "item_bread_meat_mango"
-    "Model"                   "models/props_gameplay/cheese.vmdl"
+    "Model"                   "models/bowls/bread_meat_mango.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
+    "CanBeServed"  "1"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
@@ -567,6 +570,7 @@
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
+    "CanBeServed"  "1"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"

@@ -302,17 +302,29 @@ function Round:EndRound()
 		end
 	end)
 
-	-- teleport particle
-	Timers:CreateTimer(self.nEndRoundDelay - 2, function()
+	if g_RoundManager.nCurrentLevel == 3 then
 		LoopOverHeroes(function(v)
-			v:AddNewModifier(v,nil,"modifier_teleport_to_new_round",{})
-		end)
-	end)
+			StartAnimation(v, {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1.0, translate="greevil_miniboss_red_overpower"})
 
-	-- tell the round manager to start a new round after delay
-	Timers:CreateTimer(self.nEndRoundDelay, function()
-		GameRules.RoundManager:OnRoundEnd()
-	end)
+			ParticleManager:CreateParticle("particles/econ/events/ti6/hero_levelup_ti6_godray.vpcf", PATTACH_ABSORIGIN_FOLLOW, v)
+		end)
+
+		GameRules:SetGameWinner(2)
+	else
+		-- teleport particle
+		Timers:CreateTimer(self.nEndRoundDelay - 2, function()
+			LoopOverHeroes(function(v)
+				v:AddNewModifier(v,nil,"modifier_teleport_to_new_round",{})
+			end)
+		end)
+
+		-- tell the round manager to start a new round after delay
+		Timers:CreateTimer(self.nEndRoundDelay, function()
+			GameRules.RoundManager:OnRoundEnd()
+		end)
+	end
+
+
 end
 
 function Round:OnServe(itemEntity, user)
