@@ -109,6 +109,8 @@ def set_finished_tutorial():
 	if steamid is None:
 		abort(502)
 	
+	Database.player_db().update({'steamid': steamid}, {'$set':{"FinishedTutorial": True}}, upsert = True)
+	
 	return 'ok'
 
 if __name__ == '__main__':
