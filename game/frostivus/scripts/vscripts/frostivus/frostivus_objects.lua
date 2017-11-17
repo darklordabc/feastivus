@@ -97,10 +97,8 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking
             end
         else
             pot._cooking = false
-
+            StopSoundEvent(cooking_sound, pot)
             if pot.progress then
-                StopSoundEvent(cooking_sound, pot)
-
                 local old_data = progress:GetData()
 
                 if GetTableLength(items) == 0 then

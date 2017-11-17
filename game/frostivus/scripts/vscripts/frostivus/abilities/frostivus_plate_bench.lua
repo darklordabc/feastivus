@@ -11,14 +11,20 @@ function frostivus_plate_bench:OnUpgrade()
 		caster:Set3DBench(true)
         caster:SetBenchHidden(true)
 
-        local count = 3
-        if string.match(caster:GetName(), "npc_plate_bench") then count = 1 end
+        caster.ResetBench = (function ( self )
+            self:ClearBench()
 
-        if count > 1 then
-        	caster:AddItemToBench("item_clean_plates")
-        end
+            local count = 3
+            if string.match(self:GetName(), "npc_plate_bench") then count = 1 end
 
-        AddPlateStack(caster, count )
+            if count > 1 then
+                self:AddItemToBench("item_clean_plates")
+            end
+
+            AddPlateStack(self, count )
+        end)
+
+        caster:ResetBench()
     end)
 end
 

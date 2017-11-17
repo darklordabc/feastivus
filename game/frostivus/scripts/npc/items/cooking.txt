@@ -441,6 +441,7 @@
 
     "CanBePutInPan" "1"
     "FryingTarget" "item_fried_meat"
+    "CanBePickedFromBench"  "1"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
