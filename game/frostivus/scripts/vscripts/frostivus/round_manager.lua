@@ -218,7 +218,7 @@ function Round:OnTimer()
 			-- restart level
 			self.nExpiredOrders = self.nExpiredOrders + 1
 
-			if self.nExpiredOrders == 3 then
+			if self.nExpiredOrders == 1 then -- TODO: Make this 3 expired orders or 2
 				if self.bLastTry then
 					GameRules:SetGameWinner(3)
 
