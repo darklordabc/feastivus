@@ -18,6 +18,10 @@ function JumpToRound() {
 	GameEvents.SendCustomGameEventToServer('debug_jump_to_round', {round: round})
 }
 
+function StartPlayTutorial() {
+	GameEvents.SendCustomGameEventToServer('debug_start_tutorial', {})
+}
+
 function ToggleTrackingCamera() {
 	var portraitUnit = Players.GetLocalPlayerPortraitUnit();
 	GameEvents.SendCustomGameEventToServer('toggle_tracking_camera', {entindex: portraitUnit})

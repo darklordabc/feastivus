@@ -27,6 +27,7 @@ function DebugModule:constructor()
 	CustomGameEventManager:RegisterListener('debug_jump_to_round',function(_, keys) self:JumpToRound(keys) end)
 	CustomGameEventManager:RegisterListener('toggle_tracking_camera',function(_, keys) self:ToggleTrackingCamera(keys) end)
 	CustomGameEventManager:RegisterListener('debug_update_current_unit',function(_, keys) self:UpdateCurrentUnit(keys) end)
+	CustomGameEventManager:RegisterListener('debug_start_tutorial', function(_, keys) self:ForceStartTutorial(keys) end)
 end
 
 function DebugModule:CreateExtraGreevilling(keys)
@@ -83,6 +84,13 @@ function DebugModule:UpdateCurrentUnit(keys)
 		player._DebugParticle = ParticleManager:CreateParticleForPlayer('particles/econ/items/juggernaut/bladekeeper_healing_ward/juggernaut_healing_ward_ring_dc.vpcf',PATTACH_ABSORIGIN_FOLLOW,hero,player)
 	end
 	ParticleManager:SetParticleControlEnt(player._DebugParticle,0,unit,PATTACH_ABSORIGIN_FOLLOW,"attach_hitloc",unit:GetOrigin(),true)
+end
+
+function DebugModule:ForceStartTutorial(keys)
+	local playerID = keys.PlayerID
+	local player = PlayerResource:GetPlayer(playerID)
+	if StartPlayTutorial == nil then require 'frostivus.rounds.level_1' end
+	StartPlayTutorial(player)
 end
 
 GameRules.DebugModule = DebugModule()

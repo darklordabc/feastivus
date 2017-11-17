@@ -11,7 +11,7 @@ local TUTORIAL_CAMERA_TARGETS = {
 
 local LEVEL_CAMERA_TARGET = Vector(-1.579994, 56.258438, 940)
 
-local function StartPlayTutorial(player)
+function StartPlayTutorial(player)
 	local playerid = player:GetPlayerID()
 
 	if IsInToolsMode() then
@@ -39,6 +39,7 @@ local function StartPlayTutorial(player)
 	local plateBench = Entities:FindByName(nil, "npc_plate_bench_" .. tostring(playerid))
 	local serveBench = Entities:FindByName(nil,  "npc_serve_table_" .. tostring(playerid))
 	local cuttingBenches = Entities:FindAllByName("npc_cutting_bench_" .. tostring(playerid))
+	local tooltip_step1, tooltip_step2, tooltip_step3
 
 	local crates = Entities:FindAllByName("npc_crate_bench_tutorial_" .. tostring(playerid))
 	for k, v in pairs(crates) do
@@ -78,8 +79,8 @@ local function StartPlayTutorial(player)
 	GameRules.FrostivusEventListener:RegisterListener('frostivus_player_pickup', function(keys)
 		if keys.ItemName == 'item_raw_leaf' then
 			if keys.Unit ~= hero then return end
-			if hero.__bPickupTutorial then return end
-			hero.__bPickupTutorial = true
+			if tooltip_step1 then return end
+			tooltip_step1 = true
 			MessageCenter:RemoveMessage(hero.pszTooltipMessage)
 			hero.pszTooltipMessage = MessageCenter:ShowMessageOnClient(player, {icon = "tutorial/cutting_bench.png", text = "#tutorial_text_cutting"})
 			for _, bench in pairs(cuttingBenches) do
@@ -91,8 +92,8 @@ local function StartPlayTutorial(player)
 
 	GameRules.FrostivusEventListener:RegisterListener('frostivus_complete_refine', function(keys)
 		if keys.Unit ~= hero then return end
-		if hero.__bRefineTutorial then return end
-		hero.__bRefineTutorial = true
+		if tooltip_step2 then return end
+		tooltip_step2 = true
 		MessageCenter:RemoveMessage(hero.pszTooltipMessage)
 		hero.pszTooltipMessage = MessageCenter:ShowMessageOnClient(player, {icon = "tutorial/plate_bench.png", text = "#tutorial_collect_plate"})
 		for _, bench in pairs(cuttingBenches) do
@@ -144,8 +145,8 @@ local function StartPlayTutorial(player)
 			end)
 		end
 
-		if hero.__bFinalTutorialTooltip then return end
-		hero.__bFinalTutorialTooltip = true
+		if tooltip_step3 then return end
+		tooltip_step3 = true
 
 		plateBench:RemoveModifierByName("modifier_target_tooltip")
 		serveBench:RemoveModifierByName("modifier_target_tooltip")

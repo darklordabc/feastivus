@@ -18,6 +18,9 @@
 			<Button class="ButtonBevel ToggleTrackingCameraPanel" onactivate="ToggleTrackingCamera()">
 				<Label text="TOGGLE TRACKING CAMERA" />
 			</Button>
+			<Button class="ButtonBevel StartPlayTutorialButton" onactivate="StartPlayTutorial()">
+				<Label text="Start Tutorial" />
+			</Button>
 			<Panel class="SetRoundTimePanel">
 				<Button class="ButtonBevel" onactivate="SetRoundTime()">
 					<Label text="Set Round Time" />
