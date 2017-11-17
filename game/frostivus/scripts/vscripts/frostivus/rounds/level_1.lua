@@ -201,29 +201,35 @@ return {
 
 		-- ask server for players that didnt play tutorial yet
 		LoopOverPlayers(function(player)
-			print("is player required to play tutorial?")
-			local req = CreateHTTPRequest("POST", "http://18.216.43.117:10010/IsFinishedTutorial")
-			req:SetHTTPRequestGetOrPostParameter("steamid", tostring(PlayerResource:GetSteamAccountID(player:GetPlayerID())))
-			req:Send(function(result)
-				for k, v in pairs(result) do
-					print(k, v)
-				end
-				if result.StatusCode == 200 then
-					local r = result.Body
-					if tonumber(r) == 1 then
-						-- player dont need to play tutorial
-						if not GameRules.bLevelOneStarted then
-							GameRules.bLevelOneStarted = true
-							round.nCountDownTimer = g_RoundManager:GetCurrentRound().vRoundData.TimeLimit
+			Timers:CreateTimer(function ()
+				if not IsValidEntity(player:GetAssignedHero()) then
+					return 0.1
+				else
+					print("is player required to play tutorial?")
+					local req = CreateHTTPRequest("POST", "http://18.216.43.117:10010/IsFinishedTutorial")
+					req:SetHTTPRequestGetOrPostParameter("steamid", tostring(PlayerResource:GetSteamAccountID(player:GetPlayerID())))
+					req:Send(function(result)
+						for k, v in pairs(result) do
+							print(k, v)
 						end
-						local hero = player:GetAssignedHero()
-						local level1Start = Entities:FindByName(nil, "level_1_start"):GetOrigin()
-						FindClearSpaceForUnit(hero, level1Start, true)
-						hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
-					else
-						-- ask player to start play tutorial
-						StartPlayTutorial(player)
-					end
+						if result.StatusCode == 200 then
+							local r = result.Body
+							if tonumber(r) == 1 then
+								-- player dont need to play tutorial
+								if not GameRules.bLevelOneStarted then
+									GameRules.bLevelOneStarted = true
+									round.nCountDownTimer = g_RoundManager:GetCurrentRound().vRoundData.TimeLimit
+								end
+								local hero = player:GetAssignedHero()
+								local level1Start = Entities:FindByName(nil, "level_1_start"):GetOrigin()
+								FindClearSpaceForUnit(hero, level1Start, true)
+								hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
+							else
+								-- ask player to start play tutorial
+								StartPlayTutorial(player)
+							end
+						end
+					end)
 				end
 			end)
 		end)
