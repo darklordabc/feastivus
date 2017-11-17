@@ -160,8 +160,8 @@ function Round:OnTimer()
 
 	-- ROUND START!
 	if self.nCountDownTimer == nil then
-		self.nCountDownTimer = self.nTimeLimit
 		self.nExpiredTime = 0
+		self.nCountDownTimer = self.nTimeLimit
 		if self.vRoundScript.OnRoundStart then
 			self.vRoundScript.OnRoundStart(self)
 		end
@@ -173,6 +173,7 @@ function Round:OnTimer()
 
 	if GameRules.bLevelOneStarted then
 		self.nCountDownTimer = self.nCountDownTimer - 1
+		self.nExpiredTime = self.nExpiredTime or 0
 		self.nExpiredTime = self.nExpiredTime + 1
 	else
 		return
