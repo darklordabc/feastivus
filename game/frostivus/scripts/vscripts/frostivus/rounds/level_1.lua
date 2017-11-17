@@ -194,6 +194,7 @@ return {
 						end
 						local hero = player:GetAssignedHero()
 						local level1Start = Entities:FindByName(nil, "level_1_start"):GetOrigin()
+						FindClearSpaceForUnit(hero, level1Start, true)
 						hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
 					else
 						-- ask player to start play tutorial
