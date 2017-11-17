@@ -175,6 +175,10 @@ function Round:OnTimer()
 		self.nCountDownTimer = self.nCountDownTimer - 1
 		self.nExpiredTime = self.nExpiredTime or 0
 		self.nExpiredTime = self.nExpiredTime + 1
+		
+		LoopOverHeroes(function(hero)
+			hero:RemoveModifierByName("modifier_preround_freeze")
+		end)
 	else
 		return
 	end

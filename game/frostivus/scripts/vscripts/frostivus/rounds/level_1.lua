@@ -193,10 +193,10 @@ return {
 							round.nCountDownTimer = g_RoundManager:GetCurrentRound().vRoundData.TimeLimit
 						end
 						local hero = player:GetAssignedHero()
+						local level1Start = Entities:FindByName(nil, "level_1_start"):GetOrigin()
 						hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
 					else
 						-- ask player to start play tutorial
-						print("player have to play tutorial")
 						StartPlayTutorial(player)
 					end
 				end
