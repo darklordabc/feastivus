@@ -39,4 +39,8 @@
 	"kitchen_complete"		"KITCHEN COMPLETE"
 	"level_1"				"LEVEL {d:level}"
 
+	"Feastivus_Round_Tutorial" "Tutorial"
+	"Feastivus_Round_Stew" "Stew"
+	"Feastivus_Round_BitterSweet" "Bitter Sweet"
+	"Feastivus_Round_Lava" "Fire Temple"
 }

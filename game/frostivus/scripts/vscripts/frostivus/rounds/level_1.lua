@@ -184,6 +184,19 @@ return {
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
 
+		local i = 1
+		for k,v in pairs(Frostivus.state.stages["tavern"].crates) do
+			local item = Frostivus.StagesKVs["tavern"].Initial[tostring(i)]
+			Frostivus:L(item)
+			if item then
+				v:InitBench(1)
+				v:SetCrateItem(item)
+			else
+
+			end
+			i = i + 1
+		end
+
 		-- ask server for players that didnt play tutorial yet
 		LoopOverPlayers(function(player)
 			print("is player required to play tutorial?")
@@ -215,19 +228,6 @@ return {
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
-
-		local i = 1
-		for k,v in pairs(Frostivus.state.stages["tavern"].crates) do
-			local item = Frostivus.StagesKVs["tavern"].Initial[tostring(i)]
-			Frostivus:L(item)
-			if item then
-				v:InitBench(1)
-				v:SetCrateItem(item)
-			else
-
-			end
-			i = i + 1
-		end
 
 		-- sound for first level
 		Timers:CreateTimer(function()

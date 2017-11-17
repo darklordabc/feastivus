@@ -234,12 +234,16 @@
 	vertical-align: center;
 	horizontal-align: center;
 	flow-children: down;
-	animation-duration:2s;
+	animation-duration:1s;
 	opacity: 0;
 }
 
 #center.SlideIn {
 	animation-name: slideDown;
+}
+
+#round_name {
+	font-family: Goudy Trajan Medium,FZKai-Z03,TH Sarabun New,YDYGO 540;
 }
 
 @keyframes 'slideDown' {
