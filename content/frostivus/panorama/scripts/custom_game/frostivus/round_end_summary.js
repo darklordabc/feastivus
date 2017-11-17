@@ -1,9 +1,3 @@
-// CustomGameEventManager:Send_ServerToAllClients('show_round_end_summary',{
-// 		Stars = stars,
-// 		FinishedOrdersCount = table.count(self.vFinishedOrders),
-// 		UnFinishedOrdersCount = table.count(self.vPendingOrders),
-// 	})
-
 function ShowRoundEndSummary(args) {
 	var stars = args.Stars;
 	var finishedOrdersCount = args.FinishedOrdersCount;
@@ -35,8 +29,10 @@ function ShowRoundEndSummary(args) {
 
 	$("#round_end_summary").RemoveClass("Hidden");
 
+	$("#round_end_level").SetDialogVariableInt("level", args.Level);
+
 	$.Schedule(10, function() {
-		$("#round_end_summary").AddClass("Hidden");
+		// $("#round_end_summary").AddClass("Hidden");
 	});
 
 }
@@ -83,5 +79,16 @@ function OnHighScoreDataArrived() {
 (function() {
 	GameEvents.Subscribe('show_round_end_summary', ShowRoundEndSummary);
 	OnHighScoreDataArrived();
+
+	//debug show round end script
+	ShowRoundEndSummary({
+		 Stars : 1,
+		 FinishedOrdersCount : 1,
+		 UnFinishedOrdersCount : 1,
+		 ScoreOrdersDelivered : 1,
+		 ScoreSpeedBonus : 1,
+		 Level : 1,
+	})
+
 	CustomNetTables.SubscribeNetTableListener("highscore", OnHighScoreDataArrived);
 })();

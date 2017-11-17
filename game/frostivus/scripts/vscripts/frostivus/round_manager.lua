@@ -272,6 +272,7 @@ function Round:EndRound()
 		UnFinishedOrdersCount = table.count(self.vPendingOrders),
 		ScoreOrdersDelivered = nScoreOrdersDelivered,
 		ScoreSpeedBonus = self.vRoundScore - nScoreOrdersDelivered,
+		Level = g_RoundManager.nCurrentLevel,
 	})
 
 	-- send the score to server

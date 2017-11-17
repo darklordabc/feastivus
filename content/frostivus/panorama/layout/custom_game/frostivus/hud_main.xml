@@ -94,6 +94,10 @@
 					<Image class="RoundEndSummary_Stars UnReached" id="round_end_star2" src="file://{resources}/images/custom_game/ui/round_end_summary/s2.png" />
 					<Image class="RoundEndSummary_Stars UnReached" id="round_end_star3" src="file://{resources}/images/custom_game/ui/round_end_summary/s3.png" />
 					<!-- <Image class="CloseButton" src="file://{resources}/images/custom_game/ui/round_end_summary/close_button.png" onactivate="CloseSummary()" /> -->
+					<Panel class="RoundEndPanelTitle">
+						<Label id="round_end_title" text="#kitchen_complete" />
+						<Label id="round_end_level" text="#level_1" />
+					</Panel>
 					<Panel class="ScoresLeft">
 						<Panel class="ScoreTotal">
 							<Label id="total_score" text="#total_score" class="LabelAlignLeft" />

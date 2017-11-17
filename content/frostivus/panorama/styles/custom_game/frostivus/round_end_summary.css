@@ -176,3 +176,31 @@
 .NoPlayer {
 	visibility: collapse;
 }
+
+.RoundEndPanelTitle {
+	width: 550px;
+	horizontal-align: center;
+	flow-children: down;
+	margin-top: 50px;
+}
+
+#round_end_title {
+	color: gradient( linear, 0% 0%, 0% 100%, from( #ffe899 ), color-stop( .32, #e5eb37 ), color-stop( .64, #cdac14 ), to( #837b00 ) );
+	font-size: 50px;
+	horizontal-align: center;
+	letter-spacing: 5px;
+	text-transform: uppercase;
+	font-weight: bold;
+	text-overflow: clip;
+	text-align: center;
+}
+
+#round_end_level {
+	color: gradient( linear, 0% 0%, 0% 100%, from( #cae4ff ), color-stop( .32, #cae4ff ), color-stop( .64, #c0c0c0 ), to( #c0c0c0 ) );
+	font-size: 26px;
+	horizontal-align: center;
+	text-transform: uppercase;
+	font-weight: bold;
+	text-overflow: clip;
+	text-align: center;
+}
