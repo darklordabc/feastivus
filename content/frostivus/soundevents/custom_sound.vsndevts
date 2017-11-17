@@ -76,9 +76,9 @@
 		type = "dota_src1_2d"
 		vsnd_files =
         [
-            "sounds/benches/washing_plate.vsnd",
+            "sounds/benches/washing_plate_v2.vsnd",
         ]
-        volume = "0.500000"
+        volume = "1.100000"
 	}
 	custom_sound.washing_plate_done = {
 		type = "dota_src1_2d"
@@ -87,5 +87,37 @@
             "sounds/physics/footsteps/common/waterstep_01.vsnd",
         ]
         volume = "0.500000"
+	}
+	custom_sound.dish = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/music/stingers/greevil_stingers/greevil_receive_present.vsnd",
+        ]
+        volume = "0.450000"
+	}
+	custom_sound.bank_failed = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/weapons/hero/gyrocopter/call_down_impact.vsnd",
+        ]
+        volume = "0.450000"
+	}
+	custom_sound.frying = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/benches/fry_pan_cooking.vsnd",
+        ]
+        volume = "0.600000"
+	}
+	custom_sound.boiling = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/benches/cooking_pot.vsnd",
+        ]
+        volume = "0.600000"
 	}
 }

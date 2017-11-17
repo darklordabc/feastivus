@@ -15,7 +15,7 @@
 				</Panel>
 				<Panel class="PlayerCardOverlay" id="playerCardOverlay" />
 				<Panel class="ChangeMaterialSetButton" onactivate="OnChangeMaterial()">
-					<Label text="#change_material" />
+					<Label class="Font1" text="#change_material" />
 				</Panel>
 			</Panel>
 		</snippet>
@@ -29,7 +29,9 @@
 		<Image class="WelcomeScreenBackground" src="file://{resources}/images/custom_game/welcome_screen/welcome_screen.png" />
 		<!-- <Image class="GameLogo" src="file://{resources}/images/custom_game/game_logo.png" /> -->
 
-		<Panel class="PlayerCardPanel Goodguys" id="player_card_panel_goodguys" />
+		<Panel class="PlayerCardPanel Goodguys" id="player_card_panel_goodguys">
+			
+		</Panel>
 
 		<!-- @todo dire heroes panel for versus mode -->
 		<!-- <Panel class="HeroesPanel Badguys">

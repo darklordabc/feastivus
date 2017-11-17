@@ -6,7 +6,9 @@ function frostivus_bin:OnUpgrade()
     ExecOnGameInProgress(function (  )
         caster:InitBench(1, nil, nil, 64)
 
-        caster:SetFakeItem("item_bin_icon")
+        -- caster:SetFakeItem("item_bin_icon")
+        caster:Set3DBench(false)
+        caster:SetBenchHidden(true)
 
         caster:SetCustomInteract(function ( bench, user, item )
         	local item_name = item:GetContainedItem():GetName()

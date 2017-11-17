@@ -1,0 +1,23 @@
+"addon"
+{
+	"addonname"										"贪魔厨房"
+
+	"tutorial_text_pickup_tango" "右键点击吃树箱子拿一份吃树。"	
+
+	"tutorial_text_cutting" "右键点击切菜板来料理吃树"	
+
+	"tutorial_collect_plate" "取一个盘子，将三份材料放进盘子并混合成沙拉，放到上菜区。"	
+
+	"tutorial_clean_plates" "拾取脏盘子并在洗碗池将他洗干净。"
+
+	"tutorial_finish_remaining_orders" "完成其他的订单。"	
+
+	"change_material" "改变颜色"	
+
+	"DOTA_Tooltip_ability_item_plate"										"盘子"
+	"DOTA_Tooltip_ability_item_plate_Description"							""
+
+	"DOTA_Tooltip_ability_item_dirty_plates"										"脏盘子"
+	"DOTA_Tooltip_ability_item_dirty_plates_Description"							""
+
+}

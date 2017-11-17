@@ -112,7 +112,7 @@ local function StartPlayTutorial(player)
 					FindClearSpaceForUnit(hero, start:GetOrigin(), true)
 				end
 				hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
-
+				hero.__bPlayingTutorial = false
 				if not GameRules.bLevelOneStarted then
 					GameRules.bLevelOneStarted = true
 					round.nCountDownTimer = self.vRoundData.TimeLimit

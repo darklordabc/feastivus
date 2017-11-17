@@ -6,7 +6,7 @@ function PlayPickupSound( item, entity )
   local item_kv = Frostivus.ItemsKVs[item]
   local sound = item_kv.PickupSound
 
-  if not sound and item_kv.CanBeServed then
+  if not sound and string.match(item, "plate") then
     sound = "custom_sound.plate_pickup"
   else
     sound = "custom_sound.pickup"
@@ -23,7 +23,7 @@ function PlayDropSound( item, entity )
   local item_kv = Frostivus.ItemsKVs[item]
   local sound = item_kv.DropSound
 
-  if not sound and item_kv.CanBeServed then
+  if not sound and string.match(item, "plate") then
     sound = "custom_sound.plate_drop"
   else
     sound = "custom_sound.drop"

@@ -1,4 +1,4 @@
-function CreateBank(name, count, on_added_particle, on_cooking_particle, prop, GetTarget, CheckItem)
+function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking_sound, prop, GetTarget, CheckItem)
     local pot = CreateItemOnPositionSync(Vector(0,0,0),CreateItem(name,nil,nil))
 
     BenchAPI(pot)
@@ -36,7 +36,7 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, prop, G
 
         local progress = pot.progress
 
-        if holder and holder:IsBench() and holder:IsHotBench() then
+        if holder and holder:IsBench() and holder:IsHotBench() and pot:GetBenchItemBySlot(1) then
             if pot:GetBenchItemBySlot(1) then
                 if not progress or not progress:GetData().cooking_done then
                     StartCooking( pot )
@@ -50,6 +50,8 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, prop, G
             end
 
             if progress then
+                StartSoundEvent(cooking_sound, pot)
+
                 local old_data = progress:GetData()
 
                 if prop and not pot._prop then
@@ -78,10 +80,9 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, prop, G
                     old_data.overtime = old_data.overtime + delta
 
                     if old_data.overtime >= 7 then
-                        pot:SetItems({})
-                        pot:SetFakeItem(nil)
-
-                        old_data.progress = 0
+                        ParticleManager:CreateParticle("particles/frostivus_gameplay/bank_failed.vpcf", PATTACH_ABSORIGIN_FOLLOW, pot)
+                        EmitSoundOn("custom_sound.bank_failed", pot)
+                        pot:ClearBank()
                     end
                 else
                     old_data.overtime = 0
@@ -98,6 +99,8 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, prop, G
             pot._cooking = false
 
             if pot.progress then
+                StopSoundEvent(cooking_sound, pot)
+
                 local old_data = progress:GetData()
 
                 if GetTableLength(items) == 0 then
@@ -244,6 +247,11 @@ function CreatePlate(  )
             -- Timers:CreateTimer(function (  )
                 
             -- end)
+
+            local p = ParticleManager:CreateParticle("particles/frostivus_gameplay/order_done.vpcf", PATTACH_ABSORIGIN_FOLLOW, dish)
+            ParticleManager:SetParticleControl(p, 3, dish:GetAbsOrigin())
+
+            EmitSoundOn("custom_sound.dish", dish)
 
             if holder:IsBench() then
                 holder:AddItemToBench(result, user)

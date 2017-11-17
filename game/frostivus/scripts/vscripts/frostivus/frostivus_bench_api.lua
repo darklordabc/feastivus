@@ -361,6 +361,7 @@ function OnUse( bench, user )
 					local is_bank = bench_item_name == "item_pot" or bench_item_name == "item_frying_pan"
 
 					if item:CheckItem(bench_item) then
+						bench:PickItemFromBench(user, bench_item)
 						item:AddItemToBench(bench_item, user)
 						bench:ClearBench()
 					elseif is_bank then
