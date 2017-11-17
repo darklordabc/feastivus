@@ -190,7 +190,7 @@ return {
 						-- player dont need to play tutorial
 						if not GameRules.bLevelOneStarted then
 							GameRules.bLevelOneStarted = true
-							round.nCountDownTimer = self.vRoundData.TimeLimit
+							round.nCountDownTimer = g_RoundManager:GetCurrentRound().vRoundData.TimeLimit
 						end
 						local hero = player:GetAssignedHero()
 						hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)

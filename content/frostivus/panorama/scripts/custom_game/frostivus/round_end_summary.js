@@ -32,7 +32,7 @@ function ShowRoundEndSummary(args) {
 	$("#round_end_level").SetDialogVariableInt("level", args.Level);
 
 	$.Schedule(10, function() {
-		// $("#round_end_summary").AddClass("Hidden");
+		$("#round_end_summary").AddClass("Hidden");
 	});
 
 }
@@ -81,14 +81,14 @@ function OnHighScoreDataArrived() {
 	OnHighScoreDataArrived();
 
 	//debug show round end script
-	ShowRoundEndSummary({
-		 Stars : 1,
-		 FinishedOrdersCount : 1,
-		 UnFinishedOrdersCount : 1,
-		 ScoreOrdersDelivered : 1,
-		 ScoreSpeedBonus : 1,
-		 Level : 1,
-	})
+	// ShowRoundEndSummary({
+	// 	 Stars : 1,
+	// 	 FinishedOrdersCount : 1,
+	// 	 UnFinishedOrdersCount : 1,
+	// 	 ScoreOrdersDelivered : 1,
+	// 	 ScoreSpeedBonus : 1,
+	// 	 Level : 1,
+	// })
 
 	CustomNetTables.SubscribeNetTableListener("highscore", OnHighScoreDataArrived);
 })();
