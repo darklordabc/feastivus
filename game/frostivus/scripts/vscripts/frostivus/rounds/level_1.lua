@@ -116,7 +116,7 @@ function StartPlayTutorial(player)
 				hero.__bPlayingTutorial = false
 				if not GameRules.bLevelOneStarted then
 					GameRules.bLevelOneStarted = true
-					round.nCountDownTimer = self.vRoundData.TimeLimit
+					round.nCountDownTimer = g_RoundManager:GetCurrentRound().vRoundData.TimeLimit
 				end
 
 				local req = CreateHTTPRequest("POST", "http://18.216.43.117:10010/SetFinishedTutorial")
