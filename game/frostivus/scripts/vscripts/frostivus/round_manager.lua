@@ -116,6 +116,7 @@ function Round:constructor(roundData)
 end
 
 function Round:OnTimer()
+	self.nExpiredOrders = self.nExpiredOrders or 0
 	-- count down pre round time
 	if self.nPreRoundCountDownTimer == nil then
 		CustomGameEventManager:Send_ServerToAllClients("frostivus_resubscribe", {})
@@ -213,8 +214,22 @@ function Round:OnTimer()
 			-- reduce unfinised orders only
 			order.nTimeRemaining = order.nTimeRemaining - 1
 		end
-		if order.nTimeRemaining <= 0 then -- remove the un-finished orders
-			-- @todo, punishment??
+		if order.nTimeRemaining <= 0 and self.vCurrentOrders[k].pszFinishType ~= "Expired" then -- remove the un-finished orders
+			-- restart level
+			self.nExpiredOrders = self.nExpiredOrders + 1
+
+			if self.nExpiredOrders == 3 then
+				if self.bLastTry then
+					GameRules:SetGameWinner(3)
+
+					LoopOverHeroes(function(v)
+						StartAnimation(v, {duration=-1, activity=ACT_DOTA_DIE, rate=1.0, translate="black"})
+						-- ParticleManager:CreateParticle("particles/econ/events/ti6/hero_levelup_ti6_godray.vpcf", PATTACH_ABSORIGIN_FOLLOW, v)
+					end)
+				else
+					GameRules.RoundManager:StartNewRound(g_RoundManager.nCurrentLevel, true)
+				end
+			end
 			
 			-- tell client to show order finished message
 			self.vCurrentOrders[k].pszFinishType = "Expired"
@@ -459,7 +474,7 @@ function RoundManager:SetPlayTutorial()
 	self.bPlayTutorial = true
 end
 
-function RoundManager:StartNewRound(level) -- level is passed for test purpose
+function RoundManager:StartNewRound(level, bLastTry) -- level is passed for test purpose
 	level = level or self.nCurrentLevel + 1
 	self.nCurrentLevel = level
 
@@ -522,6 +537,8 @@ function RoundManager:StartNewRound(level) -- level is passed for test purpose
 
 	-- instantiation round
 	self.vCurrentRound = Round(roundData)
+
+	self.vCurrentRound.bLastTry = bLastTry
 
 	-- display round start message on clients
 	CustomGameEventManager:Send_ServerToAllClients("round_start",{

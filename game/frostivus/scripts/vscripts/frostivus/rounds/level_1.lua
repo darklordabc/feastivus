@@ -125,6 +125,15 @@ function StartPlayTutorial(player)
 					print("Save tutorial finished state->", result.StatusCode, result.Body)
 				end)
 
+				EndAnimation(hero)
+				RemoveAnimationTranslate(hero)
+				AddAnimationTranslate(hero, "level_3")
+				if Frostivus:IsCarryingItem( hero ) then
+					Frostivus:GetCarryingItem( hero ):RemoveSelf()
+					Frostivus:DropItem( hero )
+				end
+				hero:RemoveModifierByName("modifier_bench_interaction")
+				hero:Stop()
 			end
 		end
 
