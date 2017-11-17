@@ -12,8 +12,10 @@ function frostivus_cooking_pot:OnUpgrade()
         caster:SetBenchHidden(true)
         caster:SetBenchBindHeight(100)
 
-        caster:AddItemToBench("item_pot")
-        caster:BindItem(CreateBank("item_pot", 3, on_added_particle, on_cooking_particle, "custom_sound.boiling", nil, GetBoilTarget, CanPutItemInPot))
+        caster.ResetBench = (function ( self )
+            self:AddItemToBench("item_pot")
+            self:BindItem(CreateBank("item_pot", 3, on_added_particle, on_cooking_particle, "custom_sound.boiling", nil, GetBoilTarget, CanPutItemInPot))
+        end)
     end)
 end
 

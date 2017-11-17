@@ -15,12 +15,8 @@ return {
 	end,
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
-		LoopOverHeroes(function(hero)
-			hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
-		end)
-	end,
-	OnRoundStart = function(round)
-		print("RoundScript -> OnRoundStart")
+
+		Frostivus:ResetStage( LEVEL_CAMERA_TARGET )
 
 		local i = 1
 		for k,v in pairs(Frostivus.state.stages["lava"].crates) do
@@ -34,6 +30,13 @@ return {
 			end
 			i = i + 1
 		end
+
+		LoopOverHeroes(function(hero)
+			hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
+		end)
+	end,
+	OnRoundStart = function(round)
+		print("RoundScript -> OnRoundStart")
 
 		-- sound for first level
 		Timers:CreateTimer(function()

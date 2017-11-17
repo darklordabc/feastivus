@@ -184,6 +184,8 @@ return {
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
 
+		Frostivus:ResetStage( LEVEL_CAMERA_TARGET )
+
 		local i = 1
 		for k,v in pairs(Frostivus.state.stages["tavern"].crates) do
 			local item = Frostivus.StagesKVs["tavern"].Initial[tostring(i)]

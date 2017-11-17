@@ -190,6 +190,39 @@ function Frostivus:OnPickupItem( item, ply )
 	end
 end
 
+function Frostivus:ResetStage( origin )
+	local entities = Entities:FindAllInSphere(origin, 4000)
+	for k,v in pairs(entities) do
+		if IsValidEntity(v) then
+			if v.GetContainedItem then -- items
+				local item_name = v:GetContainedItem():GetName()
+				if v:IsBench() then
+					local is_bank = item_name == "item_pot" or item_name == "item_frying_pan"
+
+					if string.match(item_name, "plate") then
+						v:RemoveSelf()
+					elseif is_bank then
+						v:ClearBank()
+					else
+						v:ClearBench()
+					end
+				else
+					v:RemoveSelf()
+				end
+			elseif v.GetUnitName then
+				if v:IsBench() then
+					if not string.match(v:GetUnitName(), "crate") then
+						v:ClearBench()
+					end
+					if v.ResetBench then
+						v:ResetBench()
+					end
+				end
+			end
+		end
+	end
+end
+
 function Frostivus:WipeInventory( unit )
 	for i=0,14 do
 		local item = unit:GetItemInSlot(i)
