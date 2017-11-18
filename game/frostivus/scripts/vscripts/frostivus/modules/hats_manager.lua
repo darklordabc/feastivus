@@ -97,7 +97,20 @@ function HatsManager:OnNPCSpawned(args)
 			if hats.materialGroup then
 				npc:SetMaterialGroup(tostring(hats.materialGroup))
 			else
-				npc:SetMaterialGroup(tostring(RandomInt(0,8)))
+				-- npc:SetMaterialGroup(tostring(RandomInt(0,8)))
+				-- player should not random colors that have been selected
+				local randomColor
+				repeat
+					randomColor = RandomInt(0, 8)
+					local uniqueColor = true
+					for _, hat in pairs(self.vPlayerHats) do
+						if hat.materialGroup == randomColor then
+							uniqueColor = false
+							break
+						end
+					end
+				until(uniqueColor)
+				npc:SetMaterialGroup(tostring(randomColor))
 			end
 
 			-- create hat

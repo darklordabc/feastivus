@@ -10,11 +10,16 @@ var b_HasHostPrivileges = false;
 
 var m_MaterialSet = 0;
 
+var m_UsedMaterials = new Array();
+
 function OnChangeMaterial() {
 	if (m_MaterialSet >= 8) {
 		m_MaterialSet = 0;
 	}else{
-		m_MaterialSet += 1;
+		while ( m_UsedMaterials[m_MaterialSet] == true ) {
+			m_MaterialSet += 1;	
+			if (m_MaterialSet >= 8) m_MaterialSet = 0;
+		}
 	}
 
 	$.DispatchEvent( 'DOTAGlobalSceneSetCameraEntity', 'player_portrait_' + Players.GetLocalPlayer(), 'camera' + m_MaterialSet, 0);
@@ -177,10 +182,11 @@ function OnGameRulesStateChanged() {
 
 function OnPlayerHatsChanged() {
 	var hatsData = CustomNetTables.GetTableValue('player_hats', 'player_hats');
+	m_UsedMaterials = new Array();
 	for (var playerID in hatsData) {
 		
 		var data = hatsData[playerID]
-		$.Msg(playerID, " [HATS DATA]", data);
+		m_UsedMaterials[data.materialGroup] = true;
 
 		// change material camera for other players
 		if (playerID != Players.GetLocalPlayer()) {
