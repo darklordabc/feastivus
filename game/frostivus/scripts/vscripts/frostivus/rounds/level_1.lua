@@ -206,28 +206,46 @@ return {
 					return 0.1
 				else
 					print("is player required to play tutorial?")
+					
+					-- we should not trust the server
+					-- it may dead
+					-- wait for 5 seconds, if the server have no response, make player to start level 1
+
+					local function startLevel1()
+						if not GameRules.bLevelOneStarted then
+							GameRules.bLevelOneStarted = true
+							round.nCountDownTimer = g_RoundManager:GetCurrentRound().vRoundData.TimeLimit
+						end
+						local hero = player:GetAssignedHero()
+						local level1Start = Entities:FindByName(nil, "level_1_start"):GetOrigin()
+						FindClearSpaceForUnit(hero, level1Start, true)
+						hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
+					end
+
+					local serverHasResponsed = false
+
 					local req = CreateHTTPRequest("POST", "http://18.216.43.117:10010/IsFinishedTutorial")
 					req:SetHTTPRequestGetOrPostParameter("steamid", tostring(PlayerResource:GetSteamAccountID(player:GetPlayerID())))
 					req:Send(function(result)
-						for k, v in pairs(result) do
-							Say(nil, tostring(k) .. "->" .. tostring(v), true)
-						end
+						serverHasResponsed  = true
+						-- for k, v in pairs(result) do
+						-- 	Say(nil, tostring(k) .. "->" .. tostring(v), true)
+						-- end
 						if result.StatusCode == 200 then
 							local r = result.Body
 							if tonumber(r) == 1 then
 								-- player dont need to play tutorial
-								if not GameRules.bLevelOneStarted then
-									GameRules.bLevelOneStarted = true
-									round.nCountDownTimer = g_RoundManager:GetCurrentRound().vRoundData.TimeLimit
-								end
-								local hero = player:GetAssignedHero()
-								local level1Start = Entities:FindByName(nil, "level_1_start"):GetOrigin()
-								FindClearSpaceForUnit(hero, level1Start, true)
-								hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
+								startLevel1()
 							else
 								-- ask player to start play tutorial
 								StartPlayTutorial(player)
 							end
+						end
+					end)
+
+					Timers:CreateTimer(5, function()
+						if not serverHasResponsed then
+							startLevel1()
 						end
 					end)
 				end
