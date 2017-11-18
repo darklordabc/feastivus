@@ -190,7 +190,7 @@ function OnPlayerHatsChanged() {
 
 		// change material camera for other players
 		if (playerID != Players.GetLocalPlayer()) {
-			$.DispatchEvent( 'DOTAGlobalSceneSetCameraEntity', 'player_portrait_' + playerID, 'camera' + data.materialGroup, 0.2);
+			$.DispatchEvent( 'DOTAGlobalSceneSetCameraEntity', 'player_portrait_' + playerID, 'camera' + data.materialGroup, 0);
 		}
 	}
 }
