@@ -481,6 +481,10 @@ function RoundManager:StartNewRound(level, bLastTry) -- level is passed for test
 	local lastTeleportTarget = nil
 
 	LoopOverHeroes(function(hero)
+
+		-- players in tutorial should not be effected
+		if hero.__bPlayingTutorial then return end
+
 		EndAnimation(hero)
 		RemoveAnimationTranslate(hero)
 		AddAnimationTranslate(hero, "level_3")
