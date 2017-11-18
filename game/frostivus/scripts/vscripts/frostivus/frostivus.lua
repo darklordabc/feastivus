@@ -67,6 +67,7 @@ function Frostivus:InitHero(hero)
 	InitAbilities( hero )
 	AddAnimationTranslate(hero, "level_3")
 	hero:AddNewModifier(hero,nil,"modifier_hide_health_bar",{})
+	hero:AddNewModifier(hero,nil,"modifier_unselectable",{})
 end
 
 function Frostivus:GetRandomItemByTier(tier)
