@@ -210,7 +210,7 @@ return {
 					req:SetHTTPRequestGetOrPostParameter("steamid", tostring(PlayerResource:GetSteamAccountID(player:GetPlayerID())))
 					req:Send(function(result)
 						for k, v in pairs(result) do
-							print(k, v)
+							Say(nil, tostring(k) .. "->" .. tostring(v), true)
 						end
 						if result.StatusCode == 200 then
 							local r = result.Body
