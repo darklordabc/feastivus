@@ -1,5 +1,5 @@
 # Feastivus
-[A custom game for dota 2 frostivus 2017 competition](https://docs.google.com/document/d/1LX7-WHYXUeFBiRISCC3jV0Zj1dpfoDTchc2iFsCtNDI/edit?usp=sharing)
+[A custom game for dota 2 frostivus 2017 competition](http://steamcommunity.com/sharedfiles/filedetails/?id=1165493298&searchtext=)
 
 ## Essential Documents
 [Project Folder](https://drive.google.com/drive/folders/0B7dpugx95_vaTFgzOGNUUTVBaFk?usp=sharing): All the files related to the project will be stored here.
