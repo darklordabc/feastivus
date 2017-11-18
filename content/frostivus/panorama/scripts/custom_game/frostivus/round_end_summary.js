@@ -53,13 +53,15 @@ function OnHighScoreDataArrived() {
 			}else{
 				$("#high_score_players_row_"+i).RemoveClass("NoPlayer");
 				var players = JSON.parse(data.players);
+				$.Msg(players);
 				var score = data.score;
 				for (var j = 0; j < Object.keys(players).length; j++) {
-					$("#highscore_players_" + i.toString() + j.toString()).RemoveClass("EmptyPlayer");
-					$("#highscore_players_" + i.toString() + j.toString()).steamid = players[i];
+					$("#highscore_players_" + i.toString() + j.toString()).RemoveClass("NoPlayer");
+					var steamid64 = '765' + (parseInt(players[j]) + 61197960265728).toString();
+					$("#highscore_players_" + i.toString() + j.toString()).steamid = steamid64;
 				}
 				for (var k = Object.keys(players).length; k < 5; k++){
-					$("#highscore_players_" + i.toString() + k.toString()).AddClass("EmptyPlayer");
+					$("#highscore_players_" + i.toString() + k.toString()).AddClass("NoPlayer");
 				}
 				$("#highscore_score_" + i).text = score;
 			}
