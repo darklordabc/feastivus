@@ -109,6 +109,7 @@ function Round:constructor(roundData)
 	self.nEndRoundDelay = 10
 
 	self.vRoundScore = 0
+	self.nExpiredOrders = 0
 	
 	if self.vRoundScript.OnInitialize then
 		self.vRoundScript.OnInitialize(self)
@@ -116,7 +117,6 @@ function Round:constructor(roundData)
 end
 
 function Round:OnTimer()
-	self.nExpiredOrders = self.nExpiredOrders or 0
 	-- count down pre round time
 	if self.nPreRoundCountDownTimer == nil then
 		CustomGameEventManager:Send_ServerToAllClients("frostivus_resubscribe", {})
@@ -161,7 +161,6 @@ function Round:OnTimer()
 
 	-- ROUND START!
 	if self.nCountDownTimer == nil then
-		self.nExpiredTime = 0
 		self.nCountDownTimer = self.nTimeLimit
 		if self.vRoundScript.OnRoundStart then
 			self.vRoundScript.OnRoundStart(self)
@@ -174,7 +173,6 @@ function Round:OnTimer()
 
 	if GameRules.bLevelOneStarted then
 		self.nCountDownTimer = self.nCountDownTimer - 1
-		self.nExpiredTime = self.nExpiredTime or 0
 		self.nExpiredTime = self.nExpiredTime + 1
 		
 		LoopOverHeroes(function(hero)
@@ -356,22 +354,21 @@ function Round:OnServe(itemEntity, user)
 
 		for k, order in pairs(self.vCurrentOrders) do
 			if order.pszItemName == itemName and order.nTimeRemaining < lowestTime then
-				if not self.vTutorialState or not self.vTutorialState[user:GetPlayerOwnerID()] or not self.vTutorialState[user:GetPlayerOwnerID()][order.pszID] then
-					orderIndex = k
-					theOrder = order
-					lowestTime = order.nTimeRemaining
-					pszID = order.pszID
-				end
+				orderIndex = k
+				theOrder = order
+				lowestTime = order.nTimeRemaining
+				pszID = order.pszID
 			end
 		end
+
 		table.insert(self.vFinishedOrders, {pszItemName = itemName, nFinishTime = self.nCountDownTimer})
 
 		-- tell client to show order finished message
 		self.vCurrentOrders[orderIndex].pszFinishType = "Finished"
 		self:UpdateOrdersToClient()
 
+		-- remove order after a short delay
 		Timers:CreateTimer(2, function()
-			-- remove order after a short delay
 			self.vCurrentOrders[orderIndex] = nil
 		end)
 
@@ -444,7 +441,6 @@ end
 --=====================================================================================
 if RoundManager == nil then RoundManager = class({}) end
 
-
 function RoundManager:constructor()
 	self.nCurrentLevel = 0
 	ListenToGameEvent("game_rules_state_change",Dynamic_Wrap(RoundManager, "OnGameRulesStateChanged"),self)
@@ -467,10 +463,6 @@ end
 function RoundManager:OnRoundEnd()
 	self.vCurrentRound = nil
 	self:StartNewRound()
-end
-
-function RoundManager:SetPlayTutorial()
-	self.bPlayTutorial = true
 end
 
 function RoundManager:HasNextRound()
@@ -506,7 +498,7 @@ function RoundManager:StartNewRound(level, bLastTry) -- level is passed for test
 		end
 
 		if teleportTarget == nil then
-			print("Not enough level start position entity!! moving hero to last teleport target pos")
+			-- print("Not enough level start position entity!! moving hero to last teleport target pos")
 			if lastTeleportTarget == nil then
 				print("Not any level start entity found!! go check the map file")
 			else
