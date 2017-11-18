@@ -68,6 +68,14 @@ function Frostivus:InitHero(hero)
 	AddAnimationTranslate(hero, "level_3")
 	hero:AddNewModifier(hero,nil,"modifier_hide_health_bar",{})
 	hero:AddNewModifier(hero,nil,"modifier_unselectable",{})
+
+	-- create overhead name label
+	hero.overheadNamePanel = WorldPanels:CreateWorldPanelForAll(
+      {layout = "file://{resources}/layout/custom_game/worldpanels/overhead.xml",
+        entity = hero:GetEntityIndex(),
+        entityHeight = 180,
+      })
+	hero.overheadNamePanel:SetData({PlayerID = hero:GetPlayerID()})
 end
 
 function Frostivus:GetRandomItemByTier(tier)

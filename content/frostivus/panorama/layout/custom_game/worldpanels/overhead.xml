@@ -1,0 +1,23 @@
+<root> 
+  <styles>
+    <include src="file://{resources}/styles/worldpanels/overhead.css" />
+  </styles>
+  <script>
+  	function setPlayerColor(){
+	  	var data = $.GetContextPanel().Data;
+	  	var playerid = data['PlayerID'];
+	  	var playercolor = Players.GetPlayerColor(playerid).toString(16).substring(2,8);
+	  	$.Msg(playercolor);
+	  	$.GetContextPanel().style.backgroundColor = '#' + playercolor + "55;";
+	  	$.GetContextPanel().style.border = "2px solid #" + playercolor + ";"
+	  	$.Schedule(3, setPlayerColor);
+  	}
+
+  	(function() {
+  		setPlayerColor();
+  	})();
+  </script>
+  <Panel hittestchildren="false" class="OverheadRoot">
+  	<DOTAUserName id="overhead_name" steamid="local" />
+  </Panel>
+</root>

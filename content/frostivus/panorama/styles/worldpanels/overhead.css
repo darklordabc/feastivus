@@ -1,0 +1,15 @@
+.OverheadRoot {
+	height: 26px;
+	min-width: 120px;
+	background-color: #aaaaaa55;
+	border-radius: 8px;
+}
+
+#overhead_name {
+	vertical-align:  center;
+	horizontal-align: center;
+	text-align: center;
+	font-size: 18px;
+	color: gradient( linear, 0% 0%, 0% 100%, from( #cae4ff ), color-stop( .32, #cae4ff ), color-stop( .64, #c0c0c0 ), to( #c0c0c0 ) );
+	text-shadow: 2px 2px 5px 3 #0005;
+}
