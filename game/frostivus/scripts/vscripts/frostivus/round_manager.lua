@@ -317,10 +317,9 @@ function Round:EndRound()
 		end
 	end)
 
-	if g_RoundManager.nCurrentLevel == 3 then
+	if not g_RoundManager:HasNextRound() then
 		LoopOverHeroes(function(v)
 			StartAnimation(v, {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1.0, translate="greevil_miniboss_red_overpower"})
-
 			ParticleManager:CreateParticle("particles/econ/events/ti6/hero_levelup_ti6_godray.vpcf", PATTACH_ABSORIGIN_FOLLOW, v)
 		end)
 
@@ -474,19 +473,15 @@ function RoundManager:SetPlayTutorial()
 	self.bPlayTutorial = true
 end
 
+function RoundManager:HasNextRound()
+	return GameRules.vRoundDefinations[self.nCurrentLevel + 1] ~= nil
+end
+
 function RoundManager:StartNewRound(level, bLastTry) -- level is passed for test purpose
 	level = level or self.nCurrentLevel + 1
 	self.nCurrentLevel = level
 
 	local roundData = GameRules.vRoundDefinations[level]
-
-	-- if there is no new round, end this game
-	if roundData == nil then
-		-- end game
-		GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
-		return
-	end
-
 	roundData.level = level
 
 	local teleport_target_entities = Entities:FindAllByName('level_' .. tostring(level) .. '_start')
