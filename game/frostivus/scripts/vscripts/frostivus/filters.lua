@@ -26,7 +26,10 @@ function Frostivus:FilterExecuteOrder( filterTable )
     end
 
     if unit._order_timer then
-        Timers:RemoveTimer(unit._order_timer)
+        local ab = EntIndexToHScript(abilityIndex)
+        if not ab.GetBehavior or bit.band(ab:GetBehavior(), DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT) ~= DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT then
+            Timers:RemoveTimer(unit._order_timer)
+        end
     end
 
     if order_type == DOTA_UNIT_ORDER_RADAR or order_type == DOTA_UNIT_ORDER_GLYPH then return end

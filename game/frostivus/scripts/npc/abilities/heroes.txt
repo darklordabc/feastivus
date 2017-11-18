@@ -18,7 +18,7 @@
   "frostivus_boost"
   {
     "BaseClass"           "ability_lua"
-    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
     "ScriptFile"          "frostivus/abilities/frostivus_boost"
     "AbilityTextureName"      "custom/frostivus_boost"
     "MaxLevel"            "1"

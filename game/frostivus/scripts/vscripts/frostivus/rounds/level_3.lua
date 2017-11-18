@@ -50,7 +50,7 @@ return {
 
 		local i = 0
 		for k,v in pairs(traps) do
-			Timers:CreateTimer(i * 8, function (  )
+			Timers:CreateTimer(i * 5, function (  )
 				local ab = v:FindAbilityByName("frostivus_fire_trap")
 
 				v:AddNewModifier(v, ab, "modifier_fire_trap", {})
