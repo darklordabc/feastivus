@@ -109,6 +109,7 @@ function Round:constructor(roundData)
 	self.nEndRoundDelay = 10
 
 	self.vRoundScore = 0
+	self.nExpiredTime = 0
 	self.nExpiredOrders = 0
 	
 	if self.vRoundScript.OnInitialize then
