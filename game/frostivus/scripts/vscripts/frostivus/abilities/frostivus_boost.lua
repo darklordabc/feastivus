@@ -5,6 +5,7 @@ function frostivus_boost:OnSpellStart()
 	caster:AddNewModifier(caster, self, "modifier_frostivus_boost", {})
 	-- EmitSoundOn("DOTA_Item.ForceStaff.Activate", caster) --@todo change boost sound
 	caster._vBoostLastOrderPosition = nil
+	caster._vBoostLastOrderTarget = nil
 end
 
 modifier_frostivus_boost = class({})
@@ -135,7 +136,14 @@ if IsServer() then
 
 		if not self._bDestroyedByMistake then
 			caster:AddNewModifier(caster, self:GetAbility(), "modifier_frostivus_boost_ms", {duration = self:GetAbility():GetSpecialValueFor("duration")})
-			if caster._vBoostLastOrderPosition then
+			if caster._vBoostLastOrderTarget then
+				print("asdadasdasdasdas")
+				ExecuteOrderFromTable({ UnitIndex = caster:GetEntityIndex(), 
+                    OrderType = DOTA_UNIT_ORDER_MOVE_TO_TARGET,
+                    TargetIndex = caster._vBoostLastOrderTarget:GetEntityIndex(), 
+                    Queue = false
+                }) 
+			elseif caster._vBoostLastOrderPosition then
 				caster:MoveToPosition(caster._vBoostLastOrderPosition)
 			end
 		end

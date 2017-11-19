@@ -28,7 +28,11 @@ function Frostivus:FilterExecuteOrder( filterTable )
     if unit._order_timer then
         local ab = EntIndexToHScript(abilityIndex)
         if not ab or not ab.GetBehavior or bit.band(ab:GetBehavior(), DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT) ~= DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT then
-            Timers:RemoveTimer(unit._order_timer)
+            if unit._order_timer then
+                print("timer deleted")
+                Timers:RemoveTimer(unit._order_timer)
+                unit._order_timer = nil
+            end
         end
     end
 
@@ -36,11 +40,16 @@ function Frostivus:FilterExecuteOrder( filterTable )
 
     if unit:HasModifier("modifier_frostivus_boost") then
         local targetPosition
+        local targetEntity
         if order_type == DOTA_UNIT_ORDER_MOVE_TO_TARGET then
-            targetPosition = EntIndexToHScript(targetIndex):GetAbsOrigin()
+            targetEntity = EntIndexToHScript(targetIndex)
+            targetPosition = targetEntity:GetAbsOrigin()
         end
         if order_type == DOTA_UNIT_ORDER_MOVE_TO_POSITION then
             targetPosition = Vector(x, y, z)
+        end
+        if targetEntity then
+            unit._vBoostLastOrderTarget = targetEntity
         end
         if targetPosition then
             unit._vBoostLastOrderPosition = targetPosition
@@ -86,13 +95,16 @@ function Frostivus:FilterExecuteOrder( filterTable )
             
             unit._order_timer = Timers:CreateTimer(function()
                 if not (unit and IsValidEntity(unit) and unit:IsAlive()) then
+                    print("timer unit invalid")
                     return nil
                 end
                 local distance = (unit.moving_target:GetOrigin() - unit:GetOrigin()):Length2D()
                 if distance <= FROSTIVUS_CELL_SIZE + 1 then
+                    print("timer SUCCESS")
                     TriggerBench()
                     return nil
                 else
+                    print("timer goes")
                     return 0.03
                 end
             end)

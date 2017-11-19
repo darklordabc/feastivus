@@ -22,7 +22,7 @@
         [
             "sounds/ui/item_pickup_shop.vsnd",
         ]
-        volume = "0.500000"
+        volume = "1.000000"
 	}
 	custom_sound.drop = {
 		type = "dota_src1_3d"
@@ -30,7 +30,7 @@
         [
             "sounds/ui/inventory/common_drop.vsnd",
         ]
-        volume = "0.500000"
+        volume = "1.000000"
 	}
 	custom_sound.complete_order = {
 		type = "dota_src1_2d"
