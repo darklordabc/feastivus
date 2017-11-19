@@ -27,7 +27,7 @@ function Frostivus:FilterExecuteOrder( filterTable )
 
     if unit._order_timer then
         local ab = EntIndexToHScript(abilityIndex)
-        if not ab.GetBehavior or bit.band(ab:GetBehavior(), DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT) ~= DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT then
+        if not ab or not ab.GetBehavior or bit.band(ab:GetBehavior(), DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT) ~= DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT then
             Timers:RemoveTimer(unit._order_timer)
         end
     end
