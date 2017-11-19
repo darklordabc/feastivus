@@ -28,7 +28,7 @@ function frostivus_cutting_bench:OnUpgrade()
 			end
 			return "custom_sound.chop", false
 		end)
-		caster:SetRefineDuration(2.2)
+		caster:SetRefineDuration(3.0)
 		caster:SetDefaultRefineRoutine()
     end)
 end
