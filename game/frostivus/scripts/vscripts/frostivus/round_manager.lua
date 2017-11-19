@@ -190,7 +190,9 @@ function Round:OnTimer()
 			if totalHeroCount <= 1 then
 				LoopOverHeroes(function(hero)
 					local player = PlayerResource:GetPlayer(hero:GetPlayerID())
-					local greevilling = CreateUnitByName('npc_dota_hero_axe',hero:GetOrigin() + RandomVector(200),true,player,player,hero:GetTeamNumber())
+					local greevilling = CreateUnitByName('npc_dota_hero_axe',hero:GetOrigin(),true,player,player,hero:GetTeamNumber())
+					hero:AddNewModifier(hero, nil, "modifier_phased", {Duration=0.1})
+					greevilling:AddNewModifier(greevilling, nil, "modifier_phased", {Duration=0.1})
 					greevilling:SetControllableByPlayer(hero:GetPlayerID(),false)
 					player.vExtraGreevillings = player.vExtraGreevillings or {}
 					table.insert(player.vExtraGreevillings, greevilling)

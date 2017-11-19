@@ -47,5 +47,11 @@
 			"Command"	"+SpaceKey"
 			"Name"		"Space"
 		}
+		"07"
+		{
+			"Key"		"F"
+			"Command"	"+SwapGreevil"
+			"Name"		"SwapGreevil"
+		}
 	}
 }
