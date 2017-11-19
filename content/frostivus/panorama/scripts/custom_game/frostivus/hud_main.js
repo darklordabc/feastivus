@@ -86,43 +86,6 @@ function AutoRemoveAbilityPips() {
 	}
 }
 
-var m_CurrentGreevil;
-var m_ExtraGreevil;
-var m_LocalParticleIndex;
-
-function OnPlayerSwapGreevil() {
-	if (m_CurrentGreevil == m_ExtraGreevil) {
-		m_CurrentGreevil = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-	} else {
-		m_CurrentGreevil = m_ExtraGreevil;
-	}
-	GameUI.SelectUnit(m_CurrentGreevil, false);
-}
-
-function OnPlayerHaveAnotherGreevil(args) {
-	m_ExtraGreevil = args.entindex;
-}
-
-function IndicateCurrentGreevil() {
-
-	if (m_CurrentGreevil == null) {
-		m_CurrentGreevil = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-		if (m_CurrentGreevil == null) {
-			$.Schedule(1/30, IndicateCurrentGreevil);
-			return;
-		}
-	}
-
-	// show particle on current player
-	if (m_LocalParticleIndex == null) {
-		m_LocalParticleIndex = Particles.CreateParticle( "particles/generic/current_greevil_indicator.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, m_CurrentGreevil);
-	}
-
-	Particles.SetParticleControlEnt(m_LocalParticleIndex, 0, m_CurrentGreevil, ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, "follow_origin",Entities.GetAbsOrigin(m_CurrentGreevil), true)
-
-	$.Schedule(1/30, IndicateCurrentGreevil);
-}
-
 (function(){
 	GameEvents.Subscribe("pre_round_countdown", OnPreRoundCountDown);
 	GameEvents.Subscribe("round_timer", OnTimer);
@@ -136,9 +99,4 @@ function IndicateCurrentGreevil() {
 
     AutoRemoveAbilityPips();
 	GameEvents.Subscribe('show_round_end_summary', HideTimer);
-
-	IndicateCurrentGreevil();
-
-	GameEvents.Subscribe("player_swap_greevil", OnPlayerSwapGreevil);
-	GameEvents.Subscribe("player_extra_greevil", OnPlayerHaveAnotherGreevil);
 })();

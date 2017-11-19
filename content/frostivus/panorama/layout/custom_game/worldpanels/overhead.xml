@@ -5,6 +5,7 @@
   <script>
   	function setPlayerColor(){
 	  	var data = $.GetContextPanel().Data;
+      if (data == null) { $.Schedule(1, setPlayerColor); return;}
 	  	var playerid = data['PlayerID'];
 	  	var playercolor = Players.GetPlayerColor(playerid).toString(16).substring(2,8);
 
@@ -19,7 +20,7 @@
 
 	  	$.GetContextPanel().style.backgroundColor = '#' + playercolor + "55;";
 	  	$.GetContextPanel().style.border = "2px solid #" + playercolor + ";"
-	  	$.Schedule(3, setPlayerColor);
+	  	$.Schedule(1, setPlayerColor);
   	}
 
   	(function() {

@@ -38,6 +38,44 @@ Game.OnSpaceKeyDown = function() {
 	GameEvents.SendCustomGameEventToServer("pkd", {c:"space"})
 };
 
+var m_CurrentGreevil;
+var m_ExtraGreevil;
+var m_LocalParticleIndex;
+
+function OnPlayerHaveAnotherGreevil(args) {
+	m_ExtraGreevil = args.entindex;
+}
+
+function IndicateCurrentGreevil() {
+
+	if (m_CurrentGreevil == null) {
+		m_CurrentGreevil = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
+		if (m_CurrentGreevil == null) {
+			$.Schedule(1/30, IndicateCurrentGreevil);
+			return;
+		}
+	}
+
+	// show particle on current player
+	if (m_LocalParticleIndex == null) {
+		m_LocalParticleIndex = Particles.CreateParticle( "particles/generic/current_greevil_indicator.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, m_CurrentGreevil);
+	}
+
+	Particles.SetParticleControlEnt(m_LocalParticleIndex, 0, m_CurrentGreevil, ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, "follow_origin",Entities.GetAbsOrigin(m_CurrentGreevil), true)
+
+	$.Schedule(1/30, IndicateCurrentGreevil);
+}
+
+
+Game.SwapGreevil = function() {
+	if (m_CurrentGreevil == m_ExtraGreevil) {
+		m_CurrentGreevil = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
+	} else {
+		m_CurrentGreevil = m_ExtraGreevil;
+	}
+	GameUI.SelectUnit(m_CurrentGreevil, false);
+}
+
 var m_ControlMethod = 0;
 
 Game.PlayerSetController = function(option) {
@@ -67,4 +105,7 @@ Game.PlayerSetController = function(option) {
 		}
 		return CONTINUE_PROCESSING_EVENT;
 	})
+
+	IndicateCurrentGreevil();
+	GameEvents.Subscribe("player_extra_greevil", OnPlayerHaveAnotherGreevil);
 })();
