@@ -1,0 +1,17 @@
+<root> 
+  <styles>
+    <include src="s2r://panorama/styles/dotastyles.vcss_c" />
+    <include src="s2r://panorama/styles/hudstyles.vcss_c"/>   
+    <include src="s2r://panorama/styles/hud/dota_hud_health_mana.vcss_c" />
+    <include src="file://{resources}/styles/worldpanels/bench.css" />
+    <include src="file://{resources}/styles/worldpanels/crate.css" />
+  </styles>
+  <scripts>
+    <include src="file://{resources}/scripts/worldpanels/crate.js" /> 
+  </scripts>
+  <Panel hittest="false" class="BenchPanel CratePanel Slot">
+    <DOTAItemImage hittest="false" id="Item" class="CrateIcon" itemname="item_bread"/>
+    <Panel hittest="true" id="Outline1" class="Outline"/>
+    <!-- <Panel hittest="true" id="Outline4" class="Outline"/> -->
+  </Panel>
+</root>
