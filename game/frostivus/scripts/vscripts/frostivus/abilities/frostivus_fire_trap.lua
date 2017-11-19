@@ -54,7 +54,7 @@ if IsServer() then
 
                 EmitSoundOnLocationWithCaster(caster:GetAbsOrigin(), "Hero_DragonKnight.BreathFire", caster)
 
-                return time - 3
+                return time - 5
             else
                 ParticleManager:DestroyParticle(particle, false)
 
