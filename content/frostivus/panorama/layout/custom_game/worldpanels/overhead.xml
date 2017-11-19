@@ -7,7 +7,16 @@
 	  	var data = $.GetContextPanel().Data;
 	  	var playerid = data['PlayerID'];
 	  	var playercolor = Players.GetPlayerColor(playerid).toString(16).substring(2,8);
-	  	$.Msg(playercolor);
+
+      var localPlayer = Players.GetLocalPlayer();
+      if (localPlayer == playerid) {
+        $.GetContextPanel().style.backgroundColor = "#66f6de11;";
+        $.GetContextPanel().style.border = "3px solid #f6de11;"
+      } else {
+        $.GetContextPanel().style.backgroundColor = '#' + playercolor + "44;";
+        $.GetContextPanel().style.border = "2px solid #" + playercolor + ";"
+      }
+
 	  	$.GetContextPanel().style.backgroundColor = '#' + playercolor + "55;";
 	  	$.GetContextPanel().style.border = "2px solid #" + playercolor + ";"
 	  	$.Schedule(3, setPlayerColor);
