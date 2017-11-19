@@ -73,6 +73,7 @@
   {
     "BaseClass"   "ability_datadriven"
     "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_CHANNEL | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+    "AbilityTextureName"      "custom/frostivus_swap_greevil"
     "MaxLevel"        "1"
   }
 
