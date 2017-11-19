@@ -176,9 +176,35 @@ function Round:OnTimer()
 		self.nCountDownTimer = self.nCountDownTimer - 1
 		self.nExpiredTime = self.nExpiredTime + 1
 		
+		-- check if it's a single player game
+		local totalHeroCount = 0
 		LoopOverHeroes(function(hero)
 			hero:RemoveModifierByName("modifier_preround_freeze")
+			totalHeroCount = totalHeroCount + 1
 		end)
+
+		-- it's a single player game, create an extra greevil
+		if not GameRules.bSinglePlayerModeCheck then
+			GameRules.bSinglePlayerModeCheck = true
+			-- now is only in single player, change it to 2 if want this to be enabled in 2 players mode
+			if totalHeroCount <= 1 then
+				LoopOverHeroes(function(hero)
+					local player = PlayerResource:GetPlayer(hero:GetPlayerID())
+					local greevilling = CreateUnitByName('npc_dota_hero_axe',hero:GetOrigin() + RandomVector(200),true,player,player,hero:GetTeamNumber())
+					greevilling:SetControllableByPlayer(hero:GetPlayerID(),false)
+					player.vExtraGreevillings = player.vExtraGreevillings or {}
+					table.insert(player.vExtraGreevillings, greevilling)
+
+					-- add greevil switch ability to both greevils
+					hero:AddAbility("frostivus_swap_greevil")
+					hero:FindAbilityByName("frostivus_swap_greevil"):SetLevel(1)
+					greevilling:AddAbility("frostivus_swap_greevil")
+					greevilling:FindAbilityByName("frostivus_swap_greevil"):SetLevel(1)
+
+					CustomGameEventManager:Send_ServerToPlayer(player, "player_extra_greevil", {entindex = greevilling:GetEntityIndex()})
+				end)
+			end
+		end
 	else
 		return
 	end

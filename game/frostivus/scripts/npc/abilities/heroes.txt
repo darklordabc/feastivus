@@ -69,6 +69,22 @@
     "MaxLevel"            "1"
   }
 
+  "frostivus_swap_greevil"
+  {
+    "BaseClass"   "ability_datadriven"
+    "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_CHANNEL | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+    "MaxLevel"        "1"
+
+    "OnSpellStart"
+    {
+      "RunScript"
+      {
+        "ScriptFile"  "frostivus/abilities/frostivus_swap_greevil.lua"
+        "Function"    "SwapGreevil"
+      }
+    }
+  }
+
   // "frostivus_channeling"
   // {
   //   "BaseClass"           "ability_lua"

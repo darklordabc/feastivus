@@ -25,7 +25,8 @@ function Precache( context )
   -- PrecacheResource("particle_folder", "particles/test_particle", context)
   PrecacheResource("particle", "particles/econ/items/juggernaut/bladekeeper_healing_ward/juggernaut_healing_ward_ring_dc.vpcf", context)
   PrecacheResource("particle", "particles/frostivus/generic_gameplay/current_target_mark.vpcf", context)
-  
+  PrecacheResource("particle", "particles/generic/current_greevil_indicator.vpcf", context)
+
   -- Models can also be precached by folder or individually
   -- PrecacheModel should generally used over PrecacheResource for individual models
   PrecacheResource("model_folder", "models/courier/greevil", context) -- greevil models
