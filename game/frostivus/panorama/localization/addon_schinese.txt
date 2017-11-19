@@ -20,4 +20,11 @@
 	"DOTA_Tooltip_ability_item_dirty_plates"										"脏盘子"
 	"DOTA_Tooltip_ability_item_dirty_plates_Description"							""
 
+	"kitchen_complete"		"餐厅已完成"
+	"level_1"				"等级 {d:level}"
+
+	"Feastivus_Round_Tutorial" "教学"
+	"Feastivus_Round_Stew" "炖煮"
+	"Feastivus_Round_BitterSweet" "苦尽甘来"
+	"Feastivus_Round_Lava" "火焰神庙"
 }
