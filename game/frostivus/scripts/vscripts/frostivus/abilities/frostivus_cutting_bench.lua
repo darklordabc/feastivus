@@ -10,6 +10,9 @@ function frostivus_cutting_bench:OnUpgrade()
 		caster:SetOnPickedFromBench(function ( item )
 			caster:SetBenchHidden(true)
 		end)
+		caster:SetOnCompleteRefine(function ( item )
+			caster:SetBenchHidden(true)
+		end)
 		
 		caster:SetRefineTarget(function ( bench, items )
 			local original_item = items[1]
