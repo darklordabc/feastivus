@@ -86,6 +86,20 @@ function AutoRemoveAbilityPips() {
 	}
 }
 
+function SetupSwapAbiltiyClickCallback() {
+	var abilities = $("#abilities");
+
+	// warning! hard coded here!
+	var swapAbility = abilities.FindChildTraverse("Ability3");
+	if (swapAbility != null) {
+		swapAbility.SetPanelEvent("onactivate", function(){
+			Game.SwapGreevil();
+		});
+		return;
+	}
+	$.Schedule(0.03, SetupSwapAbiltiyClickCallback)
+}
+
 (function(){
 	GameEvents.Subscribe("pre_round_countdown", OnPreRoundCountDown);
 	GameEvents.Subscribe("round_timer", OnTimer);
@@ -99,4 +113,6 @@ function AutoRemoveAbilityPips() {
 
     AutoRemoveAbilityPips();
 	GameEvents.Subscribe('show_round_end_summary', HideTimer);
+
+	SetupSwapAbiltiyClickCallback();
 })();

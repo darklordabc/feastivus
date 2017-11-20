@@ -41,4 +41,3 @@
 	"score_speed_bonus"		"Speed bonus"
 	"orders_failed"			"Orders failed"
 }
-}
