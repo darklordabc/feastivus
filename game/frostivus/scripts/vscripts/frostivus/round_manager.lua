@@ -474,7 +474,9 @@ function RoundManager:constructor()
 	self.nCurrentLevel = 0
 	ListenToGameEvent("game_rules_state_change",Dynamic_Wrap(RoundManager, "OnGameRulesStateChanged"),self)
 	GameRules:GetGameModeEntity():SetContextThink(DoUniqueString("round_timer"),function()
-		self:OnTimer()
+		if not GameRules:IsGamePaused() then
+			self:OnTimer()
+		end
 		return 1
 	end,1)
 end
