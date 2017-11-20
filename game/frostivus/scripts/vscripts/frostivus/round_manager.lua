@@ -549,7 +549,8 @@ function RoundManager:StartNewRound(level, bLastTry) -- level is passed for test
 		local player = PlayerResource:GetPlayer(hero:GetPlayerID())
 		if player.vExtraGreevillings and table.count(player.vExtraGreevillings) > 0 then
 			for _, greevilling in pairs(player.vExtraGreevillings) do
-				greevilling:SetAbsOrigin(teleportTarget or hero:GetOrigin())
+				teleportTarget = table.remove(teleport_target_entities)
+				greevilling:SetAbsOrigin(teleportTarget and teleportTarget:GetOrigin() or hero:GetOrigin())
 				greevilling:AddNewModifier(hero, nil, "modifier_phased", {Duration = 0.03})
 				hero:AddNewModifier(hero, nil, "modifier_phased", {Duration = 0.03})
 			end

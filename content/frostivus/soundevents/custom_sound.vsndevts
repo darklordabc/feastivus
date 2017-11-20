@@ -7,6 +7,11 @@
             "sounds/benches/chop.vsnd",
         ]
         volume = "0.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "75.000000"
+        distance_max = "1200.000000"
 	}
 	custom_sound.chop_special = {
 		type = "dota_src1_2d"
@@ -15,6 +20,11 @@
             "sounds/benches/chop_special.vsnd",
         ]
         volume = "0.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "75.000000"
+        distance_max = "1200.000000"
 	}
 	custom_sound.pickup = {
 		type = "dota_src1_3d"
@@ -23,6 +33,11 @@
             "sounds/ui/item_pickup_shop.vsnd",
         ]
         volume = "1.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "75.000000"
+        distance_max = "1200.000000"
 	}
 	custom_sound.drop = {
 		type = "dota_src1_3d"
@@ -31,6 +46,11 @@
             "sounds/ui/inventory/common_drop.vsnd",
         ]
         volume = "1.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "75.000000"
+        distance_max = "1200.000000"
 	}
 	custom_sound.complete_order = {
 		type = "dota_src1_2d"
@@ -41,87 +61,138 @@
         volume = "0.500000"
 	}
 	custom_sound.plate_drop = {
-		type = "dota_src1_2d"
+		type = "dota_src1_3d"
 		vsnd_files =
         [
             "sounds/benches/plate_drop.vsnd",
         ]
         volume = "0.500000"
+        volume = "0.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "75.000000"
+        distance_max = "1200.000000"
 	}
 	custom_sound.plate_pickup = {
-		type = "dota_src1_2d"
+		type = "dota_src1_3d"
 		vsnd_files =
         [
             "sounds/benches/plate_pickup.vsnd",
         ]
         volume = "0.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "75.000000"
+        distance_max = "1200.000000"
 	}
 	custom_sound.crate_pickup = {
-		type = "dota_src1_2d"
+		type = "dota_src1_3d"
 		vsnd_files =
         [
             "sounds/benches/crate_pickup.vsnd",
         ]
         volume = "0.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "75.000000"
+        distance_max = "1200.000000"
 	}
 	custom_sound.inv_delete = {
-		type = "dota_src1_2d"
+		type = "dota_src1_3d"
 		vsnd_files =
         [
             "sounds/ui/inventory/inv_delete.vsnd",
         ]
         volume = "0.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "75.000000"
+        distance_max = "1200.000000"
 	}
 	custom_sound.washing_plate = {
-		type = "dota_src1_2d"
+		type = "dota_src1_3d"
 		vsnd_files =
         [
             "sounds/benches/washing_plate_v2.vsnd",
         ]
         volume = "1.100000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "75.000000"
+        distance_max = "1200.000000"
 	}
 	custom_sound.washing_plate_done = {
-		type = "dota_src1_2d"
+		type = "dota_src1_3d"
 		vsnd_files =
         [
             "sounds/physics/footsteps/common/waterstep_01.vsnd",
         ]
         volume = "0.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "75.000000"
+        distance_max = "1200.000000"
 	}
 	custom_sound.dish = {
-		type = "dota_src1_2d"
+		type = "dota_src1_3d"
 		vsnd_files =
         [
             "sounds/music/stingers/greevil_stingers/greevil_receive_present.vsnd",
         ]
         volume = "0.450000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "75.000000"
+        distance_max = "1200.000000"
 	}
 	custom_sound.bank_failed = {
-		type = "dota_src1_2d"
+		type = "dota_src1_3d"
 		vsnd_files =
         [
             "sounds/weapons/hero/gyrocopter/call_down_impact.vsnd",
         ]
         volume = "0.450000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "75.000000"
+        distance_max = "1200.000000"
 	}
 	custom_sound.frying = {
-		type = "dota_src1_2d"
+		type = "dota_src1_3d"
 		vsnd_files =
         [
             "sounds/benches/fry_pan_cooking.vsnd",
         ]
         volume = "0.600000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "75.000000"
+        distance_max = "1200.000000"
 	}
 	custom_sound.boiling = {
-		type = "dota_src1_2d"
+		type = "dota_src1_3d"
 		vsnd_files =
         [
             "sounds/benches/cooking_pot.vsnd",
         ]
         volume = "0.600000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "75.000000"
+        distance_max = "1200.000000"
 	}
 	custom_sound.obstacle = {
-		type = "dota_src1_2d"
+		type = "dota_src1_3d"
 		vsnd_files =
         [
             "sounds/weapons/creep/greevil/preattack04.vsnd",
@@ -129,6 +200,11 @@
             "sounds/weapons/creep/greevil/preattack02.vsnd",
         ]
         volume = "1.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "75.000000"
+        distance_max = "1200.000000"
 	}
     custom_sound.countdown_go = {
         type = "dota_src1_2d"

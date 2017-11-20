@@ -17,8 +17,7 @@ class database():
 		now = datetime.datetime.now()
 		# so we can have different leaderboard every month
 		# use week key to make it update every week xD
-		now = str(now.year) + str(now.month) 
-		db = self.conn['feastivus_' + now]
+		db = self.conn['feastivus']
 		return db.players
 
 	# database to save all games played
@@ -32,7 +31,8 @@ class database():
 
 	# database to store all deals' data
 	def deals_db(self):
-		return self.conn['deals']
+		db = self.conn['feastivus']
+		return db.deals
 
 	# database to store all scores!
 	def score_db(self):
