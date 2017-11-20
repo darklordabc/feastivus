@@ -112,7 +112,8 @@ function GameMode:InitGameMode()
 	GameMode = self
 	DebugPrint('[BAREBONES] Starting to load Barebones gamemode...')
 
-	Convars:RegisterCommand( "command_example", Dynamic_Wrap(GameMode, 'ExampleConsoleCommand'), "A console command example", FCVAR_CHEAT )
+	Convars:RegisterCommand( "command_example", Dynamic_Wrap(GameMode, 'ExampleConsoleCommand'), "", FCVAR_CHEAT )
+	Convars:RegisterCommand( "finish_game", Dynamic_Wrap(GameMode, 'FinishGame'), "", FCVAR_CHEAT )
 
 	require('frostivus/frostivus')
 	require("frostivus/filters")
@@ -135,6 +136,19 @@ function GameMode:ExampleConsoleCommand(item)
 		if playerID ~= nil and playerID ~= -1 then
 			-- Do something here for the player who called this command
 			CreateItemOnPositionSync(cmdPlayer:GetAssignedHero():GetAbsOrigin(),CreateItem(item or "item_refined_leaf",cmdPlayer:GetAssignedHero(),cmdPlayer:GetAssignedHero()))
+		end
+	end
+
+	print( '*********************************************' )
+end
+
+function GameMode:FinishGame(team)
+	print( '******* Example Console Command ***************' )
+	local cmdPlayer = Convars:GetCommandClient()
+	if cmdPlayer then
+		local playerID = cmdPlayer:GetPlayerID()
+		if playerID ~= nil and playerID ~= -1 then
+			GameRules:SetGameWinner(tonumber(team))
 		end
 	end
 

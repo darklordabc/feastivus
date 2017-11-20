@@ -1,0 +1,20 @@
+<root>
+    <styles>
+ 		<include src="file://{resources}/styles/dotastyles.css" />
+ 		<include src="file://{resources}/styles/play.css" />
+ 		<include src="file://{resources}/styles/custom_game/frostivus/end_screen.css" />
+    </styles>
+    <scripts>
+       <include src="file://{resources}/scripts/custom_game/frostivus/end_screen.js" />
+    </scripts>
+	<Panel hittest="false" class="EndScreenRoot Slide">
+		<Panel hittest="false" class="Frame">
+			<Image id="Image" src="file://{resources}/images/custom_game/ui/lost.png">
+				<Label class="Label" text="#lost" />
+			</Image>
+			<Button id="PlayButton" class="PlayButton" onactivate="Game.FinishGame();">
+				<Label text="#disconnect" />
+			</Button>
+		</Panel>
+	</Panel>
+</root>

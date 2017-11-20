@@ -40,4 +40,6 @@
 	"score_orders_delivered"	"Orders delivered"
 	"score_speed_bonus"		"Speed bonus"
 	"orders_failed"			"Orders failed"
+
+	"lost" "YOU LOST"
 }

@@ -1,9 +1,12 @@
+DEFAULT_BANK_TIME = 10.0
+DEFAULT_BANK_OVERTIME = 7.0
+
 function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking_sound, prop, GetTarget, CheckItem)
     local pot = CreateItemOnPositionSync(Vector(0,0,0),CreateItem(name,nil,nil))
 
     BenchAPI(pot)
     pot:InitBench( count, CheckItem, nil, 0 )
-    pot:SetRefineDuration(10.0)
+    pot:SetRefineDuration(DEFAULT_BANK_TIME)
 
     pot.ClearBank = (function ( self )
         self:SetItems({})
@@ -79,7 +82,7 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking
                     end
                     old_data.overtime = old_data.overtime + delta
 
-                    if old_data.overtime >= 7 then
+                    if old_data.overtime >= DEFAULT_BANK_OVERTIME then
                         ParticleManager:CreateParticle("particles/frostivus_gameplay/bank_failed.vpcf", PATTACH_ABSORIGIN_FOLLOW, pot)
                         EmitSoundOn("custom_sound.bank_failed", pot)
                         pot:ClearBank()

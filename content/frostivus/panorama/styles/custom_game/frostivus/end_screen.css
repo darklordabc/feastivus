@@ -1,0 +1,54 @@
+.EndScreenRoot {
+	width: 100%;
+	height: 100%;
+
+	background-color: #00000044;
+
+	animation-duration: 0.5s;
+	animation-timing-function: ease-in-out;
+}
+
+.Slide {
+	animation-name: slide;
+}
+
+@keyframes 'slide' {
+  0% {
+    transform: scale3d(0.8, 0.8, 0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}
+
+.Frame {
+	horizontal-align: center;
+	vertical-align: center;
+	margin-bottom: 100px;
+	flow-children: down;
+}
+
+#Image {
+	margin-bottom: 50px;
+	box-shadow: #000000ff 0px 0px 16px 0px;
+}
+
+.Label {
+	font-family: Goudy Trajan Medium,FZKai-Z03,TH Sarabun New,YDYGO 540;
+	horizontal-align: center;
+	font-size: 50px;
+	margin-top: 34px;
+	color: #ffffffbb;
+}
+
+#PlayButton {
+	vertical-align: top;
+	horizontal-align: center;
+	visibility: visible;
+	opacity: 1;
+	margin: 0px;
+	width: 260px;
+	box-shadow: fill #000b1a44 -4px -4px 8px 9px;
+}
