@@ -11,8 +11,6 @@ local TUTORIAL_CAMERA_TARGETS = {
 
 local LEVEL_CAMERA_TARGET = Vector(-1.579994, 56.258438, 940)
 
-_G.__LevelOneCameraTarget__ = Vector(-1.579994, 56.258438, 940)
-
 function StartPlayTutorial(player)
 	local playerid = player:GetPlayerID()
 

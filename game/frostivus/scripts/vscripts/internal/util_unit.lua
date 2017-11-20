@@ -63,7 +63,7 @@ end
 
 function CDOTA_BaseNPC_Hero:SetCameraTargetPosition(pos)
 	if self.vCameraTarget == nil then
-		self.vCameraTarget =CreateUnitByName("npc_camera_target", pos, false, self, self, self:GetTeamNumber())
+		self.vCameraTarget = CreateUnitByName("npc_camera_target", pos, false, self, self, self:GetTeamNumber())
 	end
 
 	self.vCameraTarget:SetAbsOrigin(pos)

@@ -64,7 +64,7 @@ if not Frostivus then
 end
 
 function Frostivus:InitHero(hero)
-	hero:SetCameraTargetPosition(__LevelOneCameraTarget__)
+	hero:SetCameraTargetPosition(Vector(-1.579994, 56.258438, 940))
 	InitAbilities( hero )
 	AddAnimationTranslate(hero, "level_3")
 	hero:AddNewModifier(hero,nil,"modifier_hide_health_bar",{})
