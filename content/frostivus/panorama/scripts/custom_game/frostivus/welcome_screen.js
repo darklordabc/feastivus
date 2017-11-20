@@ -13,15 +13,17 @@ var m_MaterialSet = 0;
 var m_UsedMaterials = new Array();
 
 function OnChangeMaterial() {
+	// $.Msg("change material set", m_MaterialSet);
 	if (m_MaterialSet >= 8) {
 		m_MaterialSet = 0;
 	}else{
+		m_MaterialSet += 1;	
 		while ( m_UsedMaterials[m_MaterialSet] == true ) {
 			m_MaterialSet += 1;	
 			if (m_MaterialSet >= 8) m_MaterialSet = 0;
 		}
 	}
-
+	// $.Msg("change material set to", m_MaterialSet);
 	$.DispatchEvent( 'DOTAGlobalSceneSetCameraEntity', 'player_portrait_' + Players.GetLocalPlayer(), 'camera' + m_MaterialSet, 0);
 
 	GameEvents.SendCustomGameEventToServer("player_change_hats", {
