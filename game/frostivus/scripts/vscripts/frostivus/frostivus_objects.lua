@@ -1,5 +1,5 @@
-DEFAULT_BANK_TIME = 10.0
-DEFAULT_BANK_OVERTIME = 7.0
+DEFAULT_BANK_TIME = 12.0 -- Time it takes to cook on pot and fry pan
+DEFAULT_BANK_OVERTIME = 7.0 -- Time it takes to burn after cooking
 
 function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking_sound, prop, GetTarget, CheckItem)
     local pot = CreateItemOnPositionSync(Vector(0,0,0),CreateItem(name,nil,nil))
