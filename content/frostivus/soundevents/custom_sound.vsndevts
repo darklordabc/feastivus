@@ -222,4 +222,12 @@
         ]
         volume = "0.500000"
     }
+    custom_sound.failed = {
+        type = "dota_src1_2d"
+        vsnd_files =
+        [
+            "sounds/ui/challenge_failure.vsnd",
+        ]
+        volume = "0.500000"
+    }
 }

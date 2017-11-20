@@ -8,7 +8,7 @@
 		<include src="file://{resources}/styles/custom_game/frostivus/hud_main.css" />
 		<include src="file://{resources}/styles/custom_game/frostivus/orders.css" />
 		<include src="file://{resources}/styles/custom_game/frostivus/round_end_summary.css" />
-
+		<include src="file://{resources}/styles/custom_game/frostivus/end_screen.css" />
 	</styles>
 	<scripts>
 		<include src="file://{resources}/scripts/custom_game/frostivus/hud_main.js" />
@@ -63,6 +63,11 @@
 
 			<!-- top left order panels -->
 			<Panel id="orders" />
+
+			<!-- try again picture -->
+			<Image id="Image" src="file://{resources}/images/custom_game/ui/try_again.png" class="Hidden">
+				<Label class="Label" text="#try_again" />
+			</Image>
 
 			<!-- center popup block -->
 			<Panel id="center" hittestchildren="false">

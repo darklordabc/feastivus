@@ -29,7 +29,6 @@ function Frostivus:FilterExecuteOrder( filterTable )
         local ab = EntIndexToHScript(abilityIndex)
         if not ab or not ab.GetBehavior or bit.band(ab:GetBehavior(), DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT) ~= DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT then
             if unit._order_timer then
-                print("timer deleted")
                 Timers:RemoveTimer(unit._order_timer)
                 unit._order_timer = nil
             end
@@ -95,16 +94,13 @@ function Frostivus:FilterExecuteOrder( filterTable )
             
             unit._order_timer = Timers:CreateTimer(function()
                 if not (unit and IsValidEntity(unit) and unit:IsAlive()) then
-                    print("timer unit invalid")
                     return nil
                 end
                 local distance = (unit.moving_target:GetOrigin() - unit:GetOrigin()):Length2D()
                 if distance <= FROSTIVUS_CELL_SIZE + 1 then
-                    print("timer SUCCESS")
                     TriggerBench()
                     return nil
                 else
-                    print("timer goes")
                     return 0.03
                 end
             end)

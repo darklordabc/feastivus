@@ -28,6 +28,16 @@ function DebugModule:constructor()
 	CustomGameEventManager:RegisterListener('toggle_tracking_camera',function(_, keys) self:ToggleTrackingCamera(keys) end)
 	CustomGameEventManager:RegisterListener('debug_update_current_unit',function(_, keys) self:UpdateCurrentUnit(keys) end)
 	CustomGameEventManager:RegisterListener('debug_start_tutorial', function(_, keys) self:ForceStartTutorial(keys) end)
+	CustomGameEventManager:RegisterListener('debug_lose', function(_, keys) self:Lose(keys) end)
+	CustomGameEventManager:RegisterListener('debug_try_again', function(_, keys) self:TryAgain(keys) end)
+end
+
+function DebugModule:Lose(keys)
+	GameRules:SetGameWinner(3)
+end
+
+function DebugModule:TryAgain(keys)
+	GameRules.RoundManager:StartNewRound(g_RoundManager.nCurrentLevel, true)
 end
 
 function DebugModule:CreateExtraGreevilling(keys)

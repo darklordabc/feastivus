@@ -33,6 +33,12 @@
 				</Button>
 				<TextEntry id="RoundNoTextbox" maxchars="3" placeholder="1" />
 			</Panel>
+			<Button class="ButtonBevel LoseButton" onactivate="Lose()">
+				<Label text="Lose" />
+			</Button>
+			<Button class="ButtonBevel TryAgainButton" onactivate="TryAgain()">
+				<Label text="Try Again" />
+			</Button>
 		</Panel>
 	</Panel>
 </root>

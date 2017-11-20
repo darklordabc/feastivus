@@ -151,7 +151,6 @@
 
     "CanBeCutted" "1"
     "RefineTarget" "item_refined_mango"
-    "BoilTarget" "item_boiled_mango"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
@@ -173,6 +172,7 @@
 
     "CanBePickedFromBench"  "1"
     "CanBePutInPot" "1"
+    "BoilTarget" "item_boiled_mango"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"

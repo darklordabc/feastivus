@@ -42,4 +42,5 @@
 	"orders_failed"			"Orders failed"
 
 	"lost" "YOU LOST"
+	"try_again" "try again"
 }

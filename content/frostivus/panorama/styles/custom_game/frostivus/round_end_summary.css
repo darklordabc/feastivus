@@ -27,7 +27,7 @@
 }
 
 .UnReached {
-	wash-color:#444444;
+	opacity: 0;
 }
 
 #finished_orders_count {

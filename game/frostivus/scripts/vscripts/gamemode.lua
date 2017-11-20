@@ -114,6 +114,7 @@ function GameMode:InitGameMode()
 
 	Convars:RegisterCommand( "command_example", Dynamic_Wrap(GameMode, 'ExampleConsoleCommand'), "", FCVAR_CHEAT )
 	Convars:RegisterCommand( "finish_game", Dynamic_Wrap(GameMode, 'FinishGame'), "", FCVAR_CHEAT )
+	Convars:RegisterCommand( "lt", Dynamic_Wrap(GameMode, 'LastTry'), "", FCVAR_CHEAT )
 
 	require('frostivus/frostivus')
 	require("frostivus/filters")
@@ -149,6 +150,19 @@ function GameMode:FinishGame(team)
 		local playerID = cmdPlayer:GetPlayerID()
 		if playerID ~= nil and playerID ~= -1 then
 			GameRules:SetGameWinner(tonumber(team))
+		end
+	end
+
+	print( '*********************************************' )
+end
+
+function GameMode:LastTry()
+	print( '******* Example Console Command ***************' )
+	local cmdPlayer = Convars:GetCommandClient()
+	if cmdPlayer then
+		local playerID = cmdPlayer:GetPlayerID()
+		if playerID ~= nil and playerID ~= -1 then
+			GameRules.RoundManager:StartNewRound(g_RoundManager.nCurrentLevel, true)
 		end
 	end
 

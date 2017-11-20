@@ -79,6 +79,7 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking
 
                         pot:SetFakeItem(new_items[1])
                         pot:SetItems(new_items)
+                        print("ddddddddddddddddddddddddddddddddddddd", new_items[1])
                     end
                     old_data.overtime = old_data.overtime + delta
 
@@ -86,6 +87,7 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking
                         ParticleManager:CreateParticle("particles/frostivus_gameplay/bank_failed.vpcf", PATTACH_ABSORIGIN_FOLLOW, pot)
                         EmitSoundOn("custom_sound.bank_failed", pot)
                         pot:ClearBank()
+                        print("ddddddddddddddddddddddddddddddddddddd")
                     end
                 else
                     old_data.overtime = 0

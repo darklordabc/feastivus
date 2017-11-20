@@ -5,10 +5,18 @@ function OnPreRoundCountDown(args){
 	center.RemoveClass("Fade");
 	center.AddClass("SlideIn");
 	// $.Msg(time);
-	if (time == 3){
+	
+	if (time == 6) {
+		imagePanel.AddClass("Hidden");
+		$("#Image").RemoveClass("Hidden");
+		$("#FrostivusHUD").AddClass("EndScreenRoot");
+		Game.EmitSound("custom_sound.failed");
+	} else if (time == 3){
 		// ready
 		imagePanel.SetImage("s2r://panorama/images/custom_game/ui/image_ready.png")
 		imagePanel.RemoveClass("Hidden");
+		$("#Image").AddClass("Hidden");
+		$("#FrostivusHUD").RemoveClass("EndScreenRoot");
 		// $("#game_logo").AddClass("Hidden");
 		// $("#round_name").AddClass("Hidden");
 		Game.EmitSound("custom_sound.countdown_tick")

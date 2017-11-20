@@ -105,7 +105,9 @@ function Round:constructor(roundData)
 	self.vCurrentOrders = {}
 	self:UpdateOrdersToClient() -- clear all orders of last round
 
-	self.nPreRoundTime = 4
+	self.bLastTry = roundData.bLastTry
+
+	self.nPreRoundTime = roundData.nPreRoundTime or 4
 	self.nEndRoundDelay = 10
 
 	self.vRoundScore = 0
@@ -254,6 +256,10 @@ function Round:OnTimer()
 						-- ParticleManager:CreateParticle("particles/econ/events/ti6/hero_levelup_ti6_godray.vpcf", PATTACH_ABSORIGIN_FOLLOW, v)
 					end)
 				else
+					LoopOverHeroes(function(v)
+						StartAnimation(v, {duration=4, activity=ACT_DOTA_DISABLED, rate=1.0, translate="white"})
+					end)
+					self.vCurrentOrders = {}
 					GameRules.RoundManager:StartNewRound(g_RoundManager.nCurrentLevel, true)
 				end
 			end
@@ -506,6 +512,10 @@ function RoundManager:StartNewRound(level, bLastTry) -- level is passed for test
 
 	local roundData = GameRules.vRoundDefinations[level]
 	roundData.level = level
+	if bLastTry then
+		roundData.bLastTry = true
+		roundData.nPreRoundTime = 7
+	end
 
 	local teleport_target_entities = Entities:FindAllByName('level_' .. tostring(level) .. '_start')
 	local lastTeleportTarget = nil
@@ -562,8 +572,6 @@ function RoundManager:StartNewRound(level, bLastTry) -- level is passed for test
 
 	-- instantiation round
 	self.vCurrentRound = Round(roundData)
-
-	self.vCurrentRound.bLastTry = bLastTry
 
 	-- display round start message on clients
 	CustomGameEventManager:Send_ServerToAllClients("round_start",{

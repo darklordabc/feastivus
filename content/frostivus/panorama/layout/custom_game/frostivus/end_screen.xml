@@ -7,14 +7,16 @@
     <scripts>
        <include src="file://{resources}/scripts/custom_game/frostivus/end_screen.js" />
     </scripts>
-	<Panel hittest="false" class="EndScreenRoot Slide">
-		<Panel hittest="false" class="Frame">
-			<Image id="Image" src="file://{resources}/images/custom_game/ui/lost.png">
-				<Label class="Label" text="#lost" />
-			</Image>
-			<Button id="PlayButton" class="PlayButton" onactivate="Game.FinishGame();">
-				<Label text="#disconnect" />
-			</Button>
+	<Panel hittest="false" class="EndScreenRoot">
+		<Panel hittest="false" class="Content Slide">
+			<Panel hittest="false" class="Frame">
+				<Image id="Image" src="file://{resources}/images/custom_game/ui/lost.png">
+					<Label class="Label" text="#lost" />
+				</Image>
+				<Button id="PlayButton" class="PlayButton" onactivate="Game.FinishGame();">
+					<Label text="#disconnect" />
+				</Button>
+			</Panel>
 		</Panel>
 	</Panel>
 </root>

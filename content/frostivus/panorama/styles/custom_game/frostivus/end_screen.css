@@ -2,7 +2,12 @@
 	width: 100%;
 	height: 100%;
 
-	background-color: #00000044;
+	background-color: #000000bb;
+}
+
+.Content {
+	width: 100%;
+	height: 100%;
 
 	animation-duration: 0.5s;
 	animation-timing-function: ease-in-out;
@@ -33,6 +38,8 @@
 #Image {
 	margin-bottom: 50px;
 	box-shadow: #000000ff 0px 0px 16px 0px;
+	horizontal-align: center;
+	vertical-align: center;
 }
 
 .Label {

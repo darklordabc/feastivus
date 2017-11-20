@@ -2,6 +2,14 @@ function ToggleDebugPanel() {
 	$("#DebugPanel").ToggleClass("Hidden")
 }
 
+function TryAgain() {
+	GameEvents.SendCustomGameEventToServer('debug_try_again', {})
+}
+
+function Lose() {
+	GameEvents.SendCustomGameEventToServer('debug_lose', {})
+}
+
 function CreateExtraGreevilling() {
 	GameEvents.SendCustomGameEventToServer('debug_create_greevilling', {})
 }
