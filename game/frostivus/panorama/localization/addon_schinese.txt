@@ -27,4 +27,9 @@
 	"Feastivus_Round_Stew" "炖煮"
 	"Feastivus_Round_BitterSweet" "苦尽甘来"
 	"Feastivus_Round_Lava" "火焰神庙"
+
+	"total_score"			"总得分"
+	"score_orders_delivered"	"完成订单得分"
+	"score_speed_bonus"		"速度加成"
+	"orders_failed"			"失败订单数"
 }

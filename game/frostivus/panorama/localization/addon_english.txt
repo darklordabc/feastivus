@@ -35,4 +35,10 @@
 	"Feastivus_Round_Stew" "Stew"
 	"Feastivus_Round_BitterSweet" "Bitter Sweet"
 	"Feastivus_Round_Lava" "Fire Temple"
+
+	"total_score"			"TOTAL SCORE"
+	"score_orders_delivered"	"Orders delivered"
+	"score_speed_bonus"		"Speed bonus"
+	"orders_failed"			"Orders failed"
+}
 }
