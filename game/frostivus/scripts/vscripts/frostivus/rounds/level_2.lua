@@ -1,4 +1,4 @@
-local LEVEL_CAMERA_TARGET = Vector(4224.000000, -300.609528, 1250)
+local LEVEL_CAMERA_TARGET = Vector(4170.000000, -350.609528, 1150)
 
 return {
 	OnInitialize = function(round)
