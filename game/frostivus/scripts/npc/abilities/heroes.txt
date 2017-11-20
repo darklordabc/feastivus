@@ -49,6 +49,11 @@
         "var_type"          "FIELD_FLOAT"
         "duration"          "1.5"
       }
+      "05"
+      {
+        "var_type"          "FIELD_FLOAT"
+        "obstacle_cooldown"          "3.0"
+      }
     }
 
     "precache"

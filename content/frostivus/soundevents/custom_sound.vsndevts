@@ -120,4 +120,14 @@
         ]
         volume = "0.600000"
 	}
+	custom_sound.obstacle = {
+		type = "dota_src1_2d"
+		vsnd_files =
+        [
+            "sounds/weapons/creep/greevil/preattack04.vsnd",
+            "sounds/weapons/creep/greevil/preattack05.vsnd",
+            "sounds/weapons/creep/greevil/preattack02.vsnd",
+        ]
+        volume = "1.000000"
+	}
 }

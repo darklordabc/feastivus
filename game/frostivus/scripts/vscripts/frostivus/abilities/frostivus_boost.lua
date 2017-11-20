@@ -22,6 +22,7 @@ if IsServer() then
 	
 	function modifier_frostivus_boost:OnIntervalThink()
 		local caster = self:GetCaster()
+		local ability = self:GetAbility()
 		local position = caster:GetAbsOrigin()
 		local hullRadius = caster:GetHullRadius() + caster:GetCollisionPadding() + 50
 		GridNav:DestroyTreesAroundPoint(position, hullRadius, true)
@@ -112,6 +113,9 @@ if IsServer() then
 				end)
 
 				self:Destroy()
+
+				ability:StartCooldown(ability:GetSpecialValueFor("obstacle_cooldown"))
+				caster:EmitSound("custom_sound.obstacle")
 
 				-- old bounces code
 				-- local velocityC = caster:GetForwardVector() * self.speed
