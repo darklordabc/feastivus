@@ -26,6 +26,7 @@
 
 .Hidden {
 	visibility: collapse;
+	opacity: 0;
 }
 
 .ToggleTrackingCameraPanel {

@@ -3,26 +3,27 @@
     <include src="file://{resources}/styles/worldpanels/overhead.css" />
   </styles>
   <script>
+
+    var m_TargetPlayerID;
+    var m_IsLocalCurrentTarget;
+
   	function setPlayerColor(){
 	  	var data = $.GetContextPanel().Data;
-      if (data == null) { $.Schedule(1, setPlayerColor); return;}
+      var wp = $.GetContextPanel().WorldPanel;
+      if (data == null) { $.Schedule(0.03, setPlayerColor); return;}
 	  	var playerid = data['PlayerID'];
 	  	var playercolor = Players.GetPlayerColor(playerid).toString(16).substring(2,8);
 
       var localPlayer = Players.GetLocalPlayer();
-      if (localPlayer == playerid) {
-        $.GetContextPanel().style.backgroundColor = '#' + playercolor + "44;";
-        $.GetContextPanel().style.border = "2px solid #" + playercolor + ";"
-      } else {
-        $.GetContextPanel().style.backgroundColor = "#66f6de11;";
-        $.GetContextPanel().style.border = "3px solid #f6de11;"      
+      var m_IsLocalCurrentTarget = localPlayer == playerid && wp.entity == Players.GetLocalPlayerPortraitUnit();
+      $.GetContextPanel().SetHasClass("CurrentTarget", m_IsLocalCurrentTarget);
+      
+      if (m_TargetPlayerID != Game.GetPlayerInfo(playerid).player_steamid) {
+          m_TargetPlayerID = Game.GetPlayerInfo(playerid).player_steamid;
+          $("#overhead_name").steamid = m_TargetPlayerID;
       }
       
-      $("#overhead_name").steamid = Game.GetPlayerInfo(playerid).player_steamid;
-
-	  	$.GetContextPanel().style.backgroundColor = '#' + playercolor + "55;";
-	  	$.GetContextPanel().style.border = "2px solid #" + playercolor + ";"
-	  	$.Schedule(1, setPlayerColor);
+	  	$.Schedule(0.03, setPlayerColor);
   	}
 
   	(function() {
