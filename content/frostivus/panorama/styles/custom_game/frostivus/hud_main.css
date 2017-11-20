@@ -235,11 +235,15 @@
 	horizontal-align: center;
 	flow-children: down;
 	animation-duration:1s;
+	animation-timing-function: ease-in-out;
 	opacity: 0;
 }
 
 #center.SlideIn {
 	animation-name: slideDown;
+}
+#center.Fade {
+	animation-name: fade;
 }
 
 #round_name {
@@ -248,50 +252,41 @@
 
 @keyframes 'slideDown' {
   0% {
-    transform: translateY(-100%);
+    transform: scale3d(1.0, 1.0, 1.0);
     opacity: 1;
   }
-  5% {
-    transform: translateY(-80%);
+  7% {
+    transform: scale3d(1.25, 1.25, 1.25);
+    /*opacity: 1;*/
   }
-  10% {
-    transform: translateY(-60%);
-  }
-  15% {
-    transform: translateY(-40%);
-  }
-  20% {
-    transform: translateY(-20%);
-  }
-  25%{
-    transform: translateY(8%);
-  }
-  30%{
-    transform: translateY(-4%);
-  }
-  35%{
-    transform: translateY(4%);
-  }
-  40%{
-    transform: translateY(-2%);
-  }     
-  45% {
-    transform: translateY(0%);
-  }   
-  80% {
-    opacity: 1;
-    transform: translateX(0%);
-  }
-  90% {
-    pre-transform-scale2d:0.5;
-    
+  14% {
+    transform: scale3d(1.0, 1.0, 1.0);
+    /*opacity: 1;*/
   }
   100% {
-    
-    pre-transform-scale2d:0.01;
-  }   
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
 }
 
+@keyframes 'fade' {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    transform: scale3d(0.8, 0.8, 0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale3d(0.8, 0.8, 0.8);
+    opacity: 0;
+  }
+}
+
+#ready_set_go {
+	vertical-align: center;
+	horizontal-align: center;
+}
 
 #count_down_timer {
 	vertical-align: bottom;

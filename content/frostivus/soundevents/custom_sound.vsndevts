@@ -130,4 +130,20 @@
         ]
         volume = "1.000000"
 	}
+    custom_sound.countdown_go = {
+        type = "dota_src1_2d"
+        vsnd_files =
+        [
+            "sounds/ui/inventory/treasure_count.vsnd",
+        ]
+        volume = "0.500000"
+    }
+    custom_sound.countdown_tick = {
+        type = "dota_src1_2d"
+        vsnd_files =
+        [
+            "sounds/ui/menu/tick.vsnd",
+        ]
+        volume = "0.500000"
+    }
 }

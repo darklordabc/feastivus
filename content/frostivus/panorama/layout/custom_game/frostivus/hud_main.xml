@@ -66,10 +66,10 @@
 
 			<!-- center popup block -->
 			<Panel id="center" hittestchildren="false">
-				<Image id="game_logo" src="file://{resources}/images/custom_game/game_logo.png" />
+				<!-- <Image id="game_logo" src="file://{resources}/images/custom_game/game_logo.png" /> -->
 				<Image id="ready_set_go" />
 				<!-- maybe better art, use label for now -->
-				<Label id="round_name" /> 
+				<!-- <Label id="round_name" />  -->
 			</Panel>
 
 			<!-- countdown timer -->

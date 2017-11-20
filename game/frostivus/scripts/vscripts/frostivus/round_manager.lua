@@ -105,7 +105,7 @@ function Round:constructor(roundData)
 	self.vCurrentOrders = {}
 	self:UpdateOrdersToClient() -- clear all orders of last round
 
-	self.nPreRoundTime = 5
+	self.nPreRoundTime = 4
 	self.nEndRoundDelay = 10
 
 	self.vRoundScore = 0

@@ -47,7 +47,7 @@ function BenchCheck()
             if (data.items[id]) {
               $("#Slot"+id).Children()[0].itemname = data.items[id];
               $("#Slot"+id).Children()[0].SetHasClass("Hide", false);
-            } else {
+            } else if ($("#Slot"+id)) {
               $("#Slot"+id).Children()[0].SetHasClass("Hide", true);
             }
           }

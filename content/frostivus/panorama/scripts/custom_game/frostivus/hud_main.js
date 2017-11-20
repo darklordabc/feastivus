@@ -2,26 +2,29 @@ function OnPreRoundCountDown(args){
 	var time = args.value
 	var center = $("#center");
 	var imagePanel = $("#ready_set_go");
+	center.RemoveClass("Fade");
 	center.AddClass("SlideIn");
-
-	if (time == 5 || time == 4) {
-		// show round name and game logo
-		$("#game_logo").RemoveClass("Hidden");
-		$("#round_name").RemoveClass("Hidden");
-		imagePanel.AddClass("Hidden");
-	}else if (time == 3){
+	// $.Msg(time);
+	if (time == 3){
 		// ready
 		imagePanel.SetImage("s2r://panorama/images/custom_game/ui/image_ready.png")
 		imagePanel.RemoveClass("Hidden");
-		$("#game_logo").AddClass("Hidden");
-		$("#round_name").AddClass("Hidden");
+		// $("#game_logo").AddClass("Hidden");
+		// $("#round_name").AddClass("Hidden");
+		Game.EmitSound("custom_sound.countdown_tick")
 	}else if (time == 2) {
 		// set
 		imagePanel.SetImage("s2r://panorama/images/custom_game/ui/image_set.png")
+		Game.EmitSound("custom_sound.countdown_tick")
 	}else if (time == 1) {
 		// GO!
 		imagePanel.SetImage("s2r://panorama/images/custom_game/ui/image_go.png")
 		$("#count_down_timer").RemoveClass("Hidden");
+		$.Schedule(0.9, function(){
+			center.AddClass("Fade");
+			Game.EmitSound("custom_sound.countdown_go")
+		});
+		Game.EmitSound("custom_sound.countdown_tick")
 	}
 	
 	center.AddClass("SlideIn");
@@ -64,7 +67,7 @@ function OnTimer(args){
 
 function SetRoundName(args) {
 	var name = args.name;
-	$("#round_name").text = $.Localize(name);
+	// $("#round_name").text = $.Localize(name);
 }
 
 function AutoRemoveAbilityPips() {
