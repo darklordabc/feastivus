@@ -52,7 +52,7 @@
       "05"
       {
         "var_type"          "FIELD_FLOAT"
-        "obstacle_cooldown"          "3.0"
+        "obstacle_cooldown"          "5.0"
       }
     }
 
