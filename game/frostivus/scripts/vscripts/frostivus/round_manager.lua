@@ -547,7 +547,9 @@ function RoundManager:StartNewRound(level, bLastTry) -- level is passed for test
 		local player = PlayerResource:GetPlayer(hero:GetPlayerID())
 		if player.vExtraGreevillings and table.count(player.vExtraGreevillings) > 0 then
 			for _, greevilling in pairs(player.vExtraGreevillings) do
-				FindClearSpaceForUnit(greevilling, teleportTarget or hero:GetOrigin(), true)
+				greevilling:SetAbsOrigin(teleportTarget or hero:GetOrigin())
+				greevilling:AddNewModifier(hero, nil, "modifier_phased", {Duration = 0.03})
+				hero:AddNewModifier(hero, nil, "modifier_phased", {Duration = 0.03})
 			end
 		end
 
