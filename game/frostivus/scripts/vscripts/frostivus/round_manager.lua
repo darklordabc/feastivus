@@ -262,18 +262,18 @@ function Round:OnTimer()
 					self.vCurrentOrders = {}
 					GameRules.RoundManager:StartNewRound(g_RoundManager.nCurrentLevel, true)
 				end
-			end
-			
-			-- tell client to show order finished message
-			self.vCurrentOrders[k].pszFinishType = "Expired"
-			Timers:CreateTimer(2, function()
-				-- remove order after a short delay
-				self.vCurrentOrders[k] = nil
-			end)
+			else
+				-- tell client to show order finished message
+				self.vCurrentOrders[k].pszFinishType = "Expired"
+				Timers:CreateTimer(2, function()
+					-- remove order after a short delay
+					self.vCurrentOrders[k] = nil
+				end)
 
 
-			if self.vRoundScript.OnRecipeExpired then
-				self.vRoundScript.OnRecipeExpired(self, order)
+				if self.vRoundScript.OnRecipeExpired then
+					self.vRoundScript.OnRecipeExpired(self, order)
+				end
 			end
 		end
 		self:UpdateOrdersToClient()
