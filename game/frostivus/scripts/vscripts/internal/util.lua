@@ -285,7 +285,7 @@ function StartMainThemeAtPosition(pos)
   GameRules.__hMusicPlayerEntity:EmitSound("custom_music.main_theme")
   Timers:CreateTimer(67, function()
     if GameRules.__bMusicPlaying then
-      GameRules.__hMusicPlayerEntity:EmitSound("custom_music.main_theme")
+      StartMainThemeAtPosition(pos)
     end
   end)
 end
