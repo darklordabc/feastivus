@@ -38,7 +38,7 @@ return {
 				end)
 			end
 
-			Timers:CreateTimer(0.8 * wavesCount + 4, function()
+			Timers:CreateTimer(0.8 * wavesCount + 6, function()
 				GridNav:RegrowAllTrees()
 				for i = 1, wavesCount do
 					GameRules.__vPangoliers[i]:SetOrigin(spawnPos1)

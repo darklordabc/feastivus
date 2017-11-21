@@ -64,7 +64,7 @@
     "AbilityCastRange"        "0"
     "AbilityCastPoint"        "0"
     "AbilityCooldown"       "0 0 0"
-    "AbilityDuration"       "3"
+    "AbilityDuration"       "5"
     "AbilityManaCost"       "0"
     "AbilityDamage"         "0 0 0"
     "AbilitySpecial"
@@ -82,7 +82,7 @@
       "03"
       {
         "var_type"        "FIELD_FLOAT"
-        "forward_move_speed"  "800"
+        "forward_move_speed"  "500"
       }
       "04"
       {
@@ -102,7 +102,7 @@
       "07"
       {
         "var_type"        "FIELD_INTEGER"
-        "hit_radius"      "100"
+        "hit_radius"      "120"
       }     
       "08"
       {
