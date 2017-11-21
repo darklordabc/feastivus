@@ -280,9 +280,13 @@ function StartMainThemeAtPosition(pos)
     GameRules.__hMusicPlayerEntity = CreateUnitByName("npc_camera_target", pos, false, nil, nil, DOTA_TEAM_GOODGUYS)
   end
   GameRules.__hMusicPlayerEntity:SetAbsOrigin(pos)
+  GameRules.__hMusicPlayerEntity:StopSound("custom_music.main_theme")
   GameRules.__hMusicPlayerEntity:EmitSound("custom_music.main_theme")
 end
 
-function StopMainThemeAtPosition(pos)
-  GameRules.__hMusicPlayerEntity:EmitSound("custom_music.main_theme")
+function StopMainTheme()
+  if GameRules.__hMusicPlayerEntity == nil then
+    GameRules.__hMusicPlayerEntity = CreateUnitByName("npc_camera_target", Vector(0,0,0), false, nil, nil, DOTA_TEAM_GOODGUYS)
+  end
+  GameRules.__hMusicPlayerEntity:StopSound("custom_music.main_theme")
 end

@@ -51,7 +51,7 @@ return {
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
 
-		SendToServerConsole("stopsound")
+		StopMainTheme()
 		
 		Frostivus:ResetStage( LEVEL_CAMERA_TARGET )
 

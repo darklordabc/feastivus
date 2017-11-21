@@ -182,8 +182,9 @@ return {
 		-- print("RoundScript -> OnTimer")
 	end,
 	OnPreRoundStart = function(round)
-		SendToServerConsole("stopsound")
 		print("RoundScript -> OnPreRoundStart")
+
+		StopMainTheme()
 
 		Timers:CreateTimer(5, function()
 			StartMainThemeAtPosition(LEVEL_CAMERA_TARGET)
