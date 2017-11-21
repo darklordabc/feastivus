@@ -1,0 +1,41 @@
+"addon"
+{
+	"DOTA_GoodGuys"   								"Гряволы"
+	"DOTA_BadGuys"    								""
+	
+	"addonname"										"Feastivus"
+
+	"tutorial_text_pickup_tango" "Райт-клик по коробке с танго чтобы достать его"	
+
+	"tutorial_text_cutting" "Райт-клик по разделочной доске чтобы нарезать танго"	
+
+	"tutorial_collect_plate" "Возьмите тарелку и положите на один из столов, затем положите 3 нарезанных танго в тарелку"	
+
+	"tutorial_clean_plates" "Возьмите тарелку и помойте ее"
+
+	"tutorial_finish_remaining_orders" "Завершите оставашийся заказ!"	
+
+	"change_material" "Изменить цвет"	
+
+	"DOTA_Tooltip_ability_item_plate"										"Тарелка"
+	"DOTA_Tooltip_ability_item_plate_Description"							""
+
+	"DOTA_Tooltip_ability_item_dirty_plates"										"Грязные тарелка"
+	"DOTA_Tooltip_ability_item_dirty_plates_Description"							""
+
+	"kitchen_complete"		"Уровень пройден"
+	"level_1"				"Уровень {d:level}"
+
+	"Feastivus_Round_Tutorial" "Обучение"
+	"Feastivus_Round_Stew" "Стью"
+	"Feastivus_Round_BitterSweet" "Биттер Свит"
+	"Feastivus_Round_Lava" "Храм огня"
+
+	"total_score"			"СЧЕТ"
+	"score_orders_delivered"	"Заказов доставлено"
+	"score_speed_bonus"		"Бонус за оперативность"
+	"orders_failed"			"Заказов провалено"
+
+	"lost" "Вы проиграли"
+	"try_again" "Попробуй еще раз"
+}
