@@ -63,7 +63,7 @@ function GameMode:OnItemPickedUp(keys)
   local player = PlayerResource:GetPlayer(keys.PlayerID)
   local itemname = keys.itemname
 
-  Frostivus:OnPickupItem( itemEntity, player )
+  Frostivus:OnPickupItem( itemEntity, unitEntity )
 end
 
 -- A player has reconnected to the game.  This function can be used to repaint Player-based particles or change

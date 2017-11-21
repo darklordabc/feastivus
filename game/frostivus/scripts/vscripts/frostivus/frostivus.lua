@@ -152,8 +152,8 @@ function Frostivus:DropItem( unit, item )
 	return item
 end
 
-function Frostivus:OnPickupItem( item, ply )
-	local caster = ply:GetAssignedHero()
+function Frostivus:OnPickupItem( item, caster )
+	-- local caster = PlayerResource:GetSelectedHeroEntity(ply:GetPlayerID())
 
 	local old_container = item:GetContainer()
 
