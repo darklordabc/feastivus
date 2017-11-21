@@ -41,7 +41,7 @@ return {
 		print("RoundScript -> OnRoundStart")
 		StartMainThemeAtPosition(LEVEL_CAMERA_TARGET)
 		Timers:CreateTimer(67, function()
-			if self.nCountDownTimer > 0 then
+			if round.nCountDownTimer > 0 then
 				StartMainThemeAtPosition(LEVEL_CAMERA_TARGET)
 				return 67
 			end
