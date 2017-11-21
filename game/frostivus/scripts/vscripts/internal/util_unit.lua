@@ -70,3 +70,7 @@ function CDOTA_BaseNPC_Hero:SetCameraTargetPosition(pos)
 	PlayerResource:SetCameraTarget(self:GetPlayerID(), self.vCameraTarget)
 	GameRules:GetGameModeEntity():SetCameraDistanceOverride(pos.z)
 end
+
+function IsValidAlive(ent)
+	return ent and IsValidEntity(ent) and ent:IsAlive() 
+end

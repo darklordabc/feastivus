@@ -1,11 +1,8 @@
 local LEVEL_CAMERA_TARGET = Vector(-4200, 1088, 1100)
-local pangolierSpawnPositions = {
-	Vector(-4288, 1536, 128),
-	Vector(-4032, 1536, 128),
-}
-
-local randomScrollIntervalMin = 15
-local randomScrollIntervalMax = 20
+local spawnPos1 = Vector(-4288, 2200, 128)
+local spawnPos2 = Vector(-4032, 2200, 128)
+local randomScrollIntervalMin = 10
+local randomScrollIntervalMax = 15
 
 return {
 	OnInitialize = function(round)
@@ -23,21 +20,20 @@ return {
 		end
 
 		if now >= GameRules.__flNextPangolierScrollTime then
-			for _, pangolier in pairs(GameRules.__vPangoliers) do
-				pangolier:CastAbilityNoTarget(pangolier.scrollAbility, -1)
-			end
-			Timers:CreateTimer(0, function()
-				for _, pangolier in pairs(GameRules.__vPangoliers) do
-					pangolier:CastAbilityOnPosition(pangolier:GetOrigin() + Vector(0, -400, 0), pangolier.jumpAbility, -1)
-				end
+			-- start a pangolier run
+			GameRules.__hPangolier1:CastAbilityNoTarget(GameRules.__hPangolier1.scrollAbility, -1)
+			Timers:CreateTimer(1, function()
+				GameRules.__hPangolier2:CastAbilityNoTarget(GameRules.__hPangolier2.scrollAbility, -1)
 			end)
-			Timers:CreateTimer(2.1, function()
-				for _, pangolier in pairs(GameRules.__vPangoliers) do
-					pangolier:SetOrigin(pangolier.vSpawnPosition)
-					pangolier:SetForwardVector(Vector(0, -1, 0))
-					pangolier:StartGesture(ACT_DOTA_IDLE)
-				end
+
+			Timers:CreateTimer(6, function()
+				GridNav:RegrowAllTrees()
+				GameRules.__hPangolier1:SetOrigin(spawnPos1)
+				GameRules.__hPangolier1:SetForwardVector(Vector(0, -1, 0))
+				GameRules.__hPangolier2:SetOrigin(spawnPos2)
+				GameRules.__hPangolier2:SetForwardVector(Vector(0, -1, 0))
 			end)
+
 			GameRules.__flNextPangolierScrollTime = now + RandomFloat(randomScrollIntervalMin, randomScrollIntervalMax)
 		end
 	end,
@@ -63,13 +59,13 @@ return {
 			hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
 		end)
 
-		if GameRules.__vPangoliers == nil then
-			GameRules.__vPangoliers = {}
+		if GameRules.__hPangolier1 == nil then
 			PrecacheUnitByNameAsync("npc_dota_hero_pangolier", function()
-				for _, pos in pairs(pangolierSpawnPositions) do
+				local function CreatePangolierOnPosition(pos)
 					local pangolier = CreateUnitByName("npc_dota_hero_pangolier", pos, false, nil, nil, DOTA_TEAM_BADGUYS)
 					pangolier:AddNewModifier(pangolier, nil, "modifier_disarmed", {})
 					pangolier:AddNewModifier(pangolier, nil, "modifier_hide_health_bar", {})
+					pangolier:AddNewModifier(pangolier, nil, "modifier_unselectable", {})
 					pangolier.scrollAbility = pangolier:FindAbilityByName("pangolier_gyroshell")
 					pangolier.scrollAbility:UpgradeAbility(false)
 					pangolier.jumpAbility = pangolier:FindAbilityByName("pangolier_shield_crash")
@@ -77,8 +73,22 @@ return {
 					pangolier.vTargetPosition = pos + Vector(0, -1500, 0)
 					pangolier.vSpawnPosition = pos
 					pangolier:SetForwardVector(Vector(0, -1, 0))
-					table.insert(GameRules.__vPangoliers, pangolier)
+
+					pangolier:SetContextThink("pango_thinker", function()
+						if not IsValidAlive(pangolier) then return nil end
+						local forwardPos = pangolier:GetOrigin() + pangolier:GetForwardVector() * 100
+						if not GridNav:IsTraversable(forwardPos) then
+							pangolier:CastAbilityOnPosition(forwardPos + Vector(0, -100, 0), pangolier.jumpAbility, -1)
+							return 0.4
+						else
+							return 0.03
+						end
+					end, 0.03)
+
+					return pangolier
 				end
+				GameRules.__hPangolier1 = CreatePangolierOnPosition(spawnPos1)
+				GameRules.__hPangolier2 = CreatePangolierOnPosition(spawnPos2)
 			end, -1)
 		end
 	end,

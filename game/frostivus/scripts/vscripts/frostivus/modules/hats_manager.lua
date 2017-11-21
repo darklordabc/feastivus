@@ -82,9 +82,7 @@ function HatsManager:OnNPCSpawned(args)
 
 	local npc = EntIndexToHScript(args.entindex)
 
-	if npc:IsHero() then
-
-		if npc:GetUnitName() ~= "npc_dota_hero_axe" then return end
+	if npc:IsHero() and npc:GetUnitName() == "npc_dota_hero_axe" then
 
 		if not npc.bHatsManager_Created then
 			npc.bHatsManager_Created = true
