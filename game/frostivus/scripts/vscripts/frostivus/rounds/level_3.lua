@@ -39,9 +39,15 @@ return {
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
-		StopMainThemeAtPosition(LEVEL_CAMERA_TARGET)
+		
 		StartMainThemeAtPosition(LEVEL_CAMERA_TARGET)
-
+		Timers:CreateTimer(67, function()
+			if self.nCountDownTimer > 0 then
+				StartMainThemeAtPosition(LEVEL_CAMERA_TARGET)
+				return 67
+			end
+		end)
+		
 		local traps = Entities:FindAllByModel("models/props/traps/hooded_fang/hooded_fang.vmdl")
 
 		local i = 0

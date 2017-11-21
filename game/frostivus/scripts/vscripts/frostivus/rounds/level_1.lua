@@ -188,6 +188,12 @@ return {
 
 		Timers:CreateTimer(5, function()
 			StartMainThemeAtPosition(LEVEL_CAMERA_TARGET)
+			Timers:CreateTimer(67, function()
+				if self.nCountDownTimer > 0 then
+					StartMainThemeAtPosition(LEVEL_CAMERA_TARGET)
+					return 67
+				end
+			end)
 		end)
 
 		Frostivus:ResetStage( LEVEL_CAMERA_TARGET )
