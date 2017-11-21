@@ -94,7 +94,7 @@ if IsServer() then
 
 			local newPos = GetGroundPosition(position, caster) + self.vDir * self.speed * FrameTime()
 
-			if GridNav:CanFindPath(caster:GetAbsOrigin(), newPos) then
+			if GridNav:CanFindPath(caster:GetAbsOrigin(), newPos) and not caster:IsStunned() then
 				caster:SetAbsOrigin( newPos )
 				self.dist_travelled = self.dist_travelled + self.speed * FrameTime()
 			else
