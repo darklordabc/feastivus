@@ -102,7 +102,7 @@
       "07"
       {
         "var_type"        "FIELD_INTEGER"
-        "hit_radius"      "150"
+        "hit_radius"      "100"
       }     
       "08"
       {

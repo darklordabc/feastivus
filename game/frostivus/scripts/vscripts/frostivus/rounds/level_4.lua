@@ -1,6 +1,6 @@
 local LEVEL_CAMERA_TARGET = Vector(-4200, 1088, 1100)
-local spawnPos1 = Vector(-4288, 2200, 128)
-local spawnPos2 = Vector(-4032, 2200, 128)
+local spawnPos1 = Vector(-4350, 2200, 128)
+local spawnPos2 = Vector(-4000, 2200, 128)
 local randomScrollIntervalMin = 10
 local randomScrollIntervalMax = 15
 local wavesCount = 6
