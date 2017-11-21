@@ -3,6 +3,7 @@ local spawnPos1 = Vector(-4288, 2200, 128)
 local spawnPos2 = Vector(-4032, 2200, 128)
 local randomScrollIntervalMin = 10
 local randomScrollIntervalMax = 15
+local wavesCount = 6
 
 return {
 	OnInitialize = function(round)
@@ -21,17 +22,27 @@ return {
 
 		if now >= GameRules.__flNextPangolierScrollTime then
 			-- start a pangolier run
-			GameRules.__hPangolier1:CastAbilityNoTarget(GameRules.__hPangolier1.scrollAbility, -1)
-			Timers:CreateTimer(1, function()
-				GameRules.__hPangolier2:CastAbilityNoTarget(GameRules.__hPangolier2.scrollAbility, -1)
-			end)
+			-- GameRules.__hPangolier1:CastAbilityNoTarget(GameRules.__hPangolier1.scrollAbility, -1)
+			-- Timers:CreateTimer(1, function()
+			-- 	GameRules.__hPangolier2:CastAbilityNoTarget(GameRules.__hPangolier2.scrollAbility, -1)
+			-- end)
+			for i = 1, wavesCount do
+				local pangolier = GameRules.__vPangoliers[i]
+				if i % 2 == 0 then
+					pangolier:SetOrigin(spawnPos1)
+				else
+					pangolier:SetOrigin(spawnPos2)
+				end
+				Timers:CreateTimer(0.8 * (i -1), function()
+					pangolier:CastAbilityNoTarget(pangolier.scrollAbility, -1)
+				end)
+			end
 
-			Timers:CreateTimer(6, function()
+			Timers:CreateTimer(0.8 * wavesCount + 4, function()
 				GridNav:RegrowAllTrees()
-				GameRules.__hPangolier1:SetOrigin(spawnPos1)
-				GameRules.__hPangolier1:SetForwardVector(Vector(0, -1, 0))
-				GameRules.__hPangolier2:SetOrigin(spawnPos2)
-				GameRules.__hPangolier2:SetForwardVector(Vector(0, -1, 0))
+				for i = 1, wavesCount do
+					GameRules.__vPangoliers[i]:SetOrigin(spawnPos1)
+				end
 			end)
 
 			GameRules.__flNextPangolierScrollTime = now + RandomFloat(randomScrollIntervalMin, randomScrollIntervalMax)
@@ -59,7 +70,8 @@ return {
 			hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
 		end)
 
-		if GameRules.__hPangolier1 == nil then
+		if GameRules.__vPangoliers == nil then
+			GameRules.__vPangoliers = {}
 			PrecacheUnitByNameAsync("npc_dota_hero_pangolier", function()
 				local function CreatePangolierOnPosition(pos)
 					local pangolier = CreateUnitByName("npc_dota_hero_pangolier", pos, false, nil, nil, DOTA_TEAM_BADGUYS)
@@ -73,22 +85,12 @@ return {
 					pangolier.vTargetPosition = pos + Vector(0, -1500, 0)
 					pangolier.vSpawnPosition = pos
 					pangolier:SetForwardVector(Vector(0, -1, 0))
-
-					pangolier:SetContextThink("pango_thinker", function()
-						if not IsValidAlive(pangolier) then return nil end
-						local forwardPos = pangolier:GetOrigin() + pangolier:GetForwardVector() * 100
-						if not GridNav:IsTraversable(forwardPos) then
-							pangolier:CastAbilityOnPosition(forwardPos + Vector(0, -100, 0), pangolier.jumpAbility, -1)
-							return 0.4
-						else
-							return 0.03
-						end
-					end, 0.03)
-
 					return pangolier
 				end
-				GameRules.__hPangolier1 = CreatePangolierOnPosition(spawnPos1)
-				GameRules.__hPangolier2 = CreatePangolierOnPosition(spawnPos2)
+
+				for i = 1, wavesCount do
+					table.insert(GameRules.__vPangoliers, CreatePangolierOnPosition(spawnPos1))
+				end
 			end, -1)
 		end
 	end,

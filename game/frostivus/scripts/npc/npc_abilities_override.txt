@@ -64,7 +64,7 @@
     "AbilityCastRange"        "0"
     "AbilityCastPoint"        "0"
     "AbilityCooldown"       "0 0 0"
-    "AbilityDuration"       "5"
+    "AbilityDuration"       "3"
     "AbilityManaCost"       "0"
     "AbilityDamage"         "0 0 0"
     "AbilitySpecial"
