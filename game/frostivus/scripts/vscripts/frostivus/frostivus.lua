@@ -64,6 +64,9 @@ if not Frostivus then
 end
 
 function Frostivus:InitHero(hero)
+	
+	if hero:GetUnitName() ~= "npc_dota_hero_axe" then return end
+
 	hero:SetCameraTargetPosition(Vector(-1.579994, 56.258438, 940))
 	InitAbilities( hero )
 	AddAnimationTranslate(hero, "level_3")

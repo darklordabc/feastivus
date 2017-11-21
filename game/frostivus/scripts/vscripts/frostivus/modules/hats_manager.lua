@@ -84,7 +84,7 @@ function HatsManager:OnNPCSpawned(args)
 
 	if npc:IsHero() then
 
-		
+		if npc:GetUnitName() ~= "npc_dota_hero_axe" then return end
 
 		if not npc.bHatsManager_Created then
 			npc.bHatsManager_Created = true

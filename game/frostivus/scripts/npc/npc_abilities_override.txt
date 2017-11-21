@@ -5,6 +5,133 @@
   "Version"   "1"
   
   
+  "pangolier_shield_crash"
+  {
+    "AbilityCooldown"       "0"
+    "AbilityManaCost"       "0"
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"        "FIELD_INTEGER"
+        "damage"        "0 0 0 0"
+      }
+      "02"
+      {
+        "var_type"        "FIELD_INTEGER"
+        "hero_stacks"     "9 12 15 18"
+      }
+      "03"
+      {
+        "var_type"        "FIELD_FLOAT"
+        "duration"        "10.0"
+      }
+      "04"
+      {
+        "var_type"        "FIELD_INTEGER"
+        "radius"        "500"
+      }
+      "05"
+      {
+        "var_type"        "FIELD_FLOAT"
+        "jump_duration"     "0.4"
+      }
+      "06"
+      {
+        "var_type"          "FIELD_FLOAT"
+        "jump_duration_gyroshell" "0.75"
+      }
+      "07"
+      {
+        "var_type"        "FIELD_INTEGER"
+        "jump_height"     "250"
+      }
+      "08"
+      {
+        "var_type"        "FIELD_INTEGER"
+        "jump_height_gyroshell" "350"
+      }
+      "09"
+      {
+        "var_type"        "FIELD_INTEGER"
+        "jump_horizontal_distance"  "225"
+      }
+    }
+  }
+
+  "pangolier_gyroshell"
+  {
+    "AbilityCastRange"        "0"
+    "AbilityCastPoint"        "0"
+    "AbilityCooldown"       "0 0 0"
+    "AbilityDuration"       "2.1"
+    "AbilityManaCost"       "0"
+    "AbilityDamage"         "0 0 0"
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"        "FIELD_FLOAT"
+        "cast_time_tooltip"   "1.2"
+      }     
+      "02"
+      {
+        "var_type"        "FIELD_FLOAT"
+        "tick_interval"     "0.05"
+      }
+      "03"
+      {
+        "var_type"        "FIELD_FLOAT"
+        "forward_move_speed"  "600"
+      }
+      "04"
+      {
+        "var_type"        "FIELD_FLOAT" // used after any break in the roll (start/jump/bounce)
+        "turn_rate_boosted"   "165"
+      }
+      "05"
+      {
+        "var_type"        "FIELD_FLOAT"
+        "turn_rate"       "120"
+      }
+      "06"
+      {
+        "var_type"        "FIELD_INTEGER"
+        "radius"        "400"
+      }     
+      "07"
+      {
+        "var_type"        "FIELD_INTEGER"
+        "hit_radius"      "150"
+      }     
+      "08"
+      {
+        "var_type"        "FIELD_FLOAT"
+        "bounce_duration"   "0.4"
+      }     
+      "09"
+      {
+        "var_type"        "FIELD_FLOAT"
+        "stun_duration"     "1.0 1.25 1.5"
+      }     
+      "10"
+      {
+        "var_type"        "FIELD_INTEGER"
+        "knockback_radius"    "150"
+      }     
+      "11"
+      {
+        "var_type"        "FIELD_FLOAT"
+        "duration"        "6.0 7.0 8.0"
+      }
+      "12"
+      {
+        "var_type"        "FIELD_FLOAT"
+        "jump_recover_time"   "0.25"
+      }     
+    }
+  }
+
   // -----------------------------------------------------------
   // - UNCOMMENT ANY ITEM YOU DON'T WANT TO APPEAR IN THE SHOP -
   // -----------------------------------------------------------
