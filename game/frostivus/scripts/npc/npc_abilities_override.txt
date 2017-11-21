@@ -82,7 +82,7 @@
       "03"
       {
         "var_type"        "FIELD_FLOAT"
-        "forward_move_speed"  "600"
+        "forward_move_speed"  "800"
       }
       "04"
       {
