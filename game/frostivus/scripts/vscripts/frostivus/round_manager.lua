@@ -280,7 +280,7 @@ function Round:OnTimer()
 	end
 
 	if self.vRoundScript.OnTimer then
-		self.vRoundScript.OnTimer(self.nExpiredTime, self.nCountDownTimer)
+		self.vRoundScript.OnTimer(self)
 	end
 	
 	-- update ui timer
