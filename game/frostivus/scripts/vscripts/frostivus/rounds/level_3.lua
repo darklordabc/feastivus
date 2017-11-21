@@ -37,14 +37,8 @@ return {
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
-
-		-- sound for first level
-		Timers:CreateTimer(function()
-			if round.nCountDownTimer > 0 then
-				GameRules:GetGameModeEntity():EmitSound("custom_music.main_theme")
-				return 138
-			end
-		end)
+		StopMainThemeAtPosition(LEVEL_CAMERA_TARGET)
+		StartMainThemeAtPosition(LEVEL_CAMERA_TARGET)
 
 		local traps = Entities:FindAllByModel("models/props/traps/hooded_fang/hooded_fang.vmdl")
 
@@ -63,6 +57,7 @@ return {
 	OnRoundEnd = function(round)
 		-- if you do something special, clean them
 		print("RoundScript -> OnRoundEnd")
+		StopMainThemeAtPosition(LEVEL_CAMERA_TARGET)
 	end,
 	OnOrderExpired = function(round, order)
 		-- @param order, table

@@ -96,10 +96,13 @@ return {
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
+		StopMainThemeAtPosition(LEVEL_CAMERA_TARGET)
+		StartMainThemeAtPosition(LEVEL_CAMERA_TARGET)
 	end,
 	OnRoundEnd = function(round)
 		-- if you do something special, clean them
 		print("RoundScript -> OnRoundEnd")
+		StopMainThemeAtPosition(LEVEL_CAMERA_TARGET)
 	end,
 	OnOrderExpired = function(round, order)
 		-- @param order, table

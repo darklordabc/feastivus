@@ -184,6 +184,10 @@ return {
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
 
+		Timers:CreateTimer(5, function()
+			StartMainThemeAtPosition(LEVEL_CAMERA_TARGET)
+		end)
+
 		Frostivus:ResetStage( LEVEL_CAMERA_TARGET )
 
 		local i = 1
@@ -259,20 +263,12 @@ return {
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
-
-		-- sound for first level
-		Timers:CreateTimer(function()
-			if round.nCountDownTimer > 0 then
-				GameRules:GetGameModeEntity():EmitSound("custom_music.main_theme")
-				return 138
-			end
-		end)
 	end,
 
 	OnRoundEnd = function(round)
 		-- if you do something special, clean them
 		print("RoundScript -> OnRoundEnd")
-		GameRules:GetGameModeEntity():StopSound("custom_music.main_theme")
+		StopMainThemeAtPosition(LEVEL_CAMERA_TARGET)
 	end,
 	OnOrderExpired = function(round, order)
 		-- @param order, table

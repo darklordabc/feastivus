@@ -274,3 +274,15 @@ function LoopOverPlayers(callback)
     end
   end
 end
+
+function StartMainThemeAtPosition(pos)
+  if GameRules.__hMusicPlayerEntity == nil then
+    GameRules.__hMusicPlayerEntity = CreateUnitByName("npc_camera_target", pos, false, nil, nil, DOTA_TEAM_GOODGUYS)
+  end
+  GameRules.__hMusicPlayerEntity:SetAbsOrigin(pos)
+  GameRules.__hMusicPlayerEntity:EmitSound("custom_music.main_theme")
+end
+
+function StopMainThemeAtPosition(pos)
+  GameRules.__hMusicPlayerEntity:EmitSound("custom_music.main_theme")
+end

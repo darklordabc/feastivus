@@ -37,18 +37,12 @@ return {
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
-
-		-- sound for first level
-		Timers:CreateTimer(function()
-			if round.nCountDownTimer > 0 then
-				GameRules:GetGameModeEntity():EmitSound("custom_music.main_theme")
-				return 138
-			end
-		end)
+		StartMainThemeAtPosition(LEVEL_CAMERA_TARGET)
 	end,
 	OnRoundEnd = function(round)
 		-- if you do something special, clean them
 		print("RoundScript -> OnRoundEnd")
+		GameRules:GetGameModeEntity():StopSound("custom_music.main_theme")
 	end,
 	OnOrderExpired = function(round, order)
 		-- @param order, table
