@@ -63,7 +63,7 @@
 								m_nGroupId = 0
 								m_sBoneName = "cube"
 								m_vMinBounds = [ -64.0, 0.0, -64.0 ]
-								m_vMaxBounds = [ 64.0, 84.333855, 64.0 ]
+								m_vMaxBounds = [ 64.0, 91.945282, 64.0 ]
 								m_bTranslationOnly = false
 								m_cRenderColor = [ 0, 0, 0, 0 ]
 							},

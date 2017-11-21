@@ -22,6 +22,9 @@ function frostivus_bin:OnUpgrade()
                     return
                 else
                     item:ClearBench()
+                    if string.match(item_name, "plate") then
+                        item:SetBenchHidden(true)
+                    end
                 end
         	elseif Frostivus.ItemsKVs[item_name].CanBeServed then
 				local dirty_plate = CreateItemOnPositionSync(user:GetAbsOrigin(),CreateItem("item_dirty_plates",user,user))

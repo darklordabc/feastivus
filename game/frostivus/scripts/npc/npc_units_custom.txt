@@ -202,7 +202,7 @@
     "npc_crate_bench"
     { 
         "BaseClass"         "npc_dota_creature"
-        "Model"             "models/table/table.vmdl"
+        "Model"             "models/crate/crate_closed.vmdl"
         "ModelScale"        "1"
         "Level"             "10"
 

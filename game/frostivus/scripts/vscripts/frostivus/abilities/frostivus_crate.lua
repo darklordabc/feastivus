@@ -17,7 +17,7 @@ function frostivus_crate:OnUpgrade()
 
         local panelTable = 
         {
-            origin = caster:GetAbsOrigin() + Vector(0,0,85),
+            origin = caster:GetAbsOrigin() + Vector(0,0,93),
             dialog_layout_name = "file://{resources}/layout/custom_game/frostivus/crate.xml",
             width = "160",
             height = "160",

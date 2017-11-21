@@ -8,7 +8,10 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking
     pot:InitBench( count, CheckItem, nil, 0 )
     pot:SetRefineDuration(DEFAULT_BANK_TIME)
 
+    pot:SetBenchHidden(true)
+
     pot.ClearBank = (function ( self )
+        self:SetBenchHidden(true)
         self:SetItems({})
         self:SetFakeItem(nil)
         if self.progress then
@@ -24,11 +27,12 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking
         return self.progress and self.progress:GetData().cooking_done
     end)
 
-    if on_added_particle then
-        pot:SetOnItemAddedToBench(function ( bench, item )
+    pot:SetOnItemAddedToBench(function ( bench, item )
+        pot:SetBenchHidden(false)
+        if on_added_particle then
             ParticleManager:CreateParticle(on_added_particle, PATTACH_ABSORIGIN_FOLLOW, bench)
-        end)
-    end
+        end
+    end)
 
     local temp_items
 
@@ -222,13 +226,17 @@ function AddPlateStack(caster, quantity)
     return stack
 end
 
-function CreatePlate(  )
+function CreatePlate()
     local plate = CreateItemOnPositionSync(Vector(0,0,0),CreateItem("item_plate",nil,nil))
 
     BenchAPI(plate)
     plate:InitBench( 3, CanPutItemOnPlate, nil, 0 )
     plate:SetOnPickedFromBench(function ( picked_item )
         
+    end)
+    plate:SetBenchHidden(true)
+    plate:SetOnItemAddedToBench(function ( self, item )
+        plate:SetBenchHidden(false)
     end)
     plate:SetOnBenchIsFull( function ( plate, items, user )
         local result
