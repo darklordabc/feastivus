@@ -23,6 +23,10 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking
         end
     end)
 
+    pot.IsCooking = (function ( self )
+        return self.progress and not self.progress:GetData().cooking_done
+    end)
+
     pot.IsDoneCooking = (function ( self )
         return self.progress and self.progress:GetData().cooking_done
     end)
@@ -296,6 +300,13 @@ end
 
 function CanPutItemOnPlate( bench, item )
     local item_name = item:GetContainedItem():GetName()
+    local only_one = Frostivus.ItemsKVs[item_name].OnlyOne
+
+    if only_one then
+        for k,v in pairs(bench:GetItems()) do
+           if v == item_name then return false end
+        end
+    end
 
     for k,v in pairs(Frostivus.RecipesKVs["1"]) do
         for k1,v1 in pairs(v.Assembly) do

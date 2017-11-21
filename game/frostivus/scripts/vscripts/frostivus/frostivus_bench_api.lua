@@ -160,6 +160,12 @@ function BenchAPI( keys )
 		self.wp:SetData(old_data)
 	end)
 
+	caster.GetItems = (function( self )
+		local old_data = self.wp:GetData()
+
+		return old_data.items
+	end)
+
 	caster.SetCheckItem = (function( self, callback )
 		caster._check_item = callback
 	end)
@@ -319,20 +325,24 @@ function OnUse( bench, user )
 			local item_name = bench:GetBenchItemBySlot(1)
 
 			if (Frostivus.ItemsKVs[item_name].CanBePickedFromBench or bench:HasModifier("modifier_crate") or bench:HasModifier("modifier_transfer_bench")) and bench:GetBenchItemCount() == 1 and not bench:IsRefining() then
-				-- Play user animation and sound
-				StartAnimation(user, {duration=0.3, activity=ACT_DOTA_GREEVIL_CAST, rate=2, translate="greevil_miniboss_black_nightmare"})
-				PlayPickupSound( item_name, user )
-
 				-- Picking item from the bench
 				local item = item_name
 				if (bench:Is3DBench() or Frostivus:IsCarryingItem(bench)) and Frostivus:IsCarryingItem( bench ) and not bench:IsBenchInfiniteItems() then
-					item = Frostivus:DropItem( bench, Frostivus:GetCarryingItem( bench ) )
+					item = Frostivus:GetCarryingItem( bench )
+					if item.IsCooking and item:IsCooking() then
+						return
+					end
+					Frostivus:DropItem( bench, Frostivus:GetCarryingItem( bench ) )
 				end
 
 				-- If bench is 3D then it will return binded container, otherwise it will create one
 				item = bench:PickItemFromBench(user, item)
 
 				user:BindItem( item )
+
+				-- Play user animation and sound
+				StartAnimation(user, {duration=0.3, activity=ACT_DOTA_GREEVIL_CAST, rate=2, translate="greevil_miniboss_black_nightmare"})
+				PlayPickupSound( item_name, user )
 			elseif bench:IsBenchFull() and bench:IsRefineBench() then
 				-- Use full bench (e.g. after interrupting channel)
 				bench:OnBenchIsFull(bench.wp:GetData().items, user)

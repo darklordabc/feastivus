@@ -20,7 +20,8 @@ function frostivus_drop:OnSpellStart()
 		item:FollowEntity( nil, false )
 
 		local pos = GetGroundPosition(caster:GetAbsOrigin() + (caster:GetForwardVector() * 64), item)
-		item:SetAbsOrigin(pos)
+		-- item:SetAbsOrigin(pos)
+		FindClearSpaceForUnit(item, pos, true)
 
 		PlayDropSound( item, caster )
 	end

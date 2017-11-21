@@ -367,6 +367,63 @@
         "TeamName"                  "DOTA_TEAM_GOODGUYS"
     }
 
+    "npc_dota_hero_lich"
+    {
+        "BaseClass"                     "npc_dota_creature"
+        "Model"     "models/heroes/lich/lich.vmdl"
+        "Portrait"      "vgui/hud/heroportraits/portrait_lich"
+        "SoundSet"      "Hero_Lich"
+        "IdleSoundLoop"     "Hero_Lich.IdleLoop"
+        "ModelScale"        "0.790000"
+        "Ability1"      "lich_frost_nova"
+        "Ability2"      "lich_frost_armor"
+        "ArmorPhysical"     "-1"
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "AttackDamageMin"       "24"
+        "AttackDamageMax"       "33"
+        "AttackRate"        "1.700000"
+        "AttackAnimationPoint"      "0.460000"
+        "AttackAcquisitionRange"        "800"
+        "AttackRange"       "550"
+        "ProjectileModel"       "particles/units/heroes/hero_lich/lich_base_attack.vpcf"
+        "ProjectileSpeed"       "900"
+        "AttributePrimary"      "DOTA_ATTRIBUTE_INTELLECT"
+        "AttributeBaseStrength"     "18"
+        "AttributeStrengthGain"     "1.850000"
+        "AttributeBaseIntelligence"     "18"
+        "AttributeIntelligenceGain"     "3.250000"
+        "AttributeBaseAgility"      "15"
+        "AttributeAgilityGain"      "2"
+        "MovementSpeed"     "315"
+        "MovementTurnRate"      "0.500000"
+        "BoundsHullName"        "DOTA_HULL_SIZE_HERO"
+        "VoiceFile"     "soundevents/voscripts/game_sounds_vo_lich.vsndevts"
+        "particle_folder"       "particles/units/heroes/hero_lich"
+        "GameSoundsFile"        "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts"
+        "RenderablePortrait"
+        {
+            "Particles"
+            {
+                "particles/units/heroes/hero_lich/lich_loadout.vpcf"
+                {
+                    "0"
+                    {
+                        "type"      "follow_attachment"
+                        "location"      "attach_attack1"
+                    }
+                }
+            }
+        }
+        "AttachWearables"
+        {
+            "Wearable1" { "ItemDef" "8454" }
+            "Wearable2" { "ItemDef" "8451" }
+            "Wearable3" { "ItemDef" "8455" }
+            "Wearable4" { "ItemDef" "8452" }
+            "Wearable5" { "ItemDef" "8453" }
+        }
+    }
+
     "wearable_model"
     {
         "BaseClass"     "npc_dota_creature"

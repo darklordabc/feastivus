@@ -484,6 +484,7 @@
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
+    "OnlyOne" "1"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
