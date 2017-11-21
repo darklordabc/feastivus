@@ -581,7 +581,7 @@ end
 
 function RoundManager:OnTimer()
 	-- this function called every second
-	if self.vCurrentRound then
+	if self.vCurrentRound and not self.vCurrentRound.bRoundEnded then
 		self.vCurrentRound:OnTimer()
 	end
 end
