@@ -16,6 +16,8 @@ return {
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
 
+		SendToServerConsole("stopsound")
+		
 		Frostivus:ResetStage( LEVEL_CAMERA_TARGET )
 
 		local i = 1
@@ -42,7 +44,6 @@ return {
 	OnRoundEnd = function(round)
 		-- if you do something special, clean them
 		print("RoundScript -> OnRoundEnd")
-		GameRules:GetGameModeEntity():StopSound("custom_music.main_theme")
 	end,
 	OnOrderExpired = function(round, order)
 		-- @param order, table

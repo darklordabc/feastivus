@@ -371,6 +371,9 @@ function Round:EndRound()
 		end)
 	end
 
+	if self.vRoundScript.OnRoundEnd then
+		self.vRoundScript.OnRoundEnd(self)
+	end
 
 end
 

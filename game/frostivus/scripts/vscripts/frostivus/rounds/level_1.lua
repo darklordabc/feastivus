@@ -182,6 +182,7 @@ return {
 		-- print("RoundScript -> OnTimer")
 	end,
 	OnPreRoundStart = function(round)
+		SendToServerConsole("stopsound")
 		print("RoundScript -> OnPreRoundStart")
 
 		Timers:CreateTimer(5, function()
@@ -268,7 +269,6 @@ return {
 	OnRoundEnd = function(round)
 		-- if you do something special, clean them
 		print("RoundScript -> OnRoundEnd")
-		StopMainThemeAtPosition(LEVEL_CAMERA_TARGET)
 	end,
 	OnOrderExpired = function(round, order)
 		-- @param order, table
