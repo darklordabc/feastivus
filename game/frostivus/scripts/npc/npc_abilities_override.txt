@@ -102,7 +102,7 @@
       "07"
       {
         "var_type"        "FIELD_INTEGER"
-        "hit_radius"      "120"
+        "hit_radius"      "140"
       }     
       "08"
       {
@@ -112,7 +112,7 @@
       "09"
       {
         "var_type"        "FIELD_FLOAT"
-        "stun_duration"     "1.0 1.25 1.5"
+        "stun_duration"     "1.0"
       }     
       "10"
       {
@@ -129,6 +129,55 @@
         "var_type"        "FIELD_FLOAT"
         "jump_recover_time"   "0.25"
       }     
+    }
+  }
+
+  "tusk_walrus_kick"
+  {
+    "AbilityCastRange"        "500"
+    "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_5"
+    "AbilityCooldown"       "10"
+    "AbilityManaCost"       "0"
+
+    // Special
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"          "FIELD_INTEGER"
+        "crit_multiplier"     "0.0"
+      }
+      "02"
+      {
+        "var_type"          "FIELD_FLOAT"
+        "air_time"          "1.0"
+      }
+      "03"
+      {
+        "var_type"          "FIELD_INTEGER"
+        "push_length"       "1200"
+      }
+      "04"
+      {
+        "var_type"          "FIELD_INTEGER"
+        "move_slow"         "0"
+      }
+      "05"
+      {
+        "var_type"          "FIELD_INTEGER"
+        "slow_duration"       "0"
+      }     
+      "06"
+      {
+        "var_type"          "FIELD_FLOAT"
+        "cooldown_scepter"      "10"
+      }
+      "07"
+      {
+        "var_type"          "FIELD_INTEGER"
+        "damage"          "0"
+      }
     }
   }
 

@@ -1,0 +1,1 @@
+modifier_kick_indicator = class({})
