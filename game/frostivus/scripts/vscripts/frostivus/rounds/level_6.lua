@@ -42,8 +42,8 @@ return {
 		tusk:AddNewModifier(tuskModelLeft, nil, "modifier_hide_health_bar", {})
 		tusk:AddNewModifier(tuskModelLeft, nil, "modifier_unselectable", {})
 
-		GameRules.__flLastTuskKickTime_Left = GameRules:GetGameTime()
-		GameRules.__flLastTuskKickTime_Right = GameRules:GetGameTime()
+		GameRules.__flLastTuskKickTime_Left = GameRules:GetGameTime() - 100
+		GameRules.__flLastTuskKickTime_Right = GameRules:GetGameTime() - 100
 		
 	end,
 	OnRoundStart = function(round)

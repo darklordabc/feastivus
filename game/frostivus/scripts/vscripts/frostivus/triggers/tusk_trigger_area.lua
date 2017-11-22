@@ -26,6 +26,11 @@ function OnEnterKickAreaLeft(keys)
 				end
 				tusk:RemoveModifierByName("modifier_kick_indicator")
 				tusk:ForcePlayActivityOnce(ACT_DOTA_CAST_ABILITY_5)
+
+				if target:HasModifier("modifier_frostivus_boost") then
+					target:RemoveModifierByName("modifier_frostivus_boost")
+				end
+
 				Timers:CreateTimer(0.2, function()
 					target:AddNewModifier(target, nil, "modifier_tusk_kick", {Direction = "right"})
 				end)
@@ -68,6 +73,11 @@ function OnEnterKickAreaRight(keys)
 				end
 				tusk:RemoveModifierByName("modifier_kick_indicator")
 				tusk:ForcePlayActivityOnce(ACT_DOTA_CAST_ABILITY_5)
+
+				if target:HasModifier("modifier_frostivus_boost") then
+					target:RemoveModifierByName("modifier_frostivus_boost")
+				end
+				
 				Timers:CreateTimer(0.2, function()
 					target:AddNewModifier(target, nil, "modifier_tusk_kick", {Direction = "left"})
 				end)
