@@ -183,7 +183,6 @@ return {
 	end,
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
-
 		StopMainTheme()
 
 		Timers:CreateTimer(5, function()
@@ -238,16 +237,17 @@ return {
 							hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
 						end
 
-						local serverHasResponsed = false
+						GameRules.__bServerHasResponse__ = false
 
 						local req = CreateHTTPRequest("POST", "http://18.216.43.117:10010/IsFinishedTutorial")
 						req:SetHTTPRequestGetOrPostParameter("steamid", tostring(PlayerResource:GetSteamAccountID(player:GetPlayerID())))
 						req:Send(function(result)
-							serverHasResponsed  = true
 							-- for k, v in pairs(result) do
 							-- 	Say(nil, tostring(k) .. "->" .. tostring(v), true)
 							-- end
 							if result.StatusCode == 200 then
+								GameRules.__bServerHasResponse__  = true
+								print("server responsed a valid result")
 								local r = result.Body
 								if tonumber(r) == 1 then
 									-- player dont need to play tutorial
@@ -259,8 +259,10 @@ return {
 							end
 						end)
 
-						Timers:CreateTimer(5, function()
-							if not serverHasResponsed then
+						Timers:CreateTimer(2.5, function()
+							print("server has responsed?")
+							if not GameRules.__bServerHasResponse__ then
+								print("no, it didnt")
 								startLevel1()
 							end
 						end)
