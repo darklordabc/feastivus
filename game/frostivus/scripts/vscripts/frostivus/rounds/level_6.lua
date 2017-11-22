@@ -109,6 +109,7 @@ return {
 			local tusk = Entities:FindByName(nil, "tusk_left")
 			tusk:AddNewModifier(tuskModelLeft, nil, "modifier_hide_health_bar", {})
 			tusk:AddNewModifier(tuskModelLeft, nil, "modifier_unselectable", {})
+			tusk:AddNewModifier(tuskModelLeft, nil, "modifier_invulnerable", {})
 
 			Timers:CreateTimer(function()
 				local now = GameRules:GetGameTime()
@@ -146,6 +147,7 @@ return {
 			local tusk = Entities:FindByName(nil, "tusk_right")
 			tusk:AddNewModifier(tuskModelLeft, nil, "modifier_hide_health_bar", {})
 			tusk:AddNewModifier(tuskModelLeft, nil, "modifier_unselectable", {})
+			tusk:AddNewModifier(tuskModelLeft, nil, "modifier_invulnerable", {})
 
 			Timers:CreateTimer(function()
 				local now = GameRules:GetGameTime()
