@@ -25,7 +25,7 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking
 
     pot.IsCooking = (function ( self )
         return self.progress and not self.progress:GetData().cooking_done 
-            and (not self.progress:GetData().overtime or self.progress:GetData().overtime == 0)
+            and ((not self.progress:GetData().overtime or self.progress:GetData().overtime == 0) and self.progress:GetData().progress > 0)
             and self:GetHolder() and self:GetHolder():IsHotBench()
     end)
 
