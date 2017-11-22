@@ -401,7 +401,7 @@
         "StatusHealthRegen"     "0.0"
         "StatusMana"        "400"
         "StatusManaRegen"     "100.0"
-        "MovementSpeed"     "315"
+        "MovementSpeed"     "200"
         "MovementTurnRate"      "0.500000"
         "BoundsHullName"        "DOTA_HULL_SIZE_HERO"
         "VoiceFile"     "soundevents/voscripts/game_sounds_vo_lich.vsndevts"
