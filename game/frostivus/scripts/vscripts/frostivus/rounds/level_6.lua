@@ -27,18 +27,18 @@ end
 function CastShards()
 	EmitAnnouncerSoundForTeam("lich_lich_ability_chain_06", 2)
 	lich:Stop()
-	lich:MoveToPosition(GetShardsCastPosition())
-	lich_cast_timer = Timers:CreateTimer(2.0, function (  )
-		if lich:IsIdle() then
+	-- lich:MoveToPosition(GetShardsCastPosition())
+	lich_cast_timer = Timers:CreateTimer(0.5, function (  )
+		-- if lich:IsIdle() then
 			local shards = lich:FindAbilityByName("frostivus_ice_shards")
 			lich:CastAbilityOnPosition(lich:GetAbsOrigin() + Vector(-1400,0,0), shards, -1)
 
 			Timers:CreateTimer(1.0, function (  )
 				Return(LICH_ROAM_POSITION_2)
 			end)
-		else
-			return 0.03
-		end
+		-- else
+		-- 	return 0.03
+		-- end
 	end)
 end
 
@@ -64,7 +64,11 @@ function Roam()
 
 	lich_movement_timer = Timers:CreateTimer(function (  )
 		if shards:IsCooldownReady() then
-			if math.random(1,5) == 1 and chain:IsCooldownReady() then
+			local greevils = FindUnitsInLine(3, lich:GetAbsOrigin(), lich:GetAbsOrigin() + (Vector(-1,0,0) * 1500), nil, 64, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)
+			if #greevils <= 0 then
+				return 0.2
+			end
+			if math.random(1,1) == 1 and chain:IsCooldownReady() then
 				CastChain()
 			else
 				CastShards()

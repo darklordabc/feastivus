@@ -39,7 +39,7 @@
       "01"
       {
         "var_type"      "FIELD_INTEGER"
-        "jumps"        "6"
+        "jumps"        "8"
       }
       "02"
       {
@@ -77,7 +77,7 @@
             "Target"
             {
               "Center"      "TARGET"
-              "Radius"    "600"
+              "Radius"    "700"
               "Teams"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
               "Types"     "DOTA_UNIT_TARGET_HERO"
             }
