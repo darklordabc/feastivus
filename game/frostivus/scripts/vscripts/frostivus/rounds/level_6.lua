@@ -67,7 +67,7 @@ function Roam()
 	lich_movement_timer = Timers:CreateTimer(function (  )
 		if shards:IsCooldownReady() then
 			local greevils = FindUnitsInLine(3, lich:GetAbsOrigin(), lich:GetAbsOrigin() + (Vector(-1,0,0) * 1500), nil, 64, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)
-			if #greevils <= 0 then
+			if #greevils <= 0 or (lich:GetAbsOrigin().y > -2304 and lich:GetAbsOrigin().y < -2048) then
 				return 0.2
 			end
 			if math.random(1,5) == 5 and chain:IsCooldownReady() then
