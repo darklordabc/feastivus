@@ -2,7 +2,7 @@
 
 {
 	custom_music.main_theme = {
-		type = "dota_update_default"
+		type = "dota_update_hero_select"
 		vsnd_files = 
 		[
 			"sounds/valve_soilder_of_dance.vsnd",
