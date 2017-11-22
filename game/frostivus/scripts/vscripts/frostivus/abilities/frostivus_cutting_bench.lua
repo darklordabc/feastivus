@@ -30,6 +30,16 @@ function frostivus_cutting_bench:OnUpgrade()
 		end)
 		caster:SetRefineDuration(3.0)
 		caster:SetDefaultRefineRoutine()
+
+		caster.ResetBench = (function ( self )
+			local old_data = self.wp:GetData()
+			old_data.layout = 1
+			old_data.passed = nil
+			old_data.paused = nil
+			old_data.duration = nil
+			self.wp:SetData(old_data)
+			self:SetBenchHidden(true)
+		end)
     end)
 end
 
