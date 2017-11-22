@@ -39,7 +39,7 @@ return {
 				table.insert(chasingCreeps, creep2)
 				local creep3 = CreateUnitByName("creep_for_fun_dire", forFunCreepSpawnPosTop + Vector(0,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
 				table.insert(chasingCreeps, creep3)
-				local creep4 = CreateUnitByName("creep_for_fun_radiant", forFunCreepSpawnPosTop + Vector(0, -200, 0) + Vector(0,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
+				local creep4 = CreateUnitByName("creep_for_fun_radiant", forFunCreepSpawnPosTop + Vector(0, -300, 0) + Vector(0,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
 				table.insert(chasingCreeps, creep4)
 				Timers:CreateTimer(0.3, function()
 					for _, creep in pairs(chasingCreeps) do
@@ -55,7 +55,7 @@ return {
 				table.insert(chasingCreeps, creep2)
 				local creep3 = CreateUnitByName("creep_for_fun_radiant", forFunCreepSpawnPosBottom + Vector(0,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
 				table.insert(chasingCreeps, creep3)
-				local creep4 = CreateUnitByName("creep_for_fun_dire", forFunCreepSpawnPosBottom + Vector(0, 200, 0) + Vector(0,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
+				local creep4 = CreateUnitByName("creep_for_fun_dire", forFunCreepSpawnPosBottom + Vector(0, 300, 0) + Vector(0,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
 				table.insert(chasingCreeps, creep4)
 				Timers:CreateTimer(1, function()
 					for _, creep in pairs(chasingCreeps) do
