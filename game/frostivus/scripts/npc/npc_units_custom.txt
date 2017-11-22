@@ -432,6 +432,8 @@
                 "Wearable5" { "ItemDef" "8453" }
             }
         }
+        "VisionDaytimeRange"        "1500"       // Range of vision during day light.
+        "VisionNighttimeRange"      "1500"       // Range of vision at night time.
     }
     "creep_for_fun_radiant"
     {

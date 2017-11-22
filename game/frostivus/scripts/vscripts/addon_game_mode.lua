@@ -26,6 +26,7 @@ function Precache( context )
   PrecacheResource("particle", "particles/econ/items/juggernaut/bladekeeper_healing_ward/juggernaut_healing_ward_ring_dc.vpcf", context)
   PrecacheResource("particle", "particles/frostivus/generic_gameplay/current_target_mark.vpcf", context)
   PrecacheResource("particle", "particles/generic/current_greevil_indicator.vpcf", context)
+  PrecacheResource("particle", "particles/units/heroes/hero_lich/lich_chain_frost.vpcf", context)
 
   -- Models can also be precached by folder or individually
   -- PrecacheModel should generally used over PrecacheResource for individual models

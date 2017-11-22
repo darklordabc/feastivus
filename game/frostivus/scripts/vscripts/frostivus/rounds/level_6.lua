@@ -1,20 +1,92 @@
-local LEVEL_CAMERA_TARGET = Vector(-3970.5, 6609.29, 1100)
+local LEVEL_CAMERA_TARGET = Vector(-192, -2240, 1100)
+local LICH_ROAM_POSITION_1 = Vector(576, -2432, -113.283)
+local LICH_ROAM_POSITION_2 = Vector(576, -1920, -113.283)
 
-LinkLuaModifier("modifier_kick_indicator", "frostivus/modifiers/modifier_kick_indicator.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_tusk_kick", "frostivus/modifiers/modifier_tusk_kick.lua", LUA_MODIFIER_MOTION_BOTH)
+local LICH_IDLE_TIME = 10.0
 
-local flKickInterval = 15
+local lich
+local lich_movement_timer
+local lich_cast_timer
 
-local forFunCreepSpawnPosBottom = Vector(-3974, 5300, -239)
-local forFunCreepSpawnPosTop = Vector(-3974, 7400, -239)
--- local forFunCreepSpawnPosTop = Vector(-3974, 7900, -239) -- uncomment after extend river
+function CastChain(  )
+	EmitAnnouncerSoundForTeam("lich_lich_ability_chain_09", 2)
+	lich:Stop()
+	lich_cast_timer = Timers:CreateTimer(1.0, function (  )
+		local chain = lich:FindAbilityByName("frostivus_chain_frost")
+		local target = GetRandomElement(HeroList:GetAllHeroes(), function ( v )
+			return v:IsControllableByAnyPlayer()
+		end)
+		lich:CastAbilityOnTarget(target, chain, -1)
 
-local lastChaseTime = nil
-local chaseDirection = "top-bottom"
+		Timers:CreateTimer(1.0, function (  )
+			Roam()
+		end)
+	end)
+end
 
-local function hideCreep(creep)
-	creep:AddNewModifier(creep, nil, "modifier_hide_health_bar", {})
-	creep:AddNewModifier(creep, nil, "modifier_unselectable", {})
+function CastShards()
+	EmitAnnouncerSoundForTeam("lich_lich_ability_chain_06", 2)
+	lich:Stop()
+	lich:MoveToPosition(GetShardsCastPosition())
+	lich_cast_timer = Timers:CreateTimer(2.0, function (  )
+		if lich:IsIdle() then
+			local shards = lich:FindAbilityByName("frostivus_ice_shards")
+			lich:CastAbilityOnPosition(lich:GetAbsOrigin() + Vector(-1400,0,0), shards, -1)
+
+			Timers:CreateTimer(1.0, function (  )
+				Return(LICH_ROAM_POSITION_2)
+			end)
+		else
+			return 0.03
+		end
+	end)
+end
+
+function Return(pos)
+	lich_cast_timer = nil
+
+	lich:MoveToPosition(pos)
+
+	lich_movement_timer = Timers:CreateTimer(function (  )
+		if lich:IsIdle() then
+			Roam(  )
+		else
+			return 0.03
+		end
+	end)
+end
+
+function Roam()
+	local chain = lich:FindAbilityByName("frostivus_chain_frost")
+	local shards = lich:FindAbilityByName("frostivus_ice_shards")
+
+	lich_cast_timer = nil
+
+	lich_movement_timer = Timers:CreateTimer(function (  )
+		if shards:IsCooldownReady() then
+			if math.random(1,5) == 1 and chain:IsCooldownReady() then
+				CastChain()
+			else
+				CastShards()
+			end
+			lich_movement_timer = nil
+		else
+			lich:PatrolToPosition(LICH_ROAM_POSITION_1)
+			return LICH_IDLE_TIME + math.random(0, 4)
+		end
+	end)
+end
+
+function GetShardsCastPosition(  )
+	local row_height = 128
+
+	local positions = {}
+	table.insert(positions, LICH_ROAM_POSITION_2)
+	table.insert(positions, LICH_ROAM_POSITION_1)
+	table.insert(positions, LICH_ROAM_POSITION_2 + Vector(0,(row_height * -1),0))
+	table.insert(positions, LICH_ROAM_POSITION_1 + Vector(0,(row_height * 1),0))
+
+	return positions[math.random(1,4)]
 end
 
 return {
@@ -24,56 +96,6 @@ return {
 		print("RoundScript -> OnInitialize")
 	end,
 	OnTimer = function(round)
-		local now = GameRules:GetGameTime()
-		if lastChaseTime == nil then
-			lastChaseTime = now
-		end
-
-		if now - lastChaseTime > 30 then
-			local chasingCreeps = {}
-			if chaseDirection == "top-bottom" then
-				chaseDirection = "bottom-top"
-				local creep1 = CreateUnitByName("creep_for_fun_dire", forFunCreepSpawnPosTop + Vector(-120,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
-				table.insert(chasingCreeps, creep1)
-				local creep2 = CreateUnitByName("creep_for_fun_dire", forFunCreepSpawnPosTop + Vector(120,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
-				table.insert(chasingCreeps, creep2)
-				local creep3 = CreateUnitByName("creep_for_fun_dire", forFunCreepSpawnPosTop + Vector(0,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
-				table.insert(chasingCreeps, creep3)
-				local creep4 = CreateUnitByName("creep_for_fun_radiant", forFunCreepSpawnPosTop + Vector(0, -300, 0) + Vector(0,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
-				table.insert(chasingCreeps, creep4)
-				Timers:CreateTimer(0.3, function()
-					for _, creep in pairs(chasingCreeps) do
-						hideCreep(creep)
-						creep:MoveToPosition(forFunCreepSpawnPosBottom)
-					end
-				end)
-			else
-				chaseDirection = "top-bottom"
-				local creep1 = CreateUnitByName("creep_for_fun_radiant", forFunCreepSpawnPosBottom + Vector(-120,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
-				table.insert(chasingCreeps, creep1)
-				local creep2 = CreateUnitByName("creep_for_fun_radiant", forFunCreepSpawnPosBottom + Vector(120,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
-				table.insert(chasingCreeps, creep2)
-				local creep3 = CreateUnitByName("creep_for_fun_radiant", forFunCreepSpawnPosBottom + Vector(0,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
-				table.insert(chasingCreeps, creep3)
-				local creep4 = CreateUnitByName("creep_for_fun_dire", forFunCreepSpawnPosBottom + Vector(0, 300, 0) + Vector(0,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
-				table.insert(chasingCreeps, creep4)
-				Timers:CreateTimer(1, function()
-					for _, creep in pairs(chasingCreeps) do
-						hideCreep(creep)
-						creep:MoveToPosition(forFunCreepSpawnPosTop)
-					end
-				end)
-			end
-
-			Timers:CreateTimer(20, function()
-				-- remove them after 20 seconds
-				for _, creep in pairs(chasingCreeps) do
-					creep:ForceKill(false)
-				end
-			end)
-
-			lastChaseTime = now
-		end
 	end,
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
@@ -82,13 +104,9 @@ return {
 		
 		Frostivus:ResetStage( LEVEL_CAMERA_TARGET )
 
-		LoopOverHeroes(function(hero)
-			hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
-		end)
-
 		local i = 1
-		for k,v in pairs(Frostivus.state.stages["tusk"].crates) do
-			local item = Frostivus.StagesKVs["tusk"].Initial[tostring(i)]
+		for k,v in pairs(Frostivus.state.stages["palace"].crates) do
+			local item = Frostivus.StagesKVs["palace"].Initial[tostring(i)]
 			Frostivus:L(item)
 			if item then
 				v:InitBench(1)
@@ -99,99 +117,44 @@ return {
 			i = i + 1
 		end
 
-		GameRules.__flLastTuskKickTime_Left = GameRules:GetGameTime() - 100
-		GameRules.__flLastTuskKickTime_Right = GameRules:GetGameTime() - 100
-		GameRules.__vTuskKickAreaUnitsLeft__ = GameRules.__vTuskKickAreaUnitsLeft__ or {}
-		GameRules.__vTuskKickAreaUnitsRight__ = GameRules.__vTuskKickAreaUnitsRight__ or {}
-		if GameRules.__vTuskLeftTimer == nil then
-			GameRules.__vTuskLeftTimer = true
+		lich = lich or CreateUnitByName("npc_lich", LICH_ROAM_POSITION_2, true, nil, nil, DOTA_TEAM_BADGUYS)
+		lich:SetTeam(DOTA_TEAM_BADGUYS)
+		FindClearSpaceForUnit(lich, LICH_ROAM_POSITION_2, true)
+		lich:SetForwardVector(Vector(-1,0,0))
 
-			local tusk = Entities:FindByName(nil, "tusk_left")
-			tusk:AddNewModifier(tuskModelLeft, nil, "modifier_hide_health_bar", {})
-			tusk:AddNewModifier(tuskModelLeft, nil, "modifier_unselectable", {})
-			tusk:AddNewModifier(tuskModelLeft, nil, "modifier_invulnerable", {})
+		lich:AddNewModifier(lich, nil, "modifier_hide_health_bar", {})
+		lich:AddNewModifier(lich, nil, "modifier_unselectable", {})
 
-			Timers:CreateTimer(function()
-				local now = GameRules:GetGameTime()
-				if now - GameRules.__flLastTuskKickTime_Left >= flKickInterval then
-					if not tusk:HasModifier("modifier_kick_indicator") then
-						tusk:AddNewModifier(tusk, nil, "modifier_kick_indicator", {})
-					end
-				end
-
-				if tusk:HasModifier("modifier_kick_indicator") and table.count(GameRules.__vTuskKickAreaUnitsLeft__) > 0 then
-					local target
-					for v in pairs(GameRules.__vTuskKickAreaUnitsLeft__) do
-						target = v
-					end
-					tusk:RemoveModifierByName("modifier_kick_indicator")
-					tusk:ForcePlayActivityOnce(ACT_DOTA_CAST_ABILITY_5)
-
-					if target:HasModifier("modifier_frostivus_boost") then
-						target:RemoveModifierByName("modifier_frostivus_boost")
-					end
-
-					Timers:CreateTimer(0.2, function()
-						target:AddNewModifier(target, nil, "modifier_tusk_kick", {Direction = "right"})
-					end)
-					EmitAnnouncerSound("announcer_dlc_tusk_tusk_ann_evil_greevils_appear_05")
-					GameRules.__flLastTuskKickTime_Left = now
-				end
-				return 0.03
-			end)
-		end
-
-		if GameRules.__vTuskRightTimer == nil then
-			GameRules.__vTuskRightTimer = true
-
-			local tusk = Entities:FindByName(nil, "tusk_right")
-			tusk:AddNewModifier(tuskModelLeft, nil, "modifier_hide_health_bar", {})
-			tusk:AddNewModifier(tuskModelLeft, nil, "modifier_unselectable", {})
-			tusk:AddNewModifier(tuskModelLeft, nil, "modifier_invulnerable", {})
-
-			Timers:CreateTimer(function()
-				local now = GameRules:GetGameTime()
-				if now - GameRules.__flLastTuskKickTime_Right >= flKickInterval then
-					if not tusk:HasModifier("modifier_kick_indicator") then
-						tusk:AddNewModifier(tusk, nil, "modifier_kick_indicator", {})
-					end
-				end
-
-				if tusk:HasModifier("modifier_kick_indicator") and table.count(GameRules.__vTuskKickAreaUnitsRight__) > 0 then
-					local target
-					for v in pairs(GameRules.__vTuskKickAreaUnitsRight__) do
-						target = v
-					end
-					tusk:RemoveModifierByName("modifier_kick_indicator")
-					tusk:ForcePlayActivityOnce(ACT_DOTA_CAST_ABILITY_5)
-
-					if target:HasModifier("modifier_frostivus_boost") then
-						target:RemoveModifierByName("modifier_frostivus_boost")
-					end
-
-					Timers:CreateTimer(0.2, function()
-						target:AddNewModifier(target, nil, "modifier_tusk_kick", {Direction = "left"})
-					end)
-					EmitAnnouncerSound("announcer_dlc_tusk_tusk_ann_evil_greevils_appear_05")
-					GameRules.__flLastTuskKickTime_Right = now
-				end
-				return 0.03
-			end)
-		end
+		LoopOverHeroes(function(hero)
+			hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
+		end)
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
+
 		StartMainThemeAtPosition(LEVEL_CAMERA_TARGET)
+
 		Timers:CreateTimer(67, function()
 			if round.nCountDownTimer > 0 then
 				StartMainThemeAtPosition(LEVEL_CAMERA_TARGET)
 				return 67
 			end
 		end)
+
+		local chain = lich:FindAbilityByName("frostivus_chain_frost")
+		local shards = lich:FindAbilityByName("frostivus_ice_shards")
+
+		chain:StartCooldown(LICH_IDLE_TIME-1)
+		shards:StartCooldown(LICH_IDLE_TIME-1)
+
+		Roam()
 	end,
 	OnRoundEnd = function(round)
 		-- if you do something special, clean them
 		print("RoundScript -> OnRoundEnd")
+
+		Timers:RemoveTimer(lich_movement_timer)
+		Timers:RemoveTimer(lich_cast_timer)
 	end,
 	OnOrderExpired = function(round, order)
 		-- @param order, table
