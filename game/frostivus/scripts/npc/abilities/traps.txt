@@ -18,29 +18,213 @@
 
   "frostivus_chain_frost"
   {
-    "BaseClass"           "ability_lua"
-    "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_POINT"
-    "ScriptFile"          "frostivus/abilities/lich_chain_frost"
+    "BaseClass"           "ability_datadriven"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+    "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+    "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+    "AbilityUnitTargetFlags"    "DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+    "SpellImmunityType"       "SPELL_IMMUNITY_ENEMIES_YES"
     "AbilityTextureName"      "rubick_empty1"
     "MaxLevel"            "1"
 
+    "AbilityCooldown"       "15"
+    "AbilityManaCost"       "0"
+
+    "AbilityCastRange"        "1500"
+    "AbilityCastPoint"        "0.4"
+    "AbilityCastAnimation"    "ACT_DOTA_CAST_ABILITY_4"
+
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"      "FIELD_INTEGER"
+        "jumps"        "6"
+      }
+      "02"
+      {
+        "var_type"      "FIELD_FLOAT"
+        "slow"    "-80"
+      }
+      "03"
+      {
+        "var_type"      "FIELD_FLOAT"
+        "slow_duration"    "2"
+      }
+    }
+
+    "OnProjectileHitUnit"
+    {
+      "DeleteOnHit"  "1"
+
+      "ApplyModifier"
+      {
+        "ModifierName"  "modifier_chain_frost_slow"
+        "Target"     "TARGET"
+        "Duration"    "%slow_duration"
+      }
+
+      "DelayedAction"
+      {
+        "Delay"   "0.1"
+        "Action"
+        {
+          "RunScript"
+          {
+            "ScriptFile"  "frostivus/abilities/frostivus_chain_frost.lua"
+            "Function"    "OnProjectileHitUnit"
+            "jumps" "%jumps"
+            "Target"
+            {
+              "Center"      "TARGET"
+              "Radius"    "600"
+              "Teams"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+              "Types"     "DOTA_UNIT_TARGET_HERO"
+            }
+          }
+        }
+      }
+    }
+
+    "OnSpellStart"
+    {
+      "FireSound"
+      {
+        "EffectName"  "Hero_Lich.ChainFrost"
+        "Target"    "TARGET"
+      }
+      "RunScript"
+      {
+        "ScriptFile"  "frostivus/abilities/frostivus_chain_frost.lua"
+        "Function"    "OnSpellStart"
+      }
+    }
+
+    "Modifiers"
+    {
+      "modifier_chain_frost_slow"
+      {
+        "Duration"        "%slow_duration"
+        "Passive"         "0"
+        "IsHidden"        "0"
+        "IsDebuff"        "0"
+
+        "StatusEffectName"    "particles/status_fx/status_effect_frost_lich.vpcf"
+        "StatusEffectPriority"  "10"
+    
+        "Properties"
+        {
+          "MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT" "%slow"
+        }
+      }
+    }
+
     "precache"
     {
+      "particle"  "particles/units/heroes/hero_lich/lich_chain_frost.vpcf"
+      "particle"  "particles/units/heroes/hero_lich/lich_slowed_cold.vpcf"
       "soundfile" "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts"
     }
   }
 
   "frostivus_ice_shards"
   {
-    "BaseClass"           "ability_lua"
-    "AbilityBehavior"     "DOTA_ABILITY_BEHAVIOR_POINT"
-    "ScriptFile"          "frostivus/abilities/tusk_ice_shards"
+    "BaseClass"           "ability_datadriven"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_POINT"
     "AbilityTextureName"      "rubick_empty1"
     "MaxLevel"            "1"
 
+    "AbilityCooldown"       "15"
+    "AbilityManaCost"       "0"
+
+    "AbilityCastRange"        "1500"
+    "AbilityCastPoint"        "0.4"
+    "AbilityCastAnimation"    "ACT_DOTA_CAST_ABILITY_1"
+
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"      "FIELD_FLOAT"
+        "duration"    "2"
+      }
+    }
+
+    "OnProjectileHitUnit"
+    {
+      "DeleteOnHit"  "0"
+
+      "ApplyModifier"
+      {
+        "ModifierName"  "modifier_frostbite"
+        "Target"     "TARGET"
+        "Duration"    "%duration"
+      }
+      "FireSound"
+      {
+        "EffectName"  "hero_Crystal.frostbite"
+        "Target"     "TARGET"
+      }
+    }
+
+    "OnSpellStart"
+    {
+      "FireSound"
+      {
+        "EffectName"  "Hero_Tusk.IceShards.Cast"
+        "Target"    "CASTER"
+      }
+      "LinearProjectile"
+      {
+        "Target"         "POINT"
+        "EffectName"   "particles/units/heroes/hero_tusk/tusk_ice_shards_projectile.vpcf"
+        "MoveSpeed"     "800"
+        "StartRadius"   "64"
+        "StartPosition"  "attach_attack1"
+        "EndRadius"      "64"
+        "HasFrontalCone" "0"
+        "FixedDistance"  "950"
+        "TargetTeams"   "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "TargetTypes"   "DOTA_UNIT_TARGET_HERO"
+        "TargetFlags"   "DOTA_UNIT_TARGET_FLAG_NONE"            
+        "ProvidesVision" "1"
+        "VisionRadius"    "800"
+      }
+    }
+
+    "Modifiers"
+    {
+      "modifier_frostbite"
+      {
+        "Duration"        "%slow_duration"
+        "Passive"         "0"
+        "IsHidden"        "1"
+        "IsDebuff"        "1"
+
+        "OnCreated"
+        {
+          "AttachEffect"
+          {
+            "EffectName"        "particles/econ/items/crystal_maiden/ti7_immortal_shoulder/cm_ti7_immortal_frostbite.vpcf"
+            "EffectAttachType"  "follow_origin"
+            "Target"            "TARGET"
+          }
+        }
+
+        "States"
+        {
+          "MODIFIER_STATE_FROZEN"    "MODIFIER_STATE_VALUE_ENABLED"
+          "MODIFIER_STATE_STUNNED"    "MODIFIER_STATE_VALUE_ENABLED"
+        }
+      }
+    }
+
     "precache"
     {
+      "particle"  "particles/units/heroes/hero_tusk/tusk_ice_shards_projectile.vpcf"
+      "particle" "particles/econ/items/crystal_maiden/ti7_immortal_shoulder/cm_ti7_immortal_frostbite.vpcf"
       "soundfile" "soundevents/game_sounds_heroes/game_sounds_tusk.vsndevts"
+      "soundfile" "soundevents/game_sounds_heroes/game_sounds_crystal_maiden.vsndevts"
     }
   }
 }
