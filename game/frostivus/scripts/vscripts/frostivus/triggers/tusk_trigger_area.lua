@@ -15,19 +15,20 @@ function OnEnterKickAreaLeft(keys)
 			local now = GameRules:GetGameTime()
 			if now - GameRules.__flLastTuskKickTime_Left >= flKickInterval then
 				if not tusk:HasModifier("modifier_kick_indicator") then
-				print("prepared")
 					tusk:AddNewModifier(tusk, nil, "modifier_kick_indicator", {})
 				end
 			end
 
 			if tusk:HasModifier("modifier_kick_indicator") and table.count(GameRules.__vTuskKickAreaUnitsLeft__) > 0 then
-				print("prepared")
 				local target
 				for v in pairs(GameRules.__vTuskKickAreaUnitsLeft__) do
 					target = v
 				end
 				tusk:RemoveModifierByName("modifier_kick_indicator")
-				target:AddNewModifier(target, nil, "modifier_tusk_kick", {Direction = "right"})
+				tusk:ForcePlayActivityOnce(ACT_DOTA_CAST_ABILITY_5)
+				Timers:CreateTimer(0.2, function()
+					target:AddNewModifier(target, nil, "modifier_tusk_kick", {Direction = "right"})
+				end)
 				GameRules.__flLastTuskKickTime_Left = now
 			end
 			return 0.03
@@ -64,8 +65,11 @@ function OnEnterKickAreaRight(keys)
 				for v in pairs(GameRules.__vTuskKickAreaUnitsRight__) do
 					target = v
 				end
-				target:AddNewModifier(target, nil, "modifier_tusk_kick", {Direction = "left"})
 				tusk:RemoveModifierByName("modifier_kick_indicator")
+				tusk:ForcePlayActivityOnce(ACT_DOTA_CAST_ABILITY_5)
+				Timers:CreateTimer(0.2, function()
+					target:AddNewModifier(target, nil, "modifier_tusk_kick", {Direction = "left"})
+				end)
 				GameRules.__flLastTuskKickTime_Right = now
 			end
 			return 0.03
