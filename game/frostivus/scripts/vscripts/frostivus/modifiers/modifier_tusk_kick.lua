@@ -41,6 +41,8 @@ function modifier_tusk_kick:OnCreated(kv)
         ParticleManager:SetParticleControl(pid, 2, jumper:GetOrigin())
         ParticleManager:ReleaseParticleIndex(pid)
 
+        jumper:StartGesture(ACT_DOTA_FLAIL)
+
         EmitSoundOn("Hero_Tusk.WalrusKick.Target", jumper)
 	end
 end
@@ -81,5 +83,6 @@ function modifier_tusk_kick:OnDestroy()
         self:GetParent():RemoveHorizontalMotionController(self)
         self:GetParent():RemoveVerticalMotionController(self)
         self:GetParent():AddNewModifier(self:GetParent(), nil, "modifier_phased", {Duration = 0.2})
+        self:GetParent():RemoveGesture(ACT_DOTA_FLAIL)
     end
 end

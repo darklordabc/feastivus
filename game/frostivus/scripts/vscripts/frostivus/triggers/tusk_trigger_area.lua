@@ -1,6 +1,6 @@
 local flKickInterval = 5
 
-function OnEnterKcikAreaLeft(keys)
+function OnEnterKickAreaLeft(keys)
 	local tusk = Entities:FindByName(nil, "tusk_left")
 	
 	if keys.activator:GetName() == "npc_dota_hero_axe" then
