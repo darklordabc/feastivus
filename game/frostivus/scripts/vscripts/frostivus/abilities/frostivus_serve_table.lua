@@ -1,3 +1,9 @@
+function RotateVector2D(v,theta)
+    local xp = v.x*math.cos(theta)-v.y*math.sin(theta)
+    local yp = v.x*math.sin(theta)+v.y*math.cos(theta)
+    return Vector(xp,yp,v.z):Normalized()
+end
+
 frostivus_serve_table = class({})
 
 function frostivus_serve_table:OnUpgrade()
@@ -39,7 +45,10 @@ function frostivus_serve_table:OnUpgrade()
             end
 
             self:BindItem(container, (function ()
-                return self:GetAbsOrigin() + Vector(0, -100, 92)
+                local forward = (100 * RotateVector2D(self:GetForwardVector(),math.rad(90)))
+                local pos = self:GetAbsOrigin() + forward
+                pos.z = self:GetAbsOrigin().z + 90
+                return pos
             end))
 
             container:GetContainedItem()._counter = (container:GetContainedItem()._counter or 0) + 1
