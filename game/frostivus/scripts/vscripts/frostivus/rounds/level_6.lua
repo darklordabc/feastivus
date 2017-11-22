@@ -5,6 +5,18 @@ LinkLuaModifier("modifier_tusk_kick", "frostivus/modifiers/modifier_tusk_kick.lu
 
 local flKickInterval = 15
 
+local forFunCreepSpawnPosBottom = Vector(-3974, 5300, -239)
+local forFunCreepSpawnPosTop = Vector(-3974, 7400, -239)
+-- local forFunCreepSpawnPosTop = Vector(-3974, 7900, -239) -- uncomment after extend river
+
+local lastChaseTime = nil
+local chaseDirection = "top-bottom"
+
+local function hideCreep(creep)
+	creep:AddNewModifier(creep, nil, "modifier_hide_health_bar", {})
+	creep:AddNewModifier(creep, nil, "modifier_unselectable", {})
+end
+
 return {
 	OnInitialize = function(round)
 		-- in initialize script, setup round parameters
@@ -12,6 +24,55 @@ return {
 		print("RoundScript -> OnInitialize")
 	end,
 	OnTimer = function(round)
+		local now = GameRules:GetGameTime()
+		if lastChaseTime == nil then
+			lastChaseTime = now
+		end
+
+		if now - lastChaseTime > 30 then
+			local chasingCreeps = {}
+			if chaseDirection == "top-bottom" then
+				chaseDirection = "bottom-top"
+				local creep1 = CreateUnitByName("creep_for_fun_dire", forFunCreepSpawnPosTop + Vector(-120,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
+				table.insert(chasingCreeps, creep1)
+				local creep2 = CreateUnitByName("creep_for_fun_dire", forFunCreepSpawnPosTop + Vector(120,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
+				table.insert(chasingCreeps, creep2)
+				local creep3 = CreateUnitByName("creep_for_fun_dire", forFunCreepSpawnPosTop + Vector(0,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
+				table.insert(chasingCreeps, creep3)
+				local creep4 = CreateUnitByName("creep_for_fun_radiant", forFunCreepSpawnPosTop + Vector(0, -200, 0) + Vector(0,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
+				table.insert(chasingCreeps, creep4)
+				Timers:CreateTimer(0.3, function()
+					for _, creep in pairs(chasingCreeps) do
+						hideCreep(creep)
+						creep:MoveToPosition(forFunCreepSpawnPosBottom)
+					end
+				end)
+			else
+				chaseDirection = "top-bottom"
+				local creep1 = CreateUnitByName("creep_for_fun_radiant", forFunCreepSpawnPosBottom + Vector(-120,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
+				table.insert(chasingCreeps, creep1)
+				local creep2 = CreateUnitByName("creep_for_fun_radiant", forFunCreepSpawnPosBottom + Vector(120,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
+				table.insert(chasingCreeps, creep2)
+				local creep3 = CreateUnitByName("creep_for_fun_radiant", forFunCreepSpawnPosBottom + Vector(0,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
+				table.insert(chasingCreeps, creep3)
+				local creep4 = CreateUnitByName("creep_for_fun_dire", forFunCreepSpawnPosBottom + Vector(0, 200, 0) + Vector(0,0,0), false, nil, nil, DOTA_TEAM_BADGUYS)
+				table.insert(chasingCreeps, creep4)
+				Timers:CreateTimer(1, function()
+					for _, creep in pairs(chasingCreeps) do
+						creep:MoveToPosition(forFunCreepSpawnPosTop)
+					end
+				end)
+			end
+
+			Timers:CreateTimer(20, function()
+				-- remove them after 20 seconds
+				for _, creep in pairs(chasingCreeps) do
+					creep:ForceKill(false)
+				end
+			end)
+
+			lastChaseTime = now
+		end
 	end,
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
