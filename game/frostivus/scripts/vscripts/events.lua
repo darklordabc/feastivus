@@ -332,9 +332,24 @@ end
 
 -- This function is called whenever any player sends a chat message to team or All
 function GameMode:OnPlayerChat(keys)
-  local teamonly = keys.teamonly
-  local userID = keys.userid
-  -- local playerID = self.vUserIds[userID]:GetPlayerID()
+  local playerid = keys.playerid
+
+  local steamid = PlayerResource:GetSteamAccountID(playerid)
+  if not table.contains({86815341, 93913347, 41110316}, steamid) then
+    return
+  end
 
   local text = keys.text
+  local cmd = string.split(text, " ")
+
+  if cmd[1] == "round" then
+    GameRules.DebugModule:JumpToRound({round = cmd[2]})
+  end
+
+  if cmd[1] == "time" then
+    GameRules.DebugModule:SetRoundTime({time = cmd[2]})
+  end
+
+  -- local playerID = self.vUserIds[userID]:GetPlayerID()
+
 end
