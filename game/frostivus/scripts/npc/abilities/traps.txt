@@ -183,7 +183,7 @@
         "StartPosition"  "attach_attack1"
         "EndRadius"      "64"
         "HasFrontalCone" "0"
-        "FixedDistance"  "950"
+        "FixedDistance"  "1400"
         "TargetTeams"   "DOTA_UNIT_TARGET_TEAM_ENEMY"
         "TargetTypes"   "DOTA_UNIT_TARGET_HERO"
         "TargetFlags"   "DOTA_UNIT_TARGET_FLAG_NONE"            
