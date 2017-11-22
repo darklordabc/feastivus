@@ -1,24 +1,3 @@
-if not IsInToolsMode() then
-	return
-end
-
--- the debug scripts and panels will be loaded only in tools mode.
-Convars:RegisterCommand("debug_start_round",function(_, level)
-	if level == nil then
-		level = GameRules.RoundManager:GetCurrentLevel() + 1
-	end
-	GameRules.RoundManager:StartNewRound(tonumber(level))
-end,"jump to a certain round and start",FCVAR_CHEAT)
-
-Convars:RegisterCommand("debug_set_round_time",function(_, time)
-	if time == nil then time = 100 end
-	GameRules.RoundManager:GetCurrentRound():_Debug_SetRoundTime(tonumber(time))
-end,"set round time",FCVAR_CHEAT)
-
-Convars:RegisterCommand("show_debug_panel",function()
-	CustomGameEventManager:Send_ServerToAllClients("show_debug_panel",{})
-end,"show debug panel",FCVAR_CHEAT)
-
 if DebugModule == nil then DebugModule = class({}) end
 
 function DebugModule:constructor()
@@ -101,6 +80,25 @@ function DebugModule:ForceStartTutorial(keys)
 	local player = PlayerResource:GetPlayer(playerID)
 	if StartPlayTutorial == nil then require 'frostivus.rounds.level_1' end
 	StartPlayTutorial(player)
+end
+
+if IsInToolsMode() then
+	-- the debug scripts and panels will be loaded only in tools mode.
+	Convars:RegisterCommand("debug_start_round",function(_, level)
+		if level == nil then
+			level = GameRules.RoundManager:GetCurrentLevel() + 1
+		end
+		GameRules.RoundManager:StartNewRound(tonumber(level))
+	end,"jump to a certain round and start",FCVAR_CHEAT)
+
+	Convars:RegisterCommand("debug_set_round_time",function(_, time)
+		if time == nil then time = 100 end
+		GameRules.RoundManager:GetCurrentRound():_Debug_SetRoundTime(tonumber(time))
+	end,"set round time",FCVAR_CHEAT)
+
+	Convars:RegisterCommand("show_debug_panel",function()
+		CustomGameEventManager:Send_ServerToAllClients("show_debug_panel",{})
+	end,"show debug panel",FCVAR_CHEAT)
 end
 
 GameRules.DebugModule = DebugModule()
