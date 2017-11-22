@@ -10,7 +10,7 @@ function LaunchProjectile( u1, u2, ability )
 		bProvidesVision = true,
 		iMoveSpeed = 500,
 		iVisionRadius = 800,
-		iVisionTeamNumber = u1:GetTeamNumber(),
+		iVisionTeamNumber = 3,
 		iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION
 	}
 	ProjectileManager:CreateTrackingProjectile( info )

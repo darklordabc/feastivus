@@ -2,7 +2,7 @@ local LEVEL_CAMERA_TARGET = Vector(-192, -2240, 1100)
 local LICH_ROAM_POSITION_1 = Vector(576, -2432, -113.283)
 local LICH_ROAM_POSITION_2 = Vector(576, -1920, -113.283)
 
-local LICH_IDLE_TIME = 10.0
+local LICH_IDLE_TIME = 9.0
 
 local lich
 local lich_movement_timer
@@ -60,6 +60,8 @@ function Roam()
 	local chain = lich:FindAbilityByName("frostivus_chain_frost")
 	local shards = lich:FindAbilityByName("frostivus_ice_shards")
 
+	AddFOWViewer(3, LEVEL_CAMERA_TARGET, 1800, 60, false)
+
 	lich_cast_timer = nil
 
 	lich_movement_timer = Timers:CreateTimer(function (  )
@@ -68,7 +70,7 @@ function Roam()
 			if #greevils <= 0 then
 				return 0.2
 			end
-			if math.random(1,1) == 1 and chain:IsCooldownReady() then
+			if math.random(1,5) == 5 and chain:IsCooldownReady() then
 				CastChain()
 			else
 				CastShards()
@@ -76,7 +78,7 @@ function Roam()
 			lich_movement_timer = nil
 		else
 			lich:PatrolToPosition(LICH_ROAM_POSITION_1)
-			return LICH_IDLE_TIME + math.random(0, 4)
+			return LICH_IDLE_TIME
 		end
 	end)
 end
