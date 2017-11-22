@@ -74,6 +74,9 @@
 	font-size: 90px;
 
 	font-family: Goudy Trajan Medium,FZKai-Z03,TH Sarabun New,YDYGO 540;
+
+	transition-property: brightness;
+	transition-duration: 0.25s;
 }
 
 #button_ready {
@@ -90,6 +93,14 @@
 
 .Button:hover {
 	brightness: 2;
+}
+
+.Button.Disabled {
+	brightness: 0.65;
+}
+
+.Button.Disabled .Label {
+	font-size: 45px;
 }
 
 /*player card*/
