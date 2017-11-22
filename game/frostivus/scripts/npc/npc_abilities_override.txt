@@ -181,6 +181,132 @@
     }
   }
 
+  // "lich_chain_frost"
+  // {
+  //   "AbilityCastRange"        "1300"
+  //   "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_4"
+  //   "AbilityCooldown"       "15"
+  //   "AbilityManaCost"       "0"
+
+  //   "precache"
+  //   {
+  //     "particle"  "particles/units/heroes/hero_lich/lich_chain_frost.vpcf"
+  //     "particle"  "particles/units/heroes/hero_lich/lich_slowed_cold.vpcf"
+  //     "soundfile" "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts"
+  //   }
+
+  //   // Special
+  //   //-------------------------------------------------------------------------------------------------------------
+  //   "AbilitySpecial"
+  //   {
+  //     "01"
+  //     {
+  //       "var_type"        "FIELD_INTEGER"
+  //       "damage"        "0 0 0"
+  //     }
+  //     "02"
+  //     {
+  //       "var_type"        "FIELD_INTEGER"
+  //       "jumps"         "12 12 12"
+  //     }
+  //     "03"
+  //     {
+  //       "var_type"        "FIELD_INTEGER"
+  //       "jump_range"      "500"
+  //     }     
+  //     "04"
+  //     {
+  //       "var_type"        "FIELD_INTEGER"
+  //       "slow_movement_speed" "-80"
+  //     }
+  //     "05"
+  //     {
+  //       "var_type"        "FIELD_INTEGER"
+  //       "slow_attack_speed"   "0"
+  //     }
+  //     "06"
+  //     {
+  //       "var_type"        "FIELD_FLOAT"
+  //       "slow_duration"     "2.5"
+  //     }
+  //     "07"
+  //     {
+  //       "var_type"        "FIELD_INTEGER"
+  //       "projectile_speed"    "850"
+  //     }
+  //     "08"
+  //     { 
+  //       "var_type"        "FIELD_INTEGER"
+  //       "vision_radius"     "0"
+  //     }     
+  //     "09"
+  //     {
+  //       "var_type"        "FIELD_INTEGER"
+  //       "damage_scepter"    "0"
+  //     }
+  //     "10"
+  //     {
+  //       "var_type"        "FIELD_INTEGER"
+  //       "cast_range_scepter"  "1300"
+  //     }
+  //   }
+  // }
+
+  "tusk_ice_shards"
+  {
+    "AbilityCastRange"        "1300"
+    "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_1"
+    "AbilityCooldown"       "10"
+    "AbilityManaCost"       "0"
+
+    // Special
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"          "FIELD_INTEGER"
+        "shard_width"       "200"
+      }
+      
+      "02"
+      {
+        "var_type"          "FIELD_INTEGER"
+        "shard_damage"        "0"
+      }
+      "03"
+      {
+        "var_type"          "FIELD_INTEGER"
+        "shard_count"       "7"
+      }
+      "04"
+      {
+        "var_type"          "FIELD_FLOAT"
+        "shard_speed"       "1200.0"
+      }
+      "05"
+      {
+        "var_type"          "FIELD_FLOAT"
+        "shard_duration"        "7.0"
+      }
+      "06"
+      {
+        "var_type"          "FIELD_FLOAT"
+        "shard_angle_step"      "40.0"
+      }
+      "07"
+      {
+        "var_type"          "FIELD_INTEGER"
+        "shard_distance"      "200"
+      }
+      "08"
+      {
+        "var_type"          "FIELD_INTEGER"
+        "cast_range_tooltip"      "1800"
+      }
+    }
+  }
+
   // -----------------------------------------------------------
   // - UNCOMMENT ANY ITEM YOU DON'T WANT TO APPEAR IN THE SHOP -
   // -----------------------------------------------------------

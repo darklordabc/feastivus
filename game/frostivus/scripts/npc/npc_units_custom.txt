@@ -367,17 +367,20 @@
         "TeamName"                  "DOTA_TEAM_GOODGUYS"
     }
 
-    "npc_dota_hero_lich"
+    "npc_lich"
     {
         "BaseClass"                     "npc_dota_creature"
         "Model"     "models/heroes/lich/lich.vmdl"
         "Portrait"      "vgui/hud/heroportraits/portrait_lich"
         "SoundSet"      "Hero_Lich"
         "IdleSoundLoop"     "Hero_Lich.IdleLoop"
-        "ModelScale"        "0.790000"
-        "Ability1"      "lich_frost_nova"
-        "Ability2"      "lich_frost_armor"
+        "ModelScale"        "1.100000"
+        "HealthBarOffset" "300"
+        "Level" "10"
+        "Ability1"      "frostivus_chain_frost"
+        "Ability2"      "frostivus_ice_shards"
         "ArmorPhysical"     "-1"
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
         "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
         "AttackDamageMin"       "24"
         "AttackDamageMax"       "33"
@@ -394,6 +397,10 @@
         "AttributeIntelligenceGain"     "3.250000"
         "AttributeBaseAgility"      "15"
         "AttributeAgilityGain"      "2"
+        "StatusHealth"        "1000"
+        "StatusHealthRegen"     "0.0"
+        "StatusMana"        "400"
+        "StatusManaRegen"     "100.0"
         "MovementSpeed"     "315"
         "MovementTurnRate"      "0.500000"
         "BoundsHullName"        "DOTA_HULL_SIZE_HERO"
@@ -414,13 +421,16 @@
                 }
             }
         }
-        "AttachWearables"
+        "Creature"
         {
-            "Wearable1" { "ItemDef" "8454" }
-            "Wearable2" { "ItemDef" "8451" }
-            "Wearable3" { "ItemDef" "8455" }
-            "Wearable4" { "ItemDef" "8452" }
-            "Wearable5" { "ItemDef" "8453" }
+            "AttachWearables"
+            {
+                "Wearable1" { "ItemDef" "8454" }
+                "Wearable2" { "ItemDef" "8451" }
+                "Wearable3" { "ItemDef" "8455" }
+                "Wearable4" { "ItemDef" "8452" }
+                "Wearable5" { "ItemDef" "8453" }
+            }
         }
     }
 
