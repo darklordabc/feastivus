@@ -1,5 +1,5 @@
-local LEVEL_CAMERA_TARGET = Vector(-50, -2149, 1000)
-local LICH_ROAM_POSITION_1 = Vector(576, -2432, -113.283)
+local LEVEL_CAMERA_TARGET = Vector(-128, -2240, 1100)
+local LICH_ROAM_POSITION_1 = Vector(576, -2496, -113.283)
 local LICH_ROAM_POSITION_2 = Vector(576, -1920, -113.283)
 
 local LICH_IDLE_TIME = 9.0
@@ -9,22 +9,26 @@ local lich_movement_timer
 local lich_cast_timer
 
 function CastChain(  )
+	if not IsValidEntity(lich) then return end
 	EmitAnnouncerSoundForTeam("lich_lich_ability_chain_09", 2)
 	lich:Stop()
-	lich_cast_timer = Timers:CreateTimer(1.0, function (  )
+	lich_cast_timer = Timers:CreateTimer(0.5, function (  )
 		local chain = lich:FindAbilityByName("frostivus_chain_frost")
+		local shards = lich:FindAbilityByName("frostivus_ice_shards")
+		shards:StartCooldown(shards:GetCooldown(1))
 		local target = GetRandomElement(HeroList:GetAllHeroes(), function ( v )
 			return v:IsControllableByAnyPlayer()
 		end)
 		lich:CastAbilityOnTarget(target, chain, -1)
 
 		Timers:CreateTimer(1.0, function (  )
-			Roam()
+			Return(LICH_ROAM_POSITION_2)
 		end)
 	end)
 end
 
 function CastShards()
+	if not IsValidEntity(lich) then return end
 	EmitAnnouncerSoundForTeam("lich_lich_ability_chain_06", 2)
 	lich:Stop()
 	-- lich:MoveToPosition(GetShardsCastPosition())
@@ -43,6 +47,7 @@ function CastShards()
 end
 
 function Return(pos)
+	if not IsValidEntity(lich) then return end
 	lich_cast_timer = nil
 
 	lich:MoveToPosition(pos)
@@ -57,6 +62,7 @@ function Return(pos)
 end
 
 function Roam()
+	if not IsValidEntity(lich) then return end
 	local chain = lich:FindAbilityByName("frostivus_chain_frost")
 	local shards = lich:FindAbilityByName("frostivus_ice_shards")
 
@@ -66,8 +72,8 @@ function Roam()
 
 	lich_movement_timer = Timers:CreateTimer(function (  )
 		if shards:IsCooldownReady() then
-			local greevils = FindUnitsInLine(3, lich:GetAbsOrigin(), lich:GetAbsOrigin() + (Vector(-1,0,0) * 1500), nil, 64, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)
-			if #greevils <= 0 or (lich:GetAbsOrigin().y > -2304 and lich:GetAbsOrigin().y < -2048) then
+			local greevils = FindUnitsInLine(3, lich:GetAbsOrigin(), lich:GetAbsOrigin() + (Vector(-1,0,0) * 1500), nil, 16, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)
+			if #greevils <= 0 or (lich:GetAbsOrigin().y > -2368 and lich:GetAbsOrigin().y < -2240) or (lich:GetAbsOrigin().y > -2112 and lich:GetAbsOrigin().y < -1984) then
 				return 0.2
 			end
 			if math.random(1,5) == 5 and chain:IsCooldownReady() then
@@ -123,7 +129,10 @@ return {
 			i = i + 1
 		end
 
-		lich = lich or CreateUnitByName("npc_lich", LICH_ROAM_POSITION_2, true, nil, nil, DOTA_TEAM_BADGUYS)
+		if IsValidEntity(lich) then
+			lich:RemoveSelf()
+		end
+		lich = CreateUnitByName("npc_lich", LICH_ROAM_POSITION_2, true, nil, nil, DOTA_TEAM_BADGUYS)
 		lich:SetTeam(DOTA_TEAM_BADGUYS)
 		FindClearSpaceForUnit(lich, LICH_ROAM_POSITION_2, true)
 		lich:SetForwardVector(Vector(-1,0,0))

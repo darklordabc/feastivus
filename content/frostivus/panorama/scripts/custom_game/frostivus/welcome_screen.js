@@ -61,6 +61,9 @@ function OnClickReadyOrStart() {
 	}else{
 		GameEvents.SendCustomGameEventToServer('player_ready', {})
 	}
+
+	$("#button_start_ready").SetHasClass("Disabled", true);
+	$("#label_button_start_ready").text = $.Localize("#loading");
 }
 
 function CountDownAndStart() {
