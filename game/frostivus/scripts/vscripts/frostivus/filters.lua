@@ -1,6 +1,18 @@
 FROSTIVUS_CELL_SIZE = 128
+time = 0
 
 function Frostivus:FilterExecuteOrder( filterTable )
+    local failed = false
+    if (GameRules:GetGameTime() < (time + 0.05)) then 
+        print("cooldown")
+        failed = true
+    end
+    print(time)
+    if failed then return false end
+    time = GameRules:GetGameTime()
+    
+
+    
     local units = filterTable["units"]
     local order_type = filterTable["order_type"]
     local issuer = filterTable["issuer_player_id_const"]
