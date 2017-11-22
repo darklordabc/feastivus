@@ -65,6 +65,19 @@ function Frostivus:FilterExecuteOrder( filterTable )
         local closest = nil
 
         local function TriggerBench()
+
+            -- player cannot trigger benches too quickly
+            -- prevent auto repeat right click
+            if unit.__flLastTriggerTime == nil then
+                unit.__flLastTriggerTime = GameRules:GetGameTime()
+            else
+                local now = GameRules:GetGameTime()
+                if now - unit.__flLastTriggerTime < .06 then
+                    return
+                end
+                unit.__flLastTriggerTime = now
+            end
+
             unit:AddNewModifier(unit,nil,"modifier_rooted",{duration = 0.06})
             unit:SetForwardVector(UnitLookAtPoint( unit, unit.moving_target:GetAbsOrigin() ))
             unit:MoveToPosition(unit:GetAbsOrigin() - (unit:GetAbsOrigin() - unit.moving_target:GetAbsOrigin()):Normalized())
