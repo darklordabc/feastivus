@@ -41,6 +41,10 @@ function Precache( context )
   -- PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/custom_sound.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/custom_music.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_tusk.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_crystal_maiden.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_crystal_lich.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_lich.vsndevts", context)
 
   -- Entire items can be precached by name
   -- Abilities can also be precached in this way despite the name
