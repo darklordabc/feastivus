@@ -1,4 +1,4 @@
-local flKickInterval = 5
+local flKickInterval = 15
 
 function OnEnterKickAreaLeft(keys)
 	local tusk = Entities:FindByName(nil, "tusk_left")
@@ -29,6 +29,7 @@ function OnEnterKickAreaLeft(keys)
 				Timers:CreateTimer(0.2, function()
 					target:AddNewModifier(target, nil, "modifier_tusk_kick", {Direction = "right"})
 				end)
+				EmitAnnouncerSound("announcer_dlc_tusk_tusk_ann_evil_greevils_appear_05")
 				GameRules.__flLastTuskKickTime_Left = now
 			end
 			return 0.03
@@ -70,6 +71,7 @@ function OnEnterKickAreaRight(keys)
 				Timers:CreateTimer(0.2, function()
 					target:AddNewModifier(target, nil, "modifier_tusk_kick", {Direction = "left"})
 				end)
+				EmitAnnouncerSound("announcer_dlc_tusk_tusk_ann_evil_greevils_appear_05")
 				GameRules.__flLastTuskKickTime_Right = now
 			end
 			return 0.03
