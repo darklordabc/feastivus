@@ -38,7 +38,7 @@ function frostivus_cutting_bench:OnUpgrade()
 			old_data.paused = nil
 			old_data.duration = nil
 			self.wp:SetData(old_data)
-			caster:SetBenchHidden(true)
+			self:SetBenchHidden(true)
 		end)
     end)
 end
