@@ -1,4 +1,4 @@
-local LEVEL_CAMERA_TARGET = Vector(0, -2240, 1100)
+local LEVEL_CAMERA_TARGET = Vector(-50, -2149, 1000)
 local LICH_ROAM_POSITION_1 = Vector(576, -2432, -113.283)
 local LICH_ROAM_POSITION_2 = Vector(576, -1920, -113.283)
 
