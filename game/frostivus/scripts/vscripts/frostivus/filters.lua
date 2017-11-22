@@ -1,13 +1,13 @@
 FROSTIVUS_CELL_SIZE = 128
+-- TODO: Re-implment this order filter mehanic. This is designed to stop auto-right click from breaking the game
 time = 0
 
 function Frostivus:FilterExecuteOrder( filterTable )
+    -- TODO: Re-implment this order filter mehanic. This is designed to stop auto-right click from breaking the game
     local failed = false
     if (GameRules:GetGameTime() < (time + 0.05)) then 
-        print("cooldown")
         failed = true
     end
-    print(time)
     if failed then return false end
     time = GameRules:GetGameTime()
     
