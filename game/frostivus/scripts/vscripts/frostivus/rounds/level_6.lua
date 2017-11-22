@@ -59,6 +59,7 @@ return {
 				table.insert(chasingCreeps, creep4)
 				Timers:CreateTimer(1, function()
 					for _, creep in pairs(chasingCreeps) do
+						hideCreep(creep)
 						creep:MoveToPosition(forFunCreepSpawnPosTop)
 					end
 				end)
