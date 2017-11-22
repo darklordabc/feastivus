@@ -1,4 +1,4 @@
-local LEVEL_CAMERA_TARGET = Vector(-4033.5, 6609.29, 1100)
+local LEVEL_CAMERA_TARGET = Vector(-3970.5, 6609.29, 1100)
 
 LinkLuaModifier("modifier_kick_indicator", "frostivus/modifiers/modifier_kick_indicator.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_tusk_kick", "frostivus/modifiers/modifier_tusk_kick.lua", LUA_MODIFIER_MOTION_BOTH)
