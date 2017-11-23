@@ -312,6 +312,12 @@ function BenchAPI( keys )
 
 		self.wp:SetData(old_data)
     end)
+
+    caster.GetBenchLayout = (function ( self )
+		local old_data = self.wp:GetData()
+
+		return old_data.layout or 1
+    end)
 end
 
 function OnUse( bench, user )
