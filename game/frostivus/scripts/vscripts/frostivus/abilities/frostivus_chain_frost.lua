@@ -21,9 +21,14 @@ function OnSpellStart( keys )
 	local ability = keys.ability
 	local target = keys.target
 
-	ability.counter = 1
+	StartAnimation(caster, {duration=0.4, activity=ACT_DOTA_CAST_ABILITY_4, rate=1.0})
+	caster:SetForwardVector(UnitLookAtPoint( caster, target:GetAbsOrigin() ))
+	caster:Stop()
 
-	LaunchProjectile( caster, target, ability )
+	Timers:CreateTimer(0.3, function (  )
+		ability.counter = 1
+		LaunchProjectile( caster, target, ability )
+	end)
 end
 
 function OnProjectileHitUnit( keys )
