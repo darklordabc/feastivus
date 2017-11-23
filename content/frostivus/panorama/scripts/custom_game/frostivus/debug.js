@@ -10,6 +10,10 @@ function Lose() {
 	GameEvents.SendCustomGameEventToServer('debug_lose', {})
 }
 
+function Win() {
+	GameEvents.SendCustomGameEventToServer('debug_win', {})
+}
+
 function CreateExtraGreevilling() {
 	GameEvents.SendCustomGameEventToServer('debug_create_greevilling', {})
 }

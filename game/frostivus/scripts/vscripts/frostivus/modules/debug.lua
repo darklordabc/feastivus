@@ -9,10 +9,15 @@ function DebugModule:constructor()
 	CustomGameEventManager:RegisterListener('debug_start_tutorial', function(_, keys) self:ForceStartTutorial(keys) end)
 	CustomGameEventManager:RegisterListener('debug_lose', function(_, keys) self:Lose(keys) end)
 	CustomGameEventManager:RegisterListener('debug_try_again', function(_, keys) self:TryAgain(keys) end)
+	CustomGameEventManager:RegisterListener('debug_win', function(_, keys) self:Win(keys) end)
 end
 
 function DebugModule:Lose(keys)
 	GameRules:SetGameWinner(3)
+end
+
+function DebugModule:Win(keys)
+	GameRules:SetGameWinner(2)
 end
 
 function DebugModule:TryAgain(keys)
