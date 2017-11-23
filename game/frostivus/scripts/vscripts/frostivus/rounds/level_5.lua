@@ -1,7 +1,7 @@
 LinkLuaModifier("modifier_kick_indicator", "frostivus/modifiers/modifier_kick_indicator.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_tusk_kick", "frostivus/modifiers/modifier_tusk_kick.lua", LUA_MODIFIER_MOTION_BOTH)
 
-local flKickInterval = 15
+local flKickInterval = 8
 
 local forFunCreepSpawnPosBottom = Vector(-3974, 5300, -239)
 local forFunCreepSpawnPosTop = Vector(-3974, 7400, -239)
