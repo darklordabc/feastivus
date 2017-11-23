@@ -1,4 +1,4 @@
-local SCORE_PER_FINISHED_ORDER = 100
+_G.SCORE_PER_FINISHED_ORDER = 100
 _G.g_DEFAULT_ORDER_TIME_LIMIT = 80
 local ORDER_EXPIRE_COUNT_TO_FAIL = 1 -- after n of orders expired, round will restart or game failed
 local TRY_AGAIN_SCREEN_TIME = 3
@@ -35,6 +35,7 @@ function g_Serve(itemEntity, user)
 	local round = g_GetCurrentRound()
 	if round then
 		local success = round:OnServe(itemEntity, user)
+		return success
 	end
 end
 GameRules.Serve = g_Serve
@@ -494,6 +495,8 @@ function Round:OnServe(itemEntity, user)
 		GameRules.FrostivusEventListener:Trigger("frostivus_serve", {
 			Unit = user
 		})
+
+		return true
 	end
 end
 
