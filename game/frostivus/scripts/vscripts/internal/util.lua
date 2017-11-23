@@ -262,6 +262,11 @@ function LoopOverHeroes(callback)
         if hero then
           callback(hero)
         end
+        if player.vExtraGreevillings and table.count(player.vExtraGreevillings) then
+          for _, g in pairs(player.vExtraGreevillings) do
+            callback(g)
+          end
+        end
       end
     end   
 end

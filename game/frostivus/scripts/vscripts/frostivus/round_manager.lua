@@ -153,6 +153,11 @@ function Round:OnStateChanged(newState)
 	-- ON ENTERING PRE ROUND STATE
 	--====================================================================================
 	if newState == ROUND_STATE_PRE_ROUND then
+
+		if self.vRoundScript.OnPreRoundStart then
+			self.vRoundScript.OnPreRoundStart(self)
+		end
+
 		StopMainTheme()
 
 		Frostivus:ResetStage(self:GetCameraTargetPosition())
@@ -164,8 +169,9 @@ function Round:OnStateChanged(newState)
 		CustomGameEventManager:Send_ServerToAllClients("set_round_name",{
 			name = self.vRoundData.Name
 		})
-		LoopOverHeroes(function(hero)
-			Timers:CreateTimer(0, function()
+		
+		Timers:CreateTimer(0, function()
+			LoopOverHeroes(function(hero)
 				print("add freeeze state to heroes")
 				if not IsValidAlive(hero) then return 0.03 end
 				-- set camera target
@@ -193,10 +199,8 @@ function Round:OnStateChanged(newState)
 
 		-- teleport heroes to new round
 		LoopOverHeroes(function(hero)
-			print("trying to teleport hero")
 			-- players in tutorial should not be effected
 			if hero.__bPlayingTutorial then return end
-			print("teleporting hero")
 
 			EndAnimation(hero)
 			RemoveAnimationTranslate(hero)
@@ -232,28 +236,11 @@ function Round:OnStateChanged(newState)
 				lastTeleportTarget = teleportTarget
 			end
 
-			print("teleporting heroes")
 			FindClearSpaceForUnit(hero,teleportTarget or hero:GetOrigin(),true)
-
-			-- move all greevillings controlled by this player around the point
-			local player = PlayerResource:GetPlayer(hero:GetPlayerID())
-			if player.vExtraGreevillings and table.count(player.vExtraGreevillings) > 0 then
-				for _, greevilling in pairs(player.vExtraGreevillings) do
-					teleportTarget = table.remove(teleport_target_entities)
-					greevilling:SetAbsOrigin(teleportTarget and teleportTarget:GetOrigin() or hero:GetOrigin())
-					greevilling:AddNewModifier(hero, nil, "modifier_phased", {Duration = 0.03})
-					hero:AddNewModifier(hero, nil, "modifier_phased", {Duration = 0.03})
-				end
-			end
 
 			-- remove teleporting effect
 			hero:RemoveModifierByName('modifier_teleport_to_new_round')
 		end)
-
-
-		if self.vRoundScript.OnPreRoundStart then
-			self.vRoundScript.OnPreRoundStart(self)
-		end
 	--====================================================================================
 	-- ON ENTERING PLAYING STATE
 	--====================================================================================
