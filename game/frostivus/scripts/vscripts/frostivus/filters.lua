@@ -72,7 +72,7 @@ function Frostivus:FilterExecuteOrder( filterTable )
                 unit.__flLastTriggerTime = GameRules:GetGameTime()
             else
                 local now = GameRules:GetGameTime()
-                if now - unit.__flLastTriggerTime < .06 then
+                if now - unit.__flLastTriggerTime < .2 then
                     return
                 end
                 unit.__flLastTriggerTime = now
