@@ -412,6 +412,7 @@ function OnUse( bench, user )
 
 				if item then
 					local is_bank = item_name == "item_pot" or item_name == "item_frying_pan"
+					local bench_item = Frostivus:GetCarryingItem( bench )
 
 					if is_bank and bench_name == "item_plate" then
 						local bank = item
@@ -424,6 +425,10 @@ function OnUse( bench, user )
 
 							bank:ClearBank()
 						end
+					elseif bench_item and is_bank and item:CheckItem(bench_item) then
+						item:AddItemToBench(bench_item, user)
+						bench_item:RemoveSelf()
+						bench:ClearBench()
 					elseif bench.CheckItem and bench:CheckItem(item) then
 						bench:AddItemToBench(item, user)
 
