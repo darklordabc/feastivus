@@ -31,8 +31,6 @@ return {
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
 		
-		StartMainThemeAtPosition(LEVEL_CAMERA_TARGET, round)
-		
 		local traps = Entities:FindAllByModel("models/props/traps/hooded_fang/hooded_fang.vmdl")
 
 		local i = 0

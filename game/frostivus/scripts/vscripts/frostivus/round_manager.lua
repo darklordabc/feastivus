@@ -169,14 +169,56 @@ function Round:OnStateChanged(newState)
 		CustomGameEventManager:Send_ServerToAllClients("set_round_name",{
 			name = self.vRoundData.Name
 		})
-		
+
 		Timers:CreateTimer(0, function()
+			local teleportTargetName = self:GetStartPositionName() or 'level_' .. tostring(level) .. '_start'
+			local teleport_target_entities = Entities:FindAllByName(teleportTargetName)
+			local lastTeleportTarget = nil
 			LoopOverHeroes(function(hero)
 				print("add freeeze state to heroes")
 				if not IsValidAlive(hero) then return 0.03 end
+				if hero.__bPlayingTutorial then return end
+
 				-- set camera target
 				hero:AddNewModifier(hero,nil,"modifier_preround_freeze",{})
 				hero:SetCameraTargetPosition(self:GetCameraTargetPosition())
+
+				-- players in tutorial should not be effected
+
+				EndAnimation(hero)
+				RemoveAnimationTranslate(hero)
+				AddAnimationTranslate(hero, "level_3")
+				if Frostivus:IsCarryingItem( hero ) then
+					Frostivus:GetCarryingItem( hero ):RemoveSelf()
+					Frostivus:DropItem( hero )
+				end
+				hero:RemoveModifierByName("modifier_bench_interaction")
+				hero:Stop()
+
+				print("trying to teleport heroes to ->", teleportTargetName)
+
+				-- teleport players to new round
+				local teleportTarget
+				if table.count(teleport_target_entities) > 0 then
+					teleportTarget = table.remove(teleport_target_entities)
+					teleportTarget = teleportTarget:GetOrigin()
+				end
+
+				if teleportTarget == nil then
+					-- print("Not enough level start position entity!! moving hero to last teleport target pos")
+					if lastTeleportTarget == nil then
+						print("Not any level start entity found!! go check the map file for teleport entity ->", self:GetStartPositionName() or 'level_' .. tostring(level) .. '_start')
+					else
+						teleportTarget = lastTeleportTarget
+					end
+				else
+					lastTeleportTarget = teleportTarget
+				end
+
+				FindClearSpaceForUnit(hero,teleportTarget or hero:GetOrigin(),true)
+
+				-- remove teleporting effect
+				hero:RemoveModifierByName('modifier_teleport_to_new_round')
 			end)
 		end)
 
@@ -196,51 +238,6 @@ function Round:OnStateChanged(newState)
 			self.vPendingOrders[0] = nil
 			self:UpdateOrdersToClient()
 		end
-
-		-- teleport heroes to new round
-		LoopOverHeroes(function(hero)
-			-- players in tutorial should not be effected
-			if hero.__bPlayingTutorial then return end
-
-			EndAnimation(hero)
-			RemoveAnimationTranslate(hero)
-			AddAnimationTranslate(hero, "level_3")
-			if Frostivus:IsCarryingItem( hero ) then
-				Frostivus:GetCarryingItem( hero ):RemoveSelf()
-				Frostivus:DropItem( hero )
-			end
-			hero:RemoveModifierByName("modifier_bench_interaction")
-			hero:Stop()
-
-			local teleportTargetName = self:GetStartPositionName() or 'level_' .. tostring(level) .. '_start'
-			local teleport_target_entities = Entities:FindAllByName(teleportTargetName)
-			local lastTeleportTarget = nil
-
-			print("trying to teleport heroes to ->", teleportTargetName)
-
-			-- teleport players to new round
-			local teleportTarget
-			if table.count(teleport_target_entities) > 0 then
-				teleportTarget = table.remove(teleport_target_entities)
-				teleportTarget = teleportTarget:GetOrigin()
-			end
-
-			if teleportTarget == nil then
-				-- print("Not enough level start position entity!! moving hero to last teleport target pos")
-				if lastTeleportTarget == nil then
-					print("Not any level start entity found!! go check the map file for teleport entity ->", self:GetStartPositionName() or 'level_' .. tostring(level) .. '_start')
-				else
-					teleportTarget = lastTeleportTarget
-				end
-			else
-				lastTeleportTarget = teleportTarget
-			end
-
-			FindClearSpaceForUnit(hero,teleportTarget or hero:GetOrigin(),true)
-
-			-- remove teleporting effect
-			hero:RemoveModifierByName('modifier_teleport_to_new_round')
-		end)
 	--====================================================================================
 	-- ON ENTERING PLAYING STATE
 	--====================================================================================
