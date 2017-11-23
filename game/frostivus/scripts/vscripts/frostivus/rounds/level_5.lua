@@ -3,7 +3,7 @@ LinkLuaModifier("modifier_tusk_kick", "frostivus/modifiers/modifier_tusk_kick.lu
 
 local flKickInterval = 8
 
-local forFunCreepSpawnPosBottom = Vector(-3974, 5300, -239)
+local forFunCreepSpawnPosBottom = Vector(-3974, 5000, -239)
 local forFunCreepSpawnPosTop = Vector(-3974, 7400, -239)
 -- local forFunCreepSpawnPosTop = Vector(-3974, 7900, -239) -- uncomment after extend river
 
@@ -16,7 +16,7 @@ local function hideCreep(creep)
 end
 
 return {
-	CameraTargetPosition = Vector(-3970.5, 6609.29, 1100),
+	CameraTargetPosition = Vector(-3970.5, 5941.29, 1100),
 	OnInitialize = function(round)
 		-- in initialize script, setup round parameters
 		-- such as pre round time, time limit, etc.

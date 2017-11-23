@@ -275,7 +275,7 @@ function CreatePlate()
             local p = ParticleManager:CreateParticle("particles/frostivus_gameplay/order_done.vpcf", PATTACH_ABSORIGIN_FOLLOW, dish)
             ParticleManager:SetParticleControl(p, 3, dish:GetAbsOrigin())
 
-            EmitSoundOn("custom_sound.dish", dish)
+            -- EmitSoundOn("custom_sound.dish", dish)
 
             if holder:IsBench() then
                 holder:AddItemToBench(result, user)
