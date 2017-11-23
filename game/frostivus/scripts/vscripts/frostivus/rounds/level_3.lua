@@ -1,5 +1,5 @@
-local spawnPos1 = Vector(-4350, 2200, 128)
-local spawnPos2 = Vector(-4000, 2200, 128)
+local spawnPos1 = Vector(-4350, 2400, 128)
+local spawnPos2 = Vector(-4000, 2400, 128)
 local randomScrollIntervalMin = 10
 local randomScrollIntervalMax = 15
 local wavesCount = 6
@@ -26,6 +26,7 @@ return {
 			-- Timers:CreateTimer(1, function()
 			-- 	GameRules.__hPangolier2:CastAbilityNoTarget(GameRules.__hPangolier2.scrollAbility, -1)
 			-- end)
+			StartSoundEvent("custom_sound.pangolier_loop", GameRules.__vPangoliers[1])
 			for i = 1, wavesCount do
 				local pangolier = GameRules.__vPangoliers[i]
 				if i % 2 == 0 then
@@ -76,7 +77,7 @@ return {
 					pangolier.scrollAbility:UpgradeAbility(false)
 					pangolier.jumpAbility = pangolier:FindAbilityByName("pangolier_shield_crash")
 					pangolier.jumpAbility:UpgradeAbility(false)
-					pangolier.vTargetPosition = pos + Vector(0, -1500, 0)
+					pangolier.vTargetPosition = pos + Vector(0, -1600, 0)
 					pangolier.vSpawnPosition = pos
 					pangolier:SetForwardVector(Vector(0, -1, 0))
 
