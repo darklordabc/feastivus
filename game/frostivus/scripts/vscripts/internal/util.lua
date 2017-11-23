@@ -276,7 +276,6 @@ function LoopOverPlayers(callback)
 end
 
 function StartMainThemeAtPosition(pos, round)
-  print(debug.traceback("begin to play main theme"))
   if GameRules.__hMusicPlayerEntity == nil then
     GameRules.__hMusicPlayerEntity = CreateUnitByName("npc_camera_target", pos, false, nil, nil, DOTA_TEAM_GOODGUYS)
   end
@@ -287,7 +286,7 @@ function StartMainThemeAtPosition(pos, round)
   -- loop sound in round
   if round then
     Timers:CreateTimer(67, function()
-      if round.nCountDownTimer > 0 then
+      if round.nCountDownTimer > 0 and GameRules:State_Get() < DOTA_GAMERULES_STATE_POST_GAME then
         StartMainThemeAtPosition(pos, round)
       end
     end)
