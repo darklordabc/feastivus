@@ -315,7 +315,9 @@ function Round:OnStateChanged(newState)
 				ParticleManager:CreateParticle("particles/econ/events/ti6/hero_levelup_ti6_godray.vpcf", PATTACH_ABSORIGIN_FOLLOW, v)
 			end)
 
-			GameRules:SetGameWinner(2)
+			Timers:CreateTimer(7, function (  )
+				GameRules:SetGameWinner(2)
+			end)
 		else
 			-- teleport particle
 			Timers:CreateTimer(self.nEndRoundDelay - 2, function()
@@ -328,10 +330,10 @@ function Round:OnStateChanged(newState)
 			Timers:CreateTimer(self.nEndRoundDelay, function()
 				GameRules.RoundManager:StartNewRound()
 			end)
-		end
 
-		if self.vRoundScript.OnRoundEnd then
-			self.vRoundScript.OnRoundEnd(self)
+			if self.vRoundScript.OnRoundEnd then
+				self.vRoundScript.OnRoundEnd(self)
+			end
 		end
 	end
 end

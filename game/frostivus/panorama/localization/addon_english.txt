@@ -43,6 +43,7 @@
 
 	"lost" "YOU LOST"
 	"try_again" "try again"
+	"win" "YOU WON!"
 
 	"start" "START"
 	"ready" "READY"

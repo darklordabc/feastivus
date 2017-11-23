@@ -10,8 +10,10 @@
 	<Panel hittest="false" class="EndScreenRoot">
 		<Panel hittest="false" class="Content Slide">
 			<Panel hittest="false" class="Frame">
+<!-- 				<Image id="Image" src="file://{resources}/images/custom_game/ui/won.png">
+				</Image> -->
 				<Image id="Image" src="file://{resources}/images/custom_game/ui/lost.png">
-					<Label class="Label" text="#lost" />
+					<Label id="ResultLabel" class="Label" text="#lost" />
 				</Image>
 				<Button id="PlayButton" class="PlayButton" onactivate="Game.FinishGame();">
 					<Label text="#disconnect" />

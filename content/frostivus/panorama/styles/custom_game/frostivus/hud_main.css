@@ -373,3 +373,7 @@
 .TimeRunningOut #timer_digits {
 	color: gradient( linear, 0% 0%, 0% 100%, from( #ff9999 ), color-stop( .32, #eb3737 ), color-stop( .64, #cd142e ), to( #83000c ) );
 }
+
+#Image {
+	margin-bottom: 191px;
+}
