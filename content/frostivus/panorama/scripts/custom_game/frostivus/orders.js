@@ -58,6 +58,7 @@ function OnOrderChanged(table_name, key, data) {
 		}else if (finishType == "Expired") {
 			orderPanel.SetHasClass("TimeRunningOut", false);
 			orderPanel.AddClass("Expired");
+			Game.EmitSound("Frostivus.PointScored.Enemy");
 		}else if (timeRemaining < 10){
 			orderPanel.SetHasClass("TimeRunningOut", true);
 		}

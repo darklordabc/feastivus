@@ -1,3 +1,11 @@
+.Click:active {
+	sound: "ui_generic_button_click";
+}
+
+.ClickEpic:active {
+	sound: "BUTTON_CLICK_MAJOR";
+}
+
 .Font1 {
 	font-family: Goudy Trajan Medium,FZKai-Z03,TH Sarabun New,YDYGO 540;
 }

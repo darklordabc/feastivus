@@ -14,7 +14,7 @@
 					<DOTAUserName class="PlayerName" id="player_name" steamid="local" />
 				</Panel>
 				<Panel class="PlayerCardOverlay" id="playerCardOverlay" />
-				<Panel class="ChangeMaterialSetButton" onactivate="OnChangeMaterial()">
+				<Panel class="ChangeMaterialSetButton Click" onactivate="OnChangeMaterial()">
 					<Label class="Font1" text="#change_material" />
 				</Panel>
 			</Panel>
@@ -47,7 +47,7 @@
 				<Image class="TimerDigit" id="count_down_secs_1" />
 				<Image class="TimerDigit" id="count_down_secs_2" />
 			</Panel>
-			<Panel class="Button" id="button_start_ready" onactivate="OnClickReadyOrStart()">
+			<Panel class="Button ClickEpic" id="button_start_ready" onactivate="OnClickReadyOrStart()">
 				<Image class="ButtonBG" src="file://{resources}/images/custom_game/welcome_screen/button.png" />
 				<Label class="Label" id="label_button_start_ready" text="#ready" />
 			</Panel>

@@ -156,9 +156,9 @@
 		type = "dota_src1_3d"
 		vsnd_files =
         [
-            "sounds/weapons/hero/gyrocopter/call_down_impact.vsnd",
+            "sounds/weapons/hero/batrider/batrider_firefly_beginning.vsnd",
         ]
-        volume = "0.450000"
+        volume = "1.000000"
         pitch_rand_min = "-0.050000"
         pitch_rand_max = "0.050000"
         pitch = "1.000000"
@@ -166,31 +166,40 @@
         distance_max = "1200.000000"
 	}
 	custom_sound.frying = {
-		type = "dota_src1_3d"
+		type = "dota_update_default"
 		vsnd_files =
         [
             "sounds/benches/fry_pan_cooking.vsnd",
         ]
-        volume = "0.600000"
-        pitch_rand_min = "-0.050000"
-        pitch_rand_max = "0.050000"
+        volume = "1.000000"
+        pitch_rand_min = "-0.060000"
+        pitch_rand_max = "0.060000"
         pitch = "1.000000"
-        soundlevel = "75.000000"
-        distance_max = "1200.000000"
+        event_type = "1.0"
 	}
 	custom_sound.boiling = {
-		type = "dota_src1_3d"
+		type = "dota_update_default"
 		vsnd_files =
         [
             "sounds/benches/cooking_pot.vsnd",
         ]
-        volume = "0.600000"
+        volume = "1.500000"
         pitch_rand_min = "-0.050000"
         pitch_rand_max = "0.050000"
         pitch = "1.000000"
-        soundlevel = "75.000000"
-        distance_max = "1200.000000"
+        event_type = "1.0"
 	}
+    custom_sound.drop_in_water = {
+        type = "dota_update_default"
+        vsnd_files =
+        [
+            "sounds/benches/drop_in_water_sound.vsnd",
+        ]
+        volume = "1.100000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+    }
 	custom_sound.obstacle = {
 		type = "dota_src1_3d"
 		vsnd_files =

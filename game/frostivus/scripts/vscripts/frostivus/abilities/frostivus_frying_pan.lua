@@ -14,7 +14,7 @@ function frostivus_frying_pan:OnUpgrade()
 
         caster.ResetBench = (function ( self )
             self:AddItemToBench("item_frying_pan")
-            self:BindItem(CreateBank("item_frying_pan", 1, nil, "particles/frostivus_gameplay/frying_pan_steam.vpcf", "custom_sound.frying", true, GetFryingTarget, CanPutItemInPan))
+            self:BindItem(CreateBank("item_frying_pan", 1, nil, "particles/frostivus_gameplay/frying_pan_steam.vpcf", nil, "custom_sound.frying", true, GetFryingTarget, CanPutItemInPan))
         end)
     end)
 end
