@@ -42,6 +42,27 @@
     GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_CUSTOM_7] = "#c7e40d;";
     GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_CUSTOM_8] = "#8c2af4;";
 
+    var m_WaitingSound;
+
+    function OnGameRulesStateChanged() {
+        var newState = Game.GetState();
+        $.Msg("new state -> ", newState);
+        if (newState == 2) {
+            PlayWaitingMusic();
+        }
+        if (newState >= 5) {
+            Game.StopSound(m_WaitingSound);
+        }
+    }
+
+    function PlayWaitingMusic() {
+        var newState = Game.GetState();
+        if (newState < 5) {
+            m_WaitingSound = Game.EmitSound("custom_music.waiting");
+        }
+        $.Schedule(33, PlayWaitingMusic);
+    }
+    GameEvents.Subscribe("game_rules_state_change", OnGameRulesStateChanged);
   </script> 
 
   <Panel>

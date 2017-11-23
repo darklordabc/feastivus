@@ -17,4 +17,12 @@
 		]
 		volume = "0.800000"
 	}
+	custom_music.waiting = {
+		type = "dota_update_default"
+		vsnd_files = 
+		[
+			"sounds/valve_the_lab_boring_effect.vsnd",
+		]
+		volume = "0.800000"
+	}
 }

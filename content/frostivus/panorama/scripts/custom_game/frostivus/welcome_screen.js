@@ -180,11 +180,6 @@ function OnPlayerSelectedTeam() {
 	UpdatePlayerCards(2);
 }
 
-function OnGameRulesStateChanged() {
-	var newState = Game.GetState()
-	$.Msg("game state has changed to",newState);
-}
-
 function OnPlayerHatsChanged() {
 	var hatsData = CustomNetTables.GetTableValue('player_hats', 'player_hats');
 	m_UsedMaterials = new Array();
@@ -219,8 +214,6 @@ function OnPlayerHatsChanged() {
 
 	// Register a listener for the event which is broadcast whenever a player attempts to pick a team
 	$.RegisterForUnhandledEvent( "DOTAGame_PlayerSelectedCustomTeam", OnPlayerSelectedTeam );
-
-	GameEvents.Subscribe("dota_game_rules_state_change", OnGameRulesStateChanged);
 
 	CheckHostPrivileges();
 
