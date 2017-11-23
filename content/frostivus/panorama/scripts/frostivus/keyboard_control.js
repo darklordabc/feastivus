@@ -68,6 +68,10 @@ function IndicateCurrentGreevil() {
 
 
 Game.SwapGreevil = function() {
+	if (m_ExtraGreevil == null) {
+		GameEvents.SendCustomGameEventToServer("request_extra_greevil", {});
+		return;
+	}
 	if (m_CurrentGreevil == m_ExtraGreevil) {
 		m_CurrentGreevil = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
 	} else {

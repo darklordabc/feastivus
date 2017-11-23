@@ -75,11 +75,16 @@ function Frostivus:InitHero(hero)
 
 	-- create overhead name label
 	hero.overheadNamePanel = WorldPanels:CreateWorldPanelForAll(
-      {layout = "file://{resources}/layout/custom_game/worldpanels/overhead.xml",
-        entity = hero:GetEntityIndex(),
-        entityHeight = 180,
-      })
+	  {layout = "file://{resources}/layout/custom_game/worldpanels/overhead.xml",
+	    entity = hero:GetEntityIndex(),
+	    entityHeight = 180,
+	  })
 	hero.overheadNamePanel:SetData({PlayerID = hero:GetPlayerID()})
+
+	local player = PlayerResource:GetPlayer(hero:GetPlayerID())
+	if player.bRequireToPlayTutorial == true then
+		StartPlayTutorial(player)
+	end
 end
 
 function Frostivus:GetRandomItemByTier(tier)

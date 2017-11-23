@@ -61,12 +61,17 @@ function CDOTA_Item_Physical:GetHolder()
 	return self._holder
 end
 
+local lastCameraTarget
+
 function CDOTA_BaseNPC_Hero:SetCameraTargetPosition(pos)
+	if pos == "last_camera_target" then
+		pos = lastCameraTarget
+	end
 	if self.vCameraTarget == nil then
 		self.vCameraTarget = CreateUnitByName("npc_camera_target", pos, false, self, self, self:GetTeamNumber())
 	end
-
 	self.vCameraTarget:SetAbsOrigin(pos)
+	lastCameraTarget = pos
 	PlayerResource:SetCameraTarget(self:GetPlayerID(), self.vCameraTarget)
 	GameRules:GetGameModeEntity():SetCameraDistanceOverride(pos.z)
 end

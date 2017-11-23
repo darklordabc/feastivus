@@ -23,6 +23,35 @@ function GameMode:OnGameRulesStateChange(keys)
     StartMainTheme_Sad()
   end
 
+  if newState == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
+    -- ask server for players that didnt play tutorial yet
+    GameRules.nPlayerFinishedTutorialCount = 0
+    LoopOverPlayers(function(player)
+      local serverHasResponse = false
+      local req = CreateHTTPRequest("POST", "http://18.216.43.117:10010/IsFinishedTutorial")
+      req:SetHTTPRequestGetOrPostParameter("steamid", tostring(PlayerResource:GetSteamAccountID(player:GetPlayerID())))
+      req:Send(function(result)
+        if result.StatusCode == 200 then
+          serverHasResponse = true
+          if tonumber(result.Body) ~= 1 then -- server said he didnt find this player in database
+            player.bRequireToPlayTutorial = true
+          else
+            player.bRequireToPlayTutorial = false -- no matter player have no response or response 1, player dont require to play tutorial
+            GameRules.nPlayerFinishedTutorialCount = GameRules.nPlayerFinishedTutorialCount + 1
+          end
+        end
+      end)
+    end)
+  end
+
+  if newState == DOTA_GAMERULES_STATE_HERO_SELECTION then
+    LoopOverPlayers(function(player)
+      if player.bRequireToPlayTutorial == nil then
+        player.bRequireToPlayTutorial = false
+        GameRules.nPlayerFinishedTutorialCount = GameRules.nPlayerFinishedTutorialCount + 1
+      end
+    end)
+  end
 end
 
 -- An NPC has spawned somewhere in game.  This includes heroes

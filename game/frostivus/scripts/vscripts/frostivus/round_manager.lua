@@ -295,62 +295,47 @@ function Round:OnTimer()
 	-- timer during round in progress
 	--=========================================================================
 	elseif self:GetState() == ROUND_STATE_IN_PROGRESS then
-		print("Timer -> progress")
-		if GameRules.bLevelOneStarted then
-			self.nCountDownTimer = self.nCountDownTimer - 1
-			self.nExpiredTime = self.nExpiredTime + 1
+		self.nCountDownTimer = self.nCountDownTimer - 1
+		self.nExpiredTime = self.nExpiredTime + 1
 
-			-- check if it's a single player game
-			-- put this here since we dont want extra greevil for tutorial
-			local totalHeroCount = 0
-			LoopOverHeroes(function(hero)
-				hero:RemoveModifierByName("modifier_preround_freeze")
-				totalHeroCount = totalHeroCount + 1
-			end)
+		-- free greevils
+		LoopOverHeroes(function(hero)
+			hero:RemoveModifierByName("modifier_preround_freeze")
+		end)
 
-			-- it's a single player game, create an extra greevil
-			if not GameRules.bSinglePlayerModeCheck then
-				GameRules.bSinglePlayerModeCheck = true
-				-- now is only in single player, change it to 2 if want this to be enabled in 2 players mode
-				if totalHeroCount <= 1 then
-					CreateExtraGreevil()
-				end
-			end
-
-			-- time for more orders
-			for t, orders in pairs(self.vPendingOrders) do
-				if tonumber(t) <= self.nExpiredTime then
-					for recipeName, orderCount in pairs(orders) do
-						for i = 1, orderCount do
-							table.insert(self.vCurrentOrders, {
-								nTimeRemaining = g_DEFAULT_ORDER_TIME_LIMIT,
-								pszItemName = recipeName,
-								pszID = DoUniqueString("order"),
-								nTimeLimit = g_DEFAULT_ORDER_TIME_LIMIT,
-							})
-						end
+		-- time for more orders
+		for t, orders in pairs(self.vPendingOrders) do
+			if tonumber(t) <= self.nExpiredTime then
+				for recipeName, orderCount in pairs(orders) do
+					for i = 1, orderCount do
+						table.insert(self.vCurrentOrders, {
+							nTimeRemaining = g_DEFAULT_ORDER_TIME_LIMIT,
+							pszItemName = recipeName,
+							pszID = DoUniqueString("order"),
+							nTimeLimit = g_DEFAULT_ORDER_TIME_LIMIT,
+						})
 					end
-					self.vPendingOrders[t] = nil -- remove from pending orders
 				end
+				self.vPendingOrders[t] = nil -- remove from pending orders
+			end
+		end
+
+		-- reduce all recipe time remaining
+		for k, order in pairs(self.vCurrentOrders) do
+			if order.pszFinishType == nil then 
+				-- reduce unfinised orders only
+				order.nTimeRemaining = order.nTimeRemaining - 1
 			end
 
-			-- reduce all recipe time remaining
-			for k, order in pairs(self.vCurrentOrders) do
-				if order.pszFinishType == nil then 
-					-- reduce unfinised orders only
-					order.nTimeRemaining = order.nTimeRemaining - 1
-				end
+			-- if an order expired
+			if order.nTimeRemaining <= 0 and not order.pszFinishType then
+				self.nExpiredOrders = self.nExpiredOrders + 1
+				order.pszFinishType = "Expired"
+				Timers:CreateTimer(2, function()
+					self.vCurrentOrders[k] = nil
+				end)
 
-				-- if an order expired
-				if order.nTimeRemaining <= 0 and not order.pszFinishType then
-					self.nExpiredOrders = self.nExpiredOrders + 1
-					order.pszFinishType = "Expired"
-					Timers:CreateTimer(2, function()
-						self.vCurrentOrders[k] = nil
-					end)
-
-					self:OnOrderExpired(order)
-				end
+				self:OnOrderExpired(order)
 			end
 		end
 
@@ -519,9 +504,10 @@ function RoundManager:OnGameRulesStateChanged()
 	-- init round manager when pre game
 	local newState = GameRules:State_Get()
 	if newState == DOTA_GAMERULES_STATE_PRE_GAME then
-		Timers:CreateTimer(0, function()
+		if GameRules.nPlayerFinishedTutorialCount >= 1 then
+			GameRules.bMainRoundStarted = true
 			self:StartNewRound()
-		end)
+		end
 	end
 end
 

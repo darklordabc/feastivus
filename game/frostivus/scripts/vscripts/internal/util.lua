@@ -306,22 +306,34 @@ function StartMainTheme_Sad()
   GameRules.__hMusicPlayerEntity:EmitSound("custom_music.main_theme.sad")
 end
 
-function CreateExtraGreevil()
-  LoopOverHeroes(function(hero)
-    local player = PlayerResource:GetPlayer(hero:GetPlayerID())
-    local greevilling = CreateUnitByName('npc_dota_hero_axe',hero:GetOrigin(),true,player,player,hero:GetTeamNumber())
-    hero:AddNewModifier(hero, nil, "modifier_phased", {Duration=0.1})
-    greevilling:AddNewModifier(greevilling, nil, "modifier_phased", {Duration=0.1})
-    greevilling:SetControllableByPlayer(hero:GetPlayerID(),false)
-    player.vExtraGreevillings = player.vExtraGreevillings or {}
-    table.insert(player.vExtraGreevillings, greevilling)
+function CreateExtraGreevilForHero(hero)
+  local player = PlayerResource:GetPlayer(hero:GetPlayerID())
+  local greevilling = CreateUnitByName('npc_dota_hero_axe',hero:GetOrigin(),true,player,player,hero:GetTeamNumber())
+  hero:AddNewModifier(hero, nil, "modifier_phased", {Duration=0.1})
+  greevilling:AddNewModifier(greevilling, nil, "modifier_phased", {Duration=0.1})
+  greevilling:SetControllableByPlayer(hero:GetPlayerID(),false)
+  player.vExtraGreevillings = player.vExtraGreevillings or {}
+  table.insert(player.vExtraGreevillings, greevilling)
 
-    -- add greevil switch ability to both greevils
-    hero:AddAbility("frostivus_swap_greevil")
-    hero:FindAbilityByName("frostivus_swap_greevil"):SetLevel(1)
-    greevilling:AddAbility("frostivus_swap_greevil")
-    greevilling:FindAbilityByName("frostivus_swap_greevil"):SetLevel(1)
+  -- add greevil switch ability to both greevils
+  hero:AddAbility("frostivus_swap_greevil")
+  hero:FindAbilityByName("frostivus_swap_greevil"):SetLevel(1)
+  greevilling:AddAbility("frostivus_swap_greevil")
+  greevilling:FindAbilityByName("frostivus_swap_greevil"):SetLevel(1)
 
+  Timers:CreateTimer(0.5, function()
     CustomGameEventManager:Send_ServerToPlayer(player, "player_extra_greevil", {entindex = greevilling:GetEntityIndex()})
   end)
 end
+
+CustomGameEventManager:RegisterListener("request_extra_greevil", function(_, args)
+  local playerid = args.PlayerID
+  local player = PlayerResource:GetPlayer(playerid)
+  if player then
+    local greevilling
+    for _, v in pairs(player.vExtraGreevillings or {}) do
+      greevilling = v
+    end
+    CustomGameEventManager:Send_ServerToPlayer(player, "player_extra_greevil", {entindex = greevilling:GetEntityIndex()})
+  end
+end)
