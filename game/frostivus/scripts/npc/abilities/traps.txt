@@ -43,7 +43,7 @@
       "02"
       {
         "var_type"      "FIELD_FLOAT"
-        "slow"    "-150"
+        "slow"    "-80"
       }
       "03"
       {
@@ -113,7 +113,7 @@
     
         "Properties"
         {
-          "MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT" "%slow"
+          "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%slow"
         }
       }
     }
@@ -214,6 +214,7 @@
         {
           "MODIFIER_STATE_FROZEN"    "MODIFIER_STATE_VALUE_ENABLED"
           "MODIFIER_STATE_STUNNED"    "MODIFIER_STATE_VALUE_ENABLED"
+          "MODIFIER_STATE_COMMAND_RESTRICTED"    "MODIFIER_STATE_VALUE_ENABLED"
         }
       }
     }

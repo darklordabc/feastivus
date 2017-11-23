@@ -58,6 +58,16 @@ function frostivus_sink:OnUpgrade()
                 end
             end
         end)
+
+        caster.ResetBench = (function ( self )
+            local old_data = self.wp:GetData()
+            old_data.layout = 1
+            old_data.passed = nil
+            old_data.paused = nil
+            old_data.duration = nil
+            self.wp:SetData(old_data)
+            self:SetBenchHidden(true)
+        end)
     end)
 end
 

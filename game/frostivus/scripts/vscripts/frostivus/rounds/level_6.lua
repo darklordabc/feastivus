@@ -1,6 +1,8 @@
 local LICH_ROAM_POSITION_1 = Vector(576, -2496, -113.283)
 local LICH_ROAM_POSITION_2 = Vector(576, -1920, -113.283)
 
+local LICH_CAST_POINTS = {-1920, -2176, -2432}
+
 local LICH_IDLE_TIME = 9.0
 
 local lich
@@ -9,8 +11,9 @@ local lich_cast_timer
 
 function CastChain(  )
 	if not IsValidEntity(lich) then return end
-	EmitAnnouncerSoundForTeam("lich_lich_ability_chain_09", 2)
+	EmitAnnouncerSoundForTeam("lich_lich_ability_chain_0"..tostring(math.random(1,9)), 2)
 	lich:Stop()
+
 	lich_cast_timer = Timers:CreateTimer(0.5, function (  )
 		local chain = lich:FindAbilityByName("frostivus_chain_frost")
 		local shards = lich:FindAbilityByName("frostivus_ice_shards")
@@ -33,22 +36,26 @@ function CastChain(  )
 	end)
 end
 
-function CastShards()
+function CastShards(y)
 	if not IsValidEntity(lich) then return end
-	EmitAnnouncerSoundForTeam("lich_lich_ability_chain_06", 2)
+	EmitAnnouncerSoundForTeam("lich_lich_ability_chain_0"..tostring(math.random(1,9)), 2)
 	lich:Stop()
-	-- lich:MoveToPosition(GetShardsCastPosition())
-	lich_cast_timer = Timers:CreateTimer(0.5, function (  )
-		-- if lich:IsIdle() then
+
+	local cast_pos = lich:GetAbsOrigin()
+	cast_pos.y = y
+
+	lich:MoveToPosition(cast_pos)
+	lich_cast_timer = Timers:CreateTimer(1.0, function (  )
+		if lich:IsIdle() then
 			local shards = lich:FindAbilityByName("frostivus_ice_shards")
 			lich:CastAbilityOnPosition(lich:GetAbsOrigin() + Vector(-1400,0,0), shards, -1)
 
 			Timers:CreateTimer(1.0, function (  )
 				Return(LICH_ROAM_POSITION_2)
 			end)
-		-- else
-		-- 	return 0.03
-		-- end
+		else
+			return 0.03
+		end
 	end)
 end
 
@@ -75,15 +82,26 @@ function Roam()
 	lich_cast_timer = nil
 
 	lich_movement_timer = Timers:CreateTimer(function (  )
+		if not IsValidEntity(shards) or not IsValidEntity(chain) then return end
 		if shards:IsCooldownReady() then
-			local greevils = FindUnitsInLine(3, lich:GetAbsOrigin(), lich:GetAbsOrigin() + (Vector(-1,0,0) * 1500), nil, 16, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)
-			if #greevils <= 0 or (lich:GetAbsOrigin().y > -2368 and lich:GetAbsOrigin().y < -2240) or (lich:GetAbsOrigin().y > -2112 and lich:GetAbsOrigin().y < -1984) then
+			local y
+			for _,v in pairs(LICH_CAST_POINTS) do
+				local pos = lich:GetAbsOrigin()
+				pos.y = v
+				local greevils = FindUnitsInLine(3, pos, lich:GetAbsOrigin() + (Vector(-1,0,0) * 1500), nil, 64, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)
+				if #greevils > 0 then
+					y = v
+					break
+				end
+			end
+			
+			if not y then
 				return 0.2
 			end
 			if math.random(1,5) == 5 and chain:IsCooldownReady() then
 				CastChain()
 			else
-				CastShards()
+				CastShards(y)
 			end
 			lich_movement_timer = nil
 		else
