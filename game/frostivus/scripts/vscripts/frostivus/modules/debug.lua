@@ -17,7 +17,14 @@ function DebugModule:Lose(keys)
 end
 
 function DebugModule:Win(keys)
-	GameRules:SetGameWinner(2)
+	LoopOverHeroes(function(v)
+		StartAnimation(v, {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1.0, translate="greevil_miniboss_red_overpower"})
+		ParticleManager:CreateParticle("particles/econ/events/ti6/hero_levelup_ti6_godray.vpcf", PATTACH_ABSORIGIN_FOLLOW, v)
+	end)
+
+	Timers:CreateTimer(2, function (  )
+		GameRules:SetGameWinner(2)
+	end)
 end
 
 function DebugModule:TryAgain(keys)
