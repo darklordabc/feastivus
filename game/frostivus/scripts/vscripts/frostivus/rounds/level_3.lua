@@ -79,6 +79,13 @@ return {
 					pangolier.vTargetPosition = pos + Vector(0, -1500, 0)
 					pangolier.vSpawnPosition = pos
 					pangolier:SetForwardVector(Vector(0, -1, 0))
+
+					pangolier:SetContextThink(DoUniqueString("tree_cutter"), function()
+						if IsValidAlive(pangolier) then
+							GridNav:DestroyTreesAroundPoint(pangolier:GetOrigin(), 140, true)
+							return .1
+						end
+					end, 0)
 					return pangolier
 				end
 
