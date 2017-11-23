@@ -155,6 +155,8 @@ function Round:OnStateChanged(newState)
 	if newState == ROUND_STATE_PRE_ROUND then
 		StopMainTheme()
 
+		Frostivus:ResetStage(self:GetCameraTargetPosition())
+
 		-- display round start message on clients
 		CustomGameEventManager:Send_ServerToAllClients("round_start",{
 			Level = level
