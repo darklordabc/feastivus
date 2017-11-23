@@ -77,8 +77,6 @@ return {
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
 
-		StopMainTheme()
-
 		local i = 1
 		for k,v in pairs(Frostivus.state.stages["tusk"].crates) do
 			local item = Frostivus.StagesKVs["tusk"].Initial[tostring(i)]

@@ -112,8 +112,6 @@ return {
 
 		AddFOWViewer(3, round:GetCameraTargetPosition(), 1800, 60, false)
 
-		StopMainTheme()
-		
 		local i = 1
 		for k,v in pairs(Frostivus.state.stages["palace"].crates) do
 			local item = Frostivus.StagesKVs["palace"].Initial[tostring(i)]
@@ -140,8 +138,6 @@ return {
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
-
-		StartMainThemeAtPosition(LEVEL_CAMERA_TARGET, round)
 
 		local chain = lich:FindAbilityByName("frostivus_chain_frost")
 		local shards = lich:FindAbilityByName("frostivus_ice_shards")

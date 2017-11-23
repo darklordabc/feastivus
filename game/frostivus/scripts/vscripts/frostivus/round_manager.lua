@@ -153,6 +153,8 @@ function Round:OnStateChanged(newState)
 	-- ON ENTERING PRE ROUND STATE
 	--====================================================================================
 	if newState == ROUND_STATE_PRE_ROUND then
+		StopMainTheme()
+
 		-- display round start message on clients
 		CustomGameEventManager:Send_ServerToAllClients("round_start",{
 			Level = level

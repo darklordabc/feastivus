@@ -14,7 +14,6 @@ return {
 	end,
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
-		StopMainTheme()
 
 		local i = 1
 		for k,v in pairs(Frostivus.state.stages["tavern"].crates) do

@@ -51,8 +51,6 @@ return {
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
 
-		StopMainTheme()
-
 		local i = 1
 		for k,v in pairs(Frostivus.state.stages["pangolier"].crates) do
 			local item = Frostivus.StagesKVs["pangolier"].Initial[tostring(i)]
@@ -92,7 +90,6 @@ return {
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
-		StartMainThemeAtPosition(LEVEL_CAMERA_TARGET, round)
 	end,
 	OnRoundEnd = function(round)
 		-- if you do something special, clean them
