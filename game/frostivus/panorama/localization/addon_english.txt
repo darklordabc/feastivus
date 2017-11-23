@@ -8,7 +8,7 @@
 	"DOTA_GoodGuys"   								"Greevils"
 	"DOTA_BadGuys"    								""
 	
-	"addonname"										"Barebones"
+	"addonname"										"Feastivus"
 
 	"tutorial_text_pickup_tango" "Right-click the Tango crate to collect a Tango"	
 

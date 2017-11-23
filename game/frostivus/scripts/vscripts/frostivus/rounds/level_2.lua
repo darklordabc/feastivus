@@ -39,13 +39,7 @@ return {
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
-		StartMainThemeAtPosition(LEVEL_CAMERA_TARGET)
-		Timers:CreateTimer(67, function()
-			if round.nCountDownTimer > 0 then
-				StartMainThemeAtPosition(LEVEL_CAMERA_TARGET)
-				return 67
-			end
-		end)
+		StartMainThemeAtPosition(LEVEL_CAMERA_TARGET, round)
 	end,
 	OnRoundEnd = function(round)
 		-- if you do something special, clean them

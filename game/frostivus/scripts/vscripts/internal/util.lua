@@ -275,13 +275,22 @@ function LoopOverPlayers(callback)
   end
 end
 
-function StartMainThemeAtPosition(pos)
+function StartMainThemeAtPosition(pos, round)
   if GameRules.__hMusicPlayerEntity == nil then
     GameRules.__hMusicPlayerEntity = CreateUnitByName("npc_camera_target", pos, false, nil, nil, DOTA_TEAM_GOODGUYS)
   end
   GameRules.__hMusicPlayerEntity:SetAbsOrigin(pos)
   GameRules.__hMusicPlayerEntity:StopSound("custom_music.main_theme")
   GameRules.__hMusicPlayerEntity:EmitSound("custom_music.main_theme")
+
+  -- loop sound in round
+  if round then
+    Timers:CreateTimer(67, function()
+      if round.nCountDownTimer > 0 and GameRules:State_Get() < DOTA_GAMERULES_STATE_POST_GAME then
+        StartMainThemeAtPosition(pos, round)
+      end
+    end)
+  end
 end
 
 function StopMainTheme()
@@ -289,4 +298,10 @@ function StopMainTheme()
     GameRules.__hMusicPlayerEntity = CreateUnitByName("npc_camera_target", Vector(0,0,0), false, nil, nil, DOTA_TEAM_GOODGUYS)
   end
   GameRules.__hMusicPlayerEntity:StopSound("custom_music.main_theme")
+end
+
+function StartMainTheme_Sad()
+  print(debug.traceback("begin to play sad main theme"))
+  GameRules.__hMusicPlayerEntity:StopSound("custom_music.main_theme")
+  GameRules.__hMusicPlayerEntity:EmitSound("custom_music.main_theme.sad")
 end

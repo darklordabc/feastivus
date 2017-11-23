@@ -9,4 +9,12 @@
 		]
 		volume = "0.400000"
 	}
+	custom_music.main_theme.sad = {
+		type = "dota_update_hero_select"
+		vsnd_files = 
+		[
+			"sounds/valve_soilder_of_dance_sad.vsnd",
+		]
+		volume = "0.400000"
+	}
 }
