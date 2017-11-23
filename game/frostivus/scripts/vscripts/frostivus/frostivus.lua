@@ -71,7 +71,7 @@ function Frostivus:InitHero(hero)
 	InitAbilities( hero )
 	AddAnimationTranslate(hero, "level_3")
 	hero:AddNewModifier(hero,nil,"modifier_hide_health_bar",{})
-	-- hero:AddNewModifier(hero,nil,"modifier_unselectable",{})
+	hero:AddNewModifier(hero,nil,"modifier_unselectable",{})
 
 	-- create overhead name label
 	hero.overheadNamePanel = WorldPanels:CreateWorldPanelForAll(
