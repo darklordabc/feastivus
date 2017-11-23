@@ -80,11 +80,6 @@ function Frostivus:InitHero(hero)
 	    entityHeight = 180,
 	  })
 	hero.overheadNamePanel:SetData({PlayerID = hero:GetPlayerID()})
-
-	local player = PlayerResource:GetPlayer(hero:GetPlayerID())
-	if player.bRequireToPlayTutorial == true then
-		StartPlayTutorial(player)
-	end
 end
 
 function Frostivus:GetRandomItemByTier(tier)

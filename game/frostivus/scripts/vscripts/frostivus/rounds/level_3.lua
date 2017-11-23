@@ -1,4 +1,3 @@
-local LEVEL_CAMERA_TARGET = Vector(-4200, 1088, 1100)
 local spawnPos1 = Vector(-4350, 2200, 128)
 local spawnPos2 = Vector(-4000, 2200, 128)
 local randomScrollIntervalMin = 10
@@ -6,6 +5,7 @@ local randomScrollIntervalMax = 15
 local wavesCount = 6
 
 return {
+	CameraTargetPosition = Vector(-4200, 1088, 1100),
 	OnInitialize = function(round)
 		-- in initialize script, setup round parameters
 		-- such as pre round time, time limit, etc.
@@ -52,8 +52,6 @@ return {
 		print("RoundScript -> OnPreRoundStart")
 
 		StopMainTheme()
-		
-		Frostivus:ResetStage( LEVEL_CAMERA_TARGET )
 
 		local i = 1
 		for k,v in pairs(Frostivus.state.stages["pangolier"].crates) do
@@ -67,10 +65,6 @@ return {
 			end
 			i = i + 1
 		end
-
-		LoopOverHeroes(function(hero)
-			hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
-		end)
 
 		if GameRules.__vPangoliers == nil then
 			GameRules.__vPangoliers = {}

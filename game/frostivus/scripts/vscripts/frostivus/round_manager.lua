@@ -115,7 +115,7 @@ function Round:Initialize()
 	self:UpdateOrdersToClient() -- clear all orders of last round
 
 	-- initialize timers
-	self.nPreRoundTime = roundData.nPreRoundTime or 5
+	self.nPreRoundTime = roundData.nPreRoundTime or 4
 	self.nTimeLimit = roundData.TimeLimit
 	self.nPreRoundCountDownTimer = self.nPreRoundTime
 	self.nCountDownTimer = self.nTimeLimit
@@ -148,6 +148,7 @@ function Round:SetState(newState)
 end
 
 function Round:OnStateChanged(newState)
+	print("Round state changed to->", newState, ROUND_STATE_PRE_ROUND)
 	--====================================================================================
 	-- ON ENTERING PRE ROUND STATE
 	--====================================================================================
@@ -161,7 +162,10 @@ function Round:OnStateChanged(newState)
 		})
 		LoopOverHeroes(function(hero)
 			hero:AddNewModifier(hero,nil,"modifier_preround_freeze",{})
+			-- set camera target
+			hero:SetCameraTargetPosition(self:GetCameraTargetPosition())
 		end)
+
 		-- on pre round start, show initial recipes
 		if self.vPendingOrders[0] then
 			local orders = self.vPendingOrders[0]
@@ -179,6 +183,66 @@ function Round:OnStateChanged(newState)
 			self:UpdateOrdersToClient()
 		end
 
+		-- teleport heroes to new round
+		LoopOverHeroes(function(hero)
+			
+			print("trying to teleport hero")
+			-- players in tutorial should not be effected
+			if hero.__bPlayingTutorial then return end
+			print("teleporting hero")
+
+			EndAnimation(hero)
+			RemoveAnimationTranslate(hero)
+			AddAnimationTranslate(hero, "level_3")
+			if Frostivus:IsCarryingItem( hero ) then
+				Frostivus:GetCarryingItem( hero ):RemoveSelf()
+				Frostivus:DropItem( hero )
+			end
+			hero:RemoveModifierByName("modifier_bench_interaction")
+			hero:Stop()
+
+			local teleportTargetName = self:GetStartPositionName() or 'level_' .. tostring(level) .. '_start'
+			local teleport_target_entities = Entities:FindAllByName(teleportTargetName)
+			local lastTeleportTarget = nil
+
+			print("trying to teleport heroes to ->", teleportTargetName)
+
+			-- teleport players to new round
+			local teleportTarget
+			if table.count(teleport_target_entities) > 0 then
+				teleportTarget = table.remove(teleport_target_entities)
+				teleportTarget = teleportTarget:GetOrigin()
+			end
+
+			if teleportTarget == nil then
+				-- print("Not enough level start position entity!! moving hero to last teleport target pos")
+				if lastTeleportTarget == nil then
+					print("Not any level start entity found!! go check the map file for teleport entity ->", self:GetStartPositionName() or 'level_' .. tostring(level) .. '_start')
+				else
+					teleportTarget = lastTeleportTarget
+				end
+			else
+				lastTeleportTarget = teleportTarget
+			end
+
+			print("teleporting heroes")
+			FindClearSpaceForUnit(hero,teleportTarget or hero:GetOrigin(),true)
+
+			-- move all greevillings controlled by this player around the point
+			local player = PlayerResource:GetPlayer(hero:GetPlayerID())
+			if player.vExtraGreevillings and table.count(player.vExtraGreevillings) > 0 then
+				for _, greevilling in pairs(player.vExtraGreevillings) do
+					teleportTarget = table.remove(teleport_target_entities)
+					greevilling:SetAbsOrigin(teleportTarget and teleportTarget:GetOrigin() or hero:GetOrigin())
+					greevilling:AddNewModifier(hero, nil, "modifier_phased", {Duration = 0.03})
+					hero:AddNewModifier(hero, nil, "modifier_phased", {Duration = 0.03})
+				end
+			end
+
+			-- remove teleporting effect
+			hero:RemoveModifierByName('modifier_teleport_to_new_round')
+		end)
+
 
 		if self.vRoundScript.OnPreRoundStart then
 			self.vRoundScript.OnPreRoundStart(self)
@@ -190,6 +254,8 @@ function Round:OnStateChanged(newState)
 		LoopOverHeroes(function(hero)
 			hero:RemoveModifierByName("modifier_preround_freeze")
 		end)
+
+		StartMainThemeAtPosition(self:GetCameraTargetPosition(), self)
 
 		if self.vRoundScript.OnRoundStart then
 			self.vRoundScript.OnRoundStart(self)
@@ -479,6 +545,15 @@ function Round:IsValidProduct(pszProductName)
 		end
 	end
 end
+
+function Round:GetCameraTargetPosition()
+	return self.vRoundScript.CameraTargetPosition or Vector(0,0,0)
+end
+
+function Round:GetStartPositionName()
+	return self.vRoundData.StartPositionName or 'level_' .. tostring(level) .. '_start'
+end
+
 --=====================================================================================
 --=====================================================================================
 -- RoundManager
@@ -520,61 +595,6 @@ function RoundManager:StartNewRound(level) -- level is passed for test purpose
 	self.nCurrentLevel = level
 
 	local roundData = GameRules.vRoundDefinations[level]
-	print("Loading new round", roundData)
-	roundData.level = level
-
-	local teleport_target_entities = Entities:FindAllByName(roundData.StartPositionName or 'level_' .. tostring(level) .. '_start')
-	local lastTeleportTarget = nil
-
-	LoopOverHeroes(function(hero)
-
-		-- players in tutorial should not be effected
-		if hero.__bPlayingTutorial then return end
-
-		EndAnimation(hero)
-		RemoveAnimationTranslate(hero)
-		AddAnimationTranslate(hero, "level_3")
-		if Frostivus:IsCarryingItem( hero ) then
-			Frostivus:GetCarryingItem( hero ):RemoveSelf()
-			Frostivus:DropItem( hero )
-		end
-		hero:RemoveModifierByName("modifier_bench_interaction")
-		hero:Stop()
-
-		-- teleport players to new round
-		local teleportTarget
-		if table.count(teleport_target_entities) > 0 then
-			teleportTarget = table.remove(teleport_target_entities)
-			teleportTarget = teleportTarget:GetOrigin()
-		end
-
-		if teleportTarget == nil then
-			-- print("Not enough level start position entity!! moving hero to last teleport target pos")
-			if lastTeleportTarget == nil then
-				print("Not any level start entity found!! go check the map file")
-			else
-				teleportTarget = lastTeleportTarget
-			end
-		else
-			lastTeleportTarget = teleportTarget
-		end
-
-		FindClearSpaceForUnit(hero,teleportTarget or hero:GetOrigin(),true)
-
-		-- move all greevillings controlled by this player around the point
-		local player = PlayerResource:GetPlayer(hero:GetPlayerID())
-		if player.vExtraGreevillings and table.count(player.vExtraGreevillings) > 0 then
-			for _, greevilling in pairs(player.vExtraGreevillings) do
-				teleportTarget = table.remove(teleport_target_entities)
-				greevilling:SetAbsOrigin(teleportTarget and teleportTarget:GetOrigin() or hero:GetOrigin())
-				greevilling:AddNewModifier(hero, nil, "modifier_phased", {Duration = 0.03})
-				hero:AddNewModifier(hero, nil, "modifier_phased", {Duration = 0.03})
-			end
-		end
-
-		-- remove teleporting effect
-		hero:RemoveModifierByName('modifier_teleport_to_new_round')
-	end)
 
 	-- instantiation round
 	self.vCurrentRound = Round(roundData)

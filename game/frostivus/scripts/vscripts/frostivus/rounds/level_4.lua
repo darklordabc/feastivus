@@ -1,6 +1,5 @@
-local LEVEL_CAMERA_TARGET = Vector(4675.000000, -6100.000000, 1250)
-
 return {
+	CameraTargetPosition = Vector(4675.000000, -6100.000000, 1250),
 	OnInitialize = function(round)
 		-- in initialize script, setup round parameters
 		-- such as pre round time, time limit, etc.
@@ -18,8 +17,6 @@ return {
 
 		StopMainTheme()
 		
-		Frostivus:ResetStage( LEVEL_CAMERA_TARGET )
-
 		local i = 1
 		for k,v in pairs(Frostivus.state.stages["lava"].crates) do
 			local item = Frostivus.StagesKVs["lava"].Initial[tostring(i)]
@@ -32,10 +29,6 @@ return {
 			end
 			i = i + 1
 		end
-
-		LoopOverHeroes(function(hero)
-			hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
-		end)
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")

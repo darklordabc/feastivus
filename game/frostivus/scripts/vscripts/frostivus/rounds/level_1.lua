@@ -1,6 +1,5 @@
-local LEVEL_CAMERA_TARGET = Vector(-1.579994, 56.258438, 940)
-
 return {
+	CameraTargetPosition = Vector(-1.579994, 56.258438, 940),
 	OnInitialize = function(round)
 		-- in initialize script, setup round parameters
 		-- such as pre round time, time limit, etc.
@@ -16,8 +15,6 @@ return {
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
 		StopMainTheme()
-
-		Frostivus:ResetStage( LEVEL_CAMERA_TARGET )
 
 		local i = 1
 		for k,v in pairs(Frostivus.state.stages["tavern"].crates) do
@@ -52,7 +49,6 @@ return {
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")
-		StartMainThemeAtPosition(LEVEL_CAMERA_TARGET, round)
 	end,
 
 	OnRoundEnd = function(round)

@@ -10,6 +10,8 @@ local TUTORIAL_CAMERA_TARGETS = {
 }
 
 function StartPlayTutorial(player)
+	print(debug.traceback(123))
+
 	local playerid = player:GetPlayerID()
 
 	if IsInToolsMode() then
@@ -69,8 +71,10 @@ function StartPlayTutorial(player)
 	CustomNetTables:SetTableValue("orders", "tutorial_orders_" .. hero:GetPlayerID(), tutorialOrders)
 
 	-- show tooltip message
-	hero.pszTooltipMessage = MessageCenter:ShowMessageOnClient(player, {item = "item_raw_leaf", text="#tutorial_text_pickup_tango"})
-	leafCrate:AddNewModifier(leafCrate, nil, 'modifier_target_tooltip',{})
+	Timers:CreateTimer(0.5, function()
+		hero.pszTooltipMessage = MessageCenter:ShowMessageOnClient(player, {item = "item_raw_leaf", text="#tutorial_text_pickup_tango"})
+		leafCrate:AddNewModifier(leafCrate, nil, 'modifier_target_tooltip',{})
+	end)
 
 	GameRules.FrostivusEventListener:RegisterListener('frostivus_player_pickup', function(keys)
 		if keys.ItemName == 'item_raw_leaf' then
@@ -109,8 +113,8 @@ function StartPlayTutorial(player)
 					GameRules.RoundManager:StartNewRound()
 				else
 					-- join the main game
-					hero:SetCameraTargetPosition("last_camera_target")
-					local start = Entities:FindByName(nil, "level_" .. currentLevel .. "_start")
+					hero:SetCameraTargetPosition(GameRules.RoundManager:GetCurrentRound():GetCameraTargetPosition())
+					local start = Entities:FindByName(nil, GameRules.RoundManager:GetCurrentRound():GetStartPositionName())
 					if start then
 						FindClearSpaceForUnit(hero, start:GetOrigin(), true)
 					end

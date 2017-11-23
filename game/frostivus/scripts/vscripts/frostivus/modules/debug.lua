@@ -78,7 +78,7 @@ end
 function DebugModule:ForceStartTutorial(keys)
 	local playerID = keys.PlayerID
 	local player = PlayerResource:GetPlayer(playerID)
-	if StartPlayTutorial == nil then require 'frostivus.rounds.level_1' end
+	if StartPlayTutorial == nil then require 'frostivus.rounds.level_tutorial' end
 	StartPlayTutorial(player)
 end
 

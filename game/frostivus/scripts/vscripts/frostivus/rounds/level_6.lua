@@ -1,4 +1,3 @@
-local LEVEL_CAMERA_TARGET = Vector(-60, -2200, 1000)
 local LICH_ROAM_POSITION_1 = Vector(576, -2496, -113.283)
 local LICH_ROAM_POSITION_2 = Vector(576, -1920, -113.283)
 
@@ -66,8 +65,6 @@ function Roam()
 	local chain = lich:FindAbilityByName("frostivus_chain_frost")
 	local shards = lich:FindAbilityByName("frostivus_ice_shards")
 
-	AddFOWViewer(3, LEVEL_CAMERA_TARGET, 1800, 60, false)
-
 	lich_cast_timer = nil
 
 	lich_movement_timer = Timers:CreateTimer(function (  )
@@ -102,6 +99,7 @@ function GetShardsCastPosition(  )
 end
 
 return {
+	CameraTargetPosition = Vector(-60, -2200, 1000),
 	OnInitialize = function(round)
 		-- in initialize script, setup round parameters
 		-- such as pre round time, time limit, etc.
@@ -112,10 +110,10 @@ return {
 	OnPreRoundStart = function(round)
 		print("RoundScript -> OnPreRoundStart")
 
+		AddFOWViewer(3, round:GetCameraTargetPosition(), 1800, 60, false)
+
 		StopMainTheme()
 		
-		Frostivus:ResetStage( LEVEL_CAMERA_TARGET )
-
 		local i = 1
 		for k,v in pairs(Frostivus.state.stages["palace"].crates) do
 			local item = Frostivus.StagesKVs["palace"].Initial[tostring(i)]
@@ -139,10 +137,6 @@ return {
 
 		lich:AddNewModifier(lich, nil, "modifier_hide_health_bar", {})
 		lich:AddNewModifier(lich, nil, "modifier_unselectable", {})
-
-		LoopOverHeroes(function(hero)
-			hero:SetCameraTargetPosition(LEVEL_CAMERA_TARGET)
-		end)
 	end,
 	OnRoundStart = function(round)
 		print("RoundScript -> OnRoundStart")

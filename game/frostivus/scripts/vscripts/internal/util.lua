@@ -321,6 +321,8 @@ function CreateExtraGreevilForHero(hero)
   greevilling:AddAbility("frostivus_swap_greevil")
   greevilling:FindAbilityByName("frostivus_swap_greevil"):SetLevel(1)
 
+  greevilling.bIsExtra = true
+
   Timers:CreateTimer(0.5, function()
     CustomGameEventManager:Send_ServerToPlayer(player, "player_extra_greevil", {entindex = greevilling:GetEntityIndex()})
   end)
