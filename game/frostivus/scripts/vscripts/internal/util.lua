@@ -336,6 +336,8 @@ CustomGameEventManager:RegisterListener("request_extra_greevil", function(_, arg
     for _, v in pairs(player.vExtraGreevillings or {}) do
       greevilling = v
     end
-    CustomGameEventManager:Send_ServerToPlayer(player, "player_extra_greevil", {entindex = greevilling:GetEntityIndex()})
+    if greevilling then
+      CustomGameEventManager:Send_ServerToPlayer(player, "player_extra_greevil", {entindex = greevilling:GetEntityIndex()})
+    end
   end
 end)
