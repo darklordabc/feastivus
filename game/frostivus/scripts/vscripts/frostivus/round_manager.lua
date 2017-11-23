@@ -165,9 +165,13 @@ function Round:OnStateChanged(newState)
 			name = self.vRoundData.Name
 		})
 		LoopOverHeroes(function(hero)
-			hero:AddNewModifier(hero,nil,"modifier_preround_freeze",{})
-			-- set camera target
-			hero:SetCameraTargetPosition(self:GetCameraTargetPosition())
+			Timers:CreateTimer(0, function()
+				print("add freeeze state to heroes")
+				if not IsValidAlive(hero) then return 0.03 end
+				-- set camera target
+				hero:AddNewModifier(hero,nil,"modifier_preround_freeze",{})
+				hero:SetCameraTargetPosition(self:GetCameraTargetPosition())
+			end)
 		end)
 
 		-- on pre round start, show initial recipes
@@ -189,7 +193,6 @@ function Round:OnStateChanged(newState)
 
 		-- teleport heroes to new round
 		LoopOverHeroes(function(hero)
-			
 			print("trying to teleport hero")
 			-- players in tutorial should not be effected
 			if hero.__bPlayingTutorial then return end
@@ -583,10 +586,12 @@ function RoundManager:OnGameRulesStateChanged()
 	-- init round manager when pre game
 	local newState = GameRules:State_Get()
 	if newState == DOTA_GAMERULES_STATE_PRE_GAME then
-		if GameRules.nPlayerFinishedTutorialCount >= 1 then
-			GameRules.bMainRoundStarted = true
-			self:StartNewRound()
-		end
+		Timers:CreateTimer(0.5, function()
+			if GameRules.nPlayerFinishedTutorialCount >= 1 then
+				GameRules.bMainRoundStarted = true
+				self:StartNewRound()
+			end
+		end)
 	end
 end
 

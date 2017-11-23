@@ -36,7 +36,8 @@ modifier_preround_freeze = class({})
 
 function modifier_preround_freeze:CheckState()
     return {
-        [MODIFIER_STATE_FROZEN] = true,
+        -- [MODIFIER_STATE_FROZEN] = true,
+        [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
         [MODIFIER_STATE_ROOTED] = true,
         [MODIFIER_STATE_SILENCED] = true
     }
