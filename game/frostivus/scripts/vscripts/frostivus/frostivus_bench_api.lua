@@ -318,6 +318,10 @@ function BenchAPI( keys )
 
 		return old_data.layout or 1
     end)
+
+	caster.HasFreeSlots = (function ( self )
+		return GetTableLength(self:GetItems()) < self:GetBenchLayout()
+	end)
 end
 
 function OnUse( bench, user )
@@ -384,7 +388,7 @@ function OnUse( bench, user )
 						local bank = bench_item
 						local old_data = bank.wp:GetData()
 
-						if bank:IsDoneCooking() then
+						if bank:IsDoneCooking() and item:HasFreeSlots() then
 							for k,v in pairs(old_data.items) do
 								item:AddItemToBench(v, user)
 							end

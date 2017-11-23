@@ -34,5 +34,5 @@ function CanPutItemInPot( bench, item )
     local item_name = item:GetContainedItem():GetName()
     local first_item = bench:GetBenchItemBySlot(1)
 
-    return Frostivus.ItemsKVs[item_name].CanBePutInPot and (not first_item or first_item == item_name)
+    return bench:HasFreeSlots() and Frostivus.ItemsKVs[item_name].CanBePutInPot and (not first_item or first_item == item_name)
 end

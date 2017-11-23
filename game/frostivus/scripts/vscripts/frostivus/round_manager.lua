@@ -190,7 +190,9 @@ function Round:OnStateChanged(newState)
 				RemoveAnimationTranslate(hero)
 				AddAnimationTranslate(hero, "level_3")
 				if Frostivus:IsCarryingItem( hero ) then
-					Frostivus:GetCarryingItem( hero ):RemoveSelf()
+					if IsValidEntity(Frostivus:GetCarryingItem( hero )) then
+						Frostivus:GetCarryingItem( hero ):RemoveSelf()
+					end
 					Frostivus:DropItem( hero )
 				end
 				hero:RemoveModifierByName("modifier_bench_interaction")

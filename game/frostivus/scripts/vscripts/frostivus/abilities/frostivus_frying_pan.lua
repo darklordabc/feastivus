@@ -36,5 +36,5 @@ function CanPutItemInPan( bench, item )
 
     local is_full = GetTableLength(bench:GetItems()) >= bench:GetBenchLayout()
 
-    return not is_full and Frostivus.ItemsKVs[item_name].CanBePutInPan and (not first_item or first_item == item_name)
+    return bench:HasFreeSlots() and Frostivus.ItemsKVs[item_name].CanBePutInPan and (not first_item or first_item == item_name)
 end
