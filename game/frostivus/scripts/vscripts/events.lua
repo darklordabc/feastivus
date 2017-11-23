@@ -51,20 +51,12 @@ function GameMode:OnGameRulesStateChange(keys)
         player.bRequireToPlayTutorial = false
         GameRules.nPlayerFinishedTutorialCount = GameRules.nPlayerFinishedTutorialCount + 1
       end
-      if PlayerResource:GetSteamAccountID(player:GetPlayerID()) == 86815341 then
-        GameRules.nPlayerFinishedTutorialCount = 0
-        player.bRequireToPlayTutorial = true
-      end
     end)
-
-    print("How many players have finished tutorial?", GameRules.nPlayerFinishedTutorialCount)
   end
 
   if newState == DOTA_GAMERULES_STATE_PRE_GAME then
-    print("ask players to play tutorial!")
     LoopOverPlayers(function(player)
       if player.bRequireToPlayTutorial == true then
-        print("player require to play tutorial")
         Timers:CreateTimer(0, function()
           local hero = player:GetAssignedHero()
           if not IsValidAlive(hero) then return 0.03 end
