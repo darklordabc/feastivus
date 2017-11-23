@@ -153,12 +153,12 @@
         distance_max = "1200.000000"
 	}
 	custom_sound.bank_failed = {
-		type = "dota_src1_3d"
+		type = "dota_update_default"
 		vsnd_files =
         [
             "sounds/weapons/hero/batrider/batrider_firefly_beginning.vsnd",
         ]
-        volume = "1.000000"
+        volume = "1.500000"
         pitch_rand_min = "-0.050000"
         pitch_rand_max = "0.050000"
         pitch = "1.000000"
