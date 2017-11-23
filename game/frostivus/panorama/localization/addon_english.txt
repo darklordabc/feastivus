@@ -43,4 +43,8 @@
 
 	"lost" "YOU LOST"
 	"try_again" "try again"
+
+	"start" "START"
+	"ready" "READY"
+	"loading" "LOADING"
 }

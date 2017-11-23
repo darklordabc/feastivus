@@ -32,4 +32,11 @@
 	"score_orders_delivered"	"完成订单得分"
 	"score_speed_bonus"		"速度加成"
 	"orders_failed"			"失败订单数"
+
+	"lost" "YOU LOST"
+	"try_again" "try again"
+
+	"start" "START"
+	"ready" "READY"
+	"loading" "LOADING"
 }
