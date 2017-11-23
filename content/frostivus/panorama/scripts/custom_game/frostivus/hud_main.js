@@ -1,18 +1,21 @@
+function ShowTryAgain() {
+	var center = $("#center");
+	var imagePanel = $("#ready_set_go");
+	imagePanel.AddClass("Hidden");
+	$("#Image").RemoveClass("Hidden");
+	center.RemoveClass("Fade");
+	center.AddClass("SlideIn");
+	$("#FrostivusHUD").AddClass("EndScreenRoot");
+	Game.EmitSound("custom_sound.failed");
+}
 function OnPreRoundCountDown(args){
 	var time = args.value
 	var center = $("#center");
 	var imagePanel = $("#ready_set_go");
 	center.RemoveClass("Fade");
 	center.AddClass("SlideIn");
-	// $.Msg(time);
 	
-	if (time == 6) {
-		imagePanel.AddClass("Hidden");
-		$("#Image").RemoveClass("Hidden");
-		$("#FrostivusHUD").AddClass("EndScreenRoot");
-		Game.EmitSound("custom_sound.failed");
-	} else if (time == 3){
-		// ready
+	if (time == 3){
 		imagePanel.SetImage("s2r://panorama/images/custom_game/ui/image_ready.png")
 		imagePanel.RemoveClass("Hidden");
 		$("#Image").AddClass("Hidden");
@@ -124,6 +127,7 @@ function SetupSwapAbiltiyClickCallback() {
 
     AutoRemoveAbilityPips();
 	GameEvents.Subscribe('show_round_end_summary', HideTimer);
+	GameEvents.Subscribe('frostivus_try_again', ShowTryAgain);
 
 	SetupSwapAbiltiyClickCallback();
 })();

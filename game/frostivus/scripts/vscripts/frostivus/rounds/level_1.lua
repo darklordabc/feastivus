@@ -185,7 +185,7 @@ return {
 		print("RoundScript -> OnPreRoundStart")
 		StopMainTheme()
 
-		Timers:CreateTimer(3, function()
+		Timers:CreateTimer(5, function()
 			StartMainThemeAtPosition(LEVEL_CAMERA_TARGET, round)
 		end)
 
