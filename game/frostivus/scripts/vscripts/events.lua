@@ -17,6 +17,12 @@ function GameMode:OnGameRulesStateChange(keys)
   DebugPrintTable(keys)
 
   local newState = GameRules:State_Get()
+
+  if newState >= DOTA_GAMERULES_STATE_DISCONNECT then
+    StopMainTheme()
+    StartMainTheme_Sad()
+  end
+
 end
 
 -- An NPC has spawned somewhere in game.  This includes heroes

@@ -483,6 +483,9 @@ function RoundManager:constructor()
 	self.nCurrentLevel = 0
 	ListenToGameEvent("game_rules_state_change",Dynamic_Wrap(RoundManager, "OnGameRulesStateChanged"),self)
 	GameRules:GetGameModeEntity():SetContextThink(DoUniqueString("round_timer"),function()
+		if GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then
+			return nil
+		end
 		if not GameRules:IsGamePaused() then
 			self:OnTimer()
 		end
