@@ -167,7 +167,7 @@
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "BaseClass"           "item_datadriven"
     "AbilityTextureName"      "item_enchanted_mango"
-    "Model"                   "models/chopped_mango/chopped_mango_v4.vmdl"
+    "Model"                   "models/props_gameplay/bottle_mango001.vmdl"
     // "Effect"                  "particles/generic_gameplay/dropped_item.vpcf"
 
     "CanBePickedFromBench"  "1"
