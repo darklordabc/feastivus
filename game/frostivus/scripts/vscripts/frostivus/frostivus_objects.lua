@@ -46,6 +46,10 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, add_sou
     local temp_items
 
     Timers:CreateTimer(function () 
+        if pot then
+            pot = EntIndexToHScript(pot.wp:GetEntity())
+        end
+        if not IsValidEntity(pot) then return end
         local pot = EntIndexToHScript(pot.wp:GetEntity())
         local holder = pot:GetHolder()
         local delta = 0.2
