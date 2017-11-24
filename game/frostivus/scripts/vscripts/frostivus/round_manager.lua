@@ -433,7 +433,7 @@ function Round:OnOrderExpired(order)
 	end
 
 	if self.nExpiredOrders >= ORDER_EXPIRE_COUNT_TO_FAIL then
-		if GameRules.nRetryCount >= RETRY_COUNT_TO_LOSE then
+		if GameRules.nRetryCount and GameRules.nRetryCount >= RETRY_COUNT_TO_LOSE then
 			GameRules:SetGameWinner(3)
 			LoopOverHeroes(function(v)
 				StartAnimation(v, {duration=-1, activity=ACT_DOTA_DIE, rate=1.0, translate="black"})
