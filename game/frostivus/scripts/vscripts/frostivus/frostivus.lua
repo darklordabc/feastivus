@@ -233,6 +233,10 @@ function Frostivus:ResetStage( origin )
 				if not v._no_init and v.PrepareForRound then
 					v:PrepareForRound()
 					v._no_init = true
+
+					if v.ResetBench then
+						v:ResetBench()
+					end
 				elseif v:IsBench() then
 					if not string.match(v:GetUnitName(), "crate") then
 						v:ClearBench()
