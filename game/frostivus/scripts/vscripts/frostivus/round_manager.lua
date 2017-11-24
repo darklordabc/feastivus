@@ -1,6 +1,6 @@
 _G.SCORE_PER_FINISHED_ORDER = 100
 _G.g_DEFAULT_ORDER_TIME_LIMIT = 80
-local ORDER_EXPIRE_COUNT_TO_FAIL = 1 -- after n of orders expired, round will restart or game failed
+local ORDER_EXPIRE_COUNT_TO_FAIL = 2 -- after n of orders expired, round will restart or game failed
 local TRY_AGAIN_SCREEN_TIME = 3
 
 GameRules.vRoundDefinations = LoadKeyValues('scripts/kv/rounds.kv')
