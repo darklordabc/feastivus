@@ -258,6 +258,9 @@ function Frostivus:ClearStage( origin )
 				v:RemoveSelf()
 			elseif v.GetUnitName and v:IsBench() then
 				v:RemoveSelf()
+				if v.wp then
+					v.wp:Delete()
+				end
 			end
 		end
 	end
