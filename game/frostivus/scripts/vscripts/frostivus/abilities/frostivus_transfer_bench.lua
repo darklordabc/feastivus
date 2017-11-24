@@ -3,7 +3,7 @@ frostivus_transfer_bench = class({})
 function frostivus_transfer_bench:OnUpgrade()
 	local caster = self:GetCaster()
 
-    ExecOnGameInProgress(function (  )
+    caster.PrepareForRound = (function (  )
 		caster:InitBench(1, nil, nil, 0, true)
 		caster:Set3DBench(true)
 		caster:SetBenchHidden(true)

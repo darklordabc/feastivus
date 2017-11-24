@@ -3,7 +3,7 @@ frostivus_plate_bench = class({})
 function frostivus_plate_bench:OnUpgrade()
 	local caster = self:GetCaster()
 
-    ExecOnGameInProgress(function (  )
+    caster.PrepareForRound = (function (  )
 		caster:InitBench(1, (function( bench, item )
             local item_name = item:GetContainedItem():GetName()
             return item_name == "item_clean_plates" or item_name == "item_plate"

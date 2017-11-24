@@ -38,7 +38,7 @@ if IsServer() then
 
         local walls = {}
 
-        local time = 10.0
+        local time = 20.0
 
         Timers:CreateTimer(function()
             fire = not fire
@@ -54,7 +54,7 @@ if IsServer() then
 
                 EmitSoundOnLocationWithCaster(caster:GetAbsOrigin(), "Hero_DragonKnight.BreathFire", caster)
 
-                return time - 5
+                return time - 13
             else
                 ParticleManager:DestroyParticle(particle, false)
 

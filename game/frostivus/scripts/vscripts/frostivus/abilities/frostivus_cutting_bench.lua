@@ -3,7 +3,7 @@ frostivus_cutting_bench = class({})
 function frostivus_cutting_bench:OnUpgrade()
 	local caster = self:GetCaster()
 
-    ExecOnGameInProgress(function (  )
+    caster.PrepareForRound = (function (  )
 		caster:InitBench(1)
 		caster:Set3DBench(true)
 		caster:SetBenchHidden(true)

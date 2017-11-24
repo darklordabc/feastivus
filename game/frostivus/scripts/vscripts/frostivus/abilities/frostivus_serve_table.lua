@@ -9,7 +9,7 @@ frostivus_serve_table = class({})
 function frostivus_serve_table:OnUpgrade()
 	local caster = self:GetCaster()
 
-    ExecOnGameInProgress(function (  )
+    caster.PrepareForRound = (function (  )
         caster:InitBench(3, (function( bench, item )
         	return Frostivus.ItemsKVs[item:GetContainedItem():GetName()].CanBeServed == 1
         end), (function ( bench, items )

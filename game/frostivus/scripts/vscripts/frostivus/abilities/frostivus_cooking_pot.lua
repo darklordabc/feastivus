@@ -6,7 +6,7 @@ function frostivus_cooking_pot:OnUpgrade()
     local on_added_particle = "particles/frostivus_gameplay/pot_splash.vpcf"
     local on_cooking_particle = "particles/frostivus_gameplay/pot_bubbles.vpcf"
 
-    ExecOnGameInProgress(function (  )
+    caster.PrepareForRound = (function (  )
         caster:InitBench(1, nil, nil, 0)
         caster:Set3DBench(true)
         caster:SetBenchHidden(true)

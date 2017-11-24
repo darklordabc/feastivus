@@ -425,10 +425,14 @@ function OnUse( bench, user )
 
 							bank:ClearBank()
 						end
-					elseif bench_item and is_bank and item:CheckItem(bench_item) then
-						item:AddItemToBench(bench_item, user)
-						bench_item:RemoveSelf()
-						bench:ClearBench()
+					elseif bench_item and is_bank then
+						if item:CheckItem(bench_item) then
+							item:AddItemToBench(bench_item, user)
+							bench_item:RemoveSelf()
+							bench:ClearBench()
+						else
+							return
+						end
 					elseif bench.CheckItem and bench:CheckItem(item) then
 						bench:AddItemToBench(item, user)
 
