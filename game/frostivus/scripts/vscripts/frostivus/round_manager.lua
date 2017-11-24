@@ -2,6 +2,7 @@ _G.SCORE_PER_FINISHED_ORDER = 100
 _G.g_DEFAULT_ORDER_TIME_LIMIT = 80
 local ORDER_EXPIRE_COUNT_TO_FAIL = 2 -- after n of orders expired, round will restart or game failed
 local TRY_AGAIN_SCREEN_TIME = 3
+local RETRY_COUNT_TO_LOSE = 2
 
 GameRules.vRoundDefinations = LoadKeyValues('scripts/kv/rounds.kv')
 for level, data in pairs(GameRules.vRoundDefinations) do
@@ -96,7 +97,6 @@ function Round:constructor(roundData)
 end
 
 function Round:Initialize()
-
 	local roundData = self.vRoundData
 
 	-- load round script
@@ -135,7 +135,8 @@ function Round:Initialize()
 end
 
 function Round:Restart()
-	self.bSecondChanceState = true
+	GameRules.nRetryCount = GameRules.nRetryCount or 0
+	GameRules.nRetryCount = GameRules.nRetryCount + 1
 	self:Initialize()
 end
 
@@ -281,7 +282,7 @@ function Round:OnStateChanged(newState)
 		CustomGameEventManager:Send_ServerToAllClients('show_round_end_summary',{
 			Stars = stars,
 			FinishedOrdersCount = table.count(self.vFinishedOrders),
-			UnFinishedOrdersCount = table.count(self.vPendingOrders),
+			UnFinishedOrdersCount = table.count(self.vPendingOrders) + self.nExpiredOrders,
 			ScoreOrdersDelivered = nScoreOrdersDelivered,
 			ScoreSpeedBonus = self.vRoundScore - nScoreOrdersDelivered,
 			Level = g_RoundManager.nCurrentLevel,
@@ -427,7 +428,7 @@ function Round:OnOrderExpired(order)
 	end
 
 	if self.nExpiredOrders >= ORDER_EXPIRE_COUNT_TO_FAIL then
-		if self.bSecondChanceState then
+		if GameRules.nRetryCount >= RETRY_COUNT_TO_LOSE then
 			GameRules:SetGameWinner(3)
 			LoopOverHeroes(function(v)
 				StartAnimation(v, {duration=-1, activity=ACT_DOTA_DIE, rate=1.0, translate="black"})
