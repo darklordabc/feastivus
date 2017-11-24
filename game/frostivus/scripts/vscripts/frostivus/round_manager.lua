@@ -589,6 +589,9 @@ function RoundManager:StartNewRound(level) -- level is passed for test purpose
 
 	local roundData = GameRules.vRoundDefinations[level]
 
+	-- tell players in tutorial that main round have started
+	GameRules.bMainRoundStarted = true
+
 	-- instantiation round
 	self.vCurrentRound = Round(roundData)
 end
