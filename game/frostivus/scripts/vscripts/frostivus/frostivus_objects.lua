@@ -34,7 +34,7 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, add_sou
     end)
 
     pot:SetOnItemAddedToBench(function ( self, item )
-        pot:SetBenchHidden(false)
+        self:SetBenchHidden(false)
         if on_added_particle then
             ParticleManager:CreateParticle(on_added_particle, PATTACH_ABSORIGIN_FOLLOW, self)
         end
@@ -45,7 +45,8 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, add_sou
 
     local temp_items
 
-    Timers:CreateTimer(function ()
+    Timers:CreateTimer(function () 
+        local pot = EntIndexToHScript(pot.wp:GetEntity())
         local holder = pot:GetHolder()
         local delta = 0.2
         local items = pot.wp:GetData().items

@@ -163,6 +163,7 @@ function Frostivus:OnPickupItem( item, caster )
 	local model = Frostivus.ItemsKVs[item:GetName()].Model
 	local charges = item:GetCurrentCharges()
 	local counter = item._counter
+	local prop = item._prop
 
 	Frostivus:L(item:GetName()..":"..tostring(charges))
 
@@ -199,6 +200,12 @@ function Frostivus:OnPickupItem( item, caster )
 			item:SetModel("models/plates/dirty_plate_"..tostring(counter)..".vmdl")
 		end
 
+		-- Prop
+		if prop then
+			item._prop = prop
+			item._prop:FollowEntity(item, false)
+		end
+		
 		caster:BindItem( item )
 	end
 end

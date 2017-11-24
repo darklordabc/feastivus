@@ -221,6 +221,10 @@ function WorldPanels:CreateWorldPanel(pids, conf)
     UpdateTable(self)
   end
 
+  function wp:GetEntity(entity)
+    return self.pt.entity
+  end
+
   function wp:SetHorizontalAlign(hAlign)
     self.pt.hAlign = haStoI[hAlign]
     UpdateTable(self)
