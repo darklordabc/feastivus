@@ -210,8 +210,8 @@ function Frostivus:OnPickupItem( item, caster )
 	end
 end
 
-function Frostivus:ResetStage( origin )
-	local entities = Entities:FindAllInSphere(origin, 4000)
+function Frostivus:ResetStage( origin, custom_range )
+	local entities = Entities:FindAllInSphere(origin, custom_range or 3500)
 	for k,v in pairs(entities) do
 		if IsValidEntity(v) then
 			if v.GetContainedItem then -- items
@@ -250,8 +250,8 @@ function Frostivus:ResetStage( origin )
 	end
 end
 
-function Frostivus:ClearStage( origin )
-	local entities = Entities:FindAllInSphere(origin, 1500)
+function Frostivus:ClearStage( origin, custom_range )
+	local entities = Entities:FindAllInSphere(origin, custom_range or 1500)
 	for k,v in pairs(entities) do
 		if IsValidEntity(v) then
 			if v.GetContainedItem then

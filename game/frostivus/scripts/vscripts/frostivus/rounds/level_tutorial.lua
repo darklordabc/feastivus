@@ -26,6 +26,8 @@ function StartPlayTutorial(player)
 	local ent_teleport_target = Entities:FindByName(nil, 'level_0_start_' .. tostring(playerid))
 	if ent_teleport_target then
 		FindClearSpaceForUnit(hero, ent_teleport_target:GetAbsOrigin(), true)
+
+		Frostivus:ResetStage( ent_teleport_target:GetAbsOrigin(), 1200 )
 	end
 
 	hero:SetCameraTargetPosition(TUTORIAL_CAMERA_TARGETS[playerid])
@@ -135,6 +137,8 @@ function StartPlayTutorial(player)
 				end
 				hero:RemoveModifierByName("modifier_bench_interaction")
 				hero:Stop()
+
+				Frostivus:ClearStage( ent_teleport_target:GetAbsOrigin(), 1000 )
 			end
 		end
 
