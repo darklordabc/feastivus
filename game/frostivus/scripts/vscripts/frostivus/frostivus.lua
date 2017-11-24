@@ -230,7 +230,10 @@ function Frostivus:ResetStage( origin )
 					v:RemoveSelf()
 				end
 			elseif v.GetUnitName then
-				if v:IsBench() then
+				if not v._no_init and v.PrepareForRound then
+					v:PrepareForRound()
+					v._no_init = true
+				elseif v:IsBench() then
 					if not string.match(v:GetUnitName(), "crate") then
 						v:ClearBench()
 					end
@@ -238,6 +241,19 @@ function Frostivus:ResetStage( origin )
 						v:ResetBench()
 					end
 				end
+			end
+		end
+	end
+end
+
+function Frostivus:ClearStage( origin )
+	local entities = Entities:FindAllInSphere(origin, 1500)
+	for k,v in pairs(entities) do
+		if IsValidEntity(v) then
+			if v.GetContainedItem then
+				v:RemoveSelf()
+			elseif v.GetUnitName and v:IsBench() then
+				v:RemoveSelf()
 			end
 		end
 	end

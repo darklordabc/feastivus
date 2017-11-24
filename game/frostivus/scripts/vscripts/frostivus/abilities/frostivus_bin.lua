@@ -3,7 +3,7 @@ frostivus_bin = class({})
 function frostivus_bin:OnUpgrade()
 	local caster = self:GetCaster()
 
-    ExecOnGameInProgress(function (  )
+    caster.PrepareForRound = (function (  )
         caster:InitBench(1, nil, nil, 64)
 
         -- caster:SetFakeItem("item_bin_icon")

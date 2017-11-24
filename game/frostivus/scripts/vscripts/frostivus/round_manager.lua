@@ -309,6 +309,11 @@ function Round:OnStateChanged(newState)
 			end
 		end)
 
+		local pos = self:GetCameraTargetPosition()
+		Timers:CreateTimer(5.0, function (  )
+			Frostivus:ClearStage( pos )
+		end)
+
 		if not g_RoundManager:HasNextRound() then
 			LoopOverHeroes(function(v)
 				StartAnimation(v, {duration=-1, activity=ACT_DOTA_GREEVIL_CAST, rate=1.0, translate="greevil_miniboss_red_overpower"})
