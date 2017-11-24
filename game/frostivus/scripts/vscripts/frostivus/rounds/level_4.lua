@@ -33,9 +33,9 @@ return {
 		
 		local traps = Entities:FindAllByModel("models/props/traps/hooded_fang/hooded_fang.vmdl")
 
-		local i = 0
+		local i = 1
 		for k,v in pairs(traps) do
-			Timers:CreateTimer(i * 5, function (  )
+			Timers:CreateTimer(i * 10, function (  )
 				local ab = v:FindAbilityByName("frostivus_fire_trap")
 
 				v:AddNewModifier(v, ab, "modifier_fire_trap", {})
