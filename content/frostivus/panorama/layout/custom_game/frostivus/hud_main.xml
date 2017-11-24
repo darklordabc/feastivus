@@ -124,7 +124,7 @@
 
 						</Panel>
 					</Panel>
-					<Panel class="HighScoreList">
+					<Panel class="HighScoreList Hidden" id="highscore_panel">
 						<Panel class="HighScorePlayersRow Rank1" id="high_score_players_row_1">
 
 							<Label class="HighScoreRank" text="1" id="rank_label_1" />

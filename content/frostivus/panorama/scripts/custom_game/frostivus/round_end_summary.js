@@ -38,13 +38,15 @@ function ShowRoundEndSummary(args) {
 }
 
 function CloseSummary() {
+	$("#highscore_panel").AddClass("Hidden");
 	$("#round_end_summary").AddClass("Hidden");
 }
 
 var n_CurrentHighscoreIndex = 0;
 
-function OnHighScoreDataArrived() {
+function UpdateHighscore() {
 	var highscore_data = CustomNetTables.GetTableValue("highscore", "highscore");
+	$("#highscore_panel").RemoveClass("Hidden");
 	if (highscore_data != null){
 		for (var i = 1; i <= 6; i++){
 			var data = highscore_data[i+n_CurrentHighscoreIndex];
@@ -53,12 +55,12 @@ function OnHighScoreDataArrived() {
 			}else{
 				$("#high_score_players_row_"+i).RemoveClass("NoPlayer");
 				var players = JSON.parse(data.players);
-
 				var score = data.score;
 				for (var j = 0; j < Object.keys(players).length; j++) {
 					$("#highscore_players_" + i.toString() + j.toString()).RemoveClass("NoPlayer");
-					var steamid64 = '765' + (parseInt(players[j]) + 61197960265728).toString();
-					$("#highscore_players_" + i.toString() + j.toString()).steamid = parseInt(steamid64);
+					var steamid32 = players[j];
+					var steamid64 = '765' + (parseInt(steamid32) + 61197960265728).toString();
+					$("#highscore_players_" + i.toString() + j.toString()).steamid = steamid64;
 				}
 				for (var k = Object.keys(players).length; k < 5; k++){
 					$("#highscore_players_" + i.toString() + k.toString()).AddClass("NoPlayer");
@@ -76,6 +78,12 @@ function OnHighScoreDataArrived() {
 			$("#high_score_players_row_3").RemoveClass("Rank3");
 		}
 	}
+}
+
+function OnHighScoreDataArrived() {
+	UpdateHighscore();
+	// $.Schedule(0.1, UpdateHighscore);
+	// $.Schedule(1, UpdateHighscore);
 }
 
 (function() {
