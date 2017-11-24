@@ -39,6 +39,9 @@
 			<Button class="ButtonBevel TryAgainButton" onactivate="TryAgain()">
 				<Label text="Try Again" />
 			</Button>
+			<Button class="ButtonBevel WinButton" onactivate="Win()">
+				<Label text="WIN" />
+			</Button>
 		</Panel>
 	</Panel>
 </root>

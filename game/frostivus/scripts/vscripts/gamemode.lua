@@ -13,6 +13,7 @@ end
 require('libraries/timers')
 require('libraries/animations')
 require('libraries/playertables')
+require('libraries/selection')
 
 require('internal/gamemode')
 require('internal/events')
@@ -116,6 +117,7 @@ function GameMode:InitGameMode()
 	Convars:RegisterCommand( "command_example", Dynamic_Wrap(GameMode, 'ExampleConsoleCommand'), "", FCVAR_CHEAT )
 	Convars:RegisterCommand( "finish_game", Dynamic_Wrap(GameMode, 'FinishGame'), "", FCVAR_CHEAT )
 	Convars:RegisterCommand( "lt", Dynamic_Wrap(GameMode, 'LastTry'), "", FCVAR_CHEAT )
+	Convars:RegisterCommand( "tp", Dynamic_Wrap(GameMode, 'TestParticle'), "", FCVAR_CHEAT )
 
 	require('frostivus/frostivus')
 	require("frostivus/filters")
@@ -164,6 +166,24 @@ function GameMode:LastTry()
 		local playerID = cmdPlayer:GetPlayerID()
 		if playerID ~= nil and playerID ~= -1 then
 			GameRules.RoundManager:StartNewRound(g_RoundManager.nCurrentLevel, true)
+		end
+	end
+
+	print( '*********************************************' )
+end
+
+function GameMode:TestParticle()
+	print( '******* Example Console Command ***************' )
+	local cmdPlayer = Convars:GetCommandClient()
+	if cmdPlayer then
+		local playerID = cmdPlayer:GetPlayerID()
+		if playerID ~= nil and playerID ~= -1 then
+			local hero = cmdPlayer:GetAssignedHero()
+
+			if hero then
+                local p = ParticleManager:CreateParticle("particles/frostivus_gameplay/fireworks.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
+                ParticleManager:SetParticleControl(p, 3, hero:GetAbsOrigin() + Vector(0,0,320))
+			end
 		end
 	end
 

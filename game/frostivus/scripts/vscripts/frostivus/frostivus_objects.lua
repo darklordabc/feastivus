@@ -1,7 +1,7 @@
 DEFAULT_BANK_TIME = 12.0 -- Time it takes to cook on pot and fry pan
 DEFAULT_BANK_OVERTIME = 7.0 -- Time it takes to burn after cooking
 
-function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking_sound, prop, GetTarget, CheckItem)
+function CreateBank(name, count, on_added_particle, on_cooking_particle, add_sound, cooking_sound, prop, GetTarget, CheckItem)
     local pot = CreateItemOnPositionSync(Vector(0,0,0),CreateItem(name,nil,nil))
 
     BenchAPI(pot)
@@ -33,10 +33,13 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking
         return self.progress and self.progress:GetData().cooking_done
     end)
 
-    pot:SetOnItemAddedToBench(function ( bench, item )
+    pot:SetOnItemAddedToBench(function ( self, item )
         pot:SetBenchHidden(false)
         if on_added_particle then
-            ParticleManager:CreateParticle(on_added_particle, PATTACH_ABSORIGIN_FOLLOW, bench)
+            ParticleManager:CreateParticle(on_added_particle, PATTACH_ABSORIGIN_FOLLOW, self)
+        end
+        if add_sound then
+            self:EmitSound(add_sound)
         end
     end)
 
@@ -63,7 +66,9 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking
             end
 
             if progress then
-                StartSoundEvent(cooking_sound, pot)
+                if progress:GetData().progress == 0 then
+                    StartSoundEvent(cooking_sound, holder)
+                end
 
                 local old_data = progress:GetData()
 
@@ -89,7 +94,10 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking
 
                         pot:SetFakeItem(new_items[1])
                         pot:SetItems(new_items)
-                        print("ddddddddddddddddddddddddddddddddddddd", new_items[1])
+
+                        if IsValidEntity(pot._prop) then
+                            pot._prop:SetMaterialGroup("cooked")
+                        end
                     end
                     old_data.overtime = old_data.overtime + delta
 
@@ -97,7 +105,6 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, cooking
                         ParticleManager:CreateParticle("particles/frostivus_gameplay/bank_failed.vpcf", PATTACH_ABSORIGIN_FOLLOW, pot)
                         EmitSoundOn("custom_sound.bank_failed", pot)
                         pot:ClearBank()
-                        print("ddddddddddddddddddddddddddddddddddddd")
                     end
                 else
                     old_data.overtime = 0
@@ -268,7 +275,7 @@ function CreatePlate()
             local p = ParticleManager:CreateParticle("particles/frostivus_gameplay/order_done.vpcf", PATTACH_ABSORIGIN_FOLLOW, dish)
             ParticleManager:SetParticleControl(p, 3, dish:GetAbsOrigin())
 
-            EmitSoundOn("custom_sound.dish", dish)
+            -- EmitSoundOn("custom_sound.dish", dish)
 
             if holder:IsBench() then
                 holder:AddItemToBench(result, user)

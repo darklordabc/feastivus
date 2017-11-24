@@ -14,7 +14,7 @@ function frostivus_frying_pan:OnUpgrade()
 
         caster.ResetBench = (function ( self )
             self:AddItemToBench("item_frying_pan")
-            self:BindItem(CreateBank("item_frying_pan", 1, nil, "particles/frostivus_gameplay/frying_pan_steam.vpcf", "custom_sound.frying", true, GetFryingTarget, CanPutItemInPan))
+            self:BindItem(CreateBank("item_frying_pan", 1, nil, "particles/frostivus_gameplay/frying_pan_steam.vpcf", nil, "custom_sound.frying", true, GetFryingTarget, CanPutItemInPan))
         end)
     end)
 end
@@ -34,5 +34,7 @@ function CanPutItemInPan( bench, item )
     local item_name = item:GetContainedItem():GetName()
     local first_item = bench:GetBenchItemBySlot(1)
 
-    return Frostivus.ItemsKVs[item_name].CanBePutInPan and (not first_item or first_item == item_name)
+    local is_full = GetTableLength(bench:GetItems()) >= bench:GetBenchLayout()
+
+    return bench:HasFreeSlots() and Frostivus.ItemsKVs[item_name].CanBePutInPan and (not first_item or first_item == item_name)
 end

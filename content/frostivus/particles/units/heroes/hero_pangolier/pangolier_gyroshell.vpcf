@@ -1,0 +1,186 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_bShouldHitboxesFallbackToRenderBounds = false
+	m_nMaxParticles = 1
+	m_flConstantLifespan = 10.0
+	m_ConstantColor = [ 242, 191, 24, 255 ]
+	m_nConstantSequenceNumber1 = 5
+	m_flMaxRecreationTime = -1.0
+	m_Operators = 
+	[
+		{
+			_class = "C_OP_RampScalarLinearSimple"
+			m_nOpEndCapState = 1
+			m_nField = 7
+			m_Rate = -100.0
+			m_flEndTime = 100000000.0
+		},
+		{
+			_class = "C_OP_BasicMovement"
+			m_nOpEndCapState = 0
+		},
+		{
+			_class = "C_OP_SetControlPointsToParticle"
+			m_bSetOrientation = true
+			m_nFirstControlPoint = 4
+		},
+		{
+			_class = "C_OP_EndCapTimedDecay"
+		},
+		{
+			_class = "C_OP_RemapSpeedtoCP"
+			m_flOpEndFadeInTime = 0.6
+			m_flOpStartFadeInTime = 0.3
+			m_flOutputMin = 1.0
+			m_flInputMax = 1600.0
+			m_nOutControlPointNumber = 10
+			m_flOutputMax = 2.0
+		},
+		{
+			_class = "C_OP_PositionLock"
+		},
+		{
+			_class = "C_OP_RemapScalarOnceTimed"
+			m_flOutputMax = 2.0
+			m_flOutputMin = 2.0
+			m_nFieldOutput = 13
+			m_flInputMin = 5.0
+			m_nFieldInput = 13
+			m_flRemapTime = 0.6
+			m_flInputMax = 5.0
+		},
+		{
+			_class = "C_OP_SetCPOrientationToDirection"
+			m_nOutputControlPoint = 4
+		},
+	]
+	m_Initializers = 
+	[
+		{
+			_class = "C_INIT_CreateWithinSphere"
+		},
+		{
+			_class = "C_INIT_RandomLifeTime"
+			m_fLifetimeMax = 4.0
+			m_fLifetimeMin = 4.0
+		},
+		{
+			_class = "C_INIT_RandomRotationSpeed"
+			m_flDegreesMin = 500.0
+			m_flDegreesMax = 500.0
+			m_bRandomlyFlipDirection = false
+		},
+		{
+			_class = "C_INIT_PositionOffset"
+			m_OffsetMin = [ 0.0, 0.0, 50.0 ]
+			m_OffsetMax = [ 0.0, 0.0, 50.0 ]
+		},
+	]
+	m_Emitters = 
+	[
+		{
+			_class = "C_OP_InstantaneousEmitter"
+			m_nParticlesToEmit = 1
+		},
+	]
+	m_Children = 
+	[
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_pangolier/pangolier_gyroshell_a.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_pangolier/pangolier_gyroshell_b.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_pangolier/pangolier_gyroshell_c.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_pangolier/pangolier_gyroshell_d.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_pangolier/pangolier_gyroshell_e.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_pangolier/pangolier_gyroshell_f.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_pangolier/pangolier_gyroshell_g.vpcf"
+			m_bDisableChild = true
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_pangolier/pangolier_gyroshell_h.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_pangolier/pangolier_gyroshell_i.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/units/heroes/hero_pangolier/pangolier_gyroshell_j.vpcf"
+			m_bEndCap = true
+		},
+	]
+	m_controlPointConfigurations = 
+	[
+		{
+			m_name = "preview"
+			m_drivers = 
+			[
+				{
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 2
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 3
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 4
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 6
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 7
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 8
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 10
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 1.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+			]
+		},
+	]
+}

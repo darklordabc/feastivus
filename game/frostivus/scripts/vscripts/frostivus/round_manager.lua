@@ -1,4 +1,4 @@
-local SCORE_PER_FINISHED_ORDER = 100
+_G.SCORE_PER_FINISHED_ORDER = 100
 _G.g_DEFAULT_ORDER_TIME_LIMIT = 80
 local ORDER_EXPIRE_COUNT_TO_FAIL = 1 -- after n of orders expired, round will restart or game failed
 local TRY_AGAIN_SCREEN_TIME = 3
@@ -35,6 +35,7 @@ function g_Serve(itemEntity, user)
 	local round = g_GetCurrentRound()
 	if round then
 		local success = round:OnServe(itemEntity, user)
+		return success
 	end
 end
 GameRules.Serve = g_Serve
@@ -189,7 +190,9 @@ function Round:OnStateChanged(newState)
 				RemoveAnimationTranslate(hero)
 				AddAnimationTranslate(hero, "level_3")
 				if Frostivus:IsCarryingItem( hero ) then
-					Frostivus:GetCarryingItem( hero ):RemoveSelf()
+					if IsValidEntity(Frostivus:GetCarryingItem( hero )) then
+						Frostivus:GetCarryingItem( hero ):RemoveSelf()
+					end
 					Frostivus:DropItem( hero )
 				end
 				hero:RemoveModifierByName("modifier_bench_interaction")
@@ -312,7 +315,9 @@ function Round:OnStateChanged(newState)
 				ParticleManager:CreateParticle("particles/econ/events/ti6/hero_levelup_ti6_godray.vpcf", PATTACH_ABSORIGIN_FOLLOW, v)
 			end)
 
-			GameRules:SetGameWinner(2)
+			Timers:CreateTimer(7, function (  )
+				GameRules:SetGameWinner(2)
+			end)
 		else
 			-- teleport particle
 			Timers:CreateTimer(self.nEndRoundDelay - 2, function()
@@ -325,10 +330,10 @@ function Round:OnStateChanged(newState)
 			Timers:CreateTimer(self.nEndRoundDelay, function()
 				GameRules.RoundManager:StartNewRound()
 			end)
-		end
 
-		if self.vRoundScript.OnRoundEnd then
-			self.vRoundScript.OnRoundEnd(self)
+			if self.vRoundScript.OnRoundEnd then
+				self.vRoundScript.OnRoundEnd(self)
+			end
 		end
 	end
 end
@@ -494,6 +499,8 @@ function Round:OnServe(itemEntity, user)
 		GameRules.FrostivusEventListener:Trigger("frostivus_serve", {
 			Unit = user
 		})
+
+		return true
 	end
 end
 

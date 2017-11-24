@@ -1,3 +1,58 @@
+POPUP_SYMBOL_PRE_PLUS = 0
+POPUP_SYMBOL_PRE_MINUS = 1
+POPUP_SYMBOL_PRE_SADFACE = 2
+POPUP_SYMBOL_PRE_BROKENARROW = 3
+POPUP_SYMBOL_PRE_SHADES = 4
+POPUP_SYMBOL_PRE_MISS = 5
+POPUP_SYMBOL_PRE_EVADE = 6
+POPUP_SYMBOL_PRE_DENY = 7
+POPUP_SYMBOL_PRE_ARROW = 8
+
+POPUP_SYMBOL_POST_EXCLAMATION = 0
+POPUP_SYMBOL_POST_POINTZERO = 1
+POPUP_SYMBOL_POST_MEDAL = 2
+POPUP_SYMBOL_POST_DROP = 3
+POPUP_SYMBOL_POST_LIGHTNING = 4
+POPUP_SYMBOL_POST_SKULL = 5
+POPUP_SYMBOL_POST_EYE = 6
+POPUP_SYMBOL_POST_SHIELD = 7
+POPUP_SYMBOL_POST_POINTFIVE = 8
+
+function PopupParticle(number, color, duration, caster, preSymbol, postSymbol)
+  if number < 1 then
+    return false
+  end
+  number = math.floor(number)
+  local pfxPath = string.format("particles/frostivus_gameplay/score.vpcf", pfx)
+
+  local pidx
+
+  if caster:GetPlayerOwner() == nil then
+    pidx = ParticleManager:CreateParticle(pfxPath, PATTACH_ABSORIGIN_FOLLOW, caster)
+  else
+    pidx = ParticleManager:CreateParticleForPlayer(pfxPath, PATTACH_ABSORIGIN_FOLLOW, caster, caster:GetPlayerOwner())
+  end
+
+  local color = color
+  local lifetime = duration
+  local digits = #tostring(number) + 1
+
+  local digits = 0
+  if number ~= nil then
+      digits = #tostring(number)
+  end
+  if preSymbol ~= nil then
+      digits = digits + 1
+  end
+  if postSymbol ~= nil then
+      digits = digits + 1
+  end
+
+  ParticleManager:SetParticleControl(pidx, 1, Vector( preSymbol, number, postSymbol ) )
+  ParticleManager:SetParticleControl(pidx, 2, Vector(lifetime, digits, 0))
+  ParticleManager:SetParticleControl(pidx, 3, color)
+end
+
 function PlayPickupSound( item, entity )
   if type(item) ~= 'string' then
     item = item:GetContainedItem():GetName()

@@ -143,7 +143,26 @@
 	}
 	m_pMaterialGroupList = 
 	{
-		m_pObject = null
+		m_pObject = 
+		{
+			m_materialGroups = 
+			[
+				{
+					m_name = "raw"
+					m_materialList = 
+					[
+						"materials/models/tf2_meat/tf2_meat.vmat",
+					]
+				},
+				{
+					m_name = "cooked"
+					m_materialList = 
+					[
+						"materials/models/tf2_meat/tf2_meat_cooked.vmat",
+					]
+				},
+			]
+		}
 	}
 	m_pMeshGroupList = 
 	{
