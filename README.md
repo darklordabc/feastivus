@@ -1,7 +1,7 @@
 # Feastivus
 [A custom game for dota 2 frostivus 2017 competition](http://steamcommunity.com/sharedfiles/filedetails/?id=1165493298&searchtext=)
 
-## Essential Documents
+## Essential Design Documents
 [Project Folder](https://drive.google.com/drive/folders/0B7dpugx95_vaTFgzOGNUUTVBaFk?usp=sharing): All the files related to the project will be stored here.
 
 [Assets Needed](https://docs.google.com/spreadsheets/d/1U7VmmB3FIOqoagD-y7_0GWX0rpxufpAq3ta8DdJloFA/edit?usp=sharing): List of objects and benches that need to be made. Also the food items. 
@@ -16,9 +16,5 @@ TidesofDark
 Xavier
 
 Mocherad
-
-Yahnich
-
-Wouterz90
 
 Darklordabc
