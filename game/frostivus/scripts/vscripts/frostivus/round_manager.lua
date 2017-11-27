@@ -429,7 +429,7 @@ function Round:OnTimer()
 
 		-- #152, https://github.com/darklordabc/feastivus/issues/152
 		-- if there are less than 3 orders, always add 'coming soon' orders
-		if table.count(self.vCurrentOrders) < 3 then
+		if table.count(self.vCurrentOrders) < 3 and table.count(self.vPendingOrders) > 0 then
 			-- find and add one order, the next order will be add in the next second loop
 			-- so 3 orders will be added in 3 seconds rather than coming together
 			local minTime = 9999
@@ -441,29 +441,31 @@ function Round:OnTimer()
 				end
 			end
 
-			-- add one order to current orders
-			local recipeName
-			for name, count in pairs(orders) do
-				recipeName = name
-			end
-			orders[recipeName] = tonumber(orders[recipeName]) - 1
-			-- if this order dont have recipes < 1, remove it
-			if orders[recipeName] <= 0 then
-				orders[recipeName] = nil
-			end
-			-- if there are no more orders in this time, remove it
-			if table.count(orders) <= 0 and self.vPendingOrders[minTime] then
-				self.vPendingOrders[minTime] = nil
-			end
+			if orders then
+				-- add one order to current orders
+				local recipeName
+				for name, count in pairs(orders) do
+					recipeName = name
+				end
+				orders[recipeName] = tonumber(orders[recipeName]) - 1
+				-- if this order dont have recipes < 1, remove it
+				if orders[recipeName] <= 0 then
+					orders[recipeName] = nil
+				end
+				-- if there are no more orders in this time, remove it
+				if table.count(orders) <= 0 and self.vPendingOrders[minTime] then
+					self.vPendingOrders[minTime] = nil
+				end
 
-			table.insert(self.vCurrentOrders, {
-				nTimeRemaining = g_DEFAULT_ORDER_TIME_LIMIT,
-				pszItemName = recipeName,
-				pszID = DoUniqueString("order"),
-				nTimeLimit = g_DEFAULT_ORDER_TIME_LIMIT,
-				bComingSoon = true,
-				nStartTime = minTime
-			})
+				table.insert(self.vCurrentOrders, {
+					nTimeRemaining = g_DEFAULT_ORDER_TIME_LIMIT,
+					pszItemName = recipeName,
+					pszID = DoUniqueString("order"),
+					nTimeLimit = g_DEFAULT_ORDER_TIME_LIMIT,
+					bComingSoon = true,
+					nStartTime = minTime
+				})
+			end
 		end
 
 		-- reduce all recipe time remaining, excluding 'coming soon orders'
