@@ -15,7 +15,7 @@ function Frostivus:FilterExecuteOrder( filterTable )
     local unit
     local numUnits = 0
     local numBuildings = 0
-    if units then
+    if units and units["0"] then
         unit = EntIndexToHScript(units["0"])
         if unit then
             if unit.skip then
