@@ -105,21 +105,33 @@ function Round:Initialize()
 		self.vRoundScript = require(roundData.ScriptFile)
 	end
 
+
+
 	-- initialize orders
-	self.vPendingOrders = {}
-	for time, orderData in pairs(roundData.Orders) do
-		self.vPendingOrders[tonumber(time)] = orderData
-	end
 	self.vFinishedOrders = {}
 	self.nExpiredOrders = 0
 	self.vCurrentOrders = {}
 	self:UpdateOrdersToClient() -- clear all orders of last round
 
+	local maxOrderTime = 0
+	self.vPendingOrders = {}
+	for time, orderData in pairs(roundData.Orders) do
+		local t = tonumber(time)
+		self.vPendingOrders[t] = orderData
+		if t > maxOrderTime then
+			maxOrderTime = t
+		end
+	end
+
 	-- initialize timers
-	self.nPreRoundTime = roundData.nPreRoundTime or 4
-	self.nTimeLimit = roundData.TimeLimit
-	self.nPreRoundCountDownTimer = self.nPreRoundTime
+	self.nTimeLimit = 60
+	-- automatically generated round time limit according to the last order appear time
+	if maxOrderTime > 0 then
+		self.nTimeLimit = maxOrderTime + g_DEFAULT_ORDER_TIME_LIMIT
+	end
 	self.nCountDownTimer = self.nTimeLimit
+	self.nPreRoundTime = roundData.nPreRoundTime or 4
+	self.nPreRoundCountDownTimer = self.nPreRoundTime
 	self.nEndRoundDelay = 10
 	self.nExpiredTime = 0
 
