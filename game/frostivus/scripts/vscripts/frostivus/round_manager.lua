@@ -274,20 +274,34 @@ function Round:OnStateChanged(newState)
 	elseif newState == ROUND_STATE_POST_ROUND then
 		-- calculate stars
 		local stars = 0
-		local starCriterias = self.vRoundData.StarCriteria
-		if starCriterias then
-			for _, criteria in pairs(starCriterias) do
-				if criteria.Type == 'STAR_CRITERIA_FINISHED_RECIPES' then
-					local values = string.split(criteria.values, ' ')
-					for index, value in pairs(values) do
-						if table.count(self.vFinishedOrders) >= tonumber(value) then
-							stars = index
-						end
-					end
-				end
-				-- @todo other criterias
-			end
+		-- local starCriterias = self.vRoundData.StarCriteria
+		-- if starCriterias then
+		-- 	for _, criteria in pairs(starCriterias) do
+		-- 		if criteria.Type == 'STAR_CRITERIA_FINISHED_RECIPES' then
+		-- 			local values = string.split(criteria.values, ' ')
+		-- 			for index, value in pairs(values) do
+		-- 				if table.count(self.vFinishedOrders) >= tonumber(value) then
+		-- 					stars = index
+		-- 				end
+		-- 			end
+		-- 		end
+		-- 		-- @todo other criterias
+		-- 	end
+		-- end
+
+		-- If you complete the round with no failed orders, you get 3 stars
+		-- , if you fail 1 order, 2 stars, fail 2 orders, 1 star, if you fail 3, 
+		-- you have to restart the round and never make it to score screen.
+
+		local totalFailedOrdersCount = self.nExpiredOrders + table.count(self.vPendingOrders) -- table.count(pendingOrders) should always return 0, write it here just in case
+		if totalFailedOrdersCount <= 0 then
+			stars = 3
+		elseif totalFailedOrdersCount == 1 then
+			stars = 2
+		elseif totalFailedOrdersCount = 2 then
+			stars = 1
 		end
+
 
 		-- tell client to show round end summary
 		local nScoreOrdersDelivered = table.count(self.vFinishedOrders) * SCORE_PER_FINISHED_ORDER
