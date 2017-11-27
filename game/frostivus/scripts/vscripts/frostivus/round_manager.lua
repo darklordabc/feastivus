@@ -305,12 +305,21 @@ function Round:OnStateChanged(newState)
 
 		-- tell client to show round end summary
 		local nScoreOrdersDelivered = table.count(self.vFinishedOrders) * SCORE_PER_FINISHED_ORDER
+
+		-- #155 https://github.com/darklordabc/feastivus/issues/155
+		-- change score bonus to round time left
+		local scoreSpeedBonus = 0
+		if self.nCountDownTimer > 0 then
+			scoreSpeedBonus = self.nCountDownTimer
+		end
+		self.vRoundScore = scoreSpeedBonus + self.vRoundScore
+
 		CustomGameEventManager:Send_ServerToAllClients('show_round_end_summary',{
 			Stars = stars,
 			FinishedOrdersCount = table.count(self.vFinishedOrders),
 			UnFinishedOrdersCount = table.count(self.vPendingOrders) + self.nExpiredOrders,
 			ScoreOrdersDelivered = nScoreOrdersDelivered,
-			ScoreSpeedBonus = self.vRoundScore - nScoreOrdersDelivered,
+			ScoreSpeedBonus = scoreSpeedBonus,
 			Level = g_RoundManager.nCurrentLevel,
 		})
 
@@ -514,11 +523,13 @@ function Round:OnServe(itemEntity, user)
 		-- add score
 		self.vRoundScore = self.vRoundScore or 0
 		self.vRoundScore = self.vRoundScore + 100 -- score for finishing an order
-		local orderTimeRemaining = self.vCurrentOrders[orderIndex].nTimeRemaining
-		if orderTimeRemaining >= 1 then
-			-- add time bonus
-			self.vRoundScore = self.vRoundScore + math.floor(orderTimeRemaining)
-		end
+
+		-- #155, we dont use order time remaining to calculate bonus score anymore
+		-- local orderTimeRemaining = self.vCurrentOrders[orderIndex].nTimeRemaining
+		-- if orderTimeRemaining >= 1 then
+		-- 	-- add time bonus
+		-- 	self.vRoundScore = self.vRoundScore + math.floor(orderTimeRemaining)
+		-- end
 
 		self:UpdateScoreToClient()
 
