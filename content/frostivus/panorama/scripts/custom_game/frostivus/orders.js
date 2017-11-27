@@ -18,6 +18,7 @@ function OnOrderChanged(table_name, key, data) {
 		var timeRemaining = order.nTimeRemaining
 		var timeLimit = order.nTimeLimit
 		var finishType = order.pszFinishType;
+		var comingSoon = order.bComingSoon;
 
 		var orderPanel = parent.FindChildTraverse(orderId);
 		
@@ -49,8 +50,12 @@ function OnOrderChanged(table_name, key, data) {
 		}
 
 		// update time left
-		orderPanel.FindChildTraverse('time_remaining').style.transitionDuration = "1s";
-		orderPanel.FindChildTraverse('time_remaining').style.width = 100 * timeRemaining / timeLimit + "%";
+		orderPanel.SetHasClass("ComingSoon", comingSoon);
+		if (!comingSoon) {
+			orderPanel.FindChildTraverse('time_remaining').style.transitionDuration = "1s";
+			orderPanel.FindChildTraverse('time_remaining').style.width = 100 * timeRemaining / timeLimit + "%";	
+		}
+		
 
 		if (finishType == "Finished") {
 			orderPanel.SetHasClass("TimeRunningOut", false);

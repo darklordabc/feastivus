@@ -248,6 +248,8 @@ function Round:OnStateChanged(newState)
 						pszItemName = recipeName,
 						pszID = DoUniqueString("order"),
 						nTimeLimit = g_DEFAULT_ORDER_TIME_LIMIT,
+						bComingSoon = true,
+						nStartTime = 0
 					})
 				end
 			end
@@ -298,7 +300,7 @@ function Round:OnStateChanged(newState)
 			stars = 3
 		elseif totalFailedOrdersCount == 1 then
 			stars = 2
-		elseif totalFailedOrdersCount = 2 then
+		elseif totalFailedOrdersCount == 2 then
 			stars = 1
 		end
 
@@ -416,6 +418,8 @@ function Round:OnTimer()
 							pszItemName = recipeName,
 							pszID = DoUniqueString("order"),
 							nTimeLimit = g_DEFAULT_ORDER_TIME_LIMIT,
+							bComingSoon = false,
+							nStartTime = t
 						})
 					end
 				end
@@ -423,9 +427,53 @@ function Round:OnTimer()
 			end
 		end
 
-		-- reduce all recipe time remaining
+		-- #152, https://github.com/darklordabc/feastivus/issues/152
+		-- if there are less than 3 orders, always add 'coming soon' orders
+		if table.count(self.vCurrentOrders) < 3 then
+			-- find and add one order, the next order will be add in the next second loop
+			-- so 3 orders will be added in 3 seconds rather than coming together
+			local minTime = 9999
+			local orders
+			for t, o in pairs(self.vPendingOrders) do
+				if t < minTime then
+					orders = o
+					minTime = t
+				end
+			end
+
+			-- add one order to current orders
+			local recipeName
+			for name, count in pairs(orders) do
+				recipeName = name
+			end
+			orders[recipeName] = tonumber(orders[recipeName]) - 1
+			-- if this order dont have recipes < 1, remove it
+			if orders[recipeName] <= 0 then
+				orders[recipeName] = nil
+			end
+			-- if there are no more orders in this time, remove it
+			if table.count(orders) <= 0 and self.vPendingOrders[minTime] then
+				self.vPendingOrders[minTime] = nil
+			end
+
+			table.insert(self.vCurrentOrders, {
+				nTimeRemaining = g_DEFAULT_ORDER_TIME_LIMIT,
+				pszItemName = recipeName,
+				pszID = DoUniqueString("order"),
+				nTimeLimit = g_DEFAULT_ORDER_TIME_LIMIT,
+				bComingSoon = true,
+				nStartTime = minTime
+			})
+		end
+
+		-- reduce all recipe time remaining, excluding 'coming soon orders'
 		for k, order in pairs(self.vCurrentOrders) do
-			if order.pszFinishType == nil then 
+			-- if expired time > order start time, remove coming soon attribute
+			if order.nStartTime and self.nExpiredTime > order.nStartTime then
+				order.bComingSoon = false
+			end
+												-- coming soon orders will not reduce time remaining
+			if order.pszFinishType == nil and not order.bComingSoon then 
 				-- reduce unfinised orders only
 				order.nTimeRemaining = order.nTimeRemaining - 1
 			end
