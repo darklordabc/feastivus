@@ -311,7 +311,7 @@ function Round:OnStateChanged(newState)
 		-- change score bonus to round time left
 		local scoreSpeedBonus = 0
 		if self.nCountDownTimer > 0 then
-			scoreSpeedBonus = self.nCountDownTimer
+			scoreSpeedBonus = self.nCountDownTimer * 25
 		end
 		self.vRoundScore = scoreSpeedBonus + self.vRoundScore
 
