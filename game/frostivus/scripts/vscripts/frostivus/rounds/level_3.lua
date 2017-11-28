@@ -5,7 +5,7 @@ local randomScrollIntervalMax = 25
 local wavesCount = 6
 
 return {
-	CameraTargetPosition = Vector(-4200, 1088, 1100),
+	CameraTargetPosition = Vector(-4200, 1110, 1100),
 	OnInitialize = function(round)
 		-- in initialize script, setup round parameters
 		-- such as pre round time, time limit, etc.
