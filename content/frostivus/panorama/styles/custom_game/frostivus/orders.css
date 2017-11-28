@@ -54,7 +54,7 @@
 }
 
 .ComingSoon.OrderRoot {
-	margin-top: -25px;
+	transform: translateY(-20px);
 	opacity: 0.7;
 }
 
