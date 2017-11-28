@@ -32,15 +32,18 @@ function frostivus_serve_table:OnUpgrade()
             if user.__bPlayingTutorial then
                 user:OnDoTutorialServe(item)
     		else
-                local success = g_Serve(item, user)
+                local success, earlyDelivery = g_Serve(item, user)
                 if success then
                     PopupParticle(SCORE_PER_FINISHED_ORDER, Vector(250,250,250), 1.0, self, POPUP_SYMBOL_PRE_PLUS)
 
                     local mid_point = user.vCameraTarget:GetAbsOrigin()
                     mid_point.z = 0
-                    local p = ParticleManager:CreateParticle("particles/frostivus_gameplay/fireworks.vpcf", PATTACH_ABSORIGIN_FOLLOW, self)
-                    ParticleManager:SetParticleControl(p, 3, mid_point + Vector(0,0,295))
-                    ParticleManager:SetParticleControlOrientation(p, 3, Vector(0, 1, 0), Vector(1, 0, 0), Vector(0,1,0))
+
+                    if earlyDelivery then
+                        local p = ParticleManager:CreateParticle("particles/frostivus_gameplay/fireworks.vpcf", PATTACH_ABSORIGIN_FOLLOW, self)
+                        ParticleManager:SetParticleControl(p, 3, mid_point + Vector(0,0,295))
+                        ParticleManager:SetParticleControlOrientation(p, 3, Vector(0, 1, 0), Vector(1, 0, 0), Vector(0,1,0))
+                    end
                     
                     self:EmitSound("Frostivus.PointScored.Team")
                 end

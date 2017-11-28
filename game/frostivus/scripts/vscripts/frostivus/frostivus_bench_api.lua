@@ -395,7 +395,7 @@ function OnUse( bench, user )
 
 							bank:ClearBank()
 						end
-					elseif bench.GetUnitName and bench:GetUnitName() == "npc_plate_bench" then
+					elseif bench.GetUnitName and bench:GetUnitName() == "npc_plate_bench" and GetTableLength(item:GetItems()) == 0 then
 						Frostivus:DropItem(user, item):RemoveSelf()
 						AddPlateStack(bench, 1)
 					end
