@@ -15,11 +15,17 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, add_sou
         self:SetItems({})
         self:SetFakeItem(nil)
         if self.progress then
-            self.progress:SetData({ progress = 0, overtime = 0 })
+            self.progress:SetData({ progress = nil, overtime = nil, hidden = true, cooking_done = false })
         end
         if IsValidEntity(self._prop) then
             self._prop:RemoveSelf()
             self._prop = nil
+        end
+        if self.bubbles then
+            ParticleManager:DestroyParticle(self.bubbles, true)
+        end
+        if cooking_sound then
+            StopSoundEvent(cooking_sound, self)
         end
     end)
 
@@ -89,6 +95,7 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, add_sou
                 end
 
                 if old_data.progress >= 100 then
+                    print(not old_data.cooking_done, GetTableLength(temp_items) == count)
                     if not old_data.cooking_done and GetTableLength(temp_items) == count then
                         old_data.cooking_done = true
 
@@ -110,6 +117,8 @@ function CreateBank(name, count, on_added_particle, on_cooking_particle, add_sou
                         ParticleManager:CreateParticle("particles/frostivus_gameplay/bank_failed.vpcf", PATTACH_ABSORIGIN_FOLLOW, pot)
                         EmitSoundOn("custom_sound.bank_failed", pot)
                         pot:ClearBank()
+
+                        return delta
                     end
                 else
                     old_data.overtime = 0
@@ -167,7 +176,6 @@ function StartCooking( pot )
     local old_data = pot.progress:GetData()
     old_data.hidden = false
     old_data.max_overtime = 7.0
-    -- old_data.progress = 0
     pot.progress:SetData(old_data)
 
     -- pot._cooking = true
