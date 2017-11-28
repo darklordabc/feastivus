@@ -447,24 +447,26 @@ function Round:OnTimer()
 				for name, count in pairs(orders) do
 					recipeName = name
 				end
-				orders[recipeName] = tonumber(orders[recipeName]) - 1
-				-- if this order dont have recipes < 1, remove it
-				if orders[recipeName] <= 0 then
-					orders[recipeName] = nil
-				end
-				-- if there are no more orders in this time, remove it
-				if table.count(orders) <= 0 and self.vPendingOrders[minTime] then
-					self.vPendingOrders[minTime] = nil
-				end
+				if orders[recipeName] then
+					orders[recipeName] = tonumber(orders[recipeName]) - 1
+					-- if this order dont have recipes < 1, remove it
+					if orders[recipeName] <= 0 then
+						orders[recipeName] = nil
+					end
+					-- if there are no more orders in this time, remove it
+					if table.count(orders) <= 0 and self.vPendingOrders[minTime] then
+						self.vPendingOrders[minTime] = nil
+					end
 
-				table.insert(self.vCurrentOrders, {
-					nTimeRemaining = g_DEFAULT_ORDER_TIME_LIMIT,
-					pszItemName = recipeName,
-					pszID = DoUniqueString("order"),
-					nTimeLimit = g_DEFAULT_ORDER_TIME_LIMIT,
-					bComingSoon = true,
-					nStartTime = minTime
-				})
+					table.insert(self.vCurrentOrders, {
+						nTimeRemaining = g_DEFAULT_ORDER_TIME_LIMIT,
+						pszItemName = recipeName,
+						pszID = DoUniqueString("order"),
+						nTimeLimit = g_DEFAULT_ORDER_TIME_LIMIT,
+						bComingSoon = true,
+						nStartTime = minTime
+					})
+				end
 			end
 		end
 

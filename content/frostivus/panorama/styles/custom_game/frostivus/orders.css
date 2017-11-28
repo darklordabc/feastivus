@@ -53,6 +53,11 @@
 	transition-duration: 0.5s;
 }
 
+.ComingSoon.OrderRoot {
+	margin-top: -25px;
+	opacity: 0.7;
+}
+
 .OrderAppear {
 	transform: translateY(-75px);
 	opacity: 0.0;
