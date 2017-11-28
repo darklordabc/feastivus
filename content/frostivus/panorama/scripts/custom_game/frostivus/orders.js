@@ -1,5 +1,6 @@
 var m_Recipes = null;
 var m_OrderPanels = {};
+var m_AlertState = new Array();
 
 function OnOrderChanged(table_name, key, data) {
 	var orders = CustomNetTables.GetTableValue("orders", "orders");
@@ -63,7 +64,10 @@ function OnOrderChanged(table_name, key, data) {
 		}else if (finishType == "Expired") {
 			orderPanel.SetHasClass("TimeRunningOut", false);
 			orderPanel.AddClass("Expired");
-			Game.EmitSound("Frostivus.PointScored.Enemy");
+			if (m_AlertState[orderId] == null){
+				Game.EmitSound("Frostivus.PointScored.Enemy");
+				m_AlertState[orderId] = true;
+			}
 		}else if (timeRemaining < 10){
 			orderPanel.SetHasClass("TimeRunningOut", true);
 		}

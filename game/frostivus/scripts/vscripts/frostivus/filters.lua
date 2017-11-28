@@ -87,7 +87,9 @@ function Frostivus:FilterExecuteOrder( filterTable )
             end)
         end
 
-        if Distance(unit:GetAbsOrigin(), unit.moving_target) <= FROSTIVUS_CELL_SIZE + 1 then
+        -- #166 https://github.com/darklordabc/feastivus/issues/166
+        -- special settings for serve bench
+        if IsBenchReachable(unit, unit.moving_target) then
             TriggerBench()
         else
             for k,v in pairs(positions) do
@@ -109,8 +111,7 @@ function Frostivus:FilterExecuteOrder( filterTable )
                 if not (unit and IsValidEntity(unit) and unit:IsAlive()) then
                     return nil
                 end
-                local distance = (unit.moving_target:GetOrigin() - unit:GetOrigin()):Length2D()
-                if distance <= FROSTIVUS_CELL_SIZE + 1 then
+                if IsBenchReachable(unit, unit.moving_target) then
                     TriggerBench()
                     return nil
                 else

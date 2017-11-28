@@ -122,6 +122,45 @@ function Distance(a, b)
   return (a - b):Length()
 end
 
+function IsBenchReachable(unit, bench)
+  local a, b = unit:GetAbsOrigin(), bench:GetAbsOrigin()
+  if bench:GetUnitName() == "npc_serve_table" then
+    local fw = bench:GetForwardVector()
+    if fw.x == 1 then
+      if ((a-b):Length2D() <= FROSTIVUS_CELL_SIZE + 1) then
+        return true
+      else
+        a.y = a.y - 128
+        if ((a-b):Length2D() <= FROSTIVUS_CELL_SIZE + 1) then
+          return true
+        else
+          a.y = a.y + 256
+          if ((a-b):Length2D() <= FROSTIVUS_CELL_SIZE + 1) then
+            return true
+          end
+        end
+      end
+    elseif fw.y == 1 then
+      if ((a-b):Length2D() <= FROSTIVUS_CELL_SIZE + 1) then
+        return true
+      else
+        a.x = a.x - 128
+        if ((a-b):Length2D() <= FROSTIVUS_CELL_SIZE + 1) then
+          return true
+        else
+          a.x = a.x + 256
+          if ((a-b):Length2D() <= FROSTIVUS_CELL_SIZE + 1) then
+            return true
+          end
+        end
+      end
+    -- consider other directions, dont need them now
+    end
+  else
+    return (a-b):Length2D() <= FROSTIVUS_CELL_SIZE + 1
+  end
+end
+
 function UnitLookAtPoint( unit, point )
   local dir = (point - unit:GetAbsOrigin()):Normalized()
   dir.z = 0
