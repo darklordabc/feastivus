@@ -35,8 +35,7 @@ GameRules.TryServe = g_TryServe
 function g_Serve(itemEntity, user)
 	local round = g_GetCurrentRound()
 	if round then
-		local success = round:OnServe(itemEntity, user)
-		return success
+		return round:OnServe(itemEntity, user)
 	end
 end
 GameRules.Serve = g_Serve
@@ -560,6 +559,7 @@ function Round:OnServe(itemEntity, user)
 		local orderIndex, theOrder = nil, nil
 		local lowestTime = 999
 		local pszID
+		local comingSoon
 
 		for k, order in pairs(self.vCurrentOrders) do
 			if order.pszItemName == itemName and order.nTimeRemaining < lowestTime and order.pszFinishType == nil then
@@ -567,6 +567,7 @@ function Round:OnServe(itemEntity, user)
 				theOrder = order
 				lowestTime = order.nTimeRemaining
 				pszID = order.pszID
+				comingSoon = order.bComingSoon == true
 			end
 		end
 
@@ -604,7 +605,7 @@ function Round:OnServe(itemEntity, user)
 			Unit = user
 		})
 
-		return true
+		return true, comingSoon
 	end
 end
 
