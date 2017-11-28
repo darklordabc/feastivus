@@ -494,7 +494,16 @@ function Round:OnTimer()
 
 		-- time's up or there are no pending orders and no orders running
 		-- this round is ended
-		if self.nCountDownTimer <= 0 or (table.count(self.vPendingOrders) <= 0 and table.count(self.vCurrentOrders) <= 0) then
+		-- fixes #168 End clock as soong as last order is complete
+		-- as soon as the last order complete, enter round end state
+		local allCurrentOrderFinished = true
+		for _, order in pairs(self.vCurrentOrders) do
+			if order.pszFinishType ~= "Finished" then
+				allCurrentOrderFinished = false
+				break
+			end
+		end
+		if self.nCountDownTimer <= 0 or (table.count(self.vPendingOrders) <= 0 and allCurrentOrderFinished) then
 			self.nCountDownTime = 0
 			self:SetState(ROUND_STATE_POST_ROUND)
 		end
