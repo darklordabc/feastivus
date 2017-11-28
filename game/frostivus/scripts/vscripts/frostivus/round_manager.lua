@@ -671,6 +671,10 @@ function RoundManager:constructor()
 		if not GameRules:IsGamePaused() then
 			self:OnTimer()
 		end
+		-- if the extra greevil is created, the timer is slower
+		if GameRules.__bExtraGreevilCreated__ then
+			return 1.2 -- change this value to rescale
+		end
 		return 1
 	end,1)
 end
