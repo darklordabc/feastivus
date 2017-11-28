@@ -9,3 +9,4 @@ All notable changes to this project will be documented in this file.
 - Fixed font being too large and squashing text in score screen
 - Fixed time contiuning for a couple of seconds when there is no more orders
 - Fixed exploding frypans/cooking pots breaking forever
+- Fixed being bug when food with plate was in sink area and you washed a dish

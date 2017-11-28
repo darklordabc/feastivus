@@ -116,7 +116,7 @@ function Round:Initialize()
 	self.vPendingOrders = {}
 	for time, orderData in pairs(roundData.Orders) do
 		local t = tonumber(time)
-		self.vPendingOrders[t] = orderData
+		self.vPendingOrders[t] = table.shallowcopy(orderData)
 		if t > maxOrderTime then
 			maxOrderTime = t
 		end
