@@ -551,7 +551,7 @@ function Round:OnServe(itemEntity, user)
 		local pszID
 
 		for k, order in pairs(self.vCurrentOrders) do
-			if order.pszItemName == itemName and order.nTimeRemaining < lowestTime then
+			if order.pszItemName == itemName and order.nTimeRemaining < lowestTime and order.pszFinishType == nil then
 				orderIndex = k
 				theOrder = order
 				lowestTime = order.nTimeRemaining
