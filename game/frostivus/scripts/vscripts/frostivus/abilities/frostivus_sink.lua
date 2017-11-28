@@ -22,7 +22,19 @@ function frostivus_sink:OnUpgrade()
         caster:SetOnPickedFromBench(function ( item )
             caster:SetBenchHidden(true)
         end)
-        caster:SetOnCompleteRefine(function (  )
+        caster:SetOnCompleteRefine(function ( self, user )
+            local item = Frostivus:GetCarryingItem(plate_bench)
+            if item then
+                local item_name = item:GetContainedItem():GetName()
+                local is_plate = item_name == "item_plate" and GetTableLength(item:GetItems()) > 0
+                if is_plate or (item_name ~= "item_plate" and item_name ~= "item_clean_plates") then
+                    Frostivus:DropItem( plate_bench, item )
+                    plate_bench:ClearBench()
+                    Timers:CreateTimer(function (  )
+                        user:BindItem( item )
+                    end)
+                end
+            end
             caster:SetBenchHidden(true)
             caster:ClearBench()
             local stack = AddPlateStack(plate_bench, caster._temp_counter)
