@@ -68,7 +68,6 @@ function Frostivus:FilterExecuteOrder( filterTable )
 
             -- player cannot trigger benches too quickly
             -- prevent auto repeat right click
-            print("trigger bench")
             if unit.__flLastTriggerTime == nil then
                 unit.__flLastTriggerTime = GameRules:GetGameTime()
             else
