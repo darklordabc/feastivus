@@ -674,9 +674,30 @@ function RoundManager:constructor()
 		if not GameRules:IsGamePaused() then
 			self:OnTimer()
 		end
-		-- if the extra greevil is created, the timer is slower
-		if GameRules.__bExtraGreevilCreated__ and self.vCurrentRound and self.vCurrentRound:GetState() == ROUND_STATE_IN_PROGRESS then
-			return 1.3 -- change this value to rescale
+		
+		-- special timer slow applied in game progress only
+		if self.vCurrentRound and self.vCurrentRound:GetState() == ROUND_STATE_IN_PROGRESS then
+			-- if the extra greevil is created, the timer is slower
+			if GameRules.__bExtraGreevilCreated__ then
+				return 1.3 -- change this value to rescale
+			end
+
+			-- check if there are more than 1 player finished tutorial
+			-- for #173 https://github.com/darklordabc/feastivus/issues/173
+			if not GameRules.__bMoreThan1PlayerFinishedTutorial then
+				local heroCount = 0
+				LoopOverPlayers(function(player)
+					local hero = player:GetAssignedHero()
+					if hero and not hero.__bPlayingTutorial then
+						heroCount = heroCount + 1
+					end
+				end)
+				if heroCount == 1 then
+					return 1.3 -- if only 1 player not playing tutorial, make the timer slower
+				elseif heroCount > 1 then -- stop this from running once more than 1 player finished
+					GameRules.__bMoreThan1PlayerFinishedTutorial = true
+				end
+			end
 		end
 		return 1
 	end,1)
