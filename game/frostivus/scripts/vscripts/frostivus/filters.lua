@@ -85,8 +85,8 @@ function Frostivus:FilterExecuteOrder( filterTable )
                     unit:MoveToPosition(o - (o-moveTarget:GetOrigin()):Normalized())
                     Timers:CreateTimer(function()
                         unit:RemoveModifierByName("modifier_rooted")
+                        TriggerBench(unit, moveTarget)
                     end)
-                    TriggerBench(unit, moveTarget)
                     return nil
                 else
                     -- print("Order To Move To Position", pos)
