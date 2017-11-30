@@ -67,14 +67,12 @@ function Frostivus:FilterExecuteOrder( filterTable )
                 unit.__flLastTriggerTime = now
             end
 
-            unit:MoveToPosition(pos)
-
             -- keep trying to move to the target position until this unit received another order
             Timers:CreateTimer(function()
                 local o = unit:GetAbsOrigin()
                 if not IsValidAlive(unit) then return nil end
                 if not unit._vLastOrderFilterTable == filterTable then return nil end
-                if (o-pos):Length2D() < 10 then
+                if (o-pos):Length2D() < 10 or IsBenchReachable(unit, moveTarget) then
                     -- make the unit facing the bench
                     unit:AddNewModifier(unit, nil, "modifier_rooted", {Duration=0.06})
                     unit:MoveToPosition(o - (o - moveTarget:GetAbsOrigin()):Normalized())
@@ -83,6 +81,7 @@ function Frostivus:FilterExecuteOrder( filterTable )
                     end)
                     return nil
                 else
+                    unit:MoveToPosition(pos)
                     return 0.03
                 end
             end)
