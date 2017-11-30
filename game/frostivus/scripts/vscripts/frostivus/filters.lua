@@ -81,7 +81,11 @@ function Frostivus:FilterExecuteOrder( filterTable )
                 local o = unit:GetAbsOrigin()
                 if not IsValidAlive(unit) then return nil end
                 if (o-pos):Length2D() < 10 or IsBenchReachable(unit, moveTarget) then
-                    -- unit:SetForwardVector(Vector(1,0,0))
+                    unit:AddNewModifier(unit, nil, "modifier_phased", {})
+                    unit:MoveToPosition(o - (o-moveTarget:GetOrigin()):Normalized())
+                    Timers:CreateTimer(function()
+                        unit:RemoveModifierByName("modifier_rooted")
+                    end)
                     TriggerBench(unit, moveTarget)
                     return nil
                 else
