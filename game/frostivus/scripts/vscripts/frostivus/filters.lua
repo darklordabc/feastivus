@@ -49,6 +49,7 @@ function Frostivus:FilterExecuteOrder( filterTable )
     end
 
     if order_type == DOTA_UNIT_ORDER_MOVE_TO_TARGET or order_type == DOTA_UNIT_ORDER_ATTACK_TARGET then
+
         local moveTarget = EntIndexToHScript(targetIndex)
 
         local old_pos = unit:GetAbsOrigin()
@@ -71,6 +72,7 @@ function Frostivus:FilterExecuteOrder( filterTable )
         end
 
         local function MoveToPositionAndTriggerBench(pos)
+            unit._vScriptCommandPosition = pos
             Timers:CreateTimer(function()
                 local o = unit:GetAbsOrigin()
                 if not IsValidAlive(unit) then return nil end
@@ -80,7 +82,13 @@ function Frostivus:FilterExecuteOrder( filterTable )
                     TriggerBench(unit, moveTarget)   
                     return nil
                 else
-                    unit:MoveToPosition(pos)
+                    -- print("Order To Move To Position", pos)
+                    -- DebugDrawCircle(pos + Vector(0,0,20), Vector(255,0,0), 200, 64, false, 0.5)
+                    ExecuteOrderFromTable({
+                        UnitIndex = unit:entindex(),
+                        OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION,
+                        Position = pos,
+                    })
                     return 0.03
                 end
             end)
@@ -103,16 +111,26 @@ function Frostivus:FilterExecuteOrder( filterTable )
                 table.insert(positions, bo + Vector(-FROSTIVUS_CELL_SIZE,FROSTIVUS_CELL_SIZE,0))
                 table.insert(positions, bo + Vector(FROSTIVUS_CELL_SIZE,-FROSTIVUS_CELL_SIZE,0))
             end
+
+            -- remove the positions have been taken
+            for k, pos in pairs(positions) do
+                local units = FindUnitsInRadius(DOTA_TEAM_GOODGUYS, pos, nil, 32, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+                if #units > 0 then
+                    positions[k] = nil
+                end
+            end
         end
 
         for k,v in pairs(positions) do
-            if not GridNav:IsBlocked(v) then
+            if v and not GridNav:IsBlocked(v) then
                 if not closest or (Distance(unit:GetAbsOrigin(), v) < Distance(unit:GetAbsOrigin(), closest)) then
                     closest = v
                 end
             end
         end
-        MoveToPositionAndTriggerBench(closest)
+        if closest then
+            MoveToPositionAndTriggerBench(closest)
+        end
         return false
     end
 
