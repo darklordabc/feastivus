@@ -25,6 +25,8 @@ function Frostivus:FilterExecuteOrder( filterTable )
         end
     end
 
+    unit._vLastOrderFilterTable = filterTable
+
     if unit._order_timer then
         local ab = EntIndexToHScript(abilityIndex)
         if not ab or not ab.GetBehavior or bit.band(ab:GetBehavior(), DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT) ~= DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT then
@@ -67,7 +69,7 @@ function Frostivus:FilterExecuteOrder( filterTable )
         local closest = nil
 
         local function TriggerBench()
-
+            print("bench triggered!")
             -- player cannot trigger benches too quickly
             -- prevent auto repeat right click
             if unit.__flLastTriggerTime == nil then
@@ -89,8 +91,67 @@ function Frostivus:FilterExecuteOrder( filterTable )
             end)
         end
 
-        -- #166 https://github.com/darklordabc/feastivus/issues/166
-        -- special settings for serve bench
+        -- if the order is to move to serve bench
+        -- change it to move to one of the nearest valid positions instead
+        -- 
+        if moveTarget:GetUnitName() == "npc_serve_table" then
+            print("ordering to move to serve t1able")
+            -- change the order to move to position
+            local fw = moveTarget:GetForwardVector()
+            local bo = moveTarget:GetOrigin()
+            -- collect free cells
+            local freeCells = {}
+            if fw.x == 1 then
+                table.insert(freeCells, bo + Vector(-80,0,0))
+                table.insert(freeCells, bo + Vector(80,0,0))
+                table.insert(freeCells, bo + Vector(-80,-128,0))
+                table.insert(freeCells, bo + Vector(80,-128,0))
+                table.insert(freeCells, bo + Vector(-80,128,0))
+                table.insert(freeCells, bo + Vector(80,128,0))
+            end
+            if fw.y == 1 then
+                table.insert(freeCells, bo + Vector(0,80,0))
+                table.insert(freeCells, bo + Vector(0,-80,0))
+                table.insert(freeCells, bo + Vector(-128,80,0))
+                table.insert(freeCells, bo + Vector(128,-80,0))
+                table.insert(freeCells, bo + Vector(-128,80,0))
+                table.insert(freeCells, bo + Vector(128,-80,0))
+            end
+            local nearest = 9999
+            local o = unit:GetOrigin()
+            local to
+            for _, pos in pairs(freeCells) do
+                -- DebugDrawCircle(pos + Vector(0,0,20), Vector(255,0,0), 128, 64, false, 3)
+                local dis = (pos - o):Length2D()
+                local units = FindUnitsInRadius(DOTA_TEAM_GOODGUYS, pos, nil, 32, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+                if dis < nearest and GridNav:CanFindPath(pos, o) and #units <= 0 then
+                    nearest = dis
+                    to = pos
+                end
+            end
+            if to then
+                -- DebugDrawCircle(to + Vector(0,0,20), Vector(0,255,0), 255, 64, false, 3)
+                unit:MoveToPosition(to)
+                -- create checker
+                Timers:CreateTimer(function()
+                    if not IsValidAlive(unit) then
+                        return nil
+                    end
+                    if unit._vLastOrderFilterTable ~= filterTable then
+                        return nil
+                    end
+                    if IsBenchReachable(unit, moveTarget) then
+                        TriggerBench()
+                        return nil
+                    end
+                    return 0.03
+                end)
+                return false
+            end
+
+            
+        end
+
         if IsBenchReachable(unit, unit.moving_target) then
             TriggerBench()
         else
@@ -115,7 +176,7 @@ function Frostivus:FilterExecuteOrder( filterTable )
                 end
                 -- if unit is issued to move to another target
                 -- remove this position checking timer
-                if unit.moving_target ~= moveTarget then
+                if unit._vLastOrderFilterTable ~= filterTable then
                     return nil
                 end
                 if IsBenchReachable(unit, unit.moving_target) then
