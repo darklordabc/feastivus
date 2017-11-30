@@ -56,7 +56,7 @@ function Frostivus:FilterExecuteOrder( filterTable )
         local positions = {position_target + Vector(FROSTIVUS_CELL_SIZE,0,0), position_target + Vector(-FROSTIVUS_CELL_SIZE,0,0), position_target + Vector(0,FROSTIVUS_CELL_SIZE,0), position_target + Vector(0,-FROSTIVUS_CELL_SIZE,0)}
         local closest = nil
 
-        local function MoveToPositionAndTriggerBench(pos)
+        local function TriggerBench(unit, bench)
             if unit.__flLastTriggerTime == nil then
                 unit.__flLastTriggerTime = GameRules:GetGameTime()
             else
@@ -67,18 +67,17 @@ function Frostivus:FilterExecuteOrder( filterTable )
                 unit.__flLastTriggerTime = now
             end
 
-            -- keep trying to move to the target position until this unit received another order
+            bench:TriggerOnUse(unit)
+        end
+
+        local function MoveToPositionAndTriggerBench(pos)
             Timers:CreateTimer(function()
                 local o = unit:GetAbsOrigin()
                 if not IsValidAlive(unit) then return nil end
-                if not unit._vLastOrderFilterTable == filterTable then return nil end
+                if unit._vLastOrderFilterTable ~= filterTable then return nil end
                 if (o-pos):Length2D() < 10 or IsBenchReachable(unit, moveTarget) then
-                    -- make the unit facing the bench
-                    unit:AddNewModifier(unit, nil, "modifier_rooted", {Duration=0.06})
-                    unit:MoveToPosition(o - (o - moveTarget:GetAbsOrigin()):Normalized())
-                    Timers:CreateTimer(0.06, function()
-                        moveTarget:TriggerOnUse(unit)
-                    end)
+                    unit:MoveToPosition(o - (o - moveTarget:GetAbsOrigin()):Normalized()) -- make the greevil facing the bench
+                    TriggerBench(unit, moveTarget)   
                     return nil
                 else
                     unit:MoveToPosition(pos)
