@@ -57,7 +57,9 @@ function Frostivus:FilterExecuteOrder( filterTable )
     end
 
     if order_type == DOTA_UNIT_ORDER_MOVE_TO_TARGET or order_type == DOTA_UNIT_ORDER_ATTACK_TARGET then
-        unit.moving_target = EntIndexToHScript(targetIndex)
+        
+        local moveTarget = EntIndexToHScript(targetIndex)
+        unit.moving_target = moveTarget
 
         local old_pos = unit:GetAbsOrigin()
         local position_target = unit.moving_target:GetAbsOrigin()
@@ -109,6 +111,11 @@ function Frostivus:FilterExecuteOrder( filterTable )
             
             unit._order_timer = Timers:CreateTimer(function()
                 if not (unit and IsValidEntity(unit) and unit:IsAlive()) then
+                    return nil
+                end
+                -- if unit is issued to move to another target
+                -- remove this position checking timer
+                if unit.moving_target ~= moveTarget then
                     return nil
                 end
                 if IsBenchReachable(unit, unit.moving_target) then
