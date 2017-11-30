@@ -25,7 +25,9 @@ function Frostivus:FilterExecuteOrder( filterTable )
         end
     end
 
-    unit._vLastOrderFilterTable = filterTable
+    if issuer ~= -1 then
+        unit._vLastOrderFilterTable = filterTable
+    end
 
     if order_type == DOTA_UNIT_ORDER_RADAR or order_type == DOTA_UNIT_ORDER_GLYPH then return end
 
@@ -49,12 +51,15 @@ function Frostivus:FilterExecuteOrder( filterTable )
     end
 
     if order_type == DOTA_UNIT_ORDER_MOVE_TO_TARGET or order_type == DOTA_UNIT_ORDER_ATTACK_TARGET then
-
         local moveTarget = EntIndexToHScript(targetIndex)
-
         local old_pos = unit:GetAbsOrigin()
         local position_target = moveTarget:GetAbsOrigin()
-        local positions = {position_target + Vector(FROSTIVUS_CELL_SIZE,0,0), position_target + Vector(-FROSTIVUS_CELL_SIZE,0,0), position_target + Vector(0,FROSTIVUS_CELL_SIZE,0), position_target + Vector(0,-FROSTIVUS_CELL_SIZE,0)}
+        local positions = {
+            position_target + Vector(FROSTIVUS_CELL_SIZE,0,0),
+            position_target + Vector(-FROSTIVUS_CELL_SIZE,0,0), 
+            position_target + Vector(0,FROSTIVUS_CELL_SIZE,0), 
+            position_target + Vector(0,-FROSTIVUS_CELL_SIZE,0)
+        }
         local closest = nil
 
         local function TriggerBench(unit, bench)
@@ -72,14 +77,12 @@ function Frostivus:FilterExecuteOrder( filterTable )
         end
 
         local function MoveToPositionAndTriggerBench(pos)
-            unit._vScriptCommandPosition = pos
             Timers:CreateTimer(function()
                 local o = unit:GetAbsOrigin()
                 if not IsValidAlive(unit) then return nil end
-                if unit._vLastOrderFilterTable ~= filterTable then return nil end
                 if (o-pos):Length2D() < 10 or IsBenchReachable(unit, moveTarget) then
-                    unit:MoveToPosition(o - (o - moveTarget:GetAbsOrigin()):Normalized()) -- make the greevil facing the bench
-                    TriggerBench(unit, moveTarget)   
+                    -- unit:SetForwardVector(Vector(1,0,0))
+                    TriggerBench(unit, moveTarget)
                     return nil
                 else
                     -- print("Order To Move To Position", pos)
