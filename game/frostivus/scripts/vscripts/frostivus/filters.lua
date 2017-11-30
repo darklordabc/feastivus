@@ -179,6 +179,7 @@ function Frostivus:FilterExecuteOrder( filterTable )
                 if unit._vLastOrderFilterTable ~= filterTable then
                     return nil
                 end
+                -- print((unit:GetOrigin() - unit.moving_target:GetOrigin()):Length2D())
                 if IsBenchReachable(unit, unit.moving_target) then
                     TriggerBench()
                     return nil

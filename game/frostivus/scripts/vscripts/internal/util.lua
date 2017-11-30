@@ -157,7 +157,7 @@ function IsBenchReachable(unit, bench)
     -- consider other directions, dont need them now
     end
   else
-    return (a-b):Length2D() <= FROSTIVUS_CELL_SIZE + 1
+    return (a-b):Length2D() <= FROSTIVUS_CELL_SIZE + 5
   end
 end
 
