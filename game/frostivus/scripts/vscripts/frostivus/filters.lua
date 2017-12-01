@@ -60,7 +60,6 @@ function Frostivus:FilterExecuteOrder( filterTable )
             position_target + Vector(0,FROSTIVUS_CELL_SIZE,0), 
             position_target + Vector(0,-FROSTIVUS_CELL_SIZE,0)
         }
-        local closest = nil
 
         local function TriggerBench(unit, bench)
             if unit.__flLastTriggerTime == nil then
@@ -73,70 +72,72 @@ function Frostivus:FilterExecuteOrder( filterTable )
                 unit.__flLastTriggerTime = now
             end
 
-            bench:TriggerOnUse(unit)
-        end
-
-        local function MoveToPositionAndTriggerBench(pos)
+            local o = unit:GetOrigin()
+            unit:AddNewModifier(unit, nil, "modifier_rooted", {})
+            unit:MoveToPosition(o - (o-moveTarget:GetOrigin()):Normalized())
             Timers:CreateTimer(function()
-                local o = unit:GetAbsOrigin()
-                if not IsValidAlive(unit) then return nil end
-                if (o-pos):Length2D() < 10 or IsBenchReachable(unit, moveTarget) then
-                    unit:AddNewModifier(unit, nil, "modifier_phased", {})
-                    unit:MoveToPosition(o - (o-moveTarget:GetOrigin()):Normalized())
-                    Timers:CreateTimer(function()
-                        unit:RemoveModifierByName("modifier_rooted")
-                        TriggerBench(unit, moveTarget)
-                    end)
-                    return nil
-                else
-                    -- print("Order To Move To Position", pos)
-                    -- DebugDrawCircle(pos + Vector(0,0,20), Vector(255,0,0), 200, 64, false, 0.5)
-                    ExecuteOrderFromTable({
-                        UnitIndex = unit:entindex(),
-                        OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION,
-                        Position = pos,
-                    })
-                    return 0.03
-                end
+                unit:RemoveModifierByName("modifier_rooted")
+                bench:TriggerOnUse(unit)
             end)
         end
 
-        -- special serve positions for serve table
-        if moveTarget:GetUnitName() == "npc_serve_table" then
-            -- change the order to move to position
-            local fw = moveTarget:GetForwardVector()
-            local bo = moveTarget:GetOrigin()
-            if fw.x == 1 then
-                table.insert(positions, bo + Vector(-FROSTIVUS_CELL_SIZE,-FROSTIVUS_CELL_SIZE,0))
-                table.insert(positions, bo + Vector(FROSTIVUS_CELL_SIZE,-FROSTIVUS_CELL_SIZE,0))
-                table.insert(positions, bo + Vector(-FROSTIVUS_CELL_SIZE,FROSTIVUS_CELL_SIZE,0))
-                table.insert(positions, bo + Vector(FROSTIVUS_CELL_SIZE,FROSTIVUS_CELL_SIZE,0))
-            end
-            if fw.y == 1 then
-                table.insert(positions, bo + Vector(-FROSTIVUS_CELL_SIZE,FROSTIVUS_CELL_SIZE,0))
-                table.insert(positions, bo + Vector(FROSTIVUS_CELL_SIZE,-FROSTIVUS_CELL_SIZE,0))
-                table.insert(positions, bo + Vector(-FROSTIVUS_CELL_SIZE,FROSTIVUS_CELL_SIZE,0))
-                table.insert(positions, bo + Vector(FROSTIVUS_CELL_SIZE,-FROSTIVUS_CELL_SIZE,0))
-            end
+        -- if bench is in range, just trigger it
+        if IsBenchReachable(unit, moveTarget) then
+            TriggerBench(unit, moveTarget)
+        else
+            -- special serve positions for serve table
+            if moveTarget:GetUnitName() == "npc_serve_table" then
+                -- change the order to move to position
+                local fw = moveTarget:GetForwardVector()
+                local bo = moveTarget:GetOrigin()
+                if fw.x == 1 then
+                    table.insert(positions, bo + Vector(-FROSTIVUS_CELL_SIZE,-FROSTIVUS_CELL_SIZE,0))
+                    table.insert(positions, bo + Vector(FROSTIVUS_CELL_SIZE,-FROSTIVUS_CELL_SIZE,0))
+                    table.insert(positions, bo + Vector(-FROSTIVUS_CELL_SIZE,FROSTIVUS_CELL_SIZE,0))
+                    table.insert(positions, bo + Vector(FROSTIVUS_CELL_SIZE,FROSTIVUS_CELL_SIZE,0))
+                end
+                if fw.y == 1 then
+                    table.insert(positions, bo + Vector(-FROSTIVUS_CELL_SIZE,FROSTIVUS_CELL_SIZE,0))
+                    table.insert(positions, bo + Vector(FROSTIVUS_CELL_SIZE,-FROSTIVUS_CELL_SIZE,0))
+                    table.insert(positions, bo + Vector(-FROSTIVUS_CELL_SIZE,FROSTIVUS_CELL_SIZE,0))
+                    table.insert(positions, bo + Vector(FROSTIVUS_CELL_SIZE,-FROSTIVUS_CELL_SIZE,0))
+                end
 
-            -- remove the positions have been taken
-            for k, pos in pairs(positions) do
-                local units = FindUnitsInRadius(DOTA_TEAM_GOODGUYS, pos, nil, 32, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
-                if #units > 0 then
-                    positions[k] = nil
+                -- remove the positions have been taken
+                for k, pos in pairs(positions) do
+                    local units = FindUnitsInRadius(DOTA_TEAM_GOODGUYS, pos, nil, 32, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+                    if #units > 0 then
+                        positions[k] = nil
+                    end
                 end
             end
-        end
 
-        for k,v in pairs(positions) do
-            if v and not GridNav:IsBlocked(v) then
-                if not closest or (Distance(unit:GetAbsOrigin(), v) < Distance(unit:GetAbsOrigin(), closest)) then
-                    closest = v
+            local closest = nil
+            for k,v in pairs(positions) do
+                if v and not GridNav:IsBlocked(v) and GridNav:CanFindPath(v, unit:GetOrigin()) then
+                    if not closest or (Distance(unit:GetAbsOrigin(), v) < Distance(unit:GetAbsOrigin(), closest)) then
+                        closest = v
+                    end
                 end
             end
-        end
-        if closest then
-            MoveToPositionAndTriggerBench(closest)
+            if closest then
+                Timers:CreateTimer(function()
+                    local o = unit:GetAbsOrigin()
+                    if not IsValidAlive(unit) then return nil end
+                    if unit._vLastOrderFilterTable ~= filterTable then return nil end
+                    if (o-closest):Length2D() < 10 or IsBenchReachable(unit, moveTarget) then
+                        TriggerBench(unit, moveTarget)
+                        return nil
+                    else
+                        ExecuteOrderFromTable({
+                            UnitIndex = unit:entindex(),
+                            OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION,
+                            Position = closest,
+                        })
+                        return 0.03
+                    end
+                end)
+            end
         end
         return false
     end
