@@ -22,12 +22,6 @@
 
 	"change_material" "Change Colour"	
 
-	"DOTA_Tooltip_ability_item_plate"										"Plate"
-	"DOTA_Tooltip_ability_item_plate_Description"							""
-
-	"DOTA_Tooltip_ability_item_dirty_plates"										"Dirty Plate"
-	"DOTA_Tooltip_ability_item_dirty_plates_Description"							""
-
 	"kitchen_complete"		"KITCHEN COMPLETE"
 	"level_1"				"LEVEL {d:level}"
 
