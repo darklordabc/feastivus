@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 1.2
+- Fixed Soups being able to go in partially filled plates
+- Fixed Mangos/Bread/Tangos breaking firestones when placed on
+
 ## 1.1
 - Fixed no orders showing if players progressed too quickly
 - Fixed being stun-locked if you got Tusk kicked at the wrong time
