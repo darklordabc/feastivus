@@ -7,6 +7,11 @@ function BenchCheck()
   var wp = $.GetContextPanel().WorldPanel
   var data = $.GetContextPanel().Data
 
+  if ($.GetContextPanel().InitiatedLayout && !Entities.IsValidEntity(wp.entity)) {
+    $.GetContextPanel().DeleteWorldPanel();
+    return;
+  }
+
   if (wp && data) {
     var layout = data.layout;
     var hidden = data.hidden;

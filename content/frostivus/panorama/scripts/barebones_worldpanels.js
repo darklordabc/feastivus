@@ -39,6 +39,7 @@ function WorldPanelChange(id, changes, dels)
       wp.panel.Data = wp.data;
       wp.panel.DeleteWorldPanel = function(pan){ 
         return function(){
+          pan.DeleteAsync(0.0);
           pan.RemoveAndDeleteChildren();
           delete panels[k];
         }
