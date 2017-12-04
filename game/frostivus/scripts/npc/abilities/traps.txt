@@ -2,6 +2,41 @@
 {
   "Version"   "1"
 
+  "frostivus_snowball"
+  {
+    "BaseClass"                     "ability_lua"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+    "ScriptFile"                    "frostivus/abilities/frostivus_snowball.lua"
+    "AbilityTextureName"      "tusk_snowball"
+    "AbilitySound"          "Hero_Tusk.Snowball.Cast"
+
+    "AbilityCastRange"        "1250"
+    "AbilityCastPoint"        "0.1"
+
+    "AbilityCooldown"       "21"
+
+    "AbilityManaCost"       "75"
+
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"          "FIELD_INTEGER"
+        "snowball_speed"      "725"
+      }
+      "02"
+      {
+        "var_type"          "FIELD_FLOAT"
+        "stun_duration"       "0.5 0.75 1.0 1.25"
+      }
+      "03"
+      {
+        "var_type"          "FIELD_INTEGER"
+        "snowball_radius"     "200"
+      }     
+    }
+  }
+
   "frostivus_fire_trap"
   {
     "BaseClass"           "ability_lua"
