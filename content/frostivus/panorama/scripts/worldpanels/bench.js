@@ -7,7 +7,7 @@ function BenchCheck()
   var wp = $.GetContextPanel().WorldPanel
   var data = $.GetContextPanel().Data
 
-  if ($.GetContextPanel().InitiatedLayout && !Entities.IsValidEntity(wp.entity)) {
+  if ($.GetContextPanel().InitiatedLayout && (!wp.entity || !Entities.IsValidEntity(wp.entity))) {
     $.GetContextPanel().DeleteWorldPanel();
     return;
   }
