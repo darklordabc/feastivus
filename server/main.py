@@ -77,7 +77,7 @@ def save_score():
 	level = request.form.get("level")
 
 	Database.score_db().update_one({"players": players, "level": level}, {
-		'$set':{"highscore": score}
+		'$set':{"highscore": int(score)}
 	}, upsert=True)
 
 	top10 = Database.score_db().find({"level":level},projection={'_id': False}).sort("highscore", DESCENDING)[:10]
