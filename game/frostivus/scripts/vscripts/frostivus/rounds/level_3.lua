@@ -1,11 +1,11 @@
 local spawnPos1 = Vector(-4350, 2400, 128)
 local spawnPos2 = Vector(-4000, 2400, 128)
-local randomScrollIntervalMin = 10
-local randomScrollIntervalMax = 15
+local randomScrollIntervalMin = 20
+local randomScrollIntervalMax = 25
 local wavesCount = 6
 
 return {
-	CameraTargetPosition = Vector(-4200, 1088, 1100),
+	CameraTargetPosition = Vector(-4200, 1110, 1100),
 	OnInitialize = function(round)
 		-- in initialize script, setup round parameters
 		-- such as pre round time, time limit, etc.

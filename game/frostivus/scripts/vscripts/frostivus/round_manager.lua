@@ -1,8 +1,8 @@
 _G.SCORE_PER_FINISHED_ORDER = 100
 _G.g_DEFAULT_ORDER_TIME_LIMIT = 80
-local ORDER_EXPIRE_COUNT_TO_FAIL = 1 -- after n of orders expired, round will restart or game failed
+local ORDER_EXPIRE_COUNT_TO_FAIL = 3 -- after n of orders expired, round will restart or game failed
 local TRY_AGAIN_SCREEN_TIME = 3
-local RETRY_COUNT_TO_LOSE = 2
+local RETRY_COUNT_TO_LOSE = 100
 
 GameRules.vRoundDefinations = LoadKeyValues('scripts/kv/rounds.kv')
 for level, data in pairs(GameRules.vRoundDefinations) do
@@ -35,8 +35,7 @@ GameRules.TryServe = g_TryServe
 function g_Serve(itemEntity, user)
 	local round = g_GetCurrentRound()
 	if round then
-		local success = round:OnServe(itemEntity, user)
-		return success
+		return round:OnServe(itemEntity, user)
 	end
 end
 GameRules.Serve = g_Serve
@@ -105,21 +104,33 @@ function Round:Initialize()
 		self.vRoundScript = require(roundData.ScriptFile)
 	end
 
+
+
 	-- initialize orders
-	self.vPendingOrders = {}
-	for time, orderData in pairs(roundData.Orders) do
-		self.vPendingOrders[tonumber(time)] = orderData
-	end
 	self.vFinishedOrders = {}
 	self.nExpiredOrders = 0
 	self.vCurrentOrders = {}
 	self:UpdateOrdersToClient() -- clear all orders of last round
 
+	local maxOrderTime = 0
+	self.vPendingOrders = {}
+	for time, orderData in pairs(roundData.Orders) do
+		local t = tonumber(time)
+		self.vPendingOrders[t] = table.shallowcopy(orderData)
+		if t > maxOrderTime then
+			maxOrderTime = t
+		end
+	end
+
 	-- initialize timers
-	self.nPreRoundTime = roundData.nPreRoundTime or 4
-	self.nTimeLimit = roundData.TimeLimit
-	self.nPreRoundCountDownTimer = self.nPreRoundTime
+	self.nTimeLimit = 60
+	-- automatically generated round time limit according to the last order appear time
+	if maxOrderTime > 0 then
+		self.nTimeLimit = maxOrderTime + g_DEFAULT_ORDER_TIME_LIMIT
+	end
 	self.nCountDownTimer = self.nTimeLimit
+	self.nPreRoundTime = roundData.nPreRoundTime or 4
+	self.nPreRoundCountDownTimer = self.nPreRoundTime
 	self.nEndRoundDelay = 10
 	self.nExpiredTime = 0
 
@@ -236,6 +247,8 @@ function Round:OnStateChanged(newState)
 						pszItemName = recipeName,
 						pszID = DoUniqueString("order"),
 						nTimeLimit = g_DEFAULT_ORDER_TIME_LIMIT,
+						bComingSoon = true,
+						nStartTime = 0
 					})
 				end
 			end
@@ -262,29 +275,52 @@ function Round:OnStateChanged(newState)
 	elseif newState == ROUND_STATE_POST_ROUND then
 		-- calculate stars
 		local stars = 0
-		local starCriterias = self.vRoundData.StarCriteria
-		if starCriterias then
-			for _, criteria in pairs(starCriterias) do
-				if criteria.Type == 'STAR_CRITERIA_FINISHED_RECIPES' then
-					local values = string.split(criteria.values, ' ')
-					for index, value in pairs(values) do
-						if table.count(self.vFinishedOrders) >= tonumber(value) then
-							stars = index
-						end
-					end
-				end
-				-- @todo other criterias
-			end
+		-- local starCriterias = self.vRoundData.StarCriteria
+		-- if starCriterias then
+		-- 	for _, criteria in pairs(starCriterias) do
+		-- 		if criteria.Type == 'STAR_CRITERIA_FINISHED_RECIPES' then
+		-- 			local values = string.split(criteria.values, ' ')
+		-- 			for index, value in pairs(values) do
+		-- 				if table.count(self.vFinishedOrders) >= tonumber(value) then
+		-- 					stars = index
+		-- 				end
+		-- 			end
+		-- 		end
+		-- 		-- @todo other criterias
+		-- 	end
+		-- end
+
+		-- If you complete the round with no failed orders, you get 3 stars
+		-- , if you fail 1 order, 2 stars, fail 2 orders, 1 star, if you fail 3, 
+		-- you have to restart the round and never make it to score screen.
+
+		local totalFailedOrdersCount = self.nExpiredOrders + table.count(self.vPendingOrders) -- table.count(pendingOrders) should always return 0, write it here just in case
+		if totalFailedOrdersCount <= 0 then
+			stars = 3
+		elseif totalFailedOrdersCount == 1 then
+			stars = 2
+		elseif totalFailedOrdersCount == 2 then
+			stars = 1
 		end
+
 
 		-- tell client to show round end summary
 		local nScoreOrdersDelivered = table.count(self.vFinishedOrders) * SCORE_PER_FINISHED_ORDER
+
+		-- #155 https://github.com/darklordabc/feastivus/issues/155
+		-- change score bonus to round time left
+		local scoreSpeedBonus = 0
+		if self.nCountDownTimer > 0 then
+			scoreSpeedBonus = self.nCountDownTimer * 25
+		end
+		self.vRoundScore = scoreSpeedBonus + self.vRoundScore
+
 		CustomGameEventManager:Send_ServerToAllClients('show_round_end_summary',{
 			Stars = stars,
 			FinishedOrdersCount = table.count(self.vFinishedOrders),
 			UnFinishedOrdersCount = table.count(self.vPendingOrders) + self.nExpiredOrders,
 			ScoreOrdersDelivered = nScoreOrdersDelivered,
-			ScoreSpeedBonus = self.vRoundScore - nScoreOrdersDelivered,
+			ScoreSpeedBonus = scoreSpeedBonus,
 			Level = g_RoundManager.nCurrentLevel,
 		})
 
@@ -381,6 +417,8 @@ function Round:OnTimer()
 							pszItemName = recipeName,
 							pszID = DoUniqueString("order"),
 							nTimeLimit = g_DEFAULT_ORDER_TIME_LIMIT,
+							bComingSoon = false,
+							nStartTime = t
 						})
 					end
 				end
@@ -388,9 +426,57 @@ function Round:OnTimer()
 			end
 		end
 
-		-- reduce all recipe time remaining
+		-- #152, https://github.com/darklordabc/feastivus/issues/152
+		-- if there are less than 3 orders, always add 'coming soon' orders
+		if table.count(self.vCurrentOrders) < 3 and table.count(self.vPendingOrders) > 0 then
+			-- find and add one order, the next order will be add in the next second loop
+			-- so 3 orders will be added in 3 seconds rather than coming together
+			local minTime = 9999
+			local orders
+			for t, o in pairs(self.vPendingOrders) do
+				if t < minTime then
+					orders = o
+					minTime = t
+				end
+			end
+
+			if orders then
+				-- add one order to current orders
+				local recipeName
+				for name, count in pairs(orders) do
+					recipeName = name
+				end
+				if orders[recipeName] then
+					orders[recipeName] = tonumber(orders[recipeName]) - 1
+					-- if this order dont have recipes < 1, remove it
+					if orders[recipeName] <= 0 then
+						orders[recipeName] = nil
+					end
+					-- if there are no more orders in this time, remove it
+					if table.count(orders) <= 0 and self.vPendingOrders[minTime] then
+						self.vPendingOrders[minTime] = nil
+					end
+
+					table.insert(self.vCurrentOrders, {
+						nTimeRemaining = g_DEFAULT_ORDER_TIME_LIMIT,
+						pszItemName = recipeName,
+						pszID = DoUniqueString("order"),
+						nTimeLimit = g_DEFAULT_ORDER_TIME_LIMIT,
+						bComingSoon = true,
+						nStartTime = minTime
+					})
+				end
+			end
+		end
+
+		-- reduce all recipe time remaining, excluding 'coming soon orders'
 		for k, order in pairs(self.vCurrentOrders) do
-			if order.pszFinishType == nil then 
+			-- if expired time > order start time, remove coming soon attribute
+			if order.nStartTime and self.nExpiredTime > order.nStartTime then
+				order.bComingSoon = false
+			end
+												-- coming soon orders will not reduce time remaining
+			if order.pszFinishType == nil and not order.bComingSoon then 
 				-- reduce unfinised orders only
 				order.nTimeRemaining = order.nTimeRemaining - 1
 			end
@@ -409,7 +495,16 @@ function Round:OnTimer()
 
 		-- time's up or there are no pending orders and no orders running
 		-- this round is ended
-		if self.nCountDownTimer <= 0 or (table.count(self.vPendingOrders) <= 0 and table.count(self.vCurrentOrders) <= 0) then
+		-- fixes #168 End clock as soong as last order is complete
+		-- as soon as the last order complete, enter round end state
+		local allCurrentOrderFinished = true
+		for _, order in pairs(self.vCurrentOrders) do
+			if order.pszFinishType ~= "Finished" then
+				allCurrentOrderFinished = false
+				break
+			end
+		end
+		if self.nCountDownTimer <= 0 or (table.count(self.vPendingOrders) <= 0 and allCurrentOrderFinished) then
 			self.nCountDownTime = 0
 			self:SetState(ROUND_STATE_POST_ROUND)
 		end
@@ -464,13 +559,15 @@ function Round:OnServe(itemEntity, user)
 		local orderIndex, theOrder = nil, nil
 		local lowestTime = 999
 		local pszID
+		local comingSoon
 
 		for k, order in pairs(self.vCurrentOrders) do
-			if order.pszItemName == itemName and order.nTimeRemaining < lowestTime then
+			if order.pszItemName == itemName and order.nTimeRemaining < lowestTime and order.pszFinishType == nil then
 				orderIndex = k
 				theOrder = order
 				lowestTime = order.nTimeRemaining
 				pszID = order.pszID
+				comingSoon = order.bComingSoon == true
 			end
 		end
 
@@ -488,11 +585,13 @@ function Round:OnServe(itemEntity, user)
 		-- add score
 		self.vRoundScore = self.vRoundScore or 0
 		self.vRoundScore = self.vRoundScore + 100 -- score for finishing an order
-		local orderTimeRemaining = self.vCurrentOrders[orderIndex].nTimeRemaining
-		if orderTimeRemaining >= 1 then
-			-- add time bonus
-			self.vRoundScore = self.vRoundScore + math.floor(orderTimeRemaining)
-		end
+
+		-- #155, we dont use order time remaining to calculate bonus score anymore
+		-- local orderTimeRemaining = self.vCurrentOrders[orderIndex].nTimeRemaining
+		-- if orderTimeRemaining >= 1 then
+		-- 	-- add time bonus
+		-- 	self.vRoundScore = self.vRoundScore + math.floor(orderTimeRemaining)
+		-- end
 
 		self:UpdateScoreToClient()
 
@@ -506,7 +605,7 @@ function Round:OnServe(itemEntity, user)
 			Unit = user
 		})
 
-		return true
+		return true, comingSoon
 	end
 end
 
@@ -574,6 +673,31 @@ function RoundManager:constructor()
 		end
 		if not GameRules:IsGamePaused() then
 			self:OnTimer()
+		end
+		
+		-- special timer slow applied in game progress only
+		if self.vCurrentRound and self.vCurrentRound:GetState() == ROUND_STATE_IN_PROGRESS then
+			-- if the extra greevil is created, the timer is slower
+			if GameRules.__bExtraGreevilCreated__ then
+				return 1.3 -- change this value to rescale
+			end
+
+			-- check if there are more than 1 player finished tutorial
+			-- for #173 https://github.com/darklordabc/feastivus/issues/173
+			if not GameRules.__bMoreThan1PlayerFinishedTutorial then
+				local heroCount = 0
+				LoopOverPlayers(function(player)
+					local hero = player:GetAssignedHero()
+					if hero and not hero.__bPlayingTutorial then
+						heroCount = heroCount + 1
+					end
+				end)
+				if heroCount == 1 then
+					return 1.3 -- if only 1 player not playing tutorial, make the timer slower
+				elseif heroCount > 1 then -- stop this from running once more than 1 player finished
+					GameRules.__bMoreThan1PlayerFinishedTutorial = true
+				end
+			end
 		end
 		return 1
 	end,1)

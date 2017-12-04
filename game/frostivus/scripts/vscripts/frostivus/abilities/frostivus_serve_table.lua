@@ -6,6 +6,8 @@ end
 
 frostivus_serve_table = class({})
 
+local DIRTY_PLATE_APPEAR_DELAY = 5
+
 function frostivus_serve_table:OnUpgrade()
 	local caster = self:GetCaster()
 
@@ -30,41 +32,46 @@ function frostivus_serve_table:OnUpgrade()
             if user.__bPlayingTutorial then
                 user:OnDoTutorialServe(item)
     		else
-                local success = g_Serve(item, user)
+                local success, earlyDelivery = g_Serve(item, user)
                 if success then
                     PopupParticle(SCORE_PER_FINISHED_ORDER, Vector(250,250,250), 1.0, self, POPUP_SYMBOL_PRE_PLUS)
 
                     local mid_point = user.vCameraTarget:GetAbsOrigin()
                     mid_point.z = 0
-                    local p = ParticleManager:CreateParticle("particles/frostivus_gameplay/fireworks.vpcf", PATTACH_ABSORIGIN_FOLLOW, self)
-                    ParticleManager:SetParticleControl(p, 3, mid_point + Vector(0,0,295))
-                    ParticleManager:SetParticleControlOrientation(p, 3, Vector(0, 1, 0), Vector(1, 0, 0), Vector(0,1,0))
+
+                    if earlyDelivery then
+                        local p = ParticleManager:CreateParticle("particles/frostivus_gameplay/fireworks.vpcf", PATTACH_ABSORIGIN_FOLLOW, self)
+                        ParticleManager:SetParticleControl(p, 3, mid_point + Vector(0,0,295))
+                        ParticleManager:SetParticleControlOrientation(p, 3, Vector(0, 1, 0), Vector(1, 0, 0), Vector(0,1,0))
+                    end
                     
                     self:EmitSound("Frostivus.PointScored.Team")
                 end
             end
 
-            local container = Frostivus:GetCarryingItem(self)
+            Timers:CreateTimer(DIRTY_PLATE_APPEAR_DELAY, function()
+                local container = Frostivus:GetCarryingItem(self)
 
-            if not IsValidEntity(container) then
-                container = CreateItemOnPositionSync(self:GetAbsOrigin(),CreateItem("item_dirty_plates",self,self))
+                if not IsValidEntity(container) then
+                    container = CreateItemOnPositionSync(self:GetAbsOrigin(),CreateItem("item_dirty_plates",self,self))
 
-                local old_data = self.wp:GetData()
-                old_data.items = {}
-                table.insert(old_data.items, "item_dirty_plates")
-                self.wp:SetData(old_data)
-            end
+                    local old_data = self.wp:GetData()
+                    old_data.items = {}
+                    table.insert(old_data.items, "item_dirty_plates")
+                    self.wp:SetData(old_data)
+                end
 
-            self:BindItem(container, (function ()
-                local forward = (100 * RotateVector2D(self:GetForwardVector(),math.rad(90)))
-                local pos = self:GetAbsOrigin() + forward
-                pos.z = self:GetAbsOrigin().z + 90
-                return pos
-            end))
+                self:BindItem(container, (function ()
+                    local forward = (100 * RotateVector2D(self:GetForwardVector(),math.rad(90)))
+                    local pos = self:GetAbsOrigin() + forward
+                    pos.z = self:GetAbsOrigin().z + 90
+                    return pos
+                end))
 
-            container:GetContainedItem()._counter = (container:GetContainedItem()._counter or 0) + 1
+                container:GetContainedItem()._counter = (container:GetContainedItem()._counter or 0) + 1
 
-            container:SetModel("models/plates/dirty_plate_"..tostring(container:GetContainedItem()._counter)..".vmdl")
+                container:SetModel("models/plates/dirty_plate_"..tostring(container:GetContainedItem()._counter)..".vmdl")
+            end)
         end)
     end)
 end

@@ -86,3 +86,15 @@ function modifier_tusk_kick:OnDestroy()
         self:GetParent():RemoveGesture(ACT_DOTA_FLAIL)
     end
 end
+
+function modifier_tusk_kick:OnHorizontalMotionInterrupted()
+    if IsServer() then
+        self:Destroy()
+    end
+end
+
+function modifier_tusk_kick:OnVerticalMotionInterrupted()
+    if IsServer() then
+        self:Destroy()
+    end
+end

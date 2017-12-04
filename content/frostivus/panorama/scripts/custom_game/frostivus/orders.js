@@ -1,5 +1,6 @@
 var m_Recipes = null;
 var m_OrderPanels = {};
+var m_AlertState = new Array();
 
 function OnOrderChanged(table_name, key, data) {
 	var orders = CustomNetTables.GetTableValue("orders", "orders");
@@ -18,6 +19,7 @@ function OnOrderChanged(table_name, key, data) {
 		var timeRemaining = order.nTimeRemaining
 		var timeLimit = order.nTimeLimit
 		var finishType = order.pszFinishType;
+		var comingSoon = order.bComingSoon;
 
 		var orderPanel = parent.FindChildTraverse(orderId);
 		
@@ -49,8 +51,12 @@ function OnOrderChanged(table_name, key, data) {
 		}
 
 		// update time left
-		orderPanel.FindChildTraverse('time_remaining').style.transitionDuration = "1s";
-		orderPanel.FindChildTraverse('time_remaining').style.width = 100 * timeRemaining / timeLimit + "%";
+		orderPanel.SetHasClass("ComingSoon", comingSoon);
+		if (!comingSoon) {
+			orderPanel.FindChildTraverse('time_remaining').style.transitionDuration = "1s";
+			orderPanel.FindChildTraverse('time_remaining').style.width = 100 * timeRemaining / timeLimit + "%";	
+		}
+		
 
 		if (finishType == "Finished") {
 			orderPanel.SetHasClass("TimeRunningOut", false);
@@ -58,7 +64,10 @@ function OnOrderChanged(table_name, key, data) {
 		}else if (finishType == "Expired") {
 			orderPanel.SetHasClass("TimeRunningOut", false);
 			orderPanel.AddClass("Expired");
-			Game.EmitSound("Frostivus.PointScored.Enemy");
+			if (m_AlertState[orderId] == null){
+				Game.EmitSound("Frostivus.PointScored.Enemy");
+				m_AlertState[orderId] = true;
+			}
 		}else if (timeRemaining < 10){
 			orderPanel.SetHasClass("TimeRunningOut", true);
 		}

@@ -24,6 +24,7 @@
 	<Panel class="WelcomeScreenRoot">
 		<Panel class="ImageCache">
 			<Image src="file://{resources}/images/custom_game/welcome_screen/cancel_button.psd" />
+			<Image src="file://{resources}/images/heroes/npc_dota_hero_axe.png" />
 		</Panel>
 
 		<Image class="WelcomeScreenBackground" src="file://{resources}/images/custom_game/welcome_screen/welcome_screen.png" />

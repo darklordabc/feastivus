@@ -233,9 +233,9 @@ function BenchAPI( keys )
 		caster._on_complete_refine = callback
 	end)
 
-	caster.OnCompleteRefine = (function( self )
+	caster.OnCompleteRefine = (function( self, user )
 		if caster._on_complete_refine then
-			return caster._on_complete_refine(self)
+			return caster._on_complete_refine( self, user )
 		else
 			Frostivus:L("Refine Complete!")
 		end
@@ -395,7 +395,7 @@ function OnUse( bench, user )
 
 							bank:ClearBank()
 						end
-					elseif bench.GetUnitName and bench:GetUnitName() == "npc_plate_bench" then
+					elseif bench.GetUnitName and bench:GetUnitName() == "npc_plate_bench" and GetTableLength(item:GetItems()) == 0 then
 						Frostivus:DropItem(user, item):RemoveSelf()
 						AddPlateStack(bench, 1)
 					end
@@ -513,7 +513,7 @@ function RefineBase( bench, items, user )
 		ResetProgress()
 		StopSoundOn('custom_sound.chopping',bench)
 
-		local custom_refine = bench:OnCompleteRefine()
+		local custom_refine = bench:OnCompleteRefine(user)
 
 		local old_data = bench.wp:GetData()
 		old_data.layout = bench._initial_layout
