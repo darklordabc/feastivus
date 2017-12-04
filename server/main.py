@@ -120,7 +120,7 @@ def save_language():
 	if steamid is None:
 		abort(502)
 
-	Databse.player_db().update({'steamid': steamid}, {'$set':{"Language": language}}, upsert = True)
+	Database.player_db().update({'steamid': steamid}, {'$set':{"Language": language}}, upsert = True)
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=10010, debug=True)
