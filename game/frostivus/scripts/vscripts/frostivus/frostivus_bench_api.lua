@@ -392,7 +392,10 @@ function OnUse( bench, user )
 						local bank = bench_item
 						local old_data = bank.wp:GetData()
 
-						if bank:IsDoneCooking() and item:IsEmpty() then
+						local can_put_soup = bench_item_name ~= "item_pot" or item:IsEmpty()
+						local has_free_slots = item:HasFreeSlots()
+
+						if bank:IsDoneCooking() and can_put_soup and has_free_slots then
 							for k,v in pairs(old_data.items) do
 								item:AddItemToBench(v, user)
 							end
@@ -422,7 +425,10 @@ function OnUse( bench, user )
 						local bank = item
 						local old_data = bank.wp:GetData()
 
-						if bank:IsDoneCooking() and bench:IsEmpty() then
+						local can_put_soup = item_name ~= "item_pot" or bench:IsEmpty()
+						local has_free_slots = bench:HasFreeSlots()
+
+						if bank:IsDoneCooking() and can_put_soup and has_free_slots then
 							for k,v in pairs(old_data.items) do
 								bench:AddItemToBench(v, user)
 							end
