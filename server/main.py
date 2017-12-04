@@ -98,7 +98,7 @@ def is_finished_tutorial():
 	if player is None:
 		return '0'
 
-	if player['FinishedTutorial'] == True:
+	if player.get('FinishedTutorial') == True:
 		return '1'
 
 	return '0'
