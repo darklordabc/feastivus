@@ -1,0 +1,45 @@
+"addon"
+{
+	"Unassigned"      								"Takım Atanmamış"
+	"Spectator"       								"İzleyici"
+	"Neutrals"        								"Tarafsız Takım"
+	"NoTeam"          								"Takım Yok"
+
+	"DOTA_GoodGuys"   								"Greeviller"
+	"DOTA_BadGuys"    								""
+	
+	"addonname"										"Feastivus"
+
+	"tutorial_text_pickup_tango" "Tango'yu toplamak için Tango'ya sağ tıkla"	
+
+	"tutorial_text_cutting" "Tango'yu işlemek için kesme tezgahına sağ tıkla"	
+
+	"tutorial_collect_plate" "3 malzemeyi bir tabağa koyun ve servis masasına bırakın"	
+
+	"tutorial_clean_plates" "Tabağı alın ve yıkamak için lavaboya sağ tıklayın"
+
+	"tutorial_finish_remaining_orders" "Kalan siparişleri bitirin!"	
+
+	"change_material" "Renk Değiştir"	
+
+	"kitchen_complete"		"MUTFAK BAŞARILI"
+	"level_1"				"SEVİYE {d:level}"
+
+	"Feastivus_Round_Tutorial" "Öğretici"
+	"Feastivus_Round_Stew" "Yahni"
+	"Feastivus_Round_BitterSweet" "Acı Tatlı"
+	"Feastivus_Round_Lava" "Ateş Tapınağı"
+
+	"total_score"			"TOPLAM SKOR"
+	"score_orders_delivered"	"Teslim edilmiş siparişler"
+	"score_speed_bonus"		"Hız bonusu"
+	"orders_failed"			"Başarısız siparişler"
+
+	"lost" "KAYBETTİN"
+	"try_again" "tekrar dene"
+	"win" "KAZANDIN!"
+
+	"start" "BAŞLA"
+	"ready" "HAZIR"
+	"loading" "YÜKLENİYOR"
+}

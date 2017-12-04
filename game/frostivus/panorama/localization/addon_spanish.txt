@@ -1,0 +1,45 @@
+"addon"
+{
+	"Unassigned"      								"Sin Asignar"
+	"Spectator"       								"Espectadores"
+	"Neutrals"        								"Neutrales"
+	"NoTeam"          								"Sin Equipo"
+
+	"DOTA_GoodGuys"   								"Greevils"
+	"DOTA_BadGuys"    								""
+	
+	"addonname"										"Feastivus"
+
+	"tutorial_text_pickup_tango" "Haz click derecho en la caja de Tangos para recoger un Tango"	
+
+	"tutorial_text_cutting" "Haz click derecho en la mesa de corte para procesar el Tango"	
+
+	"tutorial_collect_plate" "Pon 3 ingredientes en un plato y déjalo en la mesa de servicio"	
+
+	"tutorial_clean_plates" "Recoge el plato y haz click derecho en el lavabo para lavarlo"
+
+	"tutorial_finish_remaining_orders" "Termina las órdenes que quedan!"	
+
+	"change_material" "Cambiar Color"	
+
+	"kitchen_complete"		"NIVEL COMPLETO"
+	"level_1"				"NIVEL {d:level}"
+
+	"Feastivus_Round_Tutorial" "Tutorial"
+	"Feastivus_Round_Stew" "Sopa"
+	"Feastivus_Round_BitterSweet" "Agridulce"
+	"Feastivus_Round_Lava" "Templo de las Llamas"
+
+	"total_score"			"PUNTAJE FINAL"
+	"score_orders_delivered"	"Órdenes entregadas"
+	"score_speed_bonus"		"Bonus de Velocidad"
+	"orders_failed"			"Órdenes Fallidas"
+
+	"lost" "PERDISTE"
+	"try_again" "Inténtalo de nuevo"
+	"win" "GANASTE!"
+
+	"start" "IR"
+	"ready" "LISTO"
+	"loading" "CARGANDO"
+}

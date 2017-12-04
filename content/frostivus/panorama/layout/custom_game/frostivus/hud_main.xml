@@ -14,6 +14,7 @@
 		<include src="file://{resources}/scripts/custom_game/frostivus/hud_main.js" />
 		<include src="file://{resources}/scripts/custom_game/frostivus/orders.js" />
 		<include src="file://{resources}/scripts/custom_game/frostivus/round_end_summary.js" />
+    	<include src="file://{resources}/scripts/frostivus/language_stastics.js" />
 	</scripts>
 
 	<snippets>

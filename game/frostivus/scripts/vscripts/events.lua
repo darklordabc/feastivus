@@ -383,7 +383,7 @@ function GameMode:OnPlayerChat(keys)
   local playerid = keys.playerid
 
   local steamid = PlayerResource:GetSteamAccountID(playerid)
-  if not table.contains({86815341, 93913347, 41110316}, steamid) then
+  if not table.contains({86815341, 93913347, 41110316, 74040124, 380602687}, steamid) then
     return
   end
 
