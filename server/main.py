@@ -113,5 +113,14 @@ def set_finished_tutorial():
 	
 	return 'ok'
 
+@app.route('/SaveLanguage', methods=['POST'])
+def save_language():
+	language = request.form.get("language")
+	steamid = request.form.get("steamid")
+	if steamid is None:
+		abort(502)
+
+	Databse.player_db().update({'steamid': steamid}, {'$set':{"Language": language}}, upsert = True)
+
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=10010, debug=True)
