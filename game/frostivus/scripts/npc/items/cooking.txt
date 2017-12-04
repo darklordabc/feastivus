@@ -30,6 +30,7 @@
 
     "CanBeCutted" "1"
     "RefineTarget" "item_refined_leaf"
+    "CanBePickedFromBench"  "1"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
@@ -151,6 +152,7 @@
 
     "CanBeCutted" "1"
     "RefineTarget" "item_refined_mango"
+    "CanBePickedFromBench"  "1"
 
     "ItemStackable"         "0"
     "ItemPermanent"         "0"
