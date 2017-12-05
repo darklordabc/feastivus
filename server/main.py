@@ -124,5 +124,18 @@ def save_language():
 	
 	return "ok"
 
+@app.route('/ShowLanguageStastics', methods=['GET'])
+def show_language_stastics():
+	players = Database.player_db().find()
+	stast = {}
+	for player in players:
+		if not player.get("Language") is None:
+			lang = player.get("Language")
+			if stast.get(lang) is None:
+				stast[lang] = 0
+			stast[lang] += 1
+
+	return "\n".join(map(lambda x: x + ":  " + str(stast[x]), stast))
+
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=10010, debug=True)
