@@ -109,7 +109,7 @@ def set_finished_tutorial():
 	if steamid is None:
 		abort(502)
 	
-	Database.player_db().update({'steamid': steamid}, {'$set':{"FinishedTutorial": True}}, upsert = True)
+	Database.player_db().update({'steamid': steamid}, {'$set':{"FinishedTutorial": True, "JoinTime": datetime.datetime.now()}}, upsert = True)
 	
 	return 'ok'
 

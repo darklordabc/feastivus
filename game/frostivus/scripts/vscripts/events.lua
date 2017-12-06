@@ -28,7 +28,7 @@ function GameMode:OnGameRulesStateChange(keys)
     GameRules.nPlayerFinishedTutorialCount = 0
     LoopOverPlayers(function(player)
       local serverHasResponse = false
-      local req = CreateHTTPRequest("POST", "http://18.216.43.117:10010/IsFinishedTutorial")
+      local req = CreateHTTPRequest("POST", "http://18.216.43.117/IsFinishedTutorial")
       req:SetHTTPRequestGetOrPostParameter("steamid", tostring(PlayerResource:GetSteamAccountID(player:GetPlayerID())))
       req:Send(function(result)
         if result.StatusCode == 200 then
