@@ -22,7 +22,7 @@
       "01"
       {
         "var_type"          "FIELD_INTEGER"
-        "snowball_speed"      "725"
+        "snowball_speed"      "400"
       }
       "02"
       {
