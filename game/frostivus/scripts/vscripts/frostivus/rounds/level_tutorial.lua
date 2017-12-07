@@ -122,7 +122,7 @@ function StartPlayTutorial(player)
 					end
 				end
 
-				local req = CreateHTTPRequest("POST", "http://18.216.43.117:10010/SetFinishedTutorial")
+				local req = CreateHTTPRequest("POST", "http://18.216.43.117/SetFinishedTutorial")
 				req:SetHTTPRequestGetOrPostParameter("steamid", tostring(PlayerResource:GetSteamAccountID(player:GetPlayerID())))
 				req:Send(function(result)
 					print("Save tutorial finished state->", result.StatusCode, result.Body)

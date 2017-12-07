@@ -5,6 +5,33 @@ from pymongo import MongoClient, DESCENDING
 from bson import ObjectId
 import json, math, time, datetime
 
+import logging
+from logging.config import dictConfig
+
+logging_config = dict(
+    version=1,
+    formatters={
+        'simple': {'format':'%(levelname)s %(asctime)s { module name : %(module)s Line no : %(lineno)d} %(message)s'}
+    },
+    handlers={
+        'h': {'class': 'logging.handlers.RotatingFileHandler',
+              'filename': '/home/xavier/feastivus/server/logger.log',
+              'maxBytes': 1024 * 1024 * 5,
+              'backupCount': 5,
+              'level': 'DEBUG',
+              'formatter': 'simple',
+              'encoding': 'utf8'}
+    },
+
+    root={
+        'handlers': ['h'],
+        'level': logging.DEBUG,
+    },
+)
+
+dictConfig(logging_config)
+logger = logging.getLogger()
+
 server_auth = 'BOV4k4oOWI!yPeWSXY*1eZOlB3pBW3!#'
 app = Flask(__name__)
 
@@ -76,9 +103,11 @@ def save_score():
 	score = request.form.get("score")
 	level = request.form.get("level")
 
-	Database.score_db().update_one({"players": players, "level": level}, {
-		'$set':{"highscore": int(score)}
-	}, upsert=True)
+	data = Database.score_db().find_one({"players":players, "level": level})
+	if data is None or data['highscore'] < int(score):
+		Database.score_db().update_one({"players": players, "level": level}, {
+			'$set':{"highscore": int(score)}
+		}, upsert=True)
 
 	top10 = Database.score_db().find({"level":level},projection={'_id': False}).sort("highscore", DESCENDING)[:10]
 
@@ -109,7 +138,7 @@ def set_finished_tutorial():
 	if steamid is None:
 		abort(502)
 	
-	Database.player_db().update({'steamid': steamid}, {'$set':{"FinishedTutorial": True}}, upsert = True)
+	Database.player_db().update({'steamid': steamid}, {'$set':{"FinishedTutorial": True, "JoinTime": datetime.datetime.now()}}, upsert = True)
 	
 	return 'ok'
 
@@ -124,5 +153,18 @@ def save_language():
 	
 	return "ok"
 
+@app.route('/ShowLanguageStastics', methods=['GET'])
+def show_language_stastics():
+	players = Database.player_db().find()
+	stast = {}
+	for player in players:
+		if not player.get("Language") is None:
+			lang = player.get("Language")
+			if stast.get(lang) is None:
+				stast[lang] = 0
+			stast[lang] += 1
+
+	return "<br>".join(map(lambda x: x + ":  " + str(stast[x]), stast))
+
 if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=10010, debug=True)
+	app.run()
