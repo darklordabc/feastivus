@@ -5,6 +5,33 @@ from pymongo import MongoClient, DESCENDING
 from bson import ObjectId
 import json, math, time, datetime
 
+import logging
+from logging.config import dictConfig
+
+logging_config = dict(
+    version=1,
+    formatters={
+        'simple': {'format':'%(levelname)s %(asctime)s { module name : %(module)s Line no : %(lineno)d} %(message)s'}
+    },
+    handlers={
+        'h': {'class': 'logging.handlers.RotatingFileHandler',
+              'filename': '/home/xavier/feastivus/server/logger.log',
+              'maxBytes': 1024 * 1024 * 5,
+              'backupCount': 5,
+              'level': 'DEBUG',
+              'formatter': 'simple',
+              'encoding': 'utf8'}
+    },
+
+    root={
+        'handlers': ['h'],
+        'level': logging.DEBUG,
+    },
+)
+
+dictConfig(logging_config)
+logger = logging.getLogger()
+
 server_auth = 'BOV4k4oOWI!yPeWSXY*1eZOlB3pBW3!#'
 app = Flask(__name__)
 
@@ -76,9 +103,11 @@ def save_score():
 	score = request.form.get("score")
 	level = request.form.get("level")
 
-	Database.score_db().update_one({"players": players, "level": level}, {
-		'$set':{"highscore": int(score)}
-	}, upsert=True)
+	data = Database.score_db().find_one({"players":players, "level": level})
+	if data is None or data['highscore'] < int(score):
+		Database.score_db().update_one({"players": players, "level": level}, {
+			'$set':{"highscore": int(score)}
+		}, upsert=True)
 
 	top10 = Database.score_db().find({"level":level},projection={'_id': False}).sort("highscore", DESCENDING)[:10]
 
