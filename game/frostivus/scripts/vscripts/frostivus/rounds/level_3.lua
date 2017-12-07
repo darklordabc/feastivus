@@ -39,13 +39,13 @@ return {
 				end
 				pangolier:SetAbsOrigin(pos)
 				AddFOWViewer(2, pos, 350, 20, false)
-				Timers:CreateTimer(0.8 * (i -1), function()
+				Timers:CreateTimer(2.0 * (i -1), function()
 					pangolier:RemoveNoDraw()
 					pangolier:CastAbilityNoTarget(pangolier.ability, -1)
 				end)
 			end
 
-            Timers:CreateTimer(0.8 * wavesCount + 6, function()
+            Timers:CreateTimer(2 * wavesCount + 6, function()
                 --GridNav:RegrowAllTrees()
                 for i = 1, wavesCount do
 					if i % 2 == 0 then
