@@ -110,6 +110,30 @@ function Frostivus:FilterExecuteOrder( filterTable )
                         positions[k] = nil
                     end
                 end
+            elseif moveTarget.GetFlexibleApproach and moveTarget:GetFlexibleApproach() then
+                local size = moveTarget:GetFlexibleApproach()
+                PrintTable(moveTarget:GetBounds())
+                positions = {}
+                local starting_point
+
+                if size % 2 == 0 then
+                    starting_point = moveTarget:GetAbsOrigin() + (moveTarget:GetForwardVector() * -((size / 2) * FROSTIVUS_CELL_SIZE)) + (moveTarget:GetForwardVector() * (FROSTIVUS_CELL_SIZE/2))
+                else
+                    starting_point = moveTarget:GetAbsOrigin() + (moveTarget:GetForwardVector() * -((size / 2) * FROSTIVUS_CELL_SIZE))
+                end
+                DebugDrawSphere(starting_point, Vector(255,255,0), 255, 64, false, 7)
+
+                for i=1,size do
+                    local pos = starting_point + Vector(0, FROSTIVUS_CELL_SIZE, 0) + (moveTarget:GetForwardVector() * FROSTIVUS_CELL_SIZE * (i-1))
+                    table.insert(positions, pos)
+                    DebugDrawSphere(pos, Vector(255,0,0), 255, 50, false, 5)
+                end
+
+                for i=1,size do
+                    local pos = starting_point + Vector(0, -FROSTIVUS_CELL_SIZE, 0) + (moveTarget:GetForwardVector() * FROSTIVUS_CELL_SIZE * (i-1))
+                    table.insert(positions, pos)
+                    DebugDrawSphere(pos, Vector(255,0,0), 255, 50, false, 5)
+                end
             end
 
             local closest = nil

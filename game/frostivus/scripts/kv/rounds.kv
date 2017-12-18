@@ -436,4 +436,54 @@
 			}
 		}
 	}
+	"10"
+	{
+		"Name"		"#Feastivus_Round_Conveyor"
+		"ScriptFile"	"frostivus/rounds/level_10"
+		"StartPositionName"	"level_10_start"
+		"StarCriteria" // how to achieve 1/2/3 star
+		{
+			"01"
+			{
+				"Type"	"STAR_CRITERIA_FINISHED_RECIPES"
+				"values"	"5 9 13 17" // 1/2/3/perfect
+			}
+		}
+		"Orders"
+		{
+			"0" // order time
+			{
+				// order recipe 	order amount
+				"item_tango_salad"	"1"
+			}
+			"25" 
+			{
+				"item_mango_salad"	"1"
+			}
+			"50" 
+			{
+				"item_mixed_tango_salad"	"1"
+			}
+			"75"
+			{
+				"item_mixed_mango_salad"	"1"	
+			}
+			"90"
+			{
+				"item_mango_salad"	"1"	
+			}
+			"105"
+			{
+				"item_tango_salad"	"1"	
+			}
+			"115"
+			{
+				"item_mixed_mango_salad"	"1"
+			}
+			"120"
+			{
+				"item_mixed_tango_salad"	"1"
+			}
+		}
+	}
 }

@@ -30,6 +30,14 @@ function BenchAPI( keys )
 		return self._bench_hidden
 	end)
 
+	caster.SetFlexibleApproach = (function( self, b )
+		self._flexible_approach = b
+	end)
+
+	caster.GetFlexibleApproach = (function( self )
+		return self._flexible_approach
+	end)
+
 	caster.IsForwardOnUseToItem = (function( self )
 		local old_data = self.wp:GetData()
 
