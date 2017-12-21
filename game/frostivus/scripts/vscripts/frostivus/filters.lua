@@ -126,13 +126,13 @@ function Frostivus:FilterExecuteOrder( filterTable )
                 for i=1,size do
                     local pos = starting_point + Vector(0, FROSTIVUS_CELL_SIZE, 0) + (moveTarget:GetForwardVector() * FROSTIVUS_CELL_SIZE * (i-1))
                     table.insert(positions, pos)
-                    DebugDrawSphere(pos, Vector(255,0,0), 255, 50, false, 5)
+                    --DebugDrawSphere(pos, Vector(255,0,0), 255, 50, false, 5)
                 end
 
                 for i=1,size do
                     local pos = starting_point + Vector(0, -FROSTIVUS_CELL_SIZE, 0) + (moveTarget:GetForwardVector() * FROSTIVUS_CELL_SIZE * (i-1))
                     table.insert(positions, pos)
-                    DebugDrawSphere(pos, Vector(255,0,0), 255, 50, false, 5)
+                    --DebugDrawSphere(pos, Vector(255,0,0), 255, 50, false, 5)
                 end
             end
 

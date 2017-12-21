@@ -108,12 +108,18 @@ end
 
 function Frostivus:BindItem( item, unit, position_callback, condition_callback, drop_callback, add_modifier, dont_hide )
 	item:SetAbsOrigin(position_callback())
-	item:AddEffects(EF_NODRAW )
-	Timers:CreateTimer(0.05, function (  )
-		if IsValidEntity(item) then
-			item:RemoveEffects(EF_NODRAW )
-		end
-	end)
+
+	if not dont_hide then
+		item:FollowEntity(unit,false)
+
+		item:AddEffects(EF_NODRAW )
+		Timers:CreateTimer(0.05, function (  )
+			if IsValidEntity(item) then
+				item:RemoveEffects(EF_NODRAW )
+			end
+		end)
+	end
+
 	Timers:CreateTimer(function ()
 		if not IsValidEntity(item) or not IsValidEntity(unit) then
 			return
@@ -124,7 +130,9 @@ function Frostivus:BindItem( item, unit, position_callback, condition_callback, 
 			end
 			return
 		else
-			item:SetAbsOrigin(position_callback())
+			if not item:IsNull() and position_callback then
+				item:SetAbsOrigin(position_callback())
+			end
 			return 0.03
 		end
 	end)
@@ -132,10 +140,6 @@ function Frostivus:BindItem( item, unit, position_callback, condition_callback, 
 	item._holder = unit
 
 	-- Frostivus:WipeInventory( unit )
-
-	if not dont_hide then
-		item:FollowEntity(unit,false)
-	end
 
 	if unit and add_modifier then
 		unit:AddNewModifier(unit,nil,"modifier_carrying_item",{}).item = item
