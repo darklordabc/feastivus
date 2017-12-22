@@ -39,6 +39,7 @@ function frostivus_conveyor:OnUpgrade()
             end
 
             item._conveyor_pos = new_pos
+            item._freeze = false
 
             item:FollowEntity(nil,false)
 
@@ -50,12 +51,12 @@ function frostivus_conveyor:OnUpgrade()
             bench:AddItemToBench(item, user)
             item._holder = bench
 
-            DebugDrawSphere(bench:GetAbsOrigin() + Vector(0,0,100), Vector(255,0,0), 255, 50, false, 1.06)
-
             Frostivus:BindItem(item, bench, (function ()
                 if not IsValidEntity(item) then
                     return nil
                 end
+
+                DebugDrawSphere(bench:GetAbsOrigin() + Vector(0,0,100), Vector(255,0,0), 255, 50, false, 0.03)
 
                 local threshold = 64
                 if is_old_holder_a_conveyor then
@@ -69,27 +70,27 @@ function frostivus_conveyor:OnUpgrade()
                     is_old_holder_a_conveyor = false
                 end
 
-                if old_forward then
-                    new_pos = new_pos + (old_forward * 4)
+                if not item._freeze then
+                    if old_forward then
+                        new_pos = new_pos + (old_forward * 4)
 
-                    if old_forward.x == 0 then
-                        new_pos.x = bench:GetAbsOrigin().x
-                    elseif old_forward.y == 0 then
-                        new_pos.y = bench:GetAbsOrigin().y
-                    end
+                        if old_forward.x == 0 then
+                            new_pos.x = bench:GetAbsOrigin().x
+                        elseif old_forward.y == 0 then
+                            new_pos.y = bench:GetAbsOrigin().y
+                        end
 
-                    threshold = 128
-                else
-                    new_pos = new_pos + (bench:GetForwardVector() * 4)
+                        threshold = 128
+                    else
+                        new_pos = new_pos + (bench:GetForwardVector() * 4)
 
-                    if bench:GetForwardVector().x == 0 then
-                        new_pos.x = bench:GetAbsOrigin().x
-                    elseif bench:GetForwardVector().y == 0 then
-                        new_pos.y = bench:GetAbsOrigin().y
+                        if bench:GetForwardVector().x == 0 then
+                            new_pos.x = bench:GetAbsOrigin().x
+                        elseif bench:GetForwardVector().y == 0 then
+                            new_pos.y = bench:GetAbsOrigin().y
+                        end
                     end
                 end
-
-
 
                 if (new_pos - item._conveyor_pos):Length2D() > threshold then
                     local units = FindUnitsInRadius(2, new_pos, nil, 128, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_INVULNERABLE , FIND_CLOSEST, false)
@@ -109,14 +110,20 @@ function frostivus_conveyor:OnUpgrade()
                     if bin then
                         bench.items[id] = nil
                         item:RemoveSelf()
+                        bench:SetItems()
                     elseif possible_bench then
-                        Frostivus:DropItem(bench, item)
-                        possible_bench._custom_interact(possible_bench, nil, item)
+                        if possible_bench:IsEmpty() then
+                            Frostivus:DropItem(bench, item)
+                            possible_bench._custom_interact(possible_bench, nil, item)
+                            bench:SetItems()
+                        else
+                            item._freeze = true
+                        end
                     else
                         bench.items[id] = nil
                         item:RemoveSelf()
+                        bench:SetItems()
                     end
-                    bench:SetItems()
                 end
 
                 return new_pos
