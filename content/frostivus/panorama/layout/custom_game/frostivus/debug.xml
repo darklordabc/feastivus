@@ -4,7 +4,7 @@
 	</scripts>
 	<styles>
 		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
-		<include src="s2r://panorama/styles/hud.vcss_c"/>
+		<!-- <include src="s2r://panorama/styles/hud.vcss_c"/> -->
 		<include src="file://{resources}/styles/custom_game/frostivus/debug.css" />
 	</styles>
 	<Panel class="Debug_Root Hidden" hittest="false">
