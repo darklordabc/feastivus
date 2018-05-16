@@ -1,5 +1,5 @@
-local spawnPos1 = Vector(-4350, 2400, 128)
-local spawnPos2 = Vector(-4000, 2400, 128)
+local spawnPos1 = Vector(-4288, 2400, 128)
+local spawnPos2 = Vector(-4032, 2400, 128)
 local randomScrollIntervalMin = 20
 local randomScrollIntervalMax = 25
 local wavesCount = 6
@@ -10,6 +10,7 @@ return {
 		-- in initialize script, setup round parameters
 		-- such as pre round time, time limit, etc.
 		print("RoundScript -> OnInitialize")
+		GridNav:RegrowAllTrees()
 	end,
 	OnTimer = function(round)
 		if round.bRoundEnded then return nil end
@@ -26,25 +27,34 @@ return {
 			-- Timers:CreateTimer(1, function()
 			-- 	GameRules.__hPangolier2:CastAbilityNoTarget(GameRules.__hPangolier2.scrollAbility, -1)
 			-- end)
-			StartSoundEvent("custom_sound.pangolier_loop", GameRules.__vPangoliers[1])
+			-- StartSoundEvent("Hero_Tusk.Snowball.Loop", GameRules.__vPangoliers[1])
 			for i = 1, wavesCount do
 				local pangolier = GameRules.__vPangoliers[i]
+				local target
+				local pos
 				if i % 2 == 0 then
-					pangolier:SetOrigin(spawnPos1)
+					pos = spawnPos1
 				else
-					pangolier:SetOrigin(spawnPos2)
+					pos = spawnPos2
 				end
-				Timers:CreateTimer(0.8 * (i -1), function()
-					pangolier:CastAbilityNoTarget(pangolier.scrollAbility, -1)
+				pangolier:SetAbsOrigin(pos)
+				AddFOWViewer(2, pos, 350, 20, false)
+				Timers:CreateTimer(2.0 * (i -1), function()
+					pangolier:RemoveNoDraw()
+					pangolier:CastAbilityNoTarget(pangolier.ability, -1)
 				end)
 			end
 
-			Timers:CreateTimer(0.8 * wavesCount + 6, function()
-				--GridNav:RegrowAllTrees()
-				for i = 1, wavesCount do
-					GameRules.__vPangoliers[i]:SetOrigin(spawnPos1)
-				end
-			end)
+            Timers:CreateTimer(2 * wavesCount + 6, function()
+                --GridNav:RegrowAllTrees()
+                for i = 1, wavesCount do
+					if i % 2 == 0 then
+						GameRules.__vPangoliers[i]:SetAbsOrigin(spawnPos1)
+					else
+						GameRules.__vPangoliers[i]:SetAbsOrigin(spawnPos2)
+					end
+                end
+            end)
 
 			GameRules.__flNextPangolierScrollTime = now + RandomFloat(randomScrollIntervalMin, randomScrollIntervalMax)
 		end
@@ -67,17 +77,16 @@ return {
 
 		if GameRules.__vPangoliers == nil then
 			GameRules.__vPangoliers = {}
-			PrecacheUnitByNameAsync("npc_dota_hero_pangolier", function()
+			PrecacheUnitByNameAsync("npc_snowball", function()
 				local function CreatePangolierOnPosition(pos)
-					local pangolier = CreateUnitByName("npc_dota_hero_pangolier", pos, false, nil, nil, DOTA_TEAM_BADGUYS)
+					local pangolier = CreateUnitByName("npc_snowball", pos, false, nil, nil, DOTA_TEAM_BADGUYS)
 					pangolier:AddNewModifier(pangolier, nil, "modifier_disarmed", {})
 					pangolier:AddNewModifier(pangolier, nil, "modifier_hide_health_bar", {})
 					pangolier:AddNewModifier(pangolier, nil, "modifier_unselectable", {})
-					pangolier.scrollAbility = pangolier:FindAbilityByName("pangolier_gyroshell")
-					pangolier.scrollAbility:UpgradeAbility(false)
-					pangolier.jumpAbility = pangolier:FindAbilityByName("pangolier_shield_crash")
-					pangolier.jumpAbility:UpgradeAbility(false)
-					pangolier.vTargetPosition = pos + Vector(0, -1600, 0)
+					pangolier.ability = pangolier:FindAbilityByName("frostivus_snowball")
+					pangolier.ability:UpgradeAbility(false)
+					-- pangolier.jumpAbility = pangolier:FindAbilityByName("pangolier_shield_crash")
+					-- pangolier.jumpAbility:UpgradeAbility(false)
 					pangolier.vSpawnPosition = pos
 					pangolier:SetForwardVector(Vector(0, -1, 0))
 

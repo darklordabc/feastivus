@@ -94,6 +94,31 @@
         "AttackDesire"        "1.5"   // How much bots want to attack them vs other non-hero things
     }
 
+    "npc_snowball"
+    { 
+        "BaseClass"         "npc_dota_creature"
+        "Model"             "models/particle/snowball.vmdl"
+        "ModelScale"        "1"
+        "Level"             "10"
+
+        "Ability1"          "frostivus_snowball"
+        "Ability2"          ""
+        "Ability3"          ""
+        "Ability4"          ""
+
+        "ArmorPhysical"             "0"
+        "MagicalResistance"         "0"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_NO_ATTACK"
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed" "500"
+
+        "TeamName"                  "DOTA_TEAM_BADGUYS"
+
+        "VisionDaytimeRange"    "0"
+        "VisionNighttimeRange"    "0"
+    }
+
     "npc_transfer_bench"
     { 
         "BaseClass"         "npc_dota_creature"
